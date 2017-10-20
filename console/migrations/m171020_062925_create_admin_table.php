@@ -52,7 +52,7 @@ class m171020_062925_create_admin_table extends Migration {
     }
 
     public function down() {
-        echo "m160808_104218_admin cannot be reverted.\n";
+        echo "m171020_062925_create_admin_table cannot be reverted.\n";
 
         return false;
     }

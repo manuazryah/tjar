@@ -90,6 +90,30 @@ AppAsset::register($this);
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <a href="layout-variants.html">
+                                <i class="fa fa-desktop"></i>
+                                <span class="title">Products</span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a href="extra-icons-fontawesome.html">
+                                        <span class="title">Master</span>
+                                    </a>
+                                    <ul>
+                                        <li>
+                                            <?= Html::a('Category', ['/product/product-main-category/index'], ['class' => 'title']) ?>
+                                        </li>
+                                        <li>
+                                            <?= Html::a('Sub Category', ['/product/product-sub-category/index'], ['class' => 'title']) ?>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <!--                                <li>
+                                <?php // Html::a('Product', ['/product/product/index'], ['class' => 'title']) ?>
+                                                                </li>-->
+                            </ul>
+                        </li>
 
                     </ul>
 

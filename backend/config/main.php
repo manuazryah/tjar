@@ -25,6 +25,9 @@ return [
         'admin' => [
             'class' => 'backend\modules\admin\Module',
         ],
+        'product' => [
+            'class' => 'backend\modules\product\Module',
+        ],
     ],
     'components' => [
         'request' => [
