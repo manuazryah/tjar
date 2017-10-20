@@ -10,13 +10,12 @@ use common\models\ProductSubCategory;
 /**
  * ProductSubCategorySearch represents the model behind the search form about `common\models\ProductSubCategory`.
  */
-class ProductSubCategorySearch extends ProductSubCategory
-{
+class ProductSubCategorySearch extends ProductSubCategory {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'category_id', 'status', 'CB', 'UB'], 'integer'],
             [['subcategory_name', 'canonical_name', 'DOC', 'DOU'], 'safe'],
@@ -26,8 +25,7 @@ class ProductSubCategorySearch extends ProductSubCategory
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,9 +37,8 @@ class ProductSubCategorySearch extends ProductSubCategory
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
-        $query = ProductSubCategory::find();
+    public function search($params) {
+        $query = ProductSubCategory::find()->where(['status' => 1])->orderBy(['id' => SORT_DESC]);
 
         // add conditions that should always apply here
 
@@ -69,8 +66,9 @@ class ProductSubCategorySearch extends ProductSubCategory
         ]);
 
         $query->andFilterWhere(['like', 'subcategory_name', $this->subcategory_name])
-            ->andFilterWhere(['like', 'canonical_name', $this->canonical_name]);
+                ->andFilterWhere(['like', 'canonical_name', $this->canonical_name]);
 
         return $dataProvider;
     }
+
 }

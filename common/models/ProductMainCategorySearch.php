@@ -10,13 +10,12 @@ use common\models\ProductMainCategory;
 /**
  * ProductMainCategorySearch represents the model behind the search form about `common\models\ProductMainCategory`.
  */
-class ProductMainCategorySearch extends ProductMainCategory
-{
+class ProductMainCategorySearch extends ProductMainCategory {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'status', 'CB', 'UB'], 'integer'],
             [['name', 'canonical_name', 'DOC', 'DOU'], 'safe'],
@@ -26,8 +25,7 @@ class ProductMainCategorySearch extends ProductMainCategory
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,9 +37,8 @@ class ProductMainCategorySearch extends ProductMainCategory
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
-        $query = ProductMainCategory::find();
+    public function search($params) {
+        $query = ProductMainCategory::find()->where(['status' => 1])->orderBy(['id' => SORT_DESC]);
 
         // add conditions that should always apply here
 
@@ -68,8 +65,9 @@ class ProductMainCategorySearch extends ProductMainCategory
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'canonical_name', $this->canonical_name]);
+                ->andFilterWhere(['like', 'canonical_name', $this->canonical_name]);
 
         return $dataProvider;
     }
+
 }

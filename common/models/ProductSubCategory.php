@@ -19,21 +19,19 @@ use Yii;
  *
  * @property ProductMainCategory $category
  */
-class ProductSubCategory extends \yii\db\ActiveRecord
-{
+class ProductSubCategory extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'product_sub_category';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['category_id', 'subcategory_name', 'canonical_name', 'CB', 'UB'], 'required'],
             [['category_id', 'status', 'CB', 'UB'], 'integer'],
@@ -46,11 +44,10 @@ class ProductSubCategory extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
-            'category_id' => 'Category ID',
+            'category_id' => 'Category',
             'subcategory_name' => 'Subcategory Name',
             'canonical_name' => 'Canonical Name',
             'status' => 'Status',
@@ -64,8 +61,8 @@ class ProductSubCategory extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCategory()
-    {
+    public function getCategory() {
         return $this->hasOne(ProductMainCategory::className(), ['id' => 'category_id']);
     }
+
 }

@@ -205,6 +205,7 @@ table.table tr td:last-child a {
 }
 .alert {
     padding: 5px;
+    border-radius: 8px;
 }
 .limit-text{
     display: block;
@@ -352,4 +353,7 @@ nav.navbar {
 }
 .data-highlite{
     color: #2196F3;
+}
+.help-block{
+    font-size: 11px;
 }
