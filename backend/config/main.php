@@ -28,6 +28,9 @@ return [
         'product' => [
             'class' => 'backend\modules\product\Module',
         ],
+        'vendors' => [
+            'class' => 'backend\modules\vendors\Module',
+        ],
     ],
     'components' => [
         'request' => [
@@ -45,7 +48,7 @@ return [
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
-                [
+                    [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
