@@ -22,7 +22,7 @@ use yii\helpers\Url;
         <?php
         echo $form->field($model, 'category')->widget(DepDrop::classname(), [
             'options' => ['id' => 'productbrand-category'],
-            'data' => ArrayHelper::map(\common\models\ProductCategory::find()->where(['category_id' => $model->main_category])->all(), 'id', 'subcategory_name'),
+            'data' => ArrayHelper::map(\common\models\ProductCategory::find()->where(['category_id' => $model->main_category])->all(), 'id', 'category_name'),
             'pluginOptions' => [
                 'depends' => ['productbrand-main_category'],
                 'placeholder' => 'Select...',

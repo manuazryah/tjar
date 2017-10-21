@@ -39,6 +39,20 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'related_products') ?>
 
+    <?php // echo $form->field($model, 'search_tags') ?>
+
+    <?php // echo $form->field($model, 'meta_title') ?>
+
+    <?php // echo $form->field($model, 'meta_description') ?>
+
+    <?php // echo $form->field($model, 'meta_keyword') ?>
+
+    <?php // echo $form->field($model, 'field1') ?>
+
+    <?php // echo $form->field($model, 'field2') ?>
+
+    <?php // echo $form->field($model, 'field3') ?>
+
     <?php // echo $form->field($model, 'status') ?>
 
     <?php // echo $form->field($model, 'CB') ?>

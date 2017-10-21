@@ -8,6 +8,7 @@ use common\models\ProductBrandSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 
 /**
  * ProductBrandController implements the CRUD actions for ProductBrand model.
@@ -127,6 +128,36 @@ class ProductBrandController extends Controller {
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionGetbrand() {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $ids = $_POST['depdrop_parents'];
+            var_dump($ids);
+            exit;
+            $maincat_id = empty($ids[0]) ? null : $ids[0];
+            $cat_id = empty($ids[1]) ? null : $ids[1];
+            $subcat_id = empty($ids[2]) ? null : $ids[2];
+            if ($cat_id != null) {
+                $out = ProductBrand::getBrandList($maincat_id, $cat_id, $subcat_id);
+                /**
+                 * the getProdList function will query the database based on the
+                 * cat_id and sub_cat_id and return an array like below:
+                 *  [
+                 *      'out'=>[
+                 *          ['id'=>'<prod-id-1>', 'name'=>'<prod-name1>'],
+                 *          ['id'=>'<prod_id_2>', 'name'=>'<prod-name2>']
+                 *       ],
+                 *       'selected'=>'<prod-id-1>'
+                 *  ]
+                 */
+                echo Json::encode(['output' => $out, 'selected' => '']);
+//                echo Json::encode(['output' => $data['out'], 'selected' => $data['selected']]);
+                return;
+            }
+        }
+        echo Json::encode(['output' => '', 'selected' => '']);
     }
 
 }

@@ -19,7 +19,7 @@ class ProductsSearch extends Products
     {
         return [
             [['id', 'main_category', 'category', 'subcategory', 'brand', 'gender', 'status', 'CB', 'UB'], 'integer'],
-            [['product_name', 'canonical_name', 'item_ean', 'main_description', 'gallery_images', 'related_products', 'DOC', 'DOU'], 'safe'],
+            [['product_name', 'canonical_name', 'item_ean', 'main_description', 'gallery_images', 'related_products', 'search_tags', 'meta_title', 'meta_description', 'meta_keyword', 'field1', 'field2', 'field3', 'DOC', 'DOU'], 'safe'],
         ];
     }
 
@@ -77,7 +77,14 @@ class ProductsSearch extends Products
             ->andFilterWhere(['like', 'item_ean', $this->item_ean])
             ->andFilterWhere(['like', 'main_description', $this->main_description])
             ->andFilterWhere(['like', 'gallery_images', $this->gallery_images])
-            ->andFilterWhere(['like', 'related_products', $this->related_products]);
+            ->andFilterWhere(['like', 'related_products', $this->related_products])
+            ->andFilterWhere(['like', 'search_tags', $this->search_tags])
+            ->andFilterWhere(['like', 'meta_title', $this->meta_title])
+            ->andFilterWhere(['like', 'meta_description', $this->meta_description])
+            ->andFilterWhere(['like', 'meta_keyword', $this->meta_keyword])
+            ->andFilterWhere(['like', 'field1', $this->field1])
+            ->andFilterWhere(['like', 'field2', $this->field2])
+            ->andFilterWhere(['like', 'field3', $this->field3]);
 
         return $dataProvider;
     }
