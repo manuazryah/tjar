@@ -114,13 +114,22 @@ AppAsset::register($this);
                                             <?= Html::a('Brand', ['/product/product-brand/index'], ['class' => 'title']) ?>
                                         </li>
                                         <li>
+                                            <?= Html::a('Search Tag', ['/product/search-tag/index'], ['class' => 'title']) ?>
+                                        </li>
+                                        <li>
                                             <?= Html::a('Master Filter', ['/product/master-filter-spec/index'], ['class' => 'title']) ?>
+                                        </li>
+                                        <li>
+                                            <?= Html::a('Filter', ['/product/filter/index'], ['class' => 'title']) ?>
+                                        </li>
+                                        <li>
+                                            <?= Html::a('Master Specification', ['/product/specification-master/index'], ['class' => 'title']) ?>
                                         </li>
                                     </ul>
                                 </li>
-                                <!--                                <li>
-                                <?php // Html::a('Product', ['/product/product/index'], ['class' => 'title']) ?>
-                                                                </li>-->
+                                <li>
+                                    <?= Html::a('Product', ['/product/products/index'], ['class' => 'title']) ?>
+                                </li>
                             </ul>
                         </li>
 

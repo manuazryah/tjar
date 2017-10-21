@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
-use common\models\ProductMainCategory;
+use common\models\ProductCategory;
 use common\models\ProductSubCategory;
 
 /* @var $this yii\web\View */
@@ -61,8 +61,8 @@ $this->params['breadcrumbs'][] = $this->title;
 //                                'id',
                             [
                                 'attribute' => 'category',
-                                'filter' => ArrayHelper::map(ProductMainCategory::find()->all(), 'id', 'name'),
-                                'value' => 'category0.name'
+                                'filter' => ArrayHelper::map(ProductCategory::find()->all(), 'id', 'category_name'),
+                                'value' => 'category0.category_name'
                             ],
                             [
                                 'attribute' => 'subcategory',

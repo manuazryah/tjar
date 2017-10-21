@@ -90,4 +90,10 @@ class ProductSubCategory extends \yii\db\ActiveRecord {
         return $data;
     }
 
+    public function getSubCategoryList($cat_id) {
+        $data = ProductSubCategory::find()->where(['category_id' => $cat_id])
+                        ->select(['id', 'subcategory_name AS name'])->asArray()->all();
+        return $data;
+    }
+
 }
