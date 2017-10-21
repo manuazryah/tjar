@@ -102,13 +102,19 @@ AppAsset::register($this);
                                     </a>
                                     <ul>
                                         <li>
-                                            <?= Html::a('Category', ['/product/product-main-category/index'], ['class' => 'title']) ?>
+                                            <?= Html::a('Main Category', ['/product/product-main-category/index'], ['class' => 'title']) ?>
+                                        </li>
+                                        <li>
+                                            <?= Html::a('Category', ['/product/product-category/index'], ['class' => 'title']) ?>
                                         </li>
                                         <li>
                                             <?= Html::a('Sub Category', ['/product/product-sub-category/index'], ['class' => 'title']) ?>
                                         </li>
                                         <li>
                                             <?= Html::a('Brand', ['/product/product-brand/index'], ['class' => 'title']) ?>
+                                        </li>
+                                        <li>
+                                            <?= Html::a('Master Filter', ['/product/master-filter-spec/index'], ['class' => 'title']) ?>
                                         </li>
                                     </ul>
                                 </li>

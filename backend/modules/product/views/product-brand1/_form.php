@@ -16,31 +16,21 @@ use yii\helpers\Url;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
-        <?= $form->field($model, 'main_category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category']) ?>
-    </div>
-    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
-        <?php
-        echo $form->field($model, 'category')->widget(DepDrop::classname(), [
-            'options' => ['id' => 'productbrand-category'],
-            'data' => ArrayHelper::map(\common\models\ProductCategory::find()->where(['category_id' => $model->main_category])->all(), 'id', 'subcategory_name'),
-            'pluginOptions' => [
-                'depends' => ['productbrand-main_category'],
-                'placeholder' => 'Select...',
-                'url' => Url::to(['/product/product-category/categories'])
-            ]
-        ]);
-        ?>
+        <?= $form->field($model, 'category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category']) ?>
     </div>
     <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
         <?php
         echo $form->field($model, 'subcategory')->widget(DepDrop::classname(), [
+            'options' => ['id' => 'productbrand-subcategory'],
+            'data' => ArrayHelper::map(\common\models\ProductSubCategory::find()->where(['category_id' => $model->category])->all(), 'id', 'subcategory_name'),
             'pluginOptions' => [
-                'depends' => ['productbrand-main_category', 'productbrand-category'],
+                'depends' => ['productbrand-category'],
                 'placeholder' => 'Select...',
                 'url' => Url::to(['/product/product-sub-category/subcat'])
             ]
         ]);
         ?>
+        <?php // $form->field($model, 'subcategory')->dropDownList(ArrayHelper::map(common\models\ProductSubCategory::find()->all(), 'id', 'subcategory_name'), ['prompt' => 'select subcategory']) ?>
     </div>
     <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
         <?= $form->field($model, 'brand_name')->textInput(['maxlength' => true]) ?>

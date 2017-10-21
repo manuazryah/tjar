@@ -5,12 +5,12 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\ProductSubCategory;
+use common\models\ProductCategory;
 
 /**
- * ProductSubCategorySearch represents the model behind the search form about `common\models\ProductSubCategory`.
+ * ProductCategorySearch represents the model behind the search form about `common\models\ProductCategory`.
  */
-class ProductSubCategorySearch extends ProductSubCategory
+class ProductCategorySearch extends ProductCategory
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class ProductSubCategorySearch extends ProductSubCategory
     public function rules()
     {
         return [
-            [['id', 'main_category_id', 'category_id', 'status', 'CB', 'UB'], 'integer'],
-            [['subcategory_name', 'canonical_name', 'DOC', 'DOU'], 'safe'],
+            [['id', 'category_id', 'status', 'CB', 'UB'], 'integer'],
+            [['category_name', 'canonical_name', 'DOC', 'DOU'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class ProductSubCategorySearch extends ProductSubCategory
      */
     public function search($params)
     {
-        $query = ProductSubCategory::find();
+        $query = ProductCategory::find();
 
         // add conditions that should always apply here
 
@@ -60,7 +60,6 @@ class ProductSubCategorySearch extends ProductSubCategory
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'main_category_id' => $this->main_category_id,
             'category_id' => $this->category_id,
             'status' => $this->status,
             'CB' => $this->CB,
@@ -69,7 +68,7 @@ class ProductSubCategorySearch extends ProductSubCategory
             'DOU' => $this->DOU,
         ]);
 
-        $query->andFilterWhere(['like', 'subcategory_name', $this->subcategory_name])
+        $query->andFilterWhere(['like', 'category_name', $this->category_name])
             ->andFilterWhere(['like', 'canonical_name', $this->canonical_name]);
 
         return $dataProvider;

@@ -30,8 +30,24 @@ class m171020_073620_product_categories extends Migration {
                 ], $tableOptions);
         $this->alterColumn('{{%product_main_category}}', 'id', $this->integer() . ' NOT NULL AUTO_INCREMENT');
 
+        $this->createTable('{{%product_category}}', [
+            'id' => $this->primaryKey(),
+            'category_id' => $this->integer()->notNull(),
+            'category_name' => $this->string(100)->notNull(),
+            'canonical_name' => $this->string(100)->notNull(),
+            'status' => $this->smallInteger()->notNull()->defaultValue(0),
+            'CB' => $this->integer()->notNull(),
+            'UB' => $this->integer()->notNull(),
+            'DOC' => $this->date(),
+            'DOU' => $this->timestamp(),
+                ], $tableOptions);
+        $this->alterColumn('{{%product_category}}', 'id', $this->integer() . ' NOT NULL AUTO_INCREMENT');
+
+        $this->createIndex('category_id', 'product_category', 'category_id', $unique = false);
+        $this->addForeignKey("category", "product_category", "category_id", "product_main_category", "id", "RESTRICT", "RESTRICT");
         $this->createTable('{{%product_sub_category}}', [
             'id' => $this->primaryKey(),
+            'main_category_id' => $this->integer()->notNull(),
             'category_id' => $this->integer()->notNull(),
             'subcategory_name' => $this->string(100)->notNull(),
             'canonical_name' => $this->string(100)->notNull(),
@@ -43,8 +59,10 @@ class m171020_073620_product_categories extends Migration {
                 ], $tableOptions);
         $this->alterColumn('{{%product_sub_category}}', 'id', $this->integer() . ' NOT NULL AUTO_INCREMENT');
 
+        $this->createIndex('main_category_id', 'product_sub_category', 'main_category_id', $unique = false);
         $this->createIndex('category_id', 'product_sub_category', 'category_id', $unique = false);
-        $this->addForeignKey("category", "product_sub_category", "category_id", "product_main_category", "id", "RESTRICT", "RESTRICT");
+        $this->addForeignKey("product_category", "product_sub_category", "main_category_id", "product_main_category", "id", "RESTRICT", "RESTRICT");
+        $this->addForeignKey("productsub_category", "product_sub_category", "category_id", "product_category", "id", "RESTRICT", "RESTRICT");
     }
 
     /**

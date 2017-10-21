@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\ProductSubCategorySearch */
+/* @var $model common\models\MasterFilterSpecSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="product-sub-category-search">
+<div class="master-filter-spec-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,13 +17,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'main_category_id') ?>
+    <?= $form->field($model, 'filter_tittle') ?>
 
-    <?= $form->field($model, 'category_id') ?>
+    <?= $form->field($model, 'table_name') ?>
 
-    <?= $form->field($model, 'subcategory_name') ?>
+    <?= $form->field($model, 'model_name') ?>
 
-    <?= $form->field($model, 'canonical_name') ?>
+    <?= $form->field($model, 'tablevalue__name') ?>
+
+    <?php // echo $form->field($model, 'table_value_id') ?>
 
     <?php // echo $form->field($model, 'status') ?>
 

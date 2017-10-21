@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\ProductBrand */
+/* @var $model common\models\ProductCategory */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Product Brands', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Product Categories', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
@@ -20,8 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         </div>
                         <div class="panel-body">
-                                <?=  Html::a('<i class="fa-th-list"></i><span> Manage Product Brand</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
-                                <div class="panel-body"><div class="product-brand-view">
+                                <?=  Html::a('<i class="fa-th-list"></i><span> Manage Product Category</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+                                <div class="panel-body"><div class="product-category-view">
                                                 <p>
                                                         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
                                                         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
@@ -37,10 +37,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 'model' => $model,
                                                 'attributes' => [
                                                             'id',
-            'main_category',
-            'category',
-            'subcategory',
-            'brand_name',
+            'category_id',
+            'category_name',
+            'canonical_name',
             'status',
             'CB',
             'UB',

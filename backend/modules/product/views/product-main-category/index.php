@@ -8,7 +8,7 @@ use yii\helpers\Url;
 /* @var $searchModel common\models\DemoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Categories';
+$this->title = 'Main Categories';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="demo-index">

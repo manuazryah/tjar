@@ -5,13 +5,12 @@ use yii\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use common\models\ProductMainCategory;
-use common\models\ProductCategory;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\DemoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Sub Categories';
+$this->title = 'Product Categories';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="demo-index">
@@ -60,16 +59,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             ['class' => 'yii\grid\SerialColumn'],
 //                                'id',
                             [
-                                'attribute' => 'main_category_id',
-                                'filter' => ArrayHelper::map(ProductMainCategory::find()->all(), 'id', 'name'),
-                                'value' => 'mainCategory.name'
-                            ],
-                            [
                                 'attribute' => 'category_id',
-                                'filter' => ArrayHelper::map(ProductCategory::find()->all(), 'id', 'category_name'),
-                                'value' => 'category.category_name'
+                                'filter' => ArrayHelper::map(ProductMainCategory::find()->all(), 'id', 'name'),
+                                'value' => 'category.name'
                             ],
-                            'subcategory_name',
+                            'category_name',
                             'canonical_name',
                             [
                                 'attribute' => 'status',
@@ -127,5 +121,3 @@ $this->params['breadcrumbs'][] = $this->title;
         });
     });
 </script>
-
-

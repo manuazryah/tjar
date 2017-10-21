@@ -5,12 +5,12 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\ProductSubCategory;
+use common\models\MasterFilterSpec;
 
 /**
- * ProductSubCategorySearch represents the model behind the search form about `common\models\ProductSubCategory`.
+ * MasterFilterSpecSearch represents the model behind the search form about `common\models\MasterFilterSpec`.
  */
-class ProductSubCategorySearch extends ProductSubCategory
+class MasterFilterSpecSearch extends MasterFilterSpec
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class ProductSubCategorySearch extends ProductSubCategory
     public function rules()
     {
         return [
-            [['id', 'main_category_id', 'category_id', 'status', 'CB', 'UB'], 'integer'],
-            [['subcategory_name', 'canonical_name', 'DOC', 'DOU'], 'safe'],
+            [['id', 'status', 'CB', 'UB'], 'integer'],
+            [['filter_tittle', 'table_name', 'model_name', 'tablevalue__name', 'table_value_id', 'DOC', 'DOU'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class ProductSubCategorySearch extends ProductSubCategory
      */
     public function search($params)
     {
-        $query = ProductSubCategory::find();
+        $query = MasterFilterSpec::find();
 
         // add conditions that should always apply here
 
@@ -60,8 +60,6 @@ class ProductSubCategorySearch extends ProductSubCategory
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'main_category_id' => $this->main_category_id,
-            'category_id' => $this->category_id,
             'status' => $this->status,
             'CB' => $this->CB,
             'UB' => $this->UB,
@@ -69,8 +67,11 @@ class ProductSubCategorySearch extends ProductSubCategory
             'DOU' => $this->DOU,
         ]);
 
-        $query->andFilterWhere(['like', 'subcategory_name', $this->subcategory_name])
-            ->andFilterWhere(['like', 'canonical_name', $this->canonical_name]);
+        $query->andFilterWhere(['like', 'filter_tittle', $this->filter_tittle])
+            ->andFilterWhere(['like', 'table_name', $this->table_name])
+            ->andFilterWhere(['like', 'model_name', $this->model_name])
+            ->andFilterWhere(['like', 'tablevalue__name', $this->tablevalue__name])
+            ->andFilterWhere(['like', 'table_value_id', $this->table_value_id]);
 
         return $dataProvider;
     }

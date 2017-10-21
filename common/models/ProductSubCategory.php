@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "product_sub_category".
  *
  * @property int $id
+ * @property int $main_category_id
  * @property int $category_id
  * @property string $subcategory_name
  * @property string $canonical_name
@@ -17,7 +18,9 @@ use Yii;
  * @property string $DOC
  * @property string $DOU
  *
- * @property ProductMainCategory $category
+ * @property ProductBrand[] $productBrands
+ * @property ProductMainCategory $mainCategory
+ * @property ProductCategory $category
  */
 class ProductSubCategory extends \yii\db\ActiveRecord {
 
@@ -33,11 +36,12 @@ class ProductSubCategory extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['category_id', 'subcategory_name', 'canonical_name', 'CB', 'UB'], 'required'],
-            [['category_id', 'status', 'CB', 'UB'], 'integer'],
+            [['main_category_id', 'category_id', 'subcategory_name', 'canonical_name', 'CB', 'UB'], 'required'],
+            [['main_category_id', 'category_id', 'status', 'CB', 'UB'], 'integer'],
             [['DOC', 'DOU'], 'safe'],
             [['subcategory_name', 'canonical_name'], 'string', 'max' => 100],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductMainCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [['main_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductMainCategory::className(), 'targetAttribute' => ['main_category_id' => 'id']],
+            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
 
@@ -47,6 +51,7 @@ class ProductSubCategory extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'id' => 'ID',
+            'main_category_id' => 'Main Category',
             'category_id' => 'Category',
             'subcategory_name' => 'Subcategory Name',
             'canonical_name' => 'Canonical Name',
@@ -61,8 +66,28 @@ class ProductSubCategory extends \yii\db\ActiveRecord {
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getProductBrands() {
+        return $this->hasMany(ProductBrand::className(), ['subcategory' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMainCategory() {
+        return $this->hasOne(ProductMainCategory::className(), ['id' => 'main_category_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getCategory() {
-        return $this->hasOne(ProductMainCategory::className(), ['id' => 'category_id']);
+        return $this->hasOne(ProductCategory::className(), ['id' => 'category_id']);
+    }
+
+    public function getSubcatList($cat_id, $subcat_id) {
+        $data = ProductSubCategory::find()->where(['main_category_id' => $cat_id, 'category_id' => $subcat_id])
+                        ->select(['id', 'subcategory_name AS name'])->asArray()->all();
+        return $data;
     }
 
 }

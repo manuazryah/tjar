@@ -3,38 +3,21 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use kartik\depdrop\DepDrop;
-use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\ProductMainCategory */
+/* @var $model common\models\ProductCategory */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="product-main-category-form form-inline">
+<div class="product-category-form form-inline">
 
     <?php $form = ActiveForm::begin(); ?>
 
     <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
-        <?= $form->field($model, 'main_category_id')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category']) ?>
+        <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category']) ?>
     </div>
     <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
-        <?php
-        echo $form->field($model, 'category_id')->widget(DepDrop::classname(), [
-            'options' => ['id' => 'productsubcategory-category_id'],
-            'data' => ArrayHelper::map(\common\models\ProductCategory::find()->where(['category_id' => $model->main_category_id])->all(), 'id', 'subcategory_name'),
-            'pluginOptions' => [
-                'depends' => ['productsubcategory-main_category_id'],
-                'placeholder' => 'Select...',
-                'url' => Url::to(['/product/product-category/categories'])
-            ]
-        ]);
-        ?>
-        <?php // $form->field($model, 'subcategory')->dropDownList(ArrayHelper::map(common\models\ProductSubCategory::find()->all(), 'id', 'subcategory_name'), ['prompt' => 'select subcategory']) ?>
-    </div>
-
-    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
-        <?= $form->field($model, 'subcategory_name')->textInput(['maxlength' => true, 'autocomplete' => 'off']) ?>
+        <?= $form->field($model, 'category_name')->textInput(['maxlength' => true, 'autocomplete' => 'off']) ?>
 
     </div>
     <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
@@ -59,9 +42,9 @@ use yii\helpers\Url;
 </div>
 <script>
     $(document).ready(function () {
-        $('#productsubcategory-subcategory_name').keyup(function () {
+        $('#productcategory-category_name').keyup(function () {
             var name = slug($(this).val());
-            $('#productsubcategory-canonical_name').val(slug($(this).val()));
+            $('#productcategory-canonical_name').val(slug($(this).val()));
         });
     });
 

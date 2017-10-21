@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\ProductBrand */
+/* @var $model common\models\MasterFilterSpec */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Product Brands', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Master Filter Specs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
@@ -20,8 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         </div>
                         <div class="panel-body">
-                                <?=  Html::a('<i class="fa-th-list"></i><span> Manage Product Brand</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
-                                <div class="panel-body"><div class="product-brand-view">
+                                <?=  Html::a('<i class="fa-th-list"></i><span> Manage Master Filter Spec</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+                                <div class="panel-body"><div class="master-filter-spec-view">
                                                 <p>
                                                         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
                                                         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
@@ -37,10 +37,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 'model' => $model,
                                                 'attributes' => [
                                                             'id',
-            'main_category',
-            'category',
-            'subcategory',
-            'brand_name',
+            'filter_tittle',
+            'table_name',
+            'model_name',
+            'tablevalue__name',
+            'table_value_id',
             'status',
             'CB',
             'UB',

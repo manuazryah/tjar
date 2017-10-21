@@ -5,13 +5,13 @@ use yii\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use common\models\ProductMainCategory;
-use common\models\ProductCategory;
+use common\models\ProductSubCategory;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\DemoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Sub Categories';
+$this->title = 'Brands';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="demo-index">
@@ -60,17 +60,16 @@ $this->params['breadcrumbs'][] = $this->title;
                             ['class' => 'yii\grid\SerialColumn'],
 //                                'id',
                             [
-                                'attribute' => 'main_category_id',
+                                'attribute' => 'category',
                                 'filter' => ArrayHelper::map(ProductMainCategory::find()->all(), 'id', 'name'),
-                                'value' => 'mainCategory.name'
+                                'value' => 'category0.name'
                             ],
                             [
-                                'attribute' => 'category_id',
-                                'filter' => ArrayHelper::map(ProductCategory::find()->all(), 'id', 'category_name'),
-                                'value' => 'category.category_name'
+                                'attribute' => 'subcategory',
+                                'filter' => ArrayHelper::map(ProductSubCategory::find()->all(), 'id', 'subcategory_name'),
+                                'value' => 'subcategory0.subcategory_name'
                             ],
-                            'subcategory_name',
-                            'canonical_name',
+                            'brand_name',
                             [
                                 'attribute' => 'status',
                                 'filter' => ['1' => 'Enable', '0' => 'Disable'],

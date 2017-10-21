@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\ProductSubCategorySearch */
+/* @var $model common\models\ProductBrandSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="product-sub-category-search">
+<div class="product-brand-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,15 +17,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'main_category_id') ?>
+    <?= $form->field($model, 'category') ?>
 
-    <?= $form->field($model, 'category_id') ?>
+    <?= $form->field($model, 'subcategory') ?>
 
-    <?= $form->field($model, 'subcategory_name') ?>
+    <?= $form->field($model, 'brand_name') ?>
 
-    <?= $form->field($model, 'canonical_name') ?>
-
-    <?php // echo $form->field($model, 'status') ?>
+    <?= $form->field($model, 'status') ?>
 
     <?php // echo $form->field($model, 'CB') ?>
 

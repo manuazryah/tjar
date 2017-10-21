@@ -18,7 +18,7 @@ class ProductBrandSearch extends ProductBrand
     public function rules()
     {
         return [
-            [['id', 'category', 'subcategory', 'status', 'CB', 'UB'], 'integer'],
+            [['id', 'main_category', 'category', 'subcategory', 'status', 'CB', 'UB'], 'integer'],
             [['brand_name', 'DOC', 'DOU'], 'safe'],
         ];
     }
@@ -60,6 +60,7 @@ class ProductBrandSearch extends ProductBrand
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'main_category' => $this->main_category,
             'category' => $this->category,
             'subcategory' => $this->subcategory,
             'status' => $this->status,
