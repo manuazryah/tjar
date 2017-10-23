@@ -31,6 +31,9 @@ return [
         'vendors' => [
             'class' => 'backend\modules\vendors\Module',
         ],
+        'zpm' => [
+            'class' => 'backend\modules\zpm\Module',
+        ],
     ],
     'components' => [
         'request' => [

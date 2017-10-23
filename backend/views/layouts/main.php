@@ -147,6 +147,26 @@ AppAsset::register($this);
 
                             </ul>
                         </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-bars"></i>
+                                <span class="title">ZPM</span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <?= Html::a('Operating System', ['/zpm/zpm-operating-system/index'], ['class' => 'title']) ?>
+                                </li>
+                                <li>
+                                    <?= Html::a('Processor', ['/zpm/zpm-processor/index'], ['class' => 'title']) ?>
+                                </li>
+                                <li>
+                                    <?= Html::a('Type', ['/zpm/zpm-type/index'], ['class' => 'title']) ?>
+                                </li>
+                                <li>
+                                    <?= Html::a('Screen Size', ['/zpm/zpm-screen-size/index'], ['class' => 'title']) ?>
+                                </li>
+                            </ul>
+                        </li>
 
                     </ul>
 
