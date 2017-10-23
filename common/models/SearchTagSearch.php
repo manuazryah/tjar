@@ -19,7 +19,7 @@ class SearchTagSearch extends SearchTag
     {
         return [
             [['id', 'category', 'subcategory', 'status', 'CB', 'UB'], 'integer'],
-            [['tag_name', 'DOC', 'DOU'], 'safe'],
+            [['tag_name', 'tag_name_arabic', 'DOC', 'DOU'], 'safe'],
         ];
     }
 
@@ -69,7 +69,8 @@ class SearchTagSearch extends SearchTag
             'DOU' => $this->DOU,
         ]);
 
-        $query->andFilterWhere(['like', 'tag_name', $this->tag_name]);
+        $query->andFilterWhere(['like', 'tag_name', $this->tag_name])
+            ->andFilterWhere(['like', 'tag_name_arabic', $this->tag_name_arabic]);
 
         return $dataProvider;
     }

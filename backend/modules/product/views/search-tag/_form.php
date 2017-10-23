@@ -15,10 +15,10 @@ use yii\helpers\Url;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'category')->dropDownList(ArrayHelper::map(common\models\ProductCategory::find()->all(), 'id', 'category_name'), ['prompt' => 'select category']) ?>
     </div>
-    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?php
         echo $form->field($model, 'subcategory')->widget(DepDrop::classname(), [
             'options' => ['id' => 'searchtag-subcategory'],
@@ -32,8 +32,10 @@ use yii\helpers\Url;
         ?>
     </div>
     <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
-        <?= $form->field($model, 'tag_name')->textInput(['maxlength' => true]) ?>
-
+        <?= $form->field($model, 'tag_name')->textarea(['rows' => '2']) ?>
+    </div>
+    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+        <?= $form->field($model, 'tag_name_arabic')->textarea(['rows' => '2']) ?>
     </div>
     <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
         <?= $form->field($model, 'status')->dropDownList(['1' => 'Enable', '0' => 'Disable']) ?>
