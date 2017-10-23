@@ -32,27 +32,13 @@ class ProductMainCategoryController extends Controller {
      * Lists all ProductMainCategory models.
      * @return mixed
      */
-    public function actionIndex($id = NULL) {
-        if (!empty($id)) {
-            $model = $this->findModel($id);
-        } else {
-            $model = new ProductMainCategory();
-        }
-        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
-            if (!empty($id)) {
-                Yii::$app->getSession()->setFlash('success', 'Updated Successfully');
-            } else {
-                Yii::$app->getSession()->setFlash('success', 'Created Successfully');
-            }
-            return $this->redirect(['index']);
-        }
+    public function actionIndex() {
         $searchModel = new ProductMainCategorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
-                    'model' => $model,
         ]);
     }
 
@@ -75,10 +61,11 @@ class ProductMainCategoryController extends Controller {
     public function actionCreate() {
         $model = new ProductMainCategory();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', 'Category Created Successfully');
+            return $this->redirect(['index']);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                         'model' => $model,
             ]);
         }
@@ -93,10 +80,11 @@ class ProductMainCategoryController extends Controller {
     public function actionUpdate($id) {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', 'Category Updated Successfully');
+            return $this->redirect(['index']);
         } else {
-            return $this->render('update', [
+            return $this->renderAjax('update', [
                         'model' => $model,
             ]);
         }
@@ -108,8 +96,10 @@ class ProductMainCategoryController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id) {
-        $this->findModel($id)->delete();
+    public function actionDel($id) {
+        if ($this->findModel($id)->delete()) {
+            Yii::$app->getSession()->setFlash('error', 'Category Removed Successfully');
+        }
 
         return $this->redirect(['index']);
     }

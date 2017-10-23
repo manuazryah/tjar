@@ -14,7 +14,7 @@ a {
 .panel{
     /*	background-color: #ffffd9;*/
     background-color: #f9f9f9;
-    border-top: 3px solid #bababa;
+    /*border-top: 3px solid #bababa;*/
     /* border-top: 3px solid #ffba00; */
     border-radius: 5px;
 }
@@ -356,4 +356,29 @@ nav.navbar {
 }
 .help-block{
     font-size: 11px;
+}
+.edit-btn{
+    border: none;
+    background: #f9f9f9;
+    font-size: 14px;
+}
+.modal-content{
+    background: #f9f9f9;
+    border-top: 3px solid #bababa;
+    border-radius: 5px;
+}
+.modal-header {
+    padding: 0px;
+    border-bottom: none;
+    min-height: 0px;
+}
+.modal .modal-dialog .modal-content {
+    padding: 0px 30px;
+    top: 50px;
+}
+.modal-content .panel{
+    padding: 0px;
+}
+.modal .modal-dialog .modal-content .modal-body {
+    padding: 0px;
 }

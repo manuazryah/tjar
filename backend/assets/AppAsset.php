@@ -43,6 +43,7 @@ class AppAsset extends AssetBundle {
         'js/xenon-custom.js',
         'js/custom.js',
         'js/select2/select2.min.js',
+        'js/main.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
