@@ -22,6 +22,8 @@ class m171020_101645_table_brand extends Migration {
             'category' => $this->integer()->notNull(),
             'subcategory' => $this->integer()->Null(),
             'brand_name' => $this->string(500)->notNull(),
+            'brand_name_arabic' => $this->string(500)->notNull(),
+            'comments' => $this->text()->Null(),
             'status' => $this->smallInteger()->notNull()->defaultValue(0),
             'CB' => $this->integer()->notNull(),
             'UB' => $this->integer()->notNull(),

@@ -11,15 +11,20 @@ use Yii;
  * @property int $category_id
  * @property string $category_name
  * @property string $canonical_name
+ * @property string $category_name_arabic
+ * @property string $comments
  * @property int $status
  * @property int $CB
  * @property int $UB
  * @property string $DOC
  * @property string $DOU
  *
+ * @property Filter[] $filters
  * @property ProductBrand[] $productBrands
  * @property ProductMainCategory $category
  * @property ProductSubCategory[] $productSubCategories
+ * @property SearchTag[] $searchTags
+ * @property SpecificationMaster[] $specificationMasters
  */
 class ProductCategory extends \yii\db\ActiveRecord {
 
@@ -35,10 +40,11 @@ class ProductCategory extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['category_id', 'category_name', 'canonical_name', 'CB', 'UB'], 'required'],
+            [['category_id', 'category_name', 'canonical_name', 'category_name_arabic', 'CB', 'UB'], 'required'],
             [['category_id', 'status', 'CB', 'UB'], 'integer'],
+            [['comments'], 'string'],
             [['DOC', 'DOU'], 'safe'],
-            [['category_name', 'canonical_name'], 'string', 'max' => 100],
+            [['category_name', 'canonical_name', 'category_name_arabic'], 'string', 'max' => 100],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductMainCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
@@ -49,15 +55,24 @@ class ProductCategory extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'category_id' => 'Category ID',
+            'category_id' => 'Category',
             'category_name' => 'Category Name',
             'canonical_name' => 'Canonical Name',
+            'category_name_arabic' => 'Category Name Arabic',
+            'comments' => 'Comments',
             'status' => 'Status',
             'CB' => 'Cb',
             'UB' => 'Ub',
             'DOC' => 'Doc',
             'DOU' => 'Dou',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFilters() {
+        return $this->hasMany(Filter::className(), ['category' => 'id']);
     }
 
     /**
@@ -81,6 +96,23 @@ class ProductCategory extends \yii\db\ActiveRecord {
         return $this->hasMany(ProductSubCategory::className(), ['category_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSearchTags() {
+        return $this->hasMany(SearchTag::className(), ['category' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSpecificationMasters() {
+        return $this->hasMany(SpecificationMaster::className(), ['category' => 'id']);
+    }
+
+    /**
+     * Get main category list
+     */
     public function getCatList($cat_id) {
         $data = ProductCategory::find()->where(['category_id' => $cat_id])
                         ->select(['id', 'category_name AS name'])->asArray()->all();

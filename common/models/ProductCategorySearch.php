@@ -19,7 +19,7 @@ class ProductCategorySearch extends ProductCategory
     {
         return [
             [['id', 'category_id', 'status', 'CB', 'UB'], 'integer'],
-            [['category_name', 'canonical_name', 'DOC', 'DOU'], 'safe'],
+            [['category_name', 'canonical_name', 'category_name_arabic', 'comments', 'DOC', 'DOU'], 'safe'],
         ];
     }
 
@@ -69,7 +69,9 @@ class ProductCategorySearch extends ProductCategory
         ]);
 
         $query->andFilterWhere(['like', 'category_name', $this->category_name])
-            ->andFilterWhere(['like', 'canonical_name', $this->canonical_name]);
+            ->andFilterWhere(['like', 'canonical_name', $this->canonical_name])
+            ->andFilterWhere(['like', 'category_name_arabic', $this->category_name_arabic])
+            ->andFilterWhere(['like', 'comments', $this->comments]);
 
         return $dataProvider;
     }

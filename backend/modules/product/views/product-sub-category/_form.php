@@ -15,10 +15,10 @@ use yii\helpers\Url;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'main_category_id')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category']) ?>
     </div>
-    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?php
         echo $form->field($model, 'category_id')->widget(DepDrop::classname(), [
             'options' => ['id' => 'productsubcategory-category_id'],
@@ -33,15 +33,24 @@ use yii\helpers\Url;
         <?php // $form->field($model, 'subcategory')->dropDownList(ArrayHelper::map(common\models\ProductSubCategory::find()->all(), 'id', 'subcategory_name'), ['prompt' => 'select subcategory']) ?>
     </div>
 
-    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'subcategory_name')->textInput(['maxlength' => true, 'autocomplete' => 'off']) ?>
 
     </div>
-    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'canonical_name')->textInput(['maxlength' => true, 'readOnly' => true]) ?>
 
-    </div><div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+    </div>
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
+        <?= $form->field($model, 'subcategory_name_arabic')->textInput(['maxlength' => true]) ?>
+
+    </div>
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'status')->dropDownList(['1' => 'Enable', '0' => 'Disable']) ?>
+
+    </div>
+    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+        <?= $form->field($model, 'comments')->textarea(['rows' => '4']) ?>
 
     </div>
     <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>

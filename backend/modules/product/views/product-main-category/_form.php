@@ -14,14 +14,24 @@ s
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'autocomplete' => 'off']) ?>
 
-    </div><div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+    </div>
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'canonical_name')->textInput(['maxlength' => true, 'readOnly' => true]) ?>
 
-    </div><div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+    </div>
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
+        <?= $form->field($model, 'name_arabic')->textInput(['maxlength' => true, 'autocomplete' => 'off']) ?>
+
+    </div>
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'status')->dropDownList(['1' => 'Enable', '0' => 'Disable']) ?>
+
+    </div>
+    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+        <?= $form->field($model, 'comments')->textarea(['rows' => '4']) ?>
 
     </div>
     <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>

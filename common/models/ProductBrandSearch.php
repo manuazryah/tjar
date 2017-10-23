@@ -19,7 +19,7 @@ class ProductBrandSearch extends ProductBrand
     {
         return [
             [['id', 'main_category', 'category', 'subcategory', 'status', 'CB', 'UB'], 'integer'],
-            [['brand_name', 'DOC', 'DOU'], 'safe'],
+            [['brand_name', 'brand_name_arabic', 'comments', 'DOC', 'DOU'], 'safe'],
         ];
     }
 
@@ -70,7 +70,9 @@ class ProductBrandSearch extends ProductBrand
             'DOU' => $this->DOU,
         ]);
 
-        $query->andFilterWhere(['like', 'brand_name', $this->brand_name]);
+        $query->andFilterWhere(['like', 'brand_name', $this->brand_name])
+            ->andFilterWhere(['like', 'brand_name_arabic', $this->brand_name_arabic])
+            ->andFilterWhere(['like', 'comments', $this->comments]);
 
         return $dataProvider;
     }

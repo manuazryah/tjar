@@ -52,18 +52,19 @@ $this->params['breadcrumbs'][] = $this->title;
                             'dataProvider' => $dataProvider,
                             'filterModel' => $searchModel,
                             'columns' => [
-                                    ['class' => 'yii\grid\SerialColumn'],
+                                ['class' => 'yii\grid\SerialColumn'],
 //                                'id',
                                 'name',
                                 'canonical_name',
-                                    [
+                                'name_arabic',
+                                [
                                     'attribute' => 'status',
                                     'filter' => ['1' => 'Enable', '0' => 'Disable'],
                                     'value' => function($data) {
                                         return $data->status == 1 ? 'Enable' : 'Disable';
                                     }
                                 ],
-                                    [
+                                [
                                     'class' => 'yii\grid\ActionColumn',
 //                                    'contentOptions' => ['style' => 'width:100px;'],
                                     'header' => 'Actions',
