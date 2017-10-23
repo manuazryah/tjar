@@ -35,9 +35,6 @@ use yii\helpers\Url;
         <?= $form->field($model, 'specification')->dropDownList(ArrayHelper::map(\common\models\Features::find()->where(['status' => '1'])->all(), 'id', 'filter_tittle'), ['prompt' => '- Select -']) ?>
     </div>
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-        <?= $form->field($model, 'specification_type')->dropDownList(['0' => 'Dropdown', '1' => 'Text'], ['prompt' => 'Select Type']) ?>
-    </div>
-    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
         <?= $form->field($model, 'status')->dropDownList(['1' => 'Enable', '0' => 'Disable']) ?>
 
     </div>

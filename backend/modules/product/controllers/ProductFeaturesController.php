@@ -8,6 +8,7 @@ use common\models\ProductFeaturesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\models\Features;
 
 /**
  * ProductFeaturesController implements the CRUD actions for ProductFeatures model.
@@ -61,8 +62,12 @@ class ProductFeaturesController extends Controller {
     public function actionCreate() {
         $model = new ProductFeatures();
 
-        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
-            Yii::$app->getSession()->setFlash('success', 'Product Feature Created Successfully');
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate()) {
+            $feature = Features::findOne($model->specification)->table_name;
+            $model->specification_type = $feature != '' ? 0 : 1;
+            if ($model->save()) {
+                Yii::$app->getSession()->setFlash('success', 'Product Feature Created Successfully');
+            }
             return $this->redirect(['index']);
         } else {
             return $this->renderAjax('create', [

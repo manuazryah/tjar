@@ -23,23 +23,21 @@ use Yii;
  * @property Features $specification0
  * @property ProductSubCategory $subcategory0
  */
-class ProductFeatures extends \yii\db\ActiveRecord
-{
+class ProductFeatures extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'product_features';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['category', 'specification', 'specification_type', 'CB', 'UB'], 'required'],
+            [['category', 'specification', 'CB', 'UB'], 'required'],
             [['category', 'subcategory', 'specification', 'specification_type', 'status', 'CB', 'UB'], 'integer'],
             [['comments'], 'string'],
             [['DOC', 'DOU'], 'safe'],
@@ -52,8 +50,7 @@ class ProductFeatures extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'category' => 'Category',
@@ -72,24 +69,22 @@ class ProductFeatures extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCategory0()
-    {
+    public function getCategory0() {
         return $this->hasOne(ProductCategory::className(), ['id' => 'category']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSpecification0()
-    {
+    public function getSpecification0() {
         return $this->hasOne(Features::className(), ['id' => 'specification']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSubcategory0()
-    {
+    public function getSubcategory0() {
         return $this->hasOne(ProductSubCategory::className(), ['id' => 'subcategory']);
     }
+
 }

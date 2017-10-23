@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'attribute' => 'specification_type',
                                     'filter' => ['1' => 'Text', '0' => 'Dropdown'],
                                     'value' => function($data) {
-                                        return $data->status == 1 ? 'Text' : 'Dropdown';
+                                        return $data->specification_type == 1 ? 'Text' : 'Dropdown';
                                     }
                                 ],
                                 [
