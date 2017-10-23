@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\MasterFilterSpecSearch */
+/* @var $model common\models\FeaturesSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="master-filter-spec-search">
+<div class="features-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -26,6 +26,10 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'tablevalue__name') ?>
 
     <?php // echo $form->field($model, 'table_value_id') ?>
+
+    <?php // echo $form->field($model, 'category') ?>
+
+    <?php // echo $form->field($model, 'comments') ?>
 
     <?php // echo $form->field($model, 'status') ?>
 

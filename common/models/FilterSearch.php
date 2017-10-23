@@ -19,7 +19,7 @@ class FilterSearch extends Filter
     {
         return [
             [['id', 'category', 'subcategory', 'status', 'CB', 'UB'], 'integer'],
-            [['filters', 'DOC', 'DOU'], 'safe'],
+            [['features', 'comments', 'DOC', 'DOU'], 'safe'],
         ];
     }
 
@@ -69,7 +69,8 @@ class FilterSearch extends Filter
             'DOU' => $this->DOU,
         ]);
 
-        $query->andFilterWhere(['like', 'filters', $this->filters]);
+        $query->andFilterWhere(['like', 'features', $this->features])
+            ->andFilterWhere(['like', 'comments', $this->comments]);
 
         return $dataProvider;
     }

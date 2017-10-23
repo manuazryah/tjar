@@ -15,10 +15,10 @@ use yii\helpers\Url;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'category')->dropDownList(ArrayHelper::map(common\models\ProductCategory::find()->all(), 'id', 'category_name'), ['prompt' => 'select category']) ?>
     </div>
-    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?php
         echo $form->field($model, 'subcategory')->widget(DepDrop::classname(), [
             'options' => ['id' => 'filter-subcategory'],
@@ -39,7 +39,7 @@ use yii\helpers\Url;
             }
         }
         ?>
-        <?= $form->field($model, 'filters')->dropDownList(ArrayHelper::map(\common\models\MasterFilterSpec::find()->where(['status' => '1'])->all(), 'id', 'filter_tittle'), ['class' => 'form-control', 'id' => 'filter-filters', 'multiple' => 'multiple']) ?>
+        <?= $form->field($model, 'features')->dropDownList(ArrayHelper::map(\common\models\Features::find()->where(['status' => '1'])->all(), 'id', 'filter_tittle'), ['class' => 'form-control', 'id' => 'filter-filters', 'multiple' => 'multiple']) ?>
 
     </div>
     <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
@@ -47,12 +47,12 @@ use yii\helpers\Url;
 
     </div>
     <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+        <?= $form->field($model, 'comments')->textarea(['rows' => '4']) ?>
+
+    </div>
+    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
         <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary', 'style' => 'margin-top: 18px; height: 36px; width:100px;']) ?>
-            <?php if (!empty($model->id)) { ?>
-                <?= Html::a('Reset', ['index'], ['class' => 'btn btn-gray btn-reset', 'style' => 'margin-top: 18px; height: 36px; width:100px;']) ?>
-            <?php }
-            ?>
+            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary', 'style' => 'margin-top: 18px; height: 36px; width:100px;float: right;']) ?>
         </div>
     </div>
 

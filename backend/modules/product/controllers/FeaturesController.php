@@ -3,16 +3,16 @@
 namespace backend\modules\product\controllers;
 
 use Yii;
-use common\models\SpecificationMaster;
-use common\models\SpecificationMasterSearch;
+use common\models\Features;
+use common\models\FeaturesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * SpecificationMasterController implements the CRUD actions for SpecificationMaster model.
+ * FeaturesController implements the CRUD actions for Features model.
  */
-class SpecificationMasterController extends Controller {
+class FeaturesController extends Controller {
 
     /**
      * @inheritdoc
@@ -29,35 +29,21 @@ class SpecificationMasterController extends Controller {
     }
 
     /**
-     * Lists all SpecificationMaster models.
+     * Lists all Features models.
      * @return mixed
      */
-    public function actionIndex($id = NULL) {
-        if (!empty($id)) {
-            $model = $this->findModel($id);
-        } else {
-            $model = new SpecificationMaster();
-        }
-        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
-            if (!empty($id)) {
-                Yii::$app->getSession()->setFlash('success', 'Updated Successfully');
-            } else {
-                Yii::$app->getSession()->setFlash('success', 'Created Successfully');
-            }
-            return $this->redirect(['index']);
-        }
-        $searchModel = new SpecificationMasterSearch();
+    public function actionIndex() {
+        $searchModel = new FeaturesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
-                    'model' => $model,
         ]);
     }
 
     /**
-     * Displays a single SpecificationMaster model.
+     * Displays a single Features model.
      * @param integer $id
      * @return mixed
      */
@@ -68,24 +54,25 @@ class SpecificationMasterController extends Controller {
     }
 
     /**
-     * Creates a new SpecificationMaster model.
+     * Creates a new Features model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate() {
-        $model = new SpecificationMaster();
+        $model = new Features();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', 'Feature Created Successfully');
+            return $this->redirect(['index']);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                         'model' => $model,
             ]);
         }
     }
 
     /**
-     * Updates an existing SpecificationMaster model.
+     * Updates an existing Features model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -93,36 +80,39 @@ class SpecificationMasterController extends Controller {
     public function actionUpdate($id) {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', 'Feature Updated Successfully');
+            return $this->redirect(['index']);
         } else {
-            return $this->render('update', [
+            return $this->renderAjax('update', [
                         'model' => $model,
             ]);
         }
     }
 
     /**
-     * Deletes an existing SpecificationMaster model.
+     * Deletes an existing Features model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id) {
-        $this->findModel($id)->delete();
+    public function actionDel($id) {
+        if ($this->findModel($id)->delete()) {
+            Yii::$app->getSession()->setFlash('error', 'Feature Removed Successfully');
+        }
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the SpecificationMaster model based on its primary key value.
+     * Finds the Features model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return SpecificationMaster the loaded model
+     * @return Features the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = SpecificationMaster::findOne($id)) !== null) {
+        if (($model = Features::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

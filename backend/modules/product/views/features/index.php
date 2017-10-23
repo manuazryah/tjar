@@ -5,15 +5,12 @@ use yii\grid\GridView;
 use yii\bootstrap\Modal;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
-use yii\helpers\ArrayHelper;
-use common\models\ProductMainCategory;
-use common\models\ProductSubCategory;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ProductMainCategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Filters';
+$this->title = 'Features';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-main-category-index">
@@ -57,30 +54,13 @@ $this->params['breadcrumbs'][] = $this->title;
                             'columns' => [
                                 ['class' => 'yii\grid\SerialColumn'],
 //                                'id',
-                                [
-                                    'attribute' => 'category',
-                                    'filter' => ArrayHelper::map(\common\models\ProductCategory::find()->all(), 'id', 'category_name'),
-                                    'value' => 'category0.category_name'
-                                ],
-                                [
-                                    'attribute' => 'subcategory',
-                                    'filter' => ArrayHelper::map(ProductSubCategory::find()->all(), 'id', 'subcategory_name'),
-                                    'value' => 'subcategory0.subcategory_name'
-                                ],
-                                [
-                                    'attribute' => 'features',
-                                    'value' => function($model, $key, $index, $column) {
-                                        return $model->getFeatures($model->features);
-                                    },
-                                    'filter' => ArrayHelper::map(\common\models\Features::find()->asArray()->all(), 'id', 'filter_tittle'),
-                                ],
-                                [
-                                    'attribute' => 'status',
-                                    'filter' => ['1' => 'Enable', '0' => 'Disable'],
-                                    'value' => function($data) {
-                                        return $data->status == 1 ? 'Enable' : 'Disable';
-                                    }
-                                ],
+                                'filter_tittle',
+                                'table_name',
+                                'model_name',
+                                'tablevalue__name',
+                                // 'table_value_id',
+                                // 'category',
+                                // 'comments:ntext',
                                 [
                                     'class' => 'yii\grid\ActionColumn',
 //                                    'contentOptions' => ['style' => 'width:100px;'],

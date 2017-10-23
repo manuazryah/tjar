@@ -117,13 +117,13 @@ AppAsset::register($this);
                                             <?= Html::a('Search Tag', ['/product/search-tag/index'], ['class' => 'title']) ?>
                                         </li>
                                         <li>
-                                            <?= Html::a('Master Filter', ['/product/master-filter-spec/index'], ['class' => 'title']) ?>
+                                            <?= Html::a('Master Features', ['/product/features/index'], ['class' => 'title']) ?>
                                         </li>
                                         <li>
                                             <?= Html::a('Filter', ['/product/filter/index'], ['class' => 'title']) ?>
                                         </li>
                                         <li>
-                                            <?= Html::a('Master Specification', ['/product/specification-master/index'], ['class' => 'title']) ?>
+                                            <?= Html::a('Product Features', ['/product/product-features/index'], ['class' => 'title']) ?>
                                         </li>
                                     </ul>
                                 </li>

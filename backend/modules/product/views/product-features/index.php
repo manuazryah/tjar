@@ -13,7 +13,7 @@ use common\models\ProductSubCategory;
 /* @var $searchModel common\models\ProductMainCategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Filters';
+$this->title = 'Product Features';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-main-category-index">
@@ -68,11 +68,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'value' => 'subcategory0.subcategory_name'
                                 ],
                                 [
-                                    'attribute' => 'features',
-                                    'value' => function($model, $key, $index, $column) {
-                                        return $model->getFeatures($model->features);
-                                    },
+                                    'attribute' => 'specification',
                                     'filter' => ArrayHelper::map(\common\models\Features::find()->asArray()->all(), 'id', 'filter_tittle'),
+                                    'value' => 'specification0.filter_tittle'
+                                ],
+                                [
+                                    'attribute' => 'specification_type',
+                                    'filter' => ['1' => 'Text', '0' => 'Dropdown'],
+                                    'value' => function($data) {
+                                        return $data->status == 1 ? 'Text' : 'Dropdown';
+                                    }
                                 ],
                                 [
                                     'attribute' => 'status',

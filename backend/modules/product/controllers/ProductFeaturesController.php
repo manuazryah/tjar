@@ -3,16 +3,16 @@
 namespace backend\modules\product\controllers;
 
 use Yii;
-use common\models\MasterFilterSpec;
-use common\models\MasterFilterSpecSearch;
+use common\models\ProductFeatures;
+use common\models\ProductFeaturesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * MasterFilterSpecController implements the CRUD actions for MasterFilterSpec model.
+ * ProductFeaturesController implements the CRUD actions for ProductFeatures model.
  */
-class MasterFilterSpecController extends Controller {
+class ProductFeaturesController extends Controller {
 
     /**
      * @inheritdoc
@@ -29,35 +29,21 @@ class MasterFilterSpecController extends Controller {
     }
 
     /**
-     * Lists all MasterFilterSpec models.
+     * Lists all ProductFeatures models.
      * @return mixed
      */
-    public function actionIndex($id = NULL) {
-        if (!empty($id)) {
-            $model = $this->findModel($id);
-        } else {
-            $model = new MasterFilterSpec();
-        }
-        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
-            if (!empty($id)) {
-                Yii::$app->getSession()->setFlash('success', 'Updated Successfully');
-            } else {
-                Yii::$app->getSession()->setFlash('success', 'Created Successfully');
-            }
-            return $this->redirect(['index']);
-        }
-        $searchModel = new MasterFilterSpecSearch();
+    public function actionIndex() {
+        $searchModel = new ProductFeaturesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
-                    'model' => $model,
         ]);
     }
 
     /**
-     * Displays a single MasterFilterSpec model.
+     * Displays a single ProductFeatures model.
      * @param integer $id
      * @return mixed
      */
@@ -68,24 +54,25 @@ class MasterFilterSpecController extends Controller {
     }
 
     /**
-     * Creates a new MasterFilterSpec model.
+     * Creates a new ProductFeatures model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate() {
-        $model = new MasterFilterSpec();
+        $model = new ProductFeatures();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', 'Product Feature Created Successfully');
+            return $this->redirect(['index']);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                         'model' => $model,
             ]);
         }
     }
 
     /**
-     * Updates an existing MasterFilterSpec model.
+     * Updates an existing ProductFeatures model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -93,36 +80,39 @@ class MasterFilterSpecController extends Controller {
     public function actionUpdate($id) {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', 'Profile Feture Updated Successfully');
+            return $this->redirect(['index']);
         } else {
-            return $this->render('update', [
+            return $this->renderAjax('update', [
                         'model' => $model,
             ]);
         }
     }
 
     /**
-     * Deletes an existing MasterFilterSpec model.
+     * Deletes an existing ProductFeatures model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id) {
-        $this->findModel($id)->delete();
+    public function actionDel($id) {
+        if ($this->findModel($id)->delete()) {
+            Yii::$app->getSession()->setFlash('error', 'Product Feature Removed Successfully');
+        }
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the MasterFilterSpec model based on its primary key value.
+     * Finds the ProductFeatures model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return MasterFilterSpec the loaded model
+     * @return ProductFeatures the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = MasterFilterSpec::findOne($id)) !== null) {
+        if (($model = ProductFeatures::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

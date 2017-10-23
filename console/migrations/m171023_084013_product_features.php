@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Class m171021_070244_table_specification_master
+ * Class m171023_084013_product_features
  */
-class m171021_070244_table_specification_master extends Migration {
+class m171023_084013_product_features extends Migration {
 
     /**
      * @inheritdoc
@@ -17,33 +17,34 @@ class m171021_070244_table_specification_master extends Migration {
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%specification_master}}', [
+        $this->createTable('{{%product_features}}', [
             'id' => $this->primaryKey(),
             'category' => $this->integer()->notNull(),
             'subcategory' => $this->integer()->Null(),
             'specification' => $this->integer()->notNull(),
             'specification_type' => $this->integer()->notNull(),
+            'comments' => $this->text()->Null(),
             'status' => $this->smallInteger()->notNull()->defaultValue(0),
             'CB' => $this->integer()->notNull(),
             'UB' => $this->integer()->notNull(),
             'DOC' => $this->date(),
             'DOU' => $this->timestamp(),
                 ], $tableOptions);
-        $this->alterColumn('{{%specification_master}}', 'id', $this->integer() . ' NOT NULL AUTO_INCREMENT');
+        $this->alterColumn('{{%product_features}}', 'id', $this->integer() . ' NOT NULL AUTO_INCREMENT');
 
-        $this->createIndex('category', 'specification_master', 'category', $unique = false);
-        $this->createIndex('subcategory', 'specification_master', 'subcategory', $unique = false);
-        $this->createIndex('specification', 'specification_master', 'specification', $unique = false);
-        $this->addForeignKey("specification-category", "specification_master", "category", "product_category", "id", "RESTRICT", "RESTRICT");
-        $this->addForeignKey("specification-subcategory", "specification_master", "subcategory", "product_sub_category", "id", "RESTRICT", "RESTRICT");
-        $this->addForeignKey("specification-id", "specification_master", "specification", "master_filter_spec", "id", "RESTRICT", "RESTRICT");
+        $this->createIndex('category', 'product_features', 'category', $unique = false);
+        $this->createIndex('subcategory', 'product_features', 'subcategory', $unique = false);
+        $this->createIndex('specification', 'product_features', 'specification', $unique = false);
+        $this->addForeignKey("specification-category", "product_features", "category", "product_category", "id", "RESTRICT", "RESTRICT");
+        $this->addForeignKey("specification-subcategory", "product_features", "subcategory", "product_sub_category", "id", "RESTRICT", "RESTRICT");
+        $this->addForeignKey("specification-id", "product_features", "specification", "features", "id", "RESTRICT", "RESTRICT");
     }
 
     /**
      * @inheritdoc
      */
     public function safeDown() {
-        echo "m171021_070244_table_specification_master cannot be reverted.\n";
+        echo "m171023_084013_product_features cannot be reverted.\n";
 
         return false;
     }
@@ -57,7 +58,7 @@ class m171021_070244_table_specification_master extends Migration {
 
       public function down()
       {
-      echo "m171021_070244_table_specification_master cannot be reverted.\n";
+      echo "m171023_084013_product_features cannot be reverted.\n";
 
       return false;
       }

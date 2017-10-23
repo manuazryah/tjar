@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\SpecificationMasterSearch */
+/* @var $model common\models\ProductFeaturesSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="specification-master-search">
+<div class="product-features-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -24,6 +24,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'specification') ?>
 
     <?= $form->field($model, 'specification_type') ?>
+
+    <?php // echo $form->field($model, 'comments') ?>
 
     <?php // echo $form->field($model, 'status') ?>
 

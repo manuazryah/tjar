@@ -33,28 +33,12 @@ class FilterController extends Controller {
      * @return mixed
      */
     public function actionIndex($id = NULL) {
-        if (!empty($id)) {
-            $model = $this->findModel($id);
-        } else {
-            $model = new Filter();
-        }
-        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate()) {
-            $model->filters = implode(',', $model->filters);
-            $model->save();
-            if (!empty($id)) {
-                Yii::$app->getSession()->setFlash('success', 'Updated Successfully');
-            } else {
-                Yii::$app->getSession()->setFlash('success', 'Created Successfully');
-            }
-            return $this->redirect(['index']);
-        }
         $searchModel = new FilterSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
-                    'model' => $model,
         ]);
     }
 
@@ -77,10 +61,11 @@ class FilterController extends Controller {
     public function actionCreate() {
         $model = new Filter();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', 'Filter Created Successfully');
+            return $this->redirect(['index']);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                         'model' => $model,
             ]);
         }
@@ -95,10 +80,11 @@ class FilterController extends Controller {
     public function actionUpdate($id) {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', 'Filter Updated Successfully');
+            return $this->redirect(['index']);
         } else {
-            return $this->render('update', [
+            return $this->renderAjax('update', [
                         'model' => $model,
             ]);
         }
@@ -110,8 +96,10 @@ class FilterController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id) {
-        $this->findModel($id)->delete();
+    public function actionDel($id) {
+        if ($this->findModel($id)->delete()) {
+            Yii::$app->getSession()->setFlash('error', 'Filter Removed Successfully');
+        }
 
         return $this->redirect(['index']);
     }

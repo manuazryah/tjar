@@ -3,13 +3,13 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Filter */
+/* @var $model common\models\Features */
 
-$this->title = 'Update Filter: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Filters', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Create Features';
+$this->params['breadcrumbs'][] = ['label' => 'Features', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="row">
     <div class="col-md-12">
 
@@ -17,10 +17,9 @@ $this->params['breadcrumbs'][] = 'Update';
             <div class="panel-heading">
                 <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
 
-
             </div>
             <div class="panel-body">
-                <div class="panel-body"><div class="filter-create">
+                <div class="panel-body"><div class="features-create">
                         <?=
                         $this->render('_form', [
                             'model' => $model,
@@ -32,3 +31,4 @@ $this->params['breadcrumbs'][] = 'Update';
         </div>
     </div>
 </div>
+

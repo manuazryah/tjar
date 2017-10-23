@@ -5,13 +5,14 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "specification_master".
+ * This is the model class for table "product_features".
  *
  * @property int $id
  * @property int $category
  * @property int $subcategory
  * @property int $specification
  * @property int $specification_type
+ * @property string $comments
  * @property int $status
  * @property int $CB
  * @property int $UB
@@ -19,17 +20,17 @@ use Yii;
  * @property string $DOU
  *
  * @property ProductCategory $category0
- * @property MasterFilterSpec $specification0
+ * @property Features $specification0
  * @property ProductSubCategory $subcategory0
  */
-class SpecificationMaster extends \yii\db\ActiveRecord
+class ProductFeatures extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'specification_master';
+        return 'product_features';
     }
 
     /**
@@ -40,9 +41,10 @@ class SpecificationMaster extends \yii\db\ActiveRecord
         return [
             [['category', 'specification', 'specification_type', 'CB', 'UB'], 'required'],
             [['category', 'subcategory', 'specification', 'specification_type', 'status', 'CB', 'UB'], 'integer'],
+            [['comments'], 'string'],
             [['DOC', 'DOU'], 'safe'],
             [['category'], 'exist', 'skipOnError' => true, 'targetClass' => ProductCategory::className(), 'targetAttribute' => ['category' => 'id']],
-            [['specification'], 'exist', 'skipOnError' => true, 'targetClass' => MasterFilterSpec::className(), 'targetAttribute' => ['specification' => 'id']],
+            [['specification'], 'exist', 'skipOnError' => true, 'targetClass' => Features::className(), 'targetAttribute' => ['specification' => 'id']],
             [['subcategory'], 'exist', 'skipOnError' => true, 'targetClass' => ProductSubCategory::className(), 'targetAttribute' => ['subcategory' => 'id']],
         ];
     }
@@ -58,6 +60,7 @@ class SpecificationMaster extends \yii\db\ActiveRecord
             'subcategory' => 'Subcategory',
             'specification' => 'Specification',
             'specification_type' => 'Specification Type',
+            'comments' => 'Comments',
             'status' => 'Status',
             'CB' => 'Cb',
             'UB' => 'Ub',
@@ -79,7 +82,7 @@ class SpecificationMaster extends \yii\db\ActiveRecord
      */
     public function getSpecification0()
     {
-        return $this->hasOne(MasterFilterSpec::className(), ['id' => 'specification']);
+        return $this->hasOne(Features::className(), ['id' => 'specification']);
     }
 
     /**

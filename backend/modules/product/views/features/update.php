@@ -3,10 +3,10 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Filter */
+/* @var $model common\models\Features */
 
-$this->title = 'Update Filter: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Filters', 'url' => ['index']];
+$this->title = 'Update Features: ' . $model->filter_tittle;
+$this->params['breadcrumbs'][] = ['label' => 'Features', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = 'Update';
 
             </div>
             <div class="panel-body">
-                <div class="panel-body"><div class="filter-create">
+                <div class="panel-body"><div class="features-create">
                         <?=
                         $this->render('_form', [
                             'model' => $model,

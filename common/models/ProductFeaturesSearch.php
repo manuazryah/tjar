@@ -5,12 +5,12 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\SpecificationMaster;
+use common\models\ProductFeatures;
 
 /**
- * SpecificationMasterSearch represents the model behind the search form about `common\models\SpecificationMaster`.
+ * ProductFeaturesSearch represents the model behind the search form about `common\models\ProductFeatures`.
  */
-class SpecificationMasterSearch extends SpecificationMaster
+class ProductFeaturesSearch extends ProductFeatures
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class SpecificationMasterSearch extends SpecificationMaster
     {
         return [
             [['id', 'category', 'subcategory', 'specification', 'specification_type', 'status', 'CB', 'UB'], 'integer'],
-            [['DOC', 'DOU'], 'safe'],
+            [['comments', 'DOC', 'DOU'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class SpecificationMasterSearch extends SpecificationMaster
      */
     public function search($params)
     {
-        $query = SpecificationMaster::find();
+        $query = ProductFeatures::find();
 
         // add conditions that should always apply here
 
@@ -70,6 +70,8 @@ class SpecificationMasterSearch extends SpecificationMaster
             'DOC' => $this->DOC,
             'DOU' => $this->DOU,
         ]);
+
+        $query->andFilterWhere(['like', 'comments', $this->comments]);
 
         return $dataProvider;
     }

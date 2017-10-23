@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\MasterFilterSpec */
+/* @var $model common\models\Features */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Master Filter Specs', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Features', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
@@ -20,8 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         </div>
                         <div class="panel-body">
-                                <?=  Html::a('<i class="fa-th-list"></i><span> Manage Master Filter Spec</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
-                                <div class="panel-body"><div class="master-filter-spec-view">
+                                <?=  Html::a('<i class="fa-th-list"></i><span> Manage Features</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+                                <div class="panel-body"><div class="features-view">
                                                 <p>
                                                         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
                                                         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
@@ -42,6 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'model_name',
             'tablevalue__name',
             'table_value_id',
+            'category',
+            'comments:ntext',
             'status',
             'CB',
             'UB',

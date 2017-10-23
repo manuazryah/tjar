@@ -5,12 +5,12 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\MasterFilterSpec;
+use common\models\Features;
 
 /**
- * MasterFilterSpecSearch represents the model behind the search form about `common\models\MasterFilterSpec`.
+ * FeaturesSearch represents the model behind the search form about `common\models\Features`.
  */
-class MasterFilterSpecSearch extends MasterFilterSpec
+class FeaturesSearch extends Features
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class MasterFilterSpecSearch extends MasterFilterSpec
     public function rules()
     {
         return [
-            [['id', 'status', 'CB', 'UB'], 'integer'],
-            [['filter_tittle', 'table_name', 'model_name', 'tablevalue__name', 'table_value_id', 'DOC', 'DOU'], 'safe'],
+            [['id', 'category', 'status', 'CB', 'UB'], 'integer'],
+            [['filter_tittle', 'table_name', 'model_name', 'tablevalue__name', 'table_value_id', 'comments', 'DOC', 'DOU'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class MasterFilterSpecSearch extends MasterFilterSpec
      */
     public function search($params)
     {
-        $query = MasterFilterSpec::find();
+        $query = Features::find();
 
         // add conditions that should always apply here
 
@@ -60,6 +60,7 @@ class MasterFilterSpecSearch extends MasterFilterSpec
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'category' => $this->category,
             'status' => $this->status,
             'CB' => $this->CB,
             'UB' => $this->UB,
@@ -71,7 +72,8 @@ class MasterFilterSpecSearch extends MasterFilterSpec
             ->andFilterWhere(['like', 'table_name', $this->table_name])
             ->andFilterWhere(['like', 'model_name', $this->model_name])
             ->andFilterWhere(['like', 'tablevalue__name', $this->tablevalue__name])
-            ->andFilterWhere(['like', 'table_value_id', $this->table_value_id]);
+            ->andFilterWhere(['like', 'table_value_id', $this->table_value_id])
+            ->andFilterWhere(['like', 'comments', $this->comments]);
 
         return $dataProvider;
     }

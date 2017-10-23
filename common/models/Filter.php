@@ -10,7 +10,8 @@ use Yii;
  * @property int $id
  * @property int $category
  * @property int $subcategory
- * @property string $filters
+ * @property string $features
+ * @property string $comments
  * @property int $status
  * @property int $CB
  * @property int $UB
@@ -34,9 +35,10 @@ class Filter extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['category', 'filters', 'CB', 'UB'], 'required'],
+            [['category', 'features', 'CB', 'UB'], 'required'],
             [['category', 'subcategory', 'status', 'CB', 'UB'], 'integer'],
-            [['DOC', 'DOU', 'filters'], 'safe'],
+            [['comments'], 'string'],
+            [['DOC', 'DOU', 'features'], 'safe'],
             [['category'], 'exist', 'skipOnError' => true, 'targetClass' => ProductCategory::className(), 'targetAttribute' => ['category' => 'id']],
             [['subcategory'], 'exist', 'skipOnError' => true, 'targetClass' => ProductSubCategory::className(), 'targetAttribute' => ['subcategory' => 'id']],
         ];
@@ -50,7 +52,8 @@ class Filter extends \yii\db\ActiveRecord {
             'id' => 'ID',
             'category' => 'Category',
             'subcategory' => 'Subcategory',
-            'filters' => 'Filters',
+            'features' => 'Features',
+            'comments' => 'Comments',
             'status' => 'Status',
             'CB' => 'Cb',
             'UB' => 'Ub',
@@ -73,7 +76,7 @@ class Filter extends \yii\db\ActiveRecord {
         return $this->hasOne(ProductSubCategory::className(), ['id' => 'subcategory']);
     }
 
-    public static function getFilters($id) {
+    public static function getFeatures($id) {
 
         $filters = explode(',', $id);
         $result = '';
@@ -84,7 +87,7 @@ class Filter extends \yii\db\ActiveRecord {
                 if ($i != 0) {
                     $result .= ',';
                 }
-                $filter_data = MasterFilterSpec::findOne($val);
+                $filter_data = Features::findOne($val);
                 $result .= $filter_data->filter_tittle;
                 $i++;
             }

@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\SpecificationMaster */
+/* @var $model common\models\ProductFeatures */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Specification Masters', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Product Features', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
@@ -20,8 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         </div>
                         <div class="panel-body">
-                                <?=  Html::a('<i class="fa-th-list"></i><span> Manage Specification Master</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
-                                <div class="panel-body"><div class="specification-master-view">
+                                <?=  Html::a('<i class="fa-th-list"></i><span> Manage Product Features</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+                                <div class="panel-body"><div class="product-features-view">
                                                 <p>
                                                         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
                                                         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
@@ -41,6 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'subcategory',
             'specification',
             'specification_type',
+            'comments:ntext',
             'status',
             'CB',
             'UB',
