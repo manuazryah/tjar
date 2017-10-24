@@ -13,7 +13,7 @@ use common\models\ProductSubCategory;
 /* @var $searchModel common\models\ZpmThemeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Zpm Themes';
+$this->title = 'Themes';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="zpm-theme-index">

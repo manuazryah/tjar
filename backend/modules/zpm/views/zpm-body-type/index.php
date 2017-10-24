@@ -13,7 +13,7 @@ use common\models\ProductSubCategory;
 /* @var $searchModel common\models\ZpmBodyTypeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Zpm Body Types';
+$this->title = 'Body Types';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="zpm-body-type-index">

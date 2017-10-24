@@ -10,13 +10,13 @@ use common\models\ProductCategory;
 use common\models\ProductSubCategory;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\ZpmScreenTypeSearch */
+/* @var $searchModel common\models\ZpmPatternSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Screen Types';
+$this->title = 'Patterns';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="zpm-screen-type-index">
+<div class="zpm-pattern-index">
 
     <div class="row">
         <div class="col-md-12">
@@ -127,3 +127,4 @@ $this->params['breadcrumbs'][] = $this->title;
         });
     });
 </script>
+

@@ -192,6 +192,9 @@ AppAsset::register($this);
                                 <li>
                                     <?= Html::a('Theme', ['/zpm/zpm-theme/index'], ['class' => 'title']) ?>
                                 </li>
+                                <li>
+                                    <?= Html::a('Pattern', ['/zpm/zpm-pattern/index'], ['class' => 'title']) ?>
+                                </li>
                             </ul>
                         </li>
 
