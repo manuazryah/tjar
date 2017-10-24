@@ -14,7 +14,7 @@ a {
 .panel{
     /*	background-color: #ffffd9;*/
     background-color: #f9f9f9;
-    border-top: 3px solid #bababa;
+    /*border-top: 3px solid #bababa;*/
     /* border-top: 3px solid #ffba00; */
     border-radius: 5px;
 }
