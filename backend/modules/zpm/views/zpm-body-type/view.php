@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\MasterUnit */
+/* @var $model common\models\ZpmBodyType */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Master Units', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Zpm Body Types', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
@@ -20,8 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         </div>
                         <div class="panel-body">
-                                <?=  Html::a('<i class="fa-th-list"></i><span> Manage Master Unit</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
-                                <div class="panel-body"><div class="master-unit-view">
+                                <?=  Html::a('<i class="fa-th-list"></i><span> Manage Zpm Body Type</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+                                <div class="panel-body"><div class="zpm-body-type-view">
                                                 <p>
                                                         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
                                                         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
@@ -37,9 +37,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 'model' => $model,
                                                 'attributes' => [
                                                             'id',
-            'unit_name',
+            'main_category',
+            'category',
+            'subcategory',
             'value',
             'value_arabic',
+            'field1',
+            'field2',
+            'field3',
             'status',
             'CB',
             'UB',

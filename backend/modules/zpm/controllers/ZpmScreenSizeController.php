@@ -62,6 +62,7 @@ class ZpmScreenSizeController extends Controller {
         $model = new ZpmScreenSize();
 
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', 'Screen Size Created Successfully');
             return $this->redirect(['index']);
         } else {
             return $this->renderAjax('create', [
@@ -80,6 +81,7 @@ class ZpmScreenSizeController extends Controller {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', 'Screen Size Updated Successfully');
             return $this->redirect(['index']);
         } else {
             return $this->renderAjax('update', [

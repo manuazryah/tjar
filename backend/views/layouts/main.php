@@ -180,6 +180,18 @@ AppAsset::register($this);
                                 <li>
                                     <?= Html::a('Color', ['/zpm/zpm-color/index'], ['class' => 'title']) ?>
                                 </li>
+                                <li>
+                                    <?= Html::a('Screen Type', ['/zpm/zpm-screen-type/index'], ['class' => 'title']) ?>
+                                </li>
+                                <li>
+                                    <?= Html::a('Body Type', ['/zpm/zpm-body-type/index'], ['class' => 'title']) ?>
+                                </li>
+                                <li>
+                                    <?= Html::a('Sleeve', ['/zpm/zpm-sleeve/index'], ['class' => 'title']) ?>
+                                </li>
+                                <li>
+                                    <?= Html::a('Theme', ['/zpm/zpm-theme/index'], ['class' => 'title']) ?>
+                                </li>
                             </ul>
                         </li>
 

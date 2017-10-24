@@ -13,7 +13,7 @@ use yii\helpers\Url;
 
 <div class="zpm-type-form form-inline">
 
-     <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(); ?>
 
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'> 
         <?= $form->field($model, 'main_category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category']) ?>
@@ -35,6 +35,7 @@ use yii\helpers\Url;
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>   
         <?php
         echo $form->field($model, 'subcategory')->widget(DepDrop::classname(), [
+            'data' => ArrayHelper::map(\common\models\ProductSubCategory::find()->where(['category_id' => $model->category])->all(), 'id', 'subcategory_name'),
             'pluginOptions' => [
                 'depends' => ['zpmtype-main_category', 'zpmtype-category'],
                 'placeholder' => 'Select...',

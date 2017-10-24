@@ -63,6 +63,7 @@ class ZpmOperatingSystemController extends Controller {
         $model = new ZpmOperatingSystem();
 
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', 'Operating System Created Successfully');
             return $this->redirect(['index']);
         } else {
             return $this->renderAjax('create', [
@@ -81,7 +82,8 @@ class ZpmOperatingSystemController extends Controller {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
-           return $this->redirect(['index']);
+           Yii::$app->getSession()->setFlash('success', 'Operating System Update Successfully');
+            return $this->redirect(['index']);
         } else {
             return $this->renderAjax('update', [
                         'model' => $model,

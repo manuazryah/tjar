@@ -62,6 +62,7 @@ class ZpmTypeController extends Controller {
         $model = new ZpmType();
 
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+           Yii::$app->getSession()->setFlash('success', 'Master Type Created Successfully');
             return $this->redirect(['index']);
         } else {
             return $this->renderAjax('create', [
@@ -80,7 +81,8 @@ class ZpmTypeController extends Controller {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
-           return $this->redirect(['index']);
+           Yii::$app->getSession()->setFlash('success', 'Master Type Updated Successfully');
+            return $this->redirect(['index']);
         } else {
             return $this->renderAjax('update', [
                         'model' => $model,
