@@ -34,6 +34,9 @@ return [
         'zpm' => [
             'class' => 'backend\modules\zpm\Module',
         ],
+        'master' => [
+            'class' => 'backend\modules\master\Module',
+        ],
     ],
     'components' => [
         'request' => [

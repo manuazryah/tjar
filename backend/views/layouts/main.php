@@ -149,6 +149,18 @@ AppAsset::register($this);
                         </li>
                         <li>
                             <a href="#">
+                                <i class="fa fa-microphone"></i>
+                                <span class="title">Master</span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <?= Html::a('Master Unit', ['/master/master-unit/index'], ['class' => 'title']) ?>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">
                                 <i class="fa fa-bars"></i>
                                 <span class="title">ZPM</span>
                             </a>

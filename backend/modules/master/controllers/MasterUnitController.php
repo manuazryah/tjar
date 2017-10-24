@@ -1,23 +1,25 @@
 <?php
 
-namespace backend\modules\zpm\controllers;
+namespace backend\modules\master\controllers;
 
 use Yii;
-use common\models\ZpmColor;
-use common\models\ZpmColorSearch;
+use common\models\MasterUnit;
+use common\models\MasterUnitSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 
 /**
- * ZpmColorController implements the CRUD actions for ZpmColor model.
+ * MasterUnitController implements the CRUD actions for MasterUnit model.
  */
-class ZpmColorController extends Controller {
-
+class MasterUnitController extends Controller
+{
     /**
      * @inheritdoc
      */
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -29,91 +31,95 @@ class ZpmColorController extends Controller {
     }
 
     /**
-     * Lists all ZpmColor models.
+     * Lists all MasterUnit models.
      * @return mixed
      */
-    public function actionIndex() {
-        $searchModel = new ZpmColorSearch();
+    public function actionIndex()
+    {
+        $searchModel = new MasterUnitSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-                    'searchModel' => $searchModel,
-                    'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single ZpmColor model.
+     * Displays a single MasterUnit model.
      * @param integer $id
      * @return mixed
      */
-//    public function actionView($id)
-//    {
-//        return $this->render('view', [
-//            'model' => $this->findModel($id),
-//        ]);
-//    }
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
 
     /**
-     * Creates a new ZpmColor model.
+     * Creates a new MasterUnit model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate() {
-        $model = new ZpmColor();
+    public function actionCreate()
+    {
+        $model = new MasterUnit();
 
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
             return $this->redirect(['index']);
         } else {
             return $this->renderAjax('create', [
-                        'model' => $model,
+                'model' => $model,
             ]);
         }
     }
 
     /**
-     * Updates an existing ZpmColor model.
+     * Updates an existing MasterUnit model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
             return $this->redirect(['index']);
         } else {
             return $this->renderAjax('update', [
-                        'model' => $model,
+                'model' => $model,
             ]);
         }
     }
 
     /**
-     * Deletes an existing ZpmColor model.
+     * Deletes an existing MasterUnit model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionDel($id) {
+    public function actionDel($id)
+    {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the ZpmColor model based on its primary key value.
+     * Finds the MasterUnit model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ZpmColor the loaded model
+     * @return MasterUnit the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id) {
-        if (($model = ZpmColor::findOne($id)) !== null) {
+    protected function findModel($id)
+    {
+        if (($model = MasterUnit::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
 }
