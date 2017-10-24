@@ -70,11 +70,24 @@ AppAsset::register($this);
 
 
                     </header>
-
-
-
                     <ul id="main-menu" class="main-menu">
-
+                        <li class="">
+                            <?= Html::a('<i class="fa fa-tachometer"></i><span class="title">Dashboard</span>', ['/site/index'], ['class' => 'title']) ?>
+                        </li>
+                        <li class="">
+                            <a href="#">
+                                <i class="fa fa-indent"></i>
+                                <span class="title">Inventory</span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <?= Html::a('Inventory Management', ['/product/product/index'], ['class' => 'title']) ?>
+                                </li>
+                                <li>
+                                    <?= Html::a('Item Listing', ['/site/search-item'], ['class' => 'title']) ?>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
 
                 </div>
