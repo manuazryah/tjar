@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\ZpmScreenSize */
 
-$this->title = 'Create Zpm Screen Size';
-$this->params['breadcrumbs'][] = ['label' => 'Zpm Screen Sizes', 'url' => ['index']];
+$this->title = 'Create Screen Size';
+$this->params['breadcrumbs'][] = ['label' => 'Screen Sizes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -20,8 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         </div>
                         <div class="panel-body">
-                                <?=  Html::a('<i class="fa-th-list"></i><span> Manage Zpm Screen Size</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
-                                <div class="panel-body"><div class="zpm-screen-size-create">
+                               <div class="panel-body"><div class="zpm-screen-size-create">
                                                 <?= $this->render('_form', [
                                                 'model' => $model,
                                                 ]) ?>

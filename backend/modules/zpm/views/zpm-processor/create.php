@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\ZpmProcessor */
 
-$this->title = 'Create Zpm Processor';
-$this->params['breadcrumbs'][] = ['label' => 'Zpm Processors', 'url' => ['index']];
+$this->title = 'CreateProcessor';
+$this->params['breadcrumbs'][] = ['label' => 'Processors', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -20,8 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         </div>
                         <div class="panel-body">
-                                <?=  Html::a('<i class="fa-th-list"></i><span> Manage Zpm Processor</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
-                                <div class="panel-body"><div class="zpm-processor-create">
+                               <div class="panel-body"><div class="zpm-processor-create">
                                                 <?= $this->render('_form', [
                                                 'model' => $model,
                                                 ]) ?>

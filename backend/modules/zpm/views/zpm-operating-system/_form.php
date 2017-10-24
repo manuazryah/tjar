@@ -15,11 +15,10 @@ use yii\helpers\Url;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <div class='col-md-12 col-sm-6 col-xs-12 left_padd'> 
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'main_category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category']) ?>
-
     </div>
-    <div class='col-md-12 col-sm-6 col-xs-12 left_padd'> 
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'> 
         <?php
         echo $form->field($model, 'category')->widget(DepDrop::classname(), [
             'options' => ['id' => 'zpmoperatingsystem-category'],
@@ -32,9 +31,10 @@ use yii\helpers\Url;
         ]);
         ?>
     </div>
-    <div class='col-md-12 col-sm-6 col-xs-12 left_padd'>  
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>  
         <?php
         echo $form->field($model, 'subcategory')->widget(DepDrop::classname(), [
+            'data' => ArrayHelper::map(\common\models\ProductSubCategory::find()->where(['category_id' => $model->category])->all(), 'id', 'subcategory_name'),
             'pluginOptions' => [
                 'depends' => ['zpmoperatingsystem-main_category', 'zpmoperatingsystem-category'],
                 'placeholder' => 'Select...',
@@ -43,18 +43,18 @@ use yii\helpers\Url;
         ]);
         ?>
     </div>
-    <div class='col-md-12 col-sm-6 col-xs-12 left_padd'>    
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>    
         <?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
     </div>
-    <div class='col-md-12 col-sm-6 col-xs-12 left_padd'>    
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>    
         <?= $form->field($model, 'value_arabic')->textInput(['maxlength' => true]) ?>
     </div>
-    <div class='col-md-12 col-sm-6 col-xs-12 left_padd'>    
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>    
         <?= $form->field($model, 'status')->dropDownList(['1' => 'Enable', '0' => 'Disable']) ?>
     </div>
-    <div class='col-md-12 col-sm-6 col-xs-12' style="float:right;">
-        <div class="form-group" style="float: right;">
-            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => 'btn btn-success', 'style' => 'margin-top: 18px; height: 36px; width:100px;']) ?>
+    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+        <div class="form-group">
+            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary', 'style' => 'margin-top: 18px; height: 36px; width:100px;float: right;']) ?>
         </div>
     </div>
 

@@ -165,6 +165,9 @@ AppAsset::register($this);
                                 <li>
                                     <?= Html::a('Screen Size', ['/zpm/zpm-screen-size/index'], ['class' => 'title']) ?>
                                 </li>
+                                <li>
+                                    <?= Html::a('Color', ['/zpm/zpm-color/index'], ['class' => 'title']) ?>
+                                </li>
                             </ul>
                         </li>
 

@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\ZpmType */
 
-$this->title = 'Update Zpm Type: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Zpm Types', 'url' => ['index']];
+$this->title = 'Update Type: ' . $model->value;
+$this->params['breadcrumbs'][] = ['label' => 'Types', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
@@ -20,8 +20,7 @@ $this->params['breadcrumbs'][] = 'Update';
 
                         </div>
                         <div class="panel-body">
-				<?=  Html::a('<i class="fa-th-list"></i><span> Manage Zpm Type</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
-                                <div class="panel-body"><div class="zpm-type-create">
+				<div class="panel-body"><div class="zpm-type-create">
 						<?= $this->render('_form', [
                                                 'model' => $model,
                                                 ]) ?>
