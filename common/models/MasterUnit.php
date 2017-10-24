@@ -17,21 +17,19 @@ use Yii;
  * @property string $DOC
  * @property string $DOU
  */
-class MasterUnit extends \yii\db\ActiveRecord
-{
+class MasterUnit extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'master_unit';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['unit_name', 'value', 'value_arabic'], 'required'],
             [['status', 'CB', 'UB'], 'integer'],
@@ -43,13 +41,12 @@ class MasterUnit extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'unit_name' => 'Unit Name',
-            'value' => 'Unit Code',
-            'value_arabic' => 'Unit Code Arabic',
+            'value' => 'Value',
+            'value_arabic' => 'Value Arabic',
             'status' => 'Status',
             'CB' => 'Cb',
             'UB' => 'Ub',
@@ -57,4 +54,5 @@ class MasterUnit extends \yii\db\ActiveRecord
             'DOU' => 'Dou',
         ];
     }
+
 }
