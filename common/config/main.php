@@ -16,5 +16,8 @@ return [
         'UploadFile' => [
             'class' => 'common\components\UploadFile'
         ],
+        'SetLanguage' => [
+            'class' => 'common\components\SetLanguage'
+        ],
     ],
 ];
