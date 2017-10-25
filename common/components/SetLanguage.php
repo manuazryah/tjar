@@ -19,6 +19,9 @@ use yii\base\Component;
 use yii\web\Cookie;
 
 class SetLanguage extends Component {
+        /*
+         * check cookie set or not, if not set default language is Ebglish
+         */
 
         public function Language() {
                 $cookies1 = Yii::$app->request->cookies;
@@ -32,6 +35,10 @@ class SetLanguage extends Component {
                 return $language;
         }
 
+        /*
+         * set cookie
+         */
+
         public function SetLanguage($langauge = null) {
 
                 $cookie = new Cookie([
@@ -42,19 +49,13 @@ class SetLanguage extends Component {
                 Yii::$app->getResponse()->getCookies()->add($cookie);
         }
 
+        /*
+         * json for common words in static page
+         */
+
         public function Words($language) {
-                if ($language == 'English') {
-                        $array = [
-                            'electronics' => 'Electronics',
-                            'appliances' => 'Appliances',
-                            'men' => 'Men',
-                            'women' => 'Women',
-                            'baby' => 'BABY & KIDS',
-                            'home' => 'HOME & FURNITURE',
-                            'books' => 'BOOKS & MORE',
-                            'offer_zone' => 'OFFER ZONE',
-                        ];
-                } else {
+                if ($language == 'Arabic') {
+
                         $array = [
                             'electronics' => 'إلكترونيات',
                             'appliances' => 'الأجهزة',
@@ -64,6 +65,17 @@ class SetLanguage extends Component {
                             'home' => 'الأثاث المنزلي',
                             'books' => 'كتب وأكثر',
                             'offer_zone' => 'منطقة العرض',
+                        ];
+                } else {
+                        $array = [
+                            'electronics' => 'Electronics',
+                            'appliances' => 'Appliances',
+                            'men' => 'Men',
+                            'women' => 'Women',
+                            'baby' => 'BABY & KIDS',
+                            'home' => 'HOME & FURNITURE',
+                            'books' => 'BOOKS & MORE',
+                            'offer_zone' => 'OFFER ZONE',
                         ];
                 }
                 $values = json_encode($array);

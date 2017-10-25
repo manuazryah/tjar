@@ -13,6 +13,7 @@ use yii\web\Cookie;
 AppAsset::register($this);
 
 $language = common\components\SetLanguage::Language();
+Yii::$app->session['language'] = $language;
 $words = \common\components\SetLanguage::Words($language);
 $words = json_decode($words);
 ?>
