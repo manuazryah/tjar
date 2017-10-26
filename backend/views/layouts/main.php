@@ -156,7 +156,12 @@ AppAsset::register($this);
                                 <li>
                                     <?= Html::a('Master Unit', ['/master/master-unit/index'], ['class' => 'title']) ?>
                                 </li>
-                                
+                                <li>
+                                    <?= Html::a('City', ['/master/city/index'], ['class' => 'title']) ?>
+                                </li>
+                                <li>
+                                    <?= Html::a('Street', ['/master/street/index'], ['class' => 'title']) ?>
+                                </li>
                             </ul>
                         </li>
                         <li>

@@ -20,6 +20,16 @@ use yii\helpers\Html;
     .addresses{
         padding-bottom: 10px;
     }
+    .addresses h4{
+        color:#232121;
+        font-weight: 600;
+    }
+    .addresses p{
+        line-height: 6px;
+    }
+    .option_btn{
+        display: none;
+    }
 </style>
 <div>
     <?= Html::a('<i class="fa fa-plus" aria-hidden="true"></i> Add New Location', ['/settings/add-new-location'], ['class' => 'btn btn-blue', 'style' => 'float:right;']) ?>
@@ -32,18 +42,19 @@ use yii\helpers\Html;
         <?php foreach ($model as $value) { ?>
             <div class="col-md-4" id="address_div-<?= $value->id ?>">
                 <div class="address-box">
-                    <div class="addresses"
-                         <h4><?= $value->first_name ?> <?= $value->last_name ?></h4>
+                    <div class="addresses">
+                        <h4><?= $value->first_name ?> <?= $value->last_name ?></h4>
                         <p>City, Street</p>
                         <p><?= $value->building_no ?></p>
                         <p><?= $value->mobile_no ?></p>
                     </div>
                     <div class="edit-box">
+                        <input type="hidden" class="<?= $value->dafault_address == 1 ? 'primary-btn' : '' ?>" value="<?= $value->dafault_address == 1 ? $value->id : '' ?>"/>
                         <label>
                             <input type="radio" name="default_address" class="default_address" id="<?= $value->id ?>" value="" <?= $value->dafault_address == 1 ? 'checked' : '' ?>> <span id="primary_address-<?= $value->id ?>"><?= $value->dafault_address == 1 ? 'Primary' : 'Set as Primary' ?></span>
                         </label>
-                        <?= Html::a('&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true"></i> Delete ', [''], ['class' => 'delete-default', 'style' => 'float:right;color: #2196F3;', 'id' => $value->id]) ?>
-                        <?= Html::a('<i class="fa fa-pencil" aria-hidden="true"></i> Edit', ['/settings/edit-location', 'id' => $value->id], ['class' => '', 'style' => 'float:right;color: #2196F3;']) ?>
+                        <?= Html::a('&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true"></i> Delete ', [''], ['class' => $value->dafault_address == 1 ? 'delete-default option_btn' : 'delete-default', 'style' => 'float:right;color: #2196F3;', 'id' => 'delete_btn-' . $value->id]) ?>
+                        <?= Html::a('<i class="fa fa-pencil" aria-hidden="true"></i> Edit', ['/settings/edit-location', 'id' => $value->id], ['class' => $value->dafault_address == 1 ? 'option_btn' : '', 'style' => 'float:right;color: #2196F3;', 'id' => 'edit_btn-' . $value->id]) ?>
                     </div>
                 </div>
             </div>
@@ -56,14 +67,20 @@ use yii\helpers\Html;
     {
         $(".default_address").on('click', function () {
             var arr = $(this).attr('id');
+            var primary = $('.primary-btn').val();
             $.ajax({
                 url: '<?= Yii::$app->homeUrl; ?>settings/change-default-address',
                 type: "POST",
                 data: {id: arr},
                 success: function (data) {
                     if (data != 0) {
+                        $('.primary-btn').val(arr);
                         $('#primary_address-' + arr).text('Primary');
                         $('#primary_address-' + data).text('Set as primary');
+                        $("#delete_btn-" + primary).removeClass("option_btn");
+                        $('#delete_btn-' + arr).addClass("option_btn");
+                        $("#edit_btn-" + primary).removeClass("option_btn");
+                        $('#edit_btn-' + arr).addClass("option_btn");
                     }
                 }
             });
