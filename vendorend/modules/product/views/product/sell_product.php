@@ -68,6 +68,7 @@ use yii\helpers\Html;
                     $this->render('_form', [
                         'model' => $model,
                         'id' => $id,
+                        'vendor_address' => $vendor_address,
                     ])
                     ?>
                 </div>

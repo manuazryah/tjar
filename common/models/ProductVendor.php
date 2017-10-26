@@ -42,6 +42,9 @@ class ProductVendor extends \yii\db\ActiveRecord {
         return 'product_vendor';
     }
 
+    public $free_shipping = false;
+    public $courier_handover = true;
+
     /**
      * @inheritdoc
      */
@@ -73,8 +76,8 @@ class ProductVendor extends \yii\db\ActiveRecord {
             'offer_note' => 'Offer Note',
             'handling_time' => 'Handling Time',
             'pick_up_location' => 'Pick Up Location',
-            'free_shipping' => 'Free Shipping',
-            'courier_handover' => 'Courier Handover',
+            'free_shipping' => ' Free Shipping (You will pay for item shipping)',
+            'courier_handover' => 'Item Pick-Up (Collection)',
             'conditions' => 'Conditions',
             'offer_price' => 'Offer Price',
             'full_fill' => 'Full Fill',

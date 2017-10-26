@@ -127,12 +127,14 @@ AppAsset::register($this);
                             <ul class="dropdown-menu user-profile-menu list-unstyled">
 
                                 <li>
-                                    <?= Html::a('<i class="fa-wrench"></i>Change Password', ['/admin/admin-users/change-password'], ['class' => 'title']) ?>
+                                    <?= Html::a('<i class="fa-pencil"></i>Account Settings', ['/admin/admin-users/update?id=' . Yii::$app->user->identity->id], ['class' => 'title']) ?>
                                 </li>
                                 <li>
-                                    <?= Html::a('<i class="fa-pencil"></i>Edit Profile', ['/admin/admin-users/update?id=' . Yii::$app->user->identity->id], ['class' => 'title']) ?>
+                                    <?= Html::a('<i class="fa-wrench"></i>Locations', ['/settings/locations'], ['class' => 'title']) ?>
                                 </li>
-
+                                <li>
+                                    <?= Html::a('<i class="fa-wrench"></i>Change Password', ['/admin/admin-users/change-password'], ['class' => 'title']) ?>
+                                </li>
                                 <?php
                                 echo '<li class="last">'
                                 . Html::beginForm(['/site/logout'], 'post') . '<a>'

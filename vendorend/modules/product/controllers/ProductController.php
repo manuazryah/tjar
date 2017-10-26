@@ -22,6 +22,7 @@ class ProductController extends \yii\web\Controller {
 
     public function actionSellProduct($id) {
         $model = new ProductVendor();
+        $vendor_address = \common\models\Locations::find()->where(['vendor_id' => Yii::$app->user->identity->id])->orderBy(['(dafault_address)' => SORT_DESC])->all();
         $product_model = Products::find()->where(['id' => $id])->one();
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
 //            Yii::$app->SetValues->Attributes($model);
@@ -31,6 +32,7 @@ class ProductController extends \yii\web\Controller {
         }
         return $this->render('sell_product', [
                     'product_model' => $product_model,
+                    'vendor_address' => $vendor_address,
                     'model' => $model,
                     'id' => $id,
         ]);
