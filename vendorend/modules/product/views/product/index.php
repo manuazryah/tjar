@@ -41,6 +41,25 @@ use yii\widgets\ListView;
         opacity: 2;
         color: white;
     }
+    
+    .view_detail{
+        opacity: 0;
+        position: absolute;
+        bottom: 116px;
+        left: 46px;
+        transition: all 5ms;
+        z-index: 2;
+        background: #0070CC;
+        color: white;
+        border: #0070CC;
+        padding: 8px 10px;
+        margin-left: 31px;
+    }
+    .album-image:hover .view_detail{
+        opacity: 2;
+        color: white;
+    }
+
 </style>
 <section class="gallery-env">
 
