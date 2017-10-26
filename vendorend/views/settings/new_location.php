@@ -3,6 +3,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use kartik\depdrop\DepDrop;
+use yii\helpers\Url;
+
+//$model->first_name = 'Manu';
 ?>
 <style>
     .panel{
@@ -18,31 +23,48 @@ use yii\widgets\ActiveForm;
         <div class="col-md-6">
             <div class="new-address-box">
                 <?php $form = ActiveForm::begin(); ?>
-
                 <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
-                    <?= $form->field($model, 'city')->dropDownList(['1' => 'city1', '2' => 'city2']) ?>
-                </div>
-                <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
-                    <?= $form->field($model, 'street')->dropDownList(['1' => 'street1', '2' => 'street2']) ?>
-                </div>
-                <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
-                    <?= $form->field($model, 'building_no')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'first_name')->textInput(['maxlength' => true, 'placeholder' => "First Name"])->label(FALSE) ?>
 
                 </div>
                 <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
-                    <?= $form->field($model, 'mobile_no')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'last_name')->textInput(['maxlength' => true, 'placeholder' => "Last Name"])->label(FALSE) ?>
 
                 </div>
                 <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
-                    <?= $form->field($model, 'landline')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'city')->dropDownList(ArrayHelper::map(common\models\City::find()->all(), 'id', 'city_name'), ['prompt' => 'City'])->label(FALSE) ?>
+                </div>
+                <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+                    <?php
+                    echo $form->field($model, 'street')->widget(DepDrop::classname(), [
+                        'options' => ['id' => 'locations-street'],
+//                        'data' => ArrayHelper::map(\common\models\ProductCategory::find()->where(['category_id' => $model->main_category_id])->all(), 'id', 'subcategory_name'),
+                        'pluginOptions' => [
+                            'depends' => ['locations-city'],
+                            'placeholder' => 'Select...',
+                            'url' => Url::to(['/settings/streets'])
+                        ]
+                    ])->label(FALSE);
+                    ?>
+                </div>
+                <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+                    <?= $form->field($model, 'building_no')->textInput(['maxlength' => true, 'placeholder' => "Building No"])->label(FALSE) ?>
 
                 </div>
                 <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
-                    <?= $form->field($model, 'postbox_no')->textInput() ?>
+                    <?= $form->field($model, 'mobile_no')->textInput(['maxlength' => true, 'placeholder' => "Mobile No"])->label(FALSE) ?>
 
                 </div>
                 <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
-                    <?= $form->field($model, 'dafault_address')->checkBox() ?>
+                    <?= $form->field($model, 'landline')->textInput(['maxlength' => true, 'placeholder' => "Land Line"])->label(FALSE) ?>
+
+                </div>
+                <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+                    <?= $form->field($model, 'postbox_no')->textInput(['placeholder' => "Postbox No"])->label(FALSE) ?>
+
+                </div>
+                <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+                    <?= $form->field($model, 'dafault_address')->checkBox()->label(FALSE) ?>
 
                 </div>
                 <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>

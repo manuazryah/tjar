@@ -20,24 +20,22 @@ use Yii;
  * @property Country $country
  * @property Street[] $streets
  */
-class City extends \yii\db\ActiveRecord
-{
+class City extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'city';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['country_id', 'status', 'CB', 'UB'], 'integer'],
-            [['CB', 'UB'], 'required'],
+            [['city_name', 'city_name_arabic'], 'required'],
             [['DOC', 'DOU'], 'safe'],
             [['city_name', 'city_name_arabic'], 'string', 'max' => 100],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
@@ -47,11 +45,10 @@ class City extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
-            'country_id' => 'Country ID',
+            'country_id' => 'Country',
             'city_name' => 'City Name',
             'city_name_arabic' => 'City Name Arabic',
             'status' => 'Status',
@@ -65,16 +62,15 @@ class City extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCountry()
-    {
+    public function getCountry() {
         return $this->hasOne(Country::className(), ['id' => 'country_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getStreets()
-    {
+    public function getStreets() {
         return $this->hasMany(Street::className(), ['city_id' => 'id']);
     }
+
 }

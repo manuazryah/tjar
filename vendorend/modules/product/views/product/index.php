@@ -10,19 +10,34 @@ use yii\widgets\ListView;
     .summary{
         padding-left: 15px;
     }
-    .sell-btn{
+    .sell-btn-div{
         opacity: 0;
         position: absolute;
-        bottom: 75px;
-        left: 30px;
+        bottom: -52px;
+        /* left: 30px; */
+        right: 0px;
         transition: all 5ms;
-        z-index: 2;
-        background: #0070CC;
+        z-index: 5;
+        background: #ffffff;
         color: white;
-        border: #0070CC;
-        padding: 8px 10px;
+        border: #ffffff;
+        padding: 18px 10px;
+        background-color: white;
+        margin: 0 auto;
+        left: 0px;
+        right: 0px;
+        text-align: center;
     }
-    .album-image:hover .sell-btn{
+    .sell-btn{
+        background: #2196F3;
+        padding: 10px 60px;
+        font-weight: 600;
+        color: white;
+    }
+    .sell-btn:hover{
+        color: white;
+    }
+    .product-div:hover .sell-btn-div{
         opacity: 2;
         color: white;
     }

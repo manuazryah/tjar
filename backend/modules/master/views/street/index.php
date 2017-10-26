@@ -2,15 +2,20 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\bootstrap\Modal;
+use yii\widgets\Pjax;
+use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
+use common\models\City;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\StreetSearch */
+/* @var $searchModel common\models\ProductMainCategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Streets';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="street-index">
+<div class="product-main-category-index">
 
     <div class="row">
         <div class="col-md-12">
@@ -23,38 +28,79 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="panel-body">
 
-                    
-                                                <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-                    
+
+                    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 
-                    <?=  Html::a('<i class="fa-th-list"></i><span> Create Street</span>', ['create'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
-                    <button class="btn btn-white" id="search-option" style="float: right;">
-                        <i class="linecons-search"></i>
-                        <span>Search</span>
-                    </button>
+
+                    <?= Html::button('<i class="fa-th-list"></i><span> Create New</span>', ['value' => Url::to('create'), 'class' => 'btn btn-warning  btn-icon btn-icon-standalone modalButton']) ?>
+                    <?php
+                    Modal::begin([
+                        'header' => '',
+                        'id' => 'modal',
+                        'size' => 'modal-lg',
+                    ]);
+                    echo "<div id = 'modalContent'></div>";
+                    Modal::end();
+                    ?>
                     <div class="table-responsive" style="border: none">
-                                                                            <?= GridView::widget([
+                        <button class="btn btn-white" id="search-option" style="float: right;">
+                            <i class="linecons-search"></i>
+                            <span>Search</span>
+                        </button>
+                        <?php Pjax::begin(); ?>
+                        <?=
+                        GridView::widget([
                             'dataProvider' => $dataProvider,
                             'filterModel' => $searchModel,
-        'columns' => [
-                            ['class' => 'yii\grid\SerialColumn'],
-
-                                        'id',
-            'country_id',
-            'city_id',
-            'street_name',
-            'street_name_arabic',
-            // 'status',
-            // 'CB',
-            // 'UB',
-            // 'DOC',
-            // 'DOU',
-
-                            ['class' => 'yii\grid\ActionColumn'],
+                            'columns' => [
+                                ['class' => 'yii\grid\SerialColumn'],
+//                                'id',
+                                [
+                                    'attribute' => 'city_id',
+                                    'filter' => ArrayHelper::map(City::find()->all(), 'id', 'city_name'),
+                                    'value' => 'city.city_name'
+                                ],
+                                'street_name',
+                                'street_name_arabic',
+                                [
+                                    'attribute' => 'status',
+                                    'filter' => ['1' => 'Enable', '0' => 'Disable'],
+                                    'value' => function($data) {
+                                        return $data->status == 1 ? 'Enable' : 'Disable';
+                                    }
+                                ],
+                                [
+                                    'class' => 'yii\grid\ActionColumn',
+//                                    'contentOptions' => ['style' => 'width:100px;'],
+                                    'header' => 'Actions',
+                                    'template' => '{update}{delete}',
+                                    'buttons' => [
+                                        'update' => function ($url, $model) {
+                                            return Html::button('<i class="fa fa-pencil"></i>', ['value' => Url::to(['update', 'id' => $model->id]), 'class' => 'modalButton edit-btn']);
+                                        },
+                                        'delete' => function ($url, $model) {
+                                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                                                        'title' => Yii::t('app', 'delete'),
+                                                        'class' => '',
+                                                        'data' => [
+                                                            'confirm' => 'Are you sure you want to delete this item?',
+                                                        ],
+                                            ]);
+                                        },
+                                    ],
+                                    'urlCreator' => function ($action, $model) {
+                                        if ($action === 'delete') {
+                                            $url = Url::to(['del', 'id' => $model->id]);
+                                            return $url;
+                                        }
+                                    }
+                                ],
                             ],
-                            ]); ?>
-                                                                    </div>
+                        ]);
+                        ?>
+                        <?php Pjax::end(); ?>
+                    </div>
                 </div>
             </div>
         </div>

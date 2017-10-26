@@ -7,6 +7,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Locations;
+use yii\helpers\Json;
 
 class SettingsController extends \yii\web\Controller {
 
@@ -90,6 +91,20 @@ class SettingsController extends \yii\web\Controller {
                 echo 0;
             }
         }
+    }
+
+    public function actionStreets() {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $city_id = $parents[0];
+                $out = \common\models\Street::getStreetList($city_id);
+                echo Json::encode(['output' => $out, 'selected' => '']);
+                return;
+            }
+        }
+        echo Json::encode(['output' => '', 'selected' => '']);
     }
 
 }

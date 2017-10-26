@@ -12,13 +12,12 @@ use yii\filters\VerbFilter;
 /**
  * StreetController implements the CRUD actions for Street model.
  */
-class StreetController extends Controller
-{
+class StreetController extends Controller {
+
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,14 +32,13 @@ class StreetController extends Controller
      * Lists all Street models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new StreetSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -49,10 +47,9 @@ class StreetController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -61,15 +58,18 @@ class StreetController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Street();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->country_id = 1;
+            if (Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+                Yii::$app->getSession()->setFlash('success', 'Street Created Successfully');
+            }
+            return $this->redirect(['index']);
         } else {
-            return $this->render('create', [
-                'model' => $model,
+            return $this->renderAjax('create', [
+                        'model' => $model,
             ]);
         }
     }
@@ -80,15 +80,17 @@ class StreetController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if (Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+                Yii::$app->getSession()->setFlash('success', 'Street Updated Successfully');
+            }
+            return $this->redirect(['index']);
         } else {
-            return $this->render('update', [
-                'model' => $model,
+            return $this->renderAjax('update', [
+                        'model' => $model,
             ]);
         }
     }
@@ -99,9 +101,10 @@ class StreetController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+    public function actionDel($id) {
+        if ($this->findModel($id)->delete()) {
+            Yii::$app->getSession()->setFlash('error', 'Street Removed Successfully');
+        }
 
         return $this->redirect(['index']);
     }
@@ -113,12 +116,12 @@ class StreetController extends Controller
      * @return Street the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Street::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

@@ -42,8 +42,8 @@ class ProductVendor extends \yii\db\ActiveRecord {
         return 'product_vendor';
     }
 
-    public $free_shipping = false;
-    public $courier_handover = true;
+//    public $free_shipping = false;
+//    public $courier_handover = true;
 
     /**
      * @inheritdoc

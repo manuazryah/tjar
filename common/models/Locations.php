@@ -42,7 +42,7 @@ class Locations extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['vendor_id', 'country', 'city', 'street', 'mobile_no', 'landline', 'dafault_address', 'status', 'CB', 'UB'], 'integer'],
-            [['city', 'mobile_no', 'street', 'building_no'], 'required'],
+            [['first_name', 'last_name', 'city', 'mobile_no', 'street', 'building_no'], 'required'],
             [['DOC', 'DOU'], 'safe'],
             [['first_name', 'last_name', 'postbox_no'], 'string', 'max' => 100],
             [['building_no'], 'string', 'max' => 300],

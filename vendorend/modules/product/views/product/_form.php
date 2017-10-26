@@ -53,6 +53,7 @@ use yii\widgets\ActiveForm;
     $location_id = common\models\Locations::find()->where(['dafault_address' => 1])->one();
     $model->pick_up_location = $location_id->id;
     $model->full_fill = '0';
+    $model->courier_handover = '1';
     ?>
     <?= $form->field($model, 'handling_time')->dropDownList(['1' => 'Same Day', '2' => '2 Business days', '3' => '3 Business days'], ['prompt' => 'Please select from below']) ?>
 
