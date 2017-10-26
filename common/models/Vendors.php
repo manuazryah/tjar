@@ -10,12 +10,10 @@ use yii\db\ActiveRecord;
  * This is the model class for table "vendors".
  *
  * @property integer $id
- * @property string $name
+ * @property string $first_name
+ * @property string $last_name
  * @property string $username
  * @property string $password
- * @property string $address
- * @property string $city
- * @property integer $post_code
  * @property string $phone_number
  * @property string $mobile_number
  * @property string $email
@@ -35,6 +33,9 @@ class Vendors extends ActiveRecord implements IdentityInterface {
         public $created_at;
         public $updated_at;
         public $confirm_pasword;
+        public $old_password;
+        public $new_password;
+        public $repeat_password;
 
         public static function tableName() {
                 return 'vendors';
@@ -45,14 +46,19 @@ class Vendors extends ActiveRecord implements IdentityInterface {
          */
         public function rules() {
                 return [
-                        [['post_code', 'status', 'CB', 'UB'], 'integer'],
+                        [['status', 'CB', 'UB'], 'integer'],
                         [['DOC', 'DOU'], 'safe'],
-                        [['name'], 'string', 'max' => 280],
-                        [['username', 'password', 'address', 'city', 'phone_number', 'mobile_number', 'email'], 'string', 'max' => 255],
+                        [['first_name', 'last_name'], 'string', 'max' => 280],
+                        [['username', 'password', 'phone_number', 'mobile_number', 'email'], 'string', 'max' => 255],
                         [['bank_account_details'], 'string'],
                         [['email'], 'email'],
                         [['username', 'password'], 'required', 'on' => 'login'],
                         [['password'], 'validatePassword', 'on' => 'login'],
+                        [['email'], 'required', 'on' => 'update-email'],
+                        [['phone_number', 'mobile_number'], 'required', 'on' => 'update-contact'],
+                        [['old_password', 'new_password', 'repeat_password'], 'required', 'on' => 'change-pwd'],
+                        ['repeat_password', 'compare', 'compareAttribute' => 'new_password', 'message' => "Passwords don't match", 'on' => 'change-pwd'],
+                        [['first_name', 'last_name', 'username', 'password', 'phone_number', 'email'], 'required', 'on' => 'create'],
                 ];
         }
 
@@ -73,14 +79,12 @@ class Vendors extends ActiveRecord implements IdentityInterface {
         public function attributeLabels() {
                 return [
                     'id' => 'ID',
-                    'name' => 'Name',
+                    'first_name' => 'First Name',
+                    'last_name' => 'Last Name',
                     'username' => 'Username',
                     'password' => 'Password',
-                    'address' => 'Address',
-                    'city' => 'City',
-                    'post_code' => 'Post Code',
                     'phone_number' => 'Phone Number',
-                    'mobile_number' => 'Alternate Number',
+                    'mobile_number' => 'Mobile Number',
                     'email' => 'Email',
                     'bank_account_details' => 'Account Details',
                     'status' => 'Status',

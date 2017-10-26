@@ -1,13 +1,7 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of SetValues
+ * Description of SetLnguage
  *
  * @author user
  */
@@ -44,7 +38,7 @@ class SetLanguage extends Component {
                 $cookie = new Cookie([
                     'name' => 'language',
                     'value' => $langauge,
-                    'expire' => time() + 86400 * 365,
+                    'expire' => time() + 86400 * 1,
                 ]);
                 Yii::$app->getResponse()->getCookies()->add($cookie);
         }

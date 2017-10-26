@@ -19,12 +19,10 @@ class m171020_073728_create_vendor_table extends Migration {
 
                 $this->createTable('vendors', [
                     'id' => $this->primaryKey(),
-                    'name' => $this->string(280),
+                    'first_name' => $this->string(280),
+                    'last_name' => $this->string(280),
                     'username' => $this->string(),
                     'password' => $this->string(),
-                    'address' => $this->string(),
-                    'city' => $this->string(),
-                    'post_code' => $this->integer(),
                     'phone_number' => $this->string(),
                     'mobile_number' => $this->string(),
                     'email' => $this->string(),
@@ -36,7 +34,7 @@ class m171020_073728_create_vendor_table extends Migration {
                     'DOC' => $this->dateTime(),
                     'DOU' => $this->timestamp(),
                 ]);
-                $this->insert('vendors', ['id' => '1', 'name' => 'Testing', 'username' => '123', 'password' => '$2y$13$RS.hkV5A0BeKtCGGzql6yO7lZ2MblwFkNxxixzsf3NbuZwFphLhyi', 'address' => '', 'city' => '', 'post_code' => '', 'phone_number' => '', 'mobile_number' => '', 'email' => '', 'auth_key' => '', 'bank_account_details' => '', 'status' => '1', 'CB' => '1', 'UB' => '1', 'DOC' => '2017-10-20', 'DOU' => '2017-10-20 16:11:28']);
+                $this->insert('vendors', ['id' => '1', 'first_name' => 'Testing', 'last_name' => '', 'username' => '123', 'password' => '$2y$13$RS.hkV5A0BeKtCGGzql6yO7lZ2MblwFkNxxixzsf3NbuZwFphLhyi', 'phone_number' => '', 'mobile_number' => '', 'email' => '', 'auth_key' => '', 'bank_account_details' => '', 'status' => '1', 'CB' => '1', 'UB' => '1', 'DOC' => '2017-10-20', 'DOU' => '2017-10-20 16:11:28']);
         }
 
         /**

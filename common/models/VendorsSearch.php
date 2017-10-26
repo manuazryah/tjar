@@ -17,8 +17,8 @@ class VendorsSearch extends Vendors {
          */
         public function rules() {
                 return [
-                        [['id', 'post_code', 'status', 'CB', 'UB'], 'integer'],
-                        [['name', 'username', 'password', 'address', 'city', 'phone_number', 'mobile_number', 'email', 'DOC', 'DOU'], 'safe'],
+                        [['id', 'status', 'CB', 'UB'], 'integer'],
+                        [['first_name', 'last_name', 'username', 'password', 'phone_number', 'mobile_number', 'email', 'DOC', 'DOU'], 'safe'],
                 ];
         }
 
@@ -57,7 +57,6 @@ class VendorsSearch extends Vendors {
                 // grid filtering conditions
                 $query->andFilterWhere([
                     'id' => $this->id,
-                    'post_code' => $this->post_code,
                     'status' => $this->status,
                     'CB' => $this->CB,
                     'UB' => $this->UB,
@@ -65,11 +64,10 @@ class VendorsSearch extends Vendors {
                     'DOU' => $this->DOU,
                 ]);
 
-                $query->andFilterWhere(['like', 'name', $this->name])
+                $query->andFilterWhere(['like', 'first_name', $this->first_name])
+                        ->andFilterWhere(['like', 'last_name', $this->last_name])
                         ->andFilterWhere(['like', 'username', $this->username])
                         ->andFilterWhere(['like', 'password', $this->password])
-                        ->andFilterWhere(['like', 'address', $this->address])
-                        ->andFilterWhere(['like', 'city', $this->city])
                         ->andFilterWhere(['like', 'phone_number', $this->phone_number])
                         ->andFilterWhere(['like', 'mobile_number', $this->mobile_number])
                         ->andFilterWhere(['like', 'email', $this->email]);

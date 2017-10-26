@@ -16,7 +16,9 @@ use yii\widgets\ActiveForm;
         ?>
         <?php $form = ActiveForm::begin(); ?>
 
-        <div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+        <div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'first_name')->textInput(['maxlength' => true]) ?>
+
+        </div><div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
 
         </div><div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
@@ -26,13 +28,8 @@ use yii\widgets\ActiveForm;
 
                 </div>
         <?php } ?>
-        <div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'address')->textarea(['rows' => 6]) ?>
 
-        </div><div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
-
-        </div><div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'post_code')->textInput() ?>
-
-        </div><div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'phone_number')->textInput(['maxlength' => true]) ?>
+        <div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'phone_number')->textInput(['maxlength' => true]) ?>
 
         </div><div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'mobile_number')->textInput(['maxlength' => true]) ?>
 

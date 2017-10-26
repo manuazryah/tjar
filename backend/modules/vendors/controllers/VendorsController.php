@@ -71,7 +71,7 @@ class VendorsController extends Controller {
          */
         public function actionCreate() {
                 $model = new Vendors();
-
+                $model->setScenario('create');
                 if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
                         $model->password = Yii::$app->security->generatePasswordHash($model->password);
                         if ($model->save()) {
@@ -92,6 +92,7 @@ class VendorsController extends Controller {
          */
         public function actionUpdate($id) {
                 $model = $this->findModel($id);
+                $model->setScenario('create');
                 if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
                         $model->password = Yii::$app->security->generatePasswordHash($model->password);
                         if ($model->save()) {
