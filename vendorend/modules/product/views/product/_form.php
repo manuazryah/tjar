@@ -61,10 +61,10 @@ use yii\widgets\ActiveForm;
     <?php foreach ($vendor_address as $value) { ?>
         <div class="col-md-12 pick-up-head <?= $value->dafault_address == 1 ? 'back-colr' : '' ?>" id="pick_up_head-<?= $value->id ?>">
             <div class="pick-up-address">
-                <i class="fa fa-map-marker" aria-hidden="true"></i>
-                <p><?= $value->first_name . '' . $value->last_name ?></p>
-                <p>Street : <?= $value->street ?></p>
-                <p>Phone  : <?= $value->mobile_no ?></p>
+                <i class="fa fa-map-marker" id="marker-<?= $value->id ?>" aria-hidden="true" style="<?= $value->dafault_address == 1 ? 'color:green' : 'color:red' ?>"></i>
+                <p style="<?= $value->dafault_address == 1 ? 'color:white' : 'color:black' ?>"><strong><?= $value->first_name . '' . $value->last_name ?></strong></p>
+                <p style="<?= $value->dafault_address == 1 ? 'color:white' : 'color:black' ?>">Street : <?= $value->street ?></p>
+                <p style="<?= $value->dafault_address == 1 ? 'color:white' : 'color:black' ?>">Phone  : <?= $value->mobile_no ?></p>
             </div>
         </div>
     <?php }
@@ -94,8 +94,13 @@ use yii\widgets\ActiveForm;
         $(".pick-up-head").on('click', function () {
             var str = $(this).attr('id');
             var ret = str.split("-");
+            var add = $('#productvendor-pick_up_location').val();
+            $("#marker-" + ret[1]).css("color", 'green');
+            $("#marker-" + add).css("color", 'red');
             $(".pick-up-head").removeClass("back-colr");
             $('#pick_up_head-' + ret[1]).addClass("back-colr");
+            $('#pick_up_head-' + ret[1] + ' p').css("color", "white");
+            $('#pick_up_head-' + add + ' p').css("color", "black");
             $('#productvendor-pick_up_location').val(ret[1]);
         });
 

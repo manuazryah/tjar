@@ -86,7 +86,9 @@ use yii\helpers\Html;
             });
         });
         $(".delete-default").on('click', function () {
-            var arr = $(this).attr('id');
+            var str = $(this).attr('id');
+            var arr = str.split("-");
+            alert(arr);
             $.ajax({
                 url: '<?= Yii::$app->homeUrl; ?>settings/delete-address',
                 type: "POST",
