@@ -105,6 +105,28 @@ class SearchTagController extends Controller {
         return $this->redirect(['index']);
     }
 
+    public function actionAjaxcreate() {
+        $model = new SearchTag();
+        if (Yii::$app->request->post()) {
+            $model->category = Yii::$app->request->post()['category'];
+            $model->subcategory = Yii::$app->request->post()['subcat'];
+            $model->tag_name = Yii::$app->request->post()['tag_name'];
+            $model->tag_name_arabic = Yii::$app->request->post()['tag_name_arabic'];
+            $model->status = Yii::$app->request->post()['status'];
+            if (Yii::$app->SetValues->Attributes($model) && $model->save()) {
+                echo json_encode(array("con" => "1", 'id' => $model->id, 'tag' => $model->tag_name)); //Success
+                exit;
+            } else {
+//                    var_dump($model->getErrors());
+                echo '2';
+                exit;
+            }
+        }
+        return $this->renderAjax('ajaxcreate', [
+                    'model' => $model,
+        ]);
+    }
+
     /**
      * Finds the SearchTag model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

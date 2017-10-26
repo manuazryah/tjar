@@ -9,6 +9,11 @@ $(function () {
                 .find('#modalContent')
                 .load($(this).attr("value"));
     });
+    $('.searchtag').click(function () {
+        $('#modal_searchtag').modal('show')
+                .find('#modalContent')
+                .load($(this).attr("value"));
+    });
 });
 
 
