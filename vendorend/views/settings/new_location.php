@@ -8,6 +8,11 @@ use kartik\depdrop\DepDrop;
 use yii\helpers\Url;
 
 //$model->first_name = 'Manu';
+if ($model->isNewRecord) {
+    $model->first_name = $vendors->first_name;
+    $model->last_name = $vendors->last_name;
+    $model->mobile_no = $vendors->mobile_number;
+}
 ?>
 <style>
     .panel{
