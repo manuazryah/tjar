@@ -35,10 +35,10 @@ class ProductController extends \yii\web\Controller {
         $vendor_address = \common\models\Locations::find()->where(['vendor_id' => Yii::$app->user->identity->id])->orderBy(['(dafault_address)' => SORT_DESC])->all();
         $product_model = Products::find()->where(['id' => $id])->one();
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
-//            Yii::$app->SetValues->Attributes($model);
             $model->vendor_id = Yii::$app->user->identity->id;
-            $model->save();
-            return $this->redirect('product-list');
+            if ($model->save()) {
+                return $this->redirect('product-list');
+            }
         }
         return $this->render('sell_product', [
                     'product_model' => $product_model,
@@ -46,6 +46,35 @@ class ProductController extends \yii\web\Controller {
                     'model' => $model,
                     'id' => $id,
         ]);
+    }
+
+    /**
+     * Displays a single ProductVendor model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id) {
+        $model = ProductVendor::find()->where(['id' => $id])->one();
+        $product = Products::find()->where(['id' => $model->product_id])->one();
+        return $this->renderAjax('view', [
+                    'model' => $model,
+                    'product' => $product,
+        ]);
+    }
+
+    /**
+     * Deletes an existing Filter model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDel($id) {
+        $model = ProductVendor::find()->where(['id' => $id])->one();
+        if ($model->delete()) {
+            Yii::$app->getSession()->setFlash('error', 'Product Removed Successfully');
+        }
+
+        return $this->redirect(['index']);
     }
 
     public function actionAjaxchangeProduct() {

@@ -4,6 +4,9 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use common\models\Products;
+use yii\bootstrap\Modal;
+use yii\widgets\Pjax;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ProductsSearch */
@@ -24,11 +27,22 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 </div>
                 <div class="panel-body">
+                    <?php
+                    Modal::begin([
+                        'header' => '',
+                        'id' => 'modal',
+                        'size' => 'modal-lg',
+                    ]);
+                    echo "<div id = 'modalContent'></div>";
+                    Modal::end();
+                    ?>
                     <div class="table-responsive" style="border: none">
+
                         <button class="btn btn-white" id="search-option" style="float: right;">
                             <i class="linecons-search"></i>
                             <span>Search</span>
                         </button>
+                        <?php Pjax::begin(); ?>
                         <?=
                         GridView::widget([
                             'dataProvider' => $dataProvider,
@@ -70,10 +84,36 @@ $this->params['breadcrumbs'][] = $this->title;
                                         return \yii\helpers\Html::dropDownList('status', null, ['1' => 'Enabled', '0' => 'Disabled'], ['options' => [$data->status => ['Selected' => 'selected']], 'class' => 'form-control product_form', 'id' => 'product_status_' . $data->id,]);
                                     },
                                 ],
-                                ['class' => 'yii\grid\ActionColumn'],
+                                [
+                                    'class' => 'yii\grid\ActionColumn',
+//                                    'contentOptions' => ['style' => 'width:100px;'],
+                                    'header' => 'Actions',
+                                    'template' => '{view}{delete}',
+                                    'buttons' => [
+                                        'view' => function ($url, $model) {
+                                            return Html::button('<i class="fa fa-eye"></i>', ['value' => Url::to(['view', 'id' => $model->id]), 'class' => 'modalButton edit-btn']);
+                                        },
+                                        'delete' => function ($url, $model) {
+                                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                                                        'title' => Yii::t('app', 'delete'),
+                                                        'class' => '',
+                                                        'data' => [
+                                                            'confirm' => 'Are you sure you want to delete this item?',
+                                                        ],
+                                            ]);
+                                        },
+                                    ],
+                                    'urlCreator' => function ($action, $model) {
+                                        if ($action === 'delete') {
+                                            $url = Url::to(['del', 'id' => $model->id]);
+                                            return $url;
+                                        }
+                                    }
+                                ],
                             ],
                         ]);
                         ?>
+                        <?php Pjax::end(); ?>
                     </div>
                 </div>
             </div>

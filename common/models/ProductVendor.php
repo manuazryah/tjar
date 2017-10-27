@@ -51,6 +51,7 @@ class ProductVendor extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['qty', 'handling_time', 'price'], 'required'],
+            [['sku'], 'unique'],
             [['product_id', 'vendor_id', 'qty', 'sku', 'handling_time', 'pick_up_location', 'free_shipping', 'courier_handover', 'full_fill', 'status', 'CB', 'UB'], 'integer'],
             [['price', 'offer_price'], 'number'],
             [['offer_note', 'conditions'], 'string'],
