@@ -41,6 +41,7 @@ class ProductMainCategory extends \yii\db\ActiveRecord {
             [['status', 'CB', 'UB'], 'integer'],
             [['DOC', 'DOU'], 'safe'],
             [['name', 'canonical_name', 'name_arabic'], 'string', 'max' => 100],
+            [['canonical_name'], 'unique'],
         ];
     }
 

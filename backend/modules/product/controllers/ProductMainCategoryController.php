@@ -104,6 +104,32 @@ class ProductMainCategoryController extends Controller {
         return $this->redirect(['index']);
     }
 
+    public function actionAjaxcreate() {
+        $model = new ProductMainCategory();
+        if (Yii::$app->request->post()) {
+            $model->name = Yii::$app->request->post()['name'];
+            $model->canonical_name = Yii::$app->request->post()['canonical_name'];
+            $model->name_arabic = Yii::$app->request->post()['name_arabic'];
+            $model->comments = Yii::$app->request->post()['comments'];
+            $model->status = Yii::$app->request->post()['status'];
+            if (Yii::$app->SetValues->Attributes($model) && $model->save()) {
+                echo json_encode(array("con" => "1", 'id' => $model->id, 'name' => $model->name)); //Success
+                exit;
+            } else {
+                $array = $model->getErrors();
+             $error =  isset($array['canonical_name']['0'])? $array['canonical_name']['0']: 'Internal error';
+                   
+                //                    var_dump($model->getErrors());
+                echo json_encode(array("con" => "2", 'error' =>$error));
+//                echo '2';
+                exit;
+            }
+        }
+        return $this->renderAjax('ajaxcreate', [
+                    'model' => $model,
+        ]);
+    }
+
     /**
      * Finds the ProductMainCategory model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

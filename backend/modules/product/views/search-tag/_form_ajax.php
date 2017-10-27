@@ -71,7 +71,7 @@ use yii\helpers\Url;
 //               
                         $('#modal_searchtag').modal('toggle');
                     } else {
-                        alert($data.msg['category'] + ' or ' + $data.msg['category_code']);
+                        alert('internal error');
                     }
 
                 }, error: function () {

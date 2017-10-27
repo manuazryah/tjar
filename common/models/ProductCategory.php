@@ -46,6 +46,7 @@ class ProductCategory extends \yii\db\ActiveRecord {
             [['DOC', 'DOU'], 'safe'],
             [['category_name', 'canonical_name', 'category_name_arabic'], 'string', 'max' => 100],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductMainCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [['canonical_name'], 'unique'],
         ];
     }
 

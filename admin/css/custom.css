@@ -270,6 +270,7 @@ table.table tr td:last-child a {
 	position: absolute;
 	bottom: 5px;
 	right: 17px;
+        margin-bottom: 2px;
 }
 .btn.btn-white:hover {
 	background-color: #f9f9f9;

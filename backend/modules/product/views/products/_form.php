@@ -14,6 +14,21 @@ use common\models\SearchTag;
 /* @var $model common\models\Products */
 /* @var $form yii\widgets\ActiveForm */
 ?>
+<style>
+    .select2product{
+        padding: 0px !important;
+        margin: 0px;
+        font-family: sans-serif;
+        font-size: 100%;
+        color: #666;
+        outline: 0;
+        /*border: 0;*/
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        background: transparent !important;
+    }
+
+</style>
 
 
 <ul class="nav nav-tabs hide_ul">
@@ -33,7 +48,17 @@ use common\models\SearchTag;
         <div class="tab-pane active" id="tab1">
             <div class="product-main-form">
                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-                    <?= $form->field($model, 'main_category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category']) ?>
+                    <?= $form->field($model, 'main_category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category', 'class' => 'form-control select2product']) ?>
+                    <label  value ='<?= Url::to('../product-main-category/ajaxcreate') ?>' class="btn btn-icon btn-white extra_btn main_cat">Add main category</label>
+                    <?php
+                    Modal::begin([
+                        'header' => '',
+                        'id' => 'modal_maincat',
+                        'size' => 'modal-lg',
+                    ]);
+                    echo "<div id = 'modalContent'></div>";
+                    Modal::end();
+                    ?>
                 </div>
                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
                     <?php
@@ -47,6 +72,16 @@ use common\models\SearchTag;
                         ]
                     ]);
                     ?>
+                    <label  value ='<?= Url::to('../product-category/ajaxcreate') ?>' class="btn btn-icon btn-white extra_btn ajax_category">Add category</label>
+                    <?php
+                    Modal::begin([
+                        'header' => '',
+                        'id' => 'modal_category',
+                        'size' => 'modal-lg',
+                    ]);
+                    echo "<div id = 'modalContent'></div>";
+                    Modal::end();
+                    ?>
                 </div>
                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
                     <?php
@@ -59,6 +94,16 @@ use common\models\SearchTag;
                             'url' => Url::to(['/product/product-sub-category/subcat'])
                         ]
                     ]);
+                    ?>
+                    <label  value ='<?= Url::to('../product-sub-category/ajaxcreate') ?>' class="btn btn-icon btn-white extra_btn sub_category">Add Sub category</label>
+                    <?php
+                    Modal::begin([
+                        'header' => '',
+                        'id' => 'modal_subcategory',
+                        'size' => 'modal-lg',
+                    ]);
+                    echo "<div id = 'modalContent'></div>";
+                    Modal::end();
                     ?>
                 </div>
                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
@@ -85,6 +130,16 @@ use common\models\SearchTag;
                             'url' => Url::to(['/product/product-brand/brand-category'])
                         ]
                     ]);
+                    ?>
+                    <label  value ='<?= Url::to('../product-brand/ajaxcreate') ?>' class="btn btn-icon btn-white extra_btn product_brand">Add Brand</label>
+                    <?php
+                    Modal::begin([
+                        'header' => '',
+                        'id' => 'modal_brand',
+                        'size' => 'modal-lg',
+                    ]);
+                    echo "<div id = 'modalContent'></div>";
+                    Modal::end();
                     ?>
 
                 </div>
@@ -219,6 +274,14 @@ use common\models\SearchTag;
         });
         $("#product-search_tags_arabic").select2({
             placeholder: 'Choose product search Tag',
+            allowClear: true
+        }).on('select2-open', function ()
+        {
+            // Adding Custom Scrollbar
+            $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+        });
+        $("#products-main_category").select2({
+            placeholder: 'Choose Main Category',
             allowClear: true
         }).on('select2-open', function ()
         {

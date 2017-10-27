@@ -167,4 +167,41 @@ class ProductSubCategoryController extends Controller {
         echo Json::encode(['output' => '', 'selected' => '']);
     }
 
+    public function actionAjaxcreate() {
+        $model = new ProductSubCategory();
+        if (Yii::$app->request->post()) {
+//            main_category_id: , main_catname: , category_id: , cat_name: , subcategory_name: , canonical_name: , subcategory_name_arabic: , status: , comments: 
+            $model->main_category_id = Yii::$app->request->post()['main_category_id'];
+            $model->category_id = Yii::$app->request->post()['category_id'];
+            $model->subcategory_name = Yii::$app->request->post()['subcategory_name'];
+            $model->canonical_name = Yii::$app->request->post()['canonical_name'];
+            $model->subcategory_name_arabic = Yii::$app->request->post()['subcategory_name_arabic'];
+            $model->comments = Yii::$app->request->post()['comments'];
+            $model->status = Yii::$app->request->post()['status'];
+            $category = \common\models\ProductCategory::find()->where(['category_id' => $model->main_category_id])->all();
+            $subcategory = ProductSubCategory::find()->where(['category_id' => $model->category_id])->all();
+            foreach ($subcategory as $categry) {
+                $subcat .= '<option value="' . $categry->id . '">' . $categry->subcategory_name . '</option>';
+            }
+            foreach ($category as $categry) {
+                $cat .= '<option value="' . $categry->id . '">' . $categry->category_name . '</option>';
+            }
+            if (Yii::$app->SetValues->Attributes($model) && $model->save()) {
+                echo json_encode(array("con" => "1", 'id' => $model->id, 'field' => $subcat, 'field_category' => $cat, 'name' => $model->subcategory_name)); //Success
+                exit;
+            } else {
+                $array = $model->getErrors();
+                $error = isset($array['canonical_name']['0']) ? $array['canonical_name']['0'] : 'Internal error';
+
+//                                    var_dump($model->getErrors());
+                echo json_encode(array("con" => "2", 'error' => $error));
+//                echo '2';
+                exit;
+            }
+        }
+        return $this->renderAjax('ajaxcreate', [
+                    'model' => $model,
+        ]);
+    }
+
 }
