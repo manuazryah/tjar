@@ -46,24 +46,24 @@ use yii\helpers\Html;
     }
     .default-tool-tip{
         background: #eeeeee;
-        border: 1px solid;
+        border: 1px solid #d0d0d0;
         margin-top: 50px;
     }
     .default-tool-tip h4{
         padding-left: 19px;
         padding-bottom: 5px;
-        border-bottom: 1px solid #989898;
+        border-bottom: 1px solid #d0d0d0;
         color: black;
     }
     .tool-tip{
         opacity: 0;
         background: #eeeeee;
-        border: 1px solid;
+        border: 1px solid #d0d0d0;
     }
     .tool-tip h4{
         padding-left: 19px;
         padding-bottom: 5px;
-        border-bottom: 1px solid #989898;
+        border-bottom: 1px solid #d0d0d0;
         color: black;
     }
 </style>
@@ -92,7 +92,7 @@ use yii\helpers\Html;
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="panel-body">
-            <div class="col-md-6">
+            <div class="col-md-6" style="border-right: 1px solid #d0d0d0;">
                 <div class="sell-pro-div-offerleft">
                     <h4 class="sell-offer-heading">Offer Details</h4>
                     <?=
