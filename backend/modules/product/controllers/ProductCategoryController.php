@@ -140,6 +140,46 @@ class ProductCategoryController extends Controller {
         echo Json::encode(['output' => '', 'selected' => '']);
     }
 
+    public function actionCategory() {
+        if (yii::$app->request->isAjax) {
+            $main_cat = Yii::$app->request->post()['main_cat'];
+            if (isset($main_cat)) {
+                $categories = ProductCategory::find()->where(['category_id' => $main_cat])->all();
+                $val .= "<option value=''>Select</option>";
+                if ($categories) {
+                    foreach ($categories as $catgry) {
+                        $val .= "<option value='" . $catgry->id . "'>" . $catgry->category_name . "</option>";
+                    }
+                    echo json_encode(array("con" => "1", 'val' => $val)); //Success
+                    exit;
+                } else {
+                    echo json_encode(array("con" => "1", 'val' => $val)); //No Return
+                    exit;
+                }
+            } else {
+                echo 1; //Value Not Setted
+                exit;
+            }
+        }
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $cat_id = $parents[0];
+                $out = ProductCategory::getCatList($cat_id);
+                // the getSubCatList function will query the database based on the
+                // cat_id and return an array like below:
+                // [
+                //    ['id'=>'<sub-cat-id-1>', 'name'=>'<sub-cat-name1>'],
+                //    ['id'=>'<sub-cat_id_2>', 'name'=>'<sub-cat-name2>']
+                // ]
+                echo Json::encode(['output' => $out, 'selected' => '']);
+                return;
+            }
+        }
+        echo Json::encode(['output' => '', 'selected' => '']);
+    }
+
     public function actionAjaxcreate() {
         $model = new ProductCategory();
         if (Yii::$app->request->post()) {

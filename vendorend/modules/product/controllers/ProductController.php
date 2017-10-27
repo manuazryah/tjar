@@ -100,5 +100,15 @@ class ProductController extends \yii\web\Controller {
             }
         }
     }
+    public function actionDetails($id){
+        $vendor_address = \common\models\Locations::find()->where(['vendor_id' => Yii::$app->user->identity->id])->orderBy(['(dafault_address)' => SORT_DESC])->all();
+        $product_model = Products::find()->where(['id' => $id])->one();
+        
+        return $this->renderAjax('product_detail', [
+                    'product_model' => $product_model,
+                    'vendor_address' => $vendor_address,
+                    'id' => $id,
+        ]);
+    }
 
 }

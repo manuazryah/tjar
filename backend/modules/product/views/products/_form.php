@@ -48,7 +48,7 @@ use common\models\SearchTag;
         <div class="tab-pane active" id="tab1">
             <div class="product-main-form">
                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-                    <?= $form->field($model, 'main_category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category', 'class' => 'form-control select2product']) ?>
+                    <?= $form->field($model, 'main_category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category', 'class' => 'form-control select2product change_main_cat']) ?>
                     <label  value ='<?= Url::to('../product-main-category/ajaxcreate') ?>' class="btn btn-icon btn-white extra_btn main_cat">Add main category</label>
                     <?php
                     Modal::begin([
@@ -61,9 +61,10 @@ use common\models\SearchTag;
                     ?>
                 </div>
                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
+                  <!--,['class'=>'change_category']-->
                     <?php
                     echo $form->field($model, 'category')->widget(DepDrop::classname(), [
-                        'options' => ['id' => 'products-category'],
+                        'options' => ['id' => 'products-category','class'=>'form-control change_category'],
                         'data' => ArrayHelper::map(\common\models\ProductCategory::find()->where(['category_id' => $model->main_category])->all(), 'id', 'category_name'),
                         'pluginOptions' => [
                             'depends' => ['products-main_category'],
@@ -280,7 +281,15 @@ use common\models\SearchTag;
             // Adding Custom Scrollbar
             $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
         });
-        $("#products-main_category").select2({
+        $(".select2product").select2({
+            placeholder: 'Choose Main Category',
+            allowClear: true
+        }).on('select2-open', function ()
+        {
+            // Adding Custom Scrollbar
+            $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+        });
+        $(".change_category").select2({
             placeholder: 'Choose Main Category',
             allowClear: true
         }).on('select2-open', function ()
