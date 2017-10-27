@@ -88,7 +88,6 @@ use yii\helpers\Html;
         $(".delete-default").on('click', function () {
             var str = $(this).attr('id');
             var arr = str.split("-");
-            alert(arr);
             $.ajax({
                 url: '<?= Yii::$app->homeUrl; ?>settings/delete-address',
                 type: "POST",

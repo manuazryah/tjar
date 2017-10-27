@@ -1,157 +1,116 @@
 <?php
-/* @var $this yii\web\View */
 
 use yii\helpers\Html;
-//use yii\widgets\ActiveForm;
-//use yii\grid\GridView;
-use yii\widgets\ListView;
-?>
-<style>
-    .summary{
-        padding-left: 15px;
-    }
-    .sell-btn-div{
-        opacity: 0;
-        position: absolute;
-        bottom: -52px;
-        /* left: 30px; */
-        right: 0px;
-        transition: all 5ms;
-        z-index: 5;
-        background: #ffffff;
-        color: white;
-        border: #ffffff;
-        padding: 18px 10px;
-        background-color: white;
-        margin: 0 auto;
-        left: 0px;
-        right: 0px;
-        text-align: center;
-    }
-    .sell-btn{
-        background: #2196F3;
-        padding: 10px 60px;
-        font-weight: 600;
-        color: white;
-    }
-    .sell-btn:hover{
-        color: white;
-    }
-    .product-div:hover .sell-btn-div{
-        opacity: 2;
-        color: white;
-    }
-    
-    .view_detail{
-        opacity: 0;
-        position: absolute;
-        bottom: 116px;
-        left: 46px;
-        transition: all 5ms;
-        z-index: 2;
-        background: #0070CC;
-        color: white;
-        border: #0070CC;
-        padding: 8px 10px;
-        margin-left: 31px;
-    }
-    .album-image:hover .view_detail{
-        opacity: 2;
-        color: white;
-    }
+use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use common\models\Products;
 
-</style>
-<section class="gallery-env">
+/* @var $this yii\web\View */
+/* @var $searchModel common\models\ProductsSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = 'Products';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="products-index">
 
     <div class="row">
+        <div class="col-md-12">
 
-        <!-- Gallery Album Optipns and Images -->
-        <div class="col-sm-9 gallery-right">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
 
-            <!-- Album Header -->
-            <div class="album-header">
-                <h2>General</h2>
-            </div>
 
-            <!-- Sorting Information -->
-            <div class="album-sorting-info">
-                <div class="album-sorting-info-inner clearfix">
-                    <a href="#" class="btn btn-secondary btn-xs btn-single btn-icon btn-icon-standalone pull-right" data-action="sort">
-                        <i class="fa-save"></i>
-                        <span>Save Current Order</span>
-                    </a>
-
-                    <i class="fa-arrows-alt"></i>
-                    Drag images to sort them
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive" style="border: none">
+                        <button class="btn btn-white" id="search-option" style="float: right;">
+                            <i class="linecons-search"></i>
+                            <span>Search</span>
+                        </button>
+                        <?=
+                        GridView::widget([
+                            'dataProvider' => $dataProvider,
+                            'filterModel' => $searchModel,
+                            'columns' => [
+                                ['class' => 'yii\grid\SerialColumn'],
+                                [
+                                    'attribute' => 'product_id',
+                                    'filter' => ArrayHelper::map(Products::find()->all(), 'id', 'product_name'),
+                                    'value' => 'product.product_name'
+                                ],
+                                [
+                                    'attribute' => 'qty',
+                                    'format' => 'raw',
+                                    'value' => function ($data) {
+                                        return \yii\helpers\Html::textInput('qty', $data->qty, ['class' => 'form-control product_form', 'id' => 'product_qty_' . $data->id, 'type' => 'number']);
+                                    },
+                                ],
+                                [
+                                    'attribute' => 'price',
+                                    'format' => 'raw',
+                                    'value' => function ($data) {
+                                        return \yii\helpers\Html::textInput('price', $data->price, ['class' => 'form-control product_form', 'id' => 'product_price_' . $data->id]);
+                                    },
+                                ],
+                                'sku',
+                                [
+                                    'attribute' => 'offer_price',
+                                    'format' => 'raw',
+                                    'value' => function ($data) {
+                                        return \yii\helpers\Html::textInput('offer_price', $data->offer_price, ['class' => 'form-control product_form', 'id' => 'product_offer_price_' . $data->id]);
+                                    },
+                                ],
+                                [
+                                    'attribute' => 'status',
+                                    'format' => 'raw',
+                                    'filter' => ['1' => 'Enabled', '0' => 'Disabled'],
+                                    'value' => function ($data) {
+                                        return \yii\helpers\Html::dropDownList('status', null, ['1' => 'Enabled', '0' => 'Disabled'], ['options' => [$data->status => ['Selected' => 'selected']], 'class' => 'form-control product_form', 'id' => 'product_status_' . $data->id,]);
+                                    },
+                                ],
+                                ['class' => 'yii\grid\ActionColumn'],
+                            ],
+                        ]);
+                        ?>
+                    </div>
                 </div>
             </div>
-
-            <!-- Album Images -->
-            <div class="album-images row">
-                <?=
-                $dataProvider->totalcount > 0 ? ListView::widget([
-                            'dataProvider' => $dataProvider,
-                            'itemView' => '_view2',
-                            'pager' => [
-                                'firstPageLabel' => 'first',
-                                'lastPageLabel' => 'last',
-                                'prevPageLabel' => '<',
-                                'nextPageLabel' => '>',
-                                'maxButtonCount' => 5,
-                            ],
-                        ]) : $this->render('no_product');
-                ?>
-                <!-- Album Image -->
-            </div>
         </div>
-
-        <!-- Gallery Sidebar -->
-        <div class="col-sm-3 gallery-left">
-
-            <div class="gallery-sidebar">
-
-                <a href="#" class="btn btn-block btn-secondary btn-icon btn-icon-standalone btn-icon-standalone-right">
-                    <i class="fa fa-filter"></i>
-                    <span>Filter By</span>
-                </a>
-
-                <ul class="list-unstyled">
-                    <li class="active">
-                        <a href="#">
-                            <i class="fa-folder-open-o"></i>
-                            <span>General</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa-folder-o"></i>
-                            <span>Office</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa-folder-o"></i>
-                            <span>Las Vegas</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa-folder-o"></i>
-                            <span>Thailand</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa-folder-o"></i>
-                            <span>Nature</span>
-                        </a>
-                    </li>
-                </ul>
-
-            </div>
-
-        </div>
-
     </div>
+</div>
 
-</section>
+<script>
+    $(document).ready(function () {
+        $(".filters").slideToggle();
+        $("#search-option").click(function () {
+            $(".filters").slideToggle();
+        });
+
+        $('.product_form').on('change', function () {
+            var change = $(this).attr('id');
+            var res = change.split("_");
+            var qty = $('#product_qty_' + res['2']).val();
+            var price = $('#product_price_' + res['2']).val();
+            var offerprice = $('#product_offer_price_' + res['2']).val();
+            var status = $('#product_status_' + res['2']).val();
+            var id = res['2'];
+            $.ajax({
+                url: homeUrl + 'product/product/ajaxchange-product',
+                type: "post",
+                data: {qty: qty, price: price, offerprice: offerprice, status: status, id: id},
+                success: function (data) {
+                    var $data = JSON.parse(data);
+                    if ($data.msg === "success") {
+                        alert($data.title);
+                    } else {
+                        alert($data.title);
+                    }
+                }, error: function () {
+                }
+            });
+        });
+    });
+</script>
+

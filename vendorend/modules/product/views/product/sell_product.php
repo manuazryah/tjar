@@ -35,6 +35,37 @@ use yii\helpers\Html;
     .sell-pro-div-right p span{
         color: #4a4949;
     }
+    .tooltip{
+        width: 100%;
+    }
+    .tool-tip-box{
+        padding: 10px 20px;
+    }
+    .tip-box{
+        padding: 10px 20px;
+    }
+    .default-tool-tip{
+        background: #eeeeee;
+        border: 1px solid;
+        margin-top: 50px;
+    }
+    .default-tool-tip h4{
+        padding-left: 19px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #989898;
+        color: black;
+    }
+    .tool-tip{
+        opacity: 0;
+        background: #eeeeee;
+        border: 1px solid;
+    }
+    .tool-tip h4{
+        padding-left: 19px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #989898;
+        color: black;
+    }
 </style>
 <div class="panel panel-default">
     <div class="panel-body">
@@ -74,6 +105,18 @@ use yii\helpers\Html;
                 </div>
             </div>
             <div class="col-md-6 sell-pro-div-offerright">
+                <div class="default-tool-tip">
+                    <h4>Seller Helper</h4>
+                    <div class="tool-tip-box">
+                        <p>The Seller Helper will help guide you with filling in accurate information about your product and your offer during the listing process.</p>
+                        <p>Please read the message carefully.</p>
+                        <p>Seller Helper will appear vertically alongside the fields as you land on any field.</p>
+                        <p>For non-field entries, click on (?) to open the Seller Helper for that specific entry.</p>
+                    </div>
+                </div>
+                <div class="tool-tip">
+
+                </div>
             </div>
         </div>
     </div>
