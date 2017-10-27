@@ -11,7 +11,367 @@ use common\widgets\Alert;
 
 AppAsset::register($this);
 ?>
+
 <?php $this->beginPage() ?>
+<style>
+    .page-loading-overlay {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        overflow: hidden;
+        background: rgba(44, 46, 47, 0.28);
+        z-index: 10000;
+        -webkit-perspective: 10000;
+        -moz-perspective: 10000;
+        perspective: 10000;
+        -webkit-perspective: 10000px;
+        -moz-perspective: 10000px;
+        perspective: 10000px;
+        zoom: 1;
+        filter: alpha(opacity=100);
+        -webkit-opacity: 1;
+        -moz-opacity: 1;
+        opacity: 1;
+        -webkit-transition: all 800ms ease-in-out;
+        -moz-transition: all 800ms ease-in-out;
+        -o-transition: all 800ms ease-in-out;
+        transition: all 800ms ease-in-out
+    }
+
+    .page-loading-overlay.loaded {
+        zoom: 1;
+        filter: alpha(opacity=0);
+        -webkit-opacity: 0;
+        -moz-opacity: 0;
+        opacity: 0;
+        visibility: hidden
+    }
+    @-webkit-keyframes loaderAnimate {
+    0% {
+        -webkit-transform: rotate(0deg)
+    }
+    100% {
+        -webkit-transform: rotate(220deg)
+    }
+}
+
+@-moz-keyframes loaderAnimate {
+    0% {
+        -moz-transform: rotate(0deg)
+    }
+    100% {
+        -moz-transform: rotate(220deg)
+    }
+}
+
+@-o-keyframes loaderAnimate {
+    0% {
+        -o-transform: rotate(0deg)
+    }
+    100% {
+        -o-transform: rotate(220deg)
+    }
+}
+
+@keyframes loaderAnimate {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+    100% {
+        -webkit-transform: rotate(220deg);
+        -moz-transform: rotate(220deg);
+        -ms-transform: rotate(220deg);
+        transform: rotate(220deg)
+    }
+}
+
+lesshat-selector {
+    -lh-property: 0
+}
+
+@-webkit-keyframes loaderAnimate2 {
+    0% {
+        box-shadow: inset #555 0 0 0 8px;
+        -webkit-transform: rotate(-140deg)
+    }
+    50% {
+        box-shadow: inset #555 0 0 0 2px
+    }
+    100% {
+        box-shadow: inset #555 0 0 0 8px;
+        -webkit-transform: rotate(140deg)
+    }
+}
+
+@-moz-keyframes loaderAnimate2 {
+    0% {
+        box-shadow: inset #555 0 0 0 8px;
+        -moz-transform: rotate(-140deg)
+    }
+    50% {
+        box-shadow: inset #555 0 0 0 2px
+    }
+    100% {
+        box-shadow: inset #555 0 0 0 8px;
+        -moz-transform: rotate(140deg)
+    }
+}
+
+@-o-keyframes loaderAnimate2 {
+    0% {
+        box-shadow: inset #555 0 0 0 8px;
+        -o-transform: rotate(-140deg)
+    }
+    50% {
+        box-shadow: inset #555 0 0 0 2px
+    }
+    100% {
+        box-shadow: inset #555 0 0 0 8px;
+        -o-transform: rotate(140deg)
+    }
+}
+
+@keyframes loaderAnimate2 {
+    0% {
+        box-shadow: inset #555 0 0 0 8px;
+        -webkit-transform: rotate(-140deg);
+        -moz-transform: rotate(-140deg);
+        -ms-transform: rotate(-140deg);
+        transform: rotate(-140deg)
+    }
+    50% {
+        box-shadow: inset #555 0 0 0 2px
+    }
+    100% {
+        box-shadow: inset #555 0 0 0 8px;
+        -webkit-transform: rotate(140deg);
+        -moz-transform: rotate(140deg);
+        -ms-transform: rotate(140deg);
+        transform: rotate(140deg)
+    }
+}
+
+.loader-1:after {
+    -webkit-animation: loaderAnimate2 1000ms ease-in-out infinite;
+    -moz-animation: loaderAnimate2 1000ms ease-in-out infinite;
+    -o-animation: loaderAnimate2 1000ms ease-in-out infinite;
+    animation: loaderAnimate2 1000ms ease-in-out infinite;
+    clip: rect(0, 30px, 30px, 15px);
+    content: '';
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    position: absolute
+}
+
+@keyframes loaderAnimate2 {
+    0% {
+        box-shadow: inset #fff 0 0 0 17px;
+        transform: rotate(-140deg)
+    }
+    50% {
+        box-shadow: inset #fff 0 0 0 2px
+    }
+    100% {
+        box-shadow: inset #fff 0 0 0 17px;
+        transform: rotate(140deg)
+    }
+}
+
+.loader-2 {
+    -webkit-animation: loaderAnimate2 1000ms linear infinite;
+    -moz-animation: loaderAnimate2 1000ms linear infinite;
+    -o-animation: loaderAnimate2 1000ms linear infinite;
+    animation: loaderAnimate2 1000ms linear infinite;
+    clip: rect(0, 30px, 30px, 15px);
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -15px;
+    margin-top: -15px
+}
+
+lesshat-selector {
+    -lh-property: 0
+}
+
+@-webkit-keyframes loaderAnimate2 {
+    0% {
+        -webkit-transform: rotate(0deg)
+    }
+    100% {
+        -webkit-transform: rotate(220deg)
+    }
+}
+
+@-moz-keyframes loaderAnimate2 {
+    0% {
+        -moz-transform: rotate(0deg)
+    }
+    100% {
+        -moz-transform: rotate(220deg)
+    }
+}
+
+@-o-keyframes loaderAnimate2 {
+    0% {
+        -o-transform: rotate(0deg)
+    }
+    100% {
+        -o-transform: rotate(220deg)
+    }
+}
+
+@keyframes loaderAnimate2 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+    100% {
+        -webkit-transform: rotate(220deg);
+        -moz-transform: rotate(220deg);
+        -ms-transform: rotate(220deg);
+        transform: rotate(220deg)
+    }
+}
+
+lesshat-selector {
+    -lh-property: 0
+}
+
+@-webkit-keyframes loaderAnimate22 {
+    0% {
+        box-shadow: inset #fff 0 0 0 8px;
+        -webkit-transform: rotate(-140deg)
+    }
+    50% {
+        box-shadow: inset #fff 0 0 0 2px
+    }
+    100% {
+        box-shadow: inset #fff 0 0 0 8px;
+        -webkit-transform: rotate(140deg)
+    }
+}
+
+@-moz-keyframes loaderAnimate22 {
+    0% {
+        box-shadow: inset #fff 0 0 0 8px;
+        -moz-transform: rotate(-140deg)
+    }
+    50% {
+        box-shadow: inset #fff 0 0 0 2px
+    }
+    100% {
+        box-shadow: inset #fff 0 0 0 8px;
+        -moz-transform: rotate(140deg)
+    }
+}
+
+@-o-keyframes loaderAnimate22 {
+    0% {
+        box-shadow: inset #fff 0 0 0 8px;
+        -o-transform: rotate(-140deg)
+    }
+    50% {
+        box-shadow: inset #fff 0 0 0 2px
+    }
+    100% {
+        box-shadow: inset #fff 0 0 0 8px;
+        -o-transform: rotate(140deg)
+    }
+}
+
+@keyframes loaderAnimate22 {
+    0% {
+        box-shadow: inset #fff 0 0 0 8px;
+        -webkit-transform: rotate(-140deg);
+        -moz-transform: rotate(-140deg);
+        -ms-transform: rotate(-140deg);
+        transform: rotate(-140deg)
+    }
+    50% {
+        box-shadow: inset #fff 0 0 0 2px
+    }
+    100% {
+        box-shadow: inset #fff 0 0 0 8px;
+        -webkit-transform: rotate(140deg);
+        -moz-transform: rotate(140deg);
+        -ms-transform: rotate(140deg);
+        transform: rotate(140deg)
+    }
+}
+
+.loader-2:after {
+    -webkit-animation: loaderAnimate22 1000ms ease-in-out infinite;
+    -moz-animation: loaderAnimate22 1000ms ease-in-out infinite;
+    -o-animation: loaderAnimate22 1000ms ease-in-out infinite;
+    animation: loaderAnimate22 1000ms ease-in-out infinite;
+    clip: rect(0, 30px, 30px, 15px);
+    content: '';
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    position: absolute
+}
+
+@keyframes loaderAnimate22 {
+    0% {
+        box-shadow: inset #fff 0 0 0 17px;
+        transform: rotate(-140deg)
+    }
+    50% {
+        box-shadow: inset #fff 0 0 0 2px
+    }
+    100% {
+        box-shadow: inset #fff 0 0 0 17px;
+        transform: rotate(140deg)
+    }
+}
+
+.page-loading-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+    background: rgba(44, 46, 47, 0.28);
+    z-index: 10000;
+    -webkit-perspective: 10000;
+    -moz-perspective: 10000;
+    perspective: 10000;
+    -webkit-perspective: 10000px;
+    -moz-perspective: 10000px;
+    perspective: 10000px;
+    zoom: 1;
+    filter: alpha(opacity=100);
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -webkit-transition: all 800ms ease-in-out;
+    -moz-transition: all 800ms ease-in-out;
+    -o-transition: all 800ms ease-in-out;
+    transition: all 800ms ease-in-out
+}
+
+.page-loading-overlay.loaded {
+    zoom: 1;
+    filter: alpha(opacity=0);
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    visibility: hidden
+}
+</style>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
     <head>
@@ -32,7 +392,9 @@ AppAsset::register($this);
 
     <body class="page-body">
 
-
+        <div class="page-loading-overlay loaded">
+            <div class="loader-2"></div>
+        </div>
 
         <div class="page-container"><!-- add class "sidebar-collapsed" to close sidebaowered By Azryah Networksr by default, "chat-visible" to make chat appear always -->
             owered By Azryah Networks

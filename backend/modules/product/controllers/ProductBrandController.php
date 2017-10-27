@@ -148,6 +148,28 @@ class ProductBrandController extends Controller {
         }
         echo Json::encode(['output' => '', 'selected' => '']);
     }
+    public function actionBrand(){
+        if (yii::$app->request->isAjax) {
+            $category = Yii::$app->request->post()['category'];
+            if (isset($category)) {
+                $brands = ProductBrand::find()->where(['subcategory' => $category])->all();
+                $val .= "<option value=''>Select Brand</option>";
+                if ($brands) {
+                    foreach ($brands as $brand) {
+                        $val .= "<option value='" . $brand->id . "'>" . $brand->brand_name . "</option>";
+                    }
+                    echo json_encode(array("con" => "1", 'val' => $val)); //Success
+                    exit;
+                } else {
+                    echo json_encode(array("con" => "1", 'val' => $val)); //No Return
+                    exit;
+                }
+            } else {
+                echo 1; //Value Not Setted
+                exit;
+            }
+        }
+    }
 
     public function actionAjaxcreate() {
         $model = new ProductBrand();

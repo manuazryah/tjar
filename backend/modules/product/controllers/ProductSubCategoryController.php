@@ -167,6 +167,29 @@ class ProductSubCategoryController extends Controller {
         echo Json::encode(['output' => '', 'selected' => '']);
     }
 
+    public function actionSubcategory() {
+        if (yii::$app->request->isAjax) {
+            $category = Yii::$app->request->post()['category'];
+            if (isset($category)) {
+                $categories = ProductSubCategory::find()->where(['category_id' => $category])->all();
+                $val .= "<option value=''>Select Sub Category</option>";
+                if ($categories) {
+                    foreach ($categories as $catgry) {
+                        $val .= "<option value='" . $catgry->id . "'>" . $catgry->subcategory_name . "</option>";
+                    }
+                    echo json_encode(array("con" => "1", 'val' => $val)); //Success
+                    exit;
+                } else {
+                    echo json_encode(array("con" => "1", 'val' => $val)); //No Return
+                    exit;
+                }
+            } else {
+                echo 1; //Value Not Setted
+                exit;
+            }
+        }
+    }
+
     public function actionAjaxcreate() {
         $model = new ProductSubCategory();
         if (Yii::$app->request->post()) {

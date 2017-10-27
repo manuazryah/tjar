@@ -48,7 +48,7 @@ use common\models\SearchTag;
         <div class="tab-pane active" id="tab1">
             <div class="product-main-form">
                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-                    <?= $form->field($model, 'main_category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category', 'class' => 'form-control select2product change_main_cat']) ?>
+                    <?= $form->field($model, 'main_category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category', 'class' => 'form-control  change_main_cat']) ?>
                     <label  value ='<?= Url::to('../product-main-category/ajaxcreate') ?>' class="btn btn-icon btn-white extra_btn main_cat">Add main category</label>
                     <?php
                     Modal::begin([
@@ -61,18 +61,8 @@ use common\models\SearchTag;
                     ?>
                 </div>
                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-                  <!--,['class'=>'change_category']-->
-                    <?php
-                    echo $form->field($model, 'category')->widget(DepDrop::classname(), [
-                        'options' => ['id' => 'products-category','class'=>'form-control change_category'],
-                        'data' => ArrayHelper::map(\common\models\ProductCategory::find()->where(['category_id' => $model->main_category])->all(), 'id', 'category_name'),
-                        'pluginOptions' => [
-                            'depends' => ['products-main_category'],
-                            'placeholder' => 'Select...',
-                            'url' => Url::to(['/product/product-category/categories'])
-                        ]
-                    ]);
-                    ?>
+                  <?php $cat=[];?>
+                    <?= $form->field($model, 'category')->dropDownList($cat, ['prompt' => 'Select Category', 'class' => 'form-control change_category']) ?>
                     <label  value ='<?= Url::to('../product-category/ajaxcreate') ?>' class="btn btn-icon btn-white extra_btn ajax_category">Add category</label>
                     <?php
                     Modal::begin([
@@ -85,17 +75,8 @@ use common\models\SearchTag;
                     ?>
                 </div>
                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-                    <?php
-                    echo $form->field($model, 'subcategory')->widget(DepDrop::classname(), [
-                        'options' => ['id' => 'products-subcategory'],
-                        'data' => ArrayHelper::map(\common\models\ProductSubCategory::find()->where(['category_id' => $model->category])->all(), 'id', 'subcategory_name'),
-                        'pluginOptions' => [
-                            'depends' => ['products-main_category', 'products-category'],
-                            'placeholder' => 'Select...',
-                            'url' => Url::to(['/product/product-sub-category/subcat'])
-                        ]
-                    ]);
-                    ?>
+                    <?= $form->field($model, 'subcategory')->dropDownList($cat, ['prompt' => 'Select Sub Category', 'class' => 'form-control change_subcategory']) ?>
+                    
                     <label  value ='<?= Url::to('../product-sub-category/ajaxcreate') ?>' class="btn btn-icon btn-white extra_btn sub_category">Add Sub category</label>
                     <?php
                     Modal::begin([
@@ -121,17 +102,8 @@ use common\models\SearchTag;
                 </div>
 
                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-                    <?php
-                    echo $form->field($model, 'brand')->widget(DepDrop::classname(), [
-                        'options' => ['id' => 'products-brand'],
-                        //  'data' => ArrayHelper::map(\common\models\ProductSubCategory::find()->where(['category_id' => $model->category])->all(), 'id', 'subcategory_name'),
-                        'pluginOptions' => [
-                            'depends' => ['products-category', 'products-subcategory'],
-                            'placeholder' => 'Select...',
-                            'url' => Url::to(['/product/product-brand/brand-category'])
-                        ]
-                    ]);
-                    ?>
+                    <?= $form->field($model, 'brand')->dropDownList($cat, ['prompt' => 'Select Brand', 'class' => 'form-control change_brand']) ?>
+                    
                     <label  value ='<?= Url::to('../product-brand/ajaxcreate') ?>' class="btn btn-icon btn-white extra_btn product_brand">Add Brand</label>
                     <?php
                     Modal::begin([
@@ -281,7 +253,7 @@ use common\models\SearchTag;
             // Adding Custom Scrollbar
             $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
         });
-        $(".select2product").select2({
+        $("#products-main_category").select2({
             placeholder: 'Choose Main Category',
             allowClear: true
         }).on('select2-open', function ()
@@ -289,14 +261,31 @@ use common\models\SearchTag;
             // Adding Custom Scrollbar
             $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
         });
-        $(".change_category").select2({
-            placeholder: 'Choose Main Category',
+        $("#products-category").select2({
+            placeholder: 'Choose Category',
             allowClear: true
         }).on('select2-open', function ()
         {
             // Adding Custom Scrollbar
             $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
         });
+        $("#products-subcategory").select2({
+            placeholder: 'Choose Category',
+            allowClear: true
+        }).on('select2-open', function ()
+        {
+            // Adding Custom Scrollbar
+            $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+        });
+        $("#products-brand").select2({
+            placeholder: 'Choose Brand',
+            allowClear: true
+        }).on('select2-open', function ()
+        {
+            // Adding Custom Scrollbar
+            $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+        });
+       
     });
     var slug = function (str) {
         var $slug = '';

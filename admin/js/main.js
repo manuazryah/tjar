@@ -5,13 +5,27 @@
  */
 $(document).ready(function () {
     $('.change_main_cat').change(function () {
-       
+
         var id = $(this).attr('id');
         var main_category = $(this).val();
-        main_category_(main_category, id);
+        main_category_cat(main_category, id);
+    });
+    $('.change_category').change(function () {
+
+        var id = $(this).attr('id');
+        var category = $(this).val();
+        category_subcat(category, id);
+    });
+    $('.change_subcategory').change(function () {
+
+        var id = $(this).attr('id');
+        var category = $(this).val();
+        subcategory_brand(category, id);
     });
 });
-function main_category_(main_category, ids) {
+/****main ctegory to category*****/
+function main_category_cat(main_category, ids) {
+    showLoader();
     $.ajax({
         url: homeUrl + 'product/product-category/category',
 //        url: 'category',
@@ -20,26 +34,71 @@ function main_category_(main_category, ids) {
         success: function (data) {
             var $data = JSON.parse(data);
             if ($data.con === "1") {
-                $('.change_category').removeAttr('disabled');
-                $('.change_category').html($data.val);
-//                $(".change_category").select2({
-//                    placeholder: 'Choose Category',
-//                    allowClear: true
-//                }).on('select2-open', function ()
-//                {
-//                    // Adding Custom Scrollbar
-//                    $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
-//                });
-            }
+//                $('.change_category').removeAttr('disabled');
+                $('#products-category').html('').html($data.val);
+                hideLoader();
 
-//            $('#' + ids[0] + idr).html("").html(data);
-//            $('#product-prcat ').html("").html(data);
+            } else {
+                alert('Internal Error');
+                hideLoader();
+            }
         }, error: function () {
 
         }
     }
     );
 }
+/****category to subcategory*****/
+function category_subcat(category, ids) {
+    showLoader();
+    $.ajax({
+        url: homeUrl + 'product/product-sub-category/subcategory',
+//        url: 'category',
+        type: "post",
+        data: {category: category},
+        success: function (data) {
+            var $data = JSON.parse(data);
+            if ($data.con === "1") {
+//                $('.change_subcategory').removeAttr('disabled');
+                $('#products-subcategory').html('').html($data.val);
+                hideLoader();
+            } else {
+                alert('Internal Error');
+                hideLoader();
+            }
+        }, error: function () {
+
+        }
+    }
+    );
+}
+/****Subcategory to brand*****/
+function subcategory_brand(category, id) {
+    showLoader();
+    $.ajax({
+        url: homeUrl + 'product/product-brand/brand',
+//        url: 'category',
+        type: "post",
+        data: {category: category},
+        success: function (data) {
+            var $data = JSON.parse(data);
+            if ($data.con === "1") {
+//                $('.change_subcategory').removeAttr('disabled');
+                $('#products-brand').html('').html($data.val);
+                hideLoader();
+            } else {
+                alert('Internal Error');
+                hideLoader();
+            }
+        }, error: function () {
+
+        }
+    }
+    );
+}
+
+
+
 $(function () {
     $('.modalButton').click(function () {
         $('#modal').modal('show')
@@ -77,5 +136,11 @@ $(function () {
                 .load($(this).attr("value"));
     });
 });
+function showLoader() {
+    $('.page-loading-overlay').removeClass('loaded');
+}
+function hideLoader() {
+    $('.page-loading-overlay').addClass('loaded');
+}
 
 
