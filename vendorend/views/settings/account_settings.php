@@ -3,9 +3,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\bootstrap\Modal;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
+use common\components\ModalViewWidget;
 ?>
 <style>
         .panel{
@@ -77,15 +77,7 @@ use yii\helpers\Url;
                                 <?= Html::button('[ Edit ]', ['value' => Url::to('contact'), 'class' => 'modalButton']) ?>
                         </div>
 
-                        <?php
-                        Modal::begin([
-                            'header' => '',
-                            'id' => 'modal',
-                            'size' => 'modal-lg',
-                        ]);
-                        echo "<div id = 'modalContent'></div>";
-                        Modal::end();
-                        ?>
+                        <?= ModalViewWidget::widget() ?>
                 </div>
 
                 <div class="row row-padd">
