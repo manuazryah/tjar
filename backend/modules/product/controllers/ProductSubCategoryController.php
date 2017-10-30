@@ -227,4 +227,18 @@ class ProductSubCategoryController extends Controller {
         ]);
     }
 
+    public function actionCanonical() {
+        if (yii::$app->request->isAjax) {
+            $canonical = Yii::$app->request->post()['canonical'];
+            $model = ProductSubCategory::find()->where(['canonical_name' => $canonical])->one();
+            if ($model) {
+                echo json_encode(array("con" => "2", 'error' => 'Canonical Name "'.$canonical.'" has already been taken.')); //Failed
+                exit;
+            } else {
+                echo json_encode(array("con" => "1", 'error' => 'Success')); //Success
+                exit;
+            }
+        }
+    }
+
 }

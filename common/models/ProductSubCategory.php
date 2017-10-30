@@ -48,6 +48,7 @@ class ProductSubCategory extends \yii\db\ActiveRecord {
             [['subcategory_name', 'canonical_name', 'subcategory_name_arabic'], 'string', 'max' => 100],
             [['main_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductMainCategory::className(), 'targetAttribute' => ['main_category_id' => 'id']],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [['canonical_name'], 'unique'],
         ];
     }
 

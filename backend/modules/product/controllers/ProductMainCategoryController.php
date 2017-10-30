@@ -61,14 +61,14 @@ class ProductMainCategoryController extends Controller {
     public function actionCreate() {
         $model = new ProductMainCategory();
 
-//        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
-//            Yii::$app->getSession()->setFlash('success', 'Category Created Successfully');
-//            return $this->redirect(['index']);
-//        } else {
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', 'Category Created Successfully');
+            return $this->redirect(['index']);
+        } else {
             return $this->renderAjax('create', [
                         'model' => $model,
             ]);
-//        }
+        }
     }
 
     /**
@@ -117,10 +117,10 @@ class ProductMainCategoryController extends Controller {
                 exit;
             } else {
                 $array = $model->getErrors();
-             $error =  isset($array['canonical_name']['0'])? $array['canonical_name']['0']: 'Internal error';
-                   
+                $error = isset($array['canonical_name']['0']) ? $array['canonical_name']['0'] : 'Internal error';
+
                 //                    var_dump($model->getErrors());
-                echo json_encode(array("con" => "2", 'error' =>$error));
+                echo json_encode(array("con" => "2", 'error' => $error));
 //                echo '2';
                 exit;
             }
@@ -142,6 +142,20 @@ class ProductMainCategoryController extends Controller {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function actionCanonical() {
+        if (yii::$app->request->isAjax) {
+            $canonical = Yii::$app->request->post()['canonical'];
+            $model = ProductMainCategory::find()->where(['canonical_name' => $canonical])->one();
+            if ($model) {
+                echo json_encode(array("con" => "2", 'error' => 'Canonical Name "'.$canonical.'" has already been taken.')); //Failed
+                exit;
+            } else {
+                echo json_encode(array("con" => "1", 'error' => 'Success')); //Success
+                exit;
+            }
         }
     }
 

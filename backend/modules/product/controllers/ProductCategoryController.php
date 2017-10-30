@@ -63,14 +63,14 @@ class ProductCategoryController extends Controller {
     public function actionCreate() {
         $model = new ProductCategory();
 
-        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
-            Yii::$app->getSession()->setFlash('success', 'Category Created Successfully');
-            return $this->redirect(['index']);
-        } else {
-            return $this->renderAjax('create', [
-                        'model' => $model,
-            ]);
-        }
+//        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+//            Yii::$app->getSession()->setFlash('success', 'Category Created Successfully');
+//            return $this->redirect(['index']);
+//        } else {
+        return $this->renderAjax('create', [
+                    'model' => $model,
+        ]);
+//        }
     }
 
     /**
@@ -192,6 +192,20 @@ class ProductCategoryController extends Controller {
         return $this->renderAjax('ajaxcreate', [
                     'model' => $model,
         ]);
+    }
+
+    public function actionCanonical() {
+        if (yii::$app->request->isAjax) {
+            $canonical = Yii::$app->request->post()['canonical'];
+            $model = ProductCategory::find()->where(['canonical_name' => $canonical])->one();
+            if ($model) {
+                echo json_encode(array("con" => "2", 'error' => 'Canonical Name "'.$canonical.'" has already been taken.')); //Failed
+                exit;
+            } else {
+                echo json_encode(array("con" => "1", 'error' => 'Success')); //Success
+                exit;
+            }
+        }
     }
 
 }
