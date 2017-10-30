@@ -1,3 +1,12 @@
+<?php
+/* @var $this \yii\web\View */
+/* @var $content string */
+
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use common\models\User;
+use common\models\LoginForm;
+?>
 <section>
     <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 sm-pad-right0 xs-pad-right0" id="slider">
         <!-- Add this css File in head tag-->

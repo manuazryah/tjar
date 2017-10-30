@@ -170,6 +170,11 @@
     .product-img-view-box{
         margin-bottom: 60px;
     }
+    #payment .cart .media .media-object{
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
 }
 @media(max-width:768px) and (min-width:458px){
     .xs-align-center{
@@ -223,6 +228,18 @@
     #checkout input[type="submit"]{
         float: none !important;
     }
+    #payment .cart .media .media-object{
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+    .MyAccount-content{
+        display: inline-block;
+        margin-top: 40px;
+    }
+    .MyAccount-content .order-table td{
+        border-right: 1px solid #f1f1f1;
+    }
 }
 @media(max-width:458px){
     .xs-align-center{
@@ -251,6 +268,18 @@
     }
     #checkout input[type="submit"]{
         float: none !important;
+    }
+    #payment .cart .media .media-object{
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+    .MyAccount-content{
+        display: inline-block;
+        margin-top: 40px;
+    }
+    .MyAccount-content .order-table td{
+        border-right: 1px solid #f1f1f1;
     }
 }
 @media(max-width:550px){
