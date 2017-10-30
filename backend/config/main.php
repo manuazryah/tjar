@@ -37,6 +37,12 @@ return [
         'master' => [
             'class' => 'backend\modules\master\Module',
         ],
+        'user' => [
+            'class' => 'backend\modules\user\Module',
+        ],
+        'promotions' => [
+            'class' => 'backend\modules\promotions\Module',
+        ],
     ],
     'components' => [
         'request' => [
