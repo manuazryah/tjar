@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             'template' => '{update}{status}',
                                                             'buttons' => [
                                                                 'status' => function ($url, $model) {
-                                                                        return Html::checkbox('status', $model->status == 1 ? true : false, ['class' => 'iswitch iswitch-secondary user-ststus', 'id' => $model->id,]);
+                                                                        return Html::checkbox('status', $model->status == 1 ? true : false, ['class' => 'iswitch iswitch-secondary user-ststus', 'id' => $model->id, 'title' => $model->status == 1 ? " User is Active" : 'User is Deactive']);
                                                                 },
                                                                 'update' => function ($url, $model) {
                                                                         return Html::a('<span class="glyphicon glyphicon-pencil" style="padding-top: 0px;font-size: 18px;"></span>', $url, [

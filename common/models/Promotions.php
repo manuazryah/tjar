@@ -42,8 +42,8 @@ class Promotions extends \yii\db\ActiveRecord {
                         [['price'], 'number'],
                         [['starting_date', 'expiry_date', 'DOC', 'DOU'], 'safe'],
                         [['promotion_code', 'amount_range'], 'string', 'max' => 250],
-                    //    [['promotion_type', 'promotion_code'], 'required'],
-                    [['user_id', 'product_id', 'code_used'], 'safe'],
+                        [['promotion_type', 'promotion_code'], 'required'],
+                        [['user_id', 'product_id', 'code_used'], 'safe'],
                 ];
         }
 
