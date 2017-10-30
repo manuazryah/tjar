@@ -16,20 +16,12 @@ use yii\helpers\Url;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-        <?= $form->field($model, 'category')->dropDownList(ArrayHelper::map(common\models\ProductCategory::find()->all(), 'id', 'category_name'), ['prompt' => 'select category']) ?>
+        <?= $form->field($model, 'category')->dropDownList(ArrayHelper::map(common\models\ProductCategory::find()->all(), 'id', 'category_name'), ['prompt' => 'select category', 'class' => 'form-control change_category']) ?>
     </div>
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-        <?php
-        echo $form->field($model, 'subcategory')->widget(DepDrop::classname(), [
-            'options' => ['id' => 'searchtag-subcategory'],
-            'data' => ArrayHelper::map(\common\models\ProductSubCategory::find()->where(['category_id' => $model->category])->all(), 'id', 'subcategory_name'),
-            'pluginOptions' => [
-                'depends' => ['searchtag-category'],
-                'placeholder' => 'Select...',
-                'url' => Url::to(['/product/product-sub-category/subcategories'])
-            ]
-        ]);
-        ?>
+        <?php $cat = []; ?>
+        <?= $form->field($model, 'subcategory')->dropDownList($cat, ['prompt' => 'Select Sub Category', 'class' => 'form-control']) ?>
+        
     </div>
     <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
         <?= $form->field($model, 'tag_name')->textarea(['rows' => '2']) ?>
@@ -50,3 +42,22 @@ use yii\helpers\Url;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<script>
+    $("#searchtag-category").select2({
+        placeholder: 'Choose Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
+    $("#searchtag-subcategory").select2({
+        placeholder: 'Choose Sub Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
+</script>

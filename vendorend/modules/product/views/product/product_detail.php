@@ -35,7 +35,38 @@ use yii\helpers\Html;
     .sell-pro-div-right p span{
         color: #4a4949;
     }
-    .sell-this-button {
+    .tooltip{
+        width: 100%;
+    }
+    .tool-tip-box{
+        padding: 10px 20px;
+    }
+    .tip-box{
+        padding: 10px 20px;
+    }
+    .default-tool-tip{
+        background: #eeeeee;
+        border: 1px solid #d0d0d0;
+        margin-top: 50px;
+    }
+    .default-tool-tip h4{
+        padding-left: 19px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #d0d0d0;
+        color: black;
+    }
+    .tool-tip{
+        opacity: 0;
+        background: #eeeeee;
+        border: 1px solid #d0d0d0;
+    }
+    .tool-tip h4{
+        padding-left: 19px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #d0d0d0;
+        color: black;
+    }
+     .sell-this-button {
         text-align: center;
         /*background: #0070CC;*/
         color: white;
@@ -50,7 +81,10 @@ use yii\helpers\Html;
     }
 </style>
 <div class="row">
-    <div class="small-22 medium-22 large-22 columns"><h5 class="ng-binding">Xiaomi Mi A1 Dual Sim - 64 GB, 4GB RAM, 4G LTE, Gold</h5><div class="offer-detailes-info"><span class="offerBy"><span class="light-gray ng-binding">EAN:</span><span class="ng-binding">2724467876593</span></span></div></div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-body">
+                <div class="small-22 medium-22 large-22 columns"><h5 class="ng-binding">Xiaomi Mi A1 Dual Sim - 64 GB, 4GB RAM, 4G LTE, Gold</h5><div class="offer-detailes-info"><span class="offerBy"><span class="light-gray ng-binding">EAN:</span><span class="ng-binding">2724467876593</span></span></div></div>
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="small-24 columns sell-this-button">
@@ -59,61 +93,35 @@ use yii\helpers\Html;
             </div>
         </div>
     </div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-body">
-        <div class="panel-body">
-            <div class="col-md-4">
-                <div class="sell-pro-div-left">
-                    <img src="<?= yii::$app->homeUrl; ?>images/samsung-galaxy.jpg" class="img-responsive">
-                </div>
-            </div>
-            <div class="col-md-8 sell-pro-div-right">
-                <h3 class="sell-pro-heading"><?= $product_model->product_name ?></h3>
-                <p>Brand: <span>samsung</span></p>
-                <p>Color: <span>["black"]</span></p>
-                <p>Operating System Type: <span>android</span></p>
-                <p>Storage Capacity: <span>["64 gb"]</span></p>
-                <p>Rear Camera Resolution: <span>12 mp</span></p>
-                <p>Mobile Phone Type: <span>smartphone</span></p>
-                <p>Battery Capacity in mAh: <span>3000 mah & above</span></p>
-                <p>Memory RAM: <span>4 gb</span></p>
             </div>
         </div>
     </div>
-</div>
-<div class="panel panel-default">
-    <div class="panel-body">
+    <div class="row">
+        <div class="col-md-10">
+    <div class="panel panel-default">
         <div class="panel-body">
-            <div class="col-md-6">
-                <div class="sell-pro-div-offerleft">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td>adasd</td>
-                                <td>adasd</td>
-                            </tr>
-                            <tr>
-                                <td>adasd</td>
-                                <td>adasd</td>
-                            </tr>
-                            <tr>
-                                <td>adasd</td>
-                                <td>adasd</td>
-                            </tr>
-                            <tr>
-                                <td>adasd</td>
-                                <td>adasd</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
+            <div class="panel-body">
+                <div class="col-md-4">
+                    <div class="sell-pro-div-left">
+                        <img src="<?= yii::$app->homeUrl; ?>images/samsung-galaxy.jpg" class="img-responsive">
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-6 sell-pro-div-offerright">
+                <div class="col-md-8 sell-pro-div-right">
+                    <h3 class="sell-pro-heading"><?= $product_model->product_name ?></h3>
+                    <p>Brand: <span>samsung</span></p>
+                    <p>Color: <span>["black"]</span></p>
+                    <p>Operating System Type: <span>android</span></p>
+                    <p>Storage Capacity: <span>["64 gb"]</span></p>
+                    <p>Rear Camera Resolution: <span>12 mp</span></p>
+                    <p>Mobile Phone Type: <span>smartphone</span></p>
+                    <p>Battery Capacity in mAh: <span>3000 mah & above</span></p>
+                    <p>Memory RAM: <span>4 gb</span></p>
+                </div>
             </div>
         </div>
     </div>
+    </div>
+    </div>
 </div>
+
 

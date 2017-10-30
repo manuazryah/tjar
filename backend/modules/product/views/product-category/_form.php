@@ -61,4 +61,12 @@ use yii\helpers\ArrayHelper;
                 replace(/^-|-$/g, '');
         return $slug.toLowerCase();
     }
+    $("#productcategory-category_id").select2({
+        placeholder: 'Choose Main Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
 </script>

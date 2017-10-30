@@ -16,20 +16,12 @@ use yii\helpers\Url;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-        <?= $form->field($model, 'main_category_id')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category']) ?>
+        <?= $form->field($model, 'main_category_id')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category', 'class' => 'form-control change_main_cat']) ?>
     </div>
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-        <?php
-        echo $form->field($model, 'category_id')->widget(DepDrop::classname(), [
-            'options' => ['id' => 'productsubcategory-category_id'],
-            'data' => ArrayHelper::map(\common\models\ProductCategory::find()->where(['category_id' => $model->main_category_id])->all(), 'id', 'subcategory_name'),
-            'pluginOptions' => [
-                'depends' => ['productsubcategory-main_category_id'],
-                'placeholder' => 'Select...',
-                'url' => Url::to(['/product/product-category/categories'])
-            ]
-        ]);
-        ?>
+        <?php $cat = []; ?>
+        <?= $form->field($model, 'category_id')->dropDownList($cat, ['prompt' => 'Select Category', 'class' => 'form-control']) ?>
+        
         <?php // $form->field($model, 'subcategory')->dropDownList(ArrayHelper::map(common\models\ProductSubCategory::find()->all(), 'id', 'subcategory_name'), ['prompt' => 'select subcategory']) ?>
     </div>
 
@@ -78,4 +70,20 @@ use yii\helpers\Url;
                 replace(/^-|-$/g, '');
         return $slug.toLowerCase();
     }
+    $("#productsubcategory-main_category_id").select2({
+        placeholder: 'Choose Main Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
+    $("#productsubcategory-category_id").select2({
+        placeholder: 'Choose Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
 </script>

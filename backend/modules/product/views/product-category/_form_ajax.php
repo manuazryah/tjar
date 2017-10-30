@@ -66,7 +66,9 @@ use yii\helpers\ArrayHelper;
 //                        field
                         $('#products-category').html($data.field);
                         $('#products-main_category').append($('<option value="' + category_id + '" selected="selected">' + catname + '</option>'));
+                        $('#s2id_products-main_category').select2('data', {id: category_id, text: catname});
                         $('#products-category').append($('<option value="' + $data.id + '" selected="selected">' + $data.name + '</option>'));
+                        $('#s2id_products-category').select2('data', {id: $data.id, text: $data.name});
 //               
                         $('#modal_category').modal('toggle');
                         $('#products-category').removeAttr('disabled');
@@ -113,4 +115,12 @@ use yii\helpers\ArrayHelper;
                 replace(/^-|-$/g, '');
         return $slug.toLowerCase();
     }
+    $("#productcategory-category_id").select2({
+        placeholder: '- select Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
 </script>

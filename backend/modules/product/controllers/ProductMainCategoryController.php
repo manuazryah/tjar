@@ -61,14 +61,14 @@ class ProductMainCategoryController extends Controller {
     public function actionCreate() {
         $model = new ProductMainCategory();
 
-        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
-            Yii::$app->getSession()->setFlash('success', 'Category Created Successfully');
-            return $this->redirect(['index']);
-        } else {
+//        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
+//            Yii::$app->getSession()->setFlash('success', 'Category Created Successfully');
+//            return $this->redirect(['index']);
+//        } else {
             return $this->renderAjax('create', [
                         'model' => $model,
             ]);
-        }
+//        }
     }
 
     /**

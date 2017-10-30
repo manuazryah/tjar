@@ -16,32 +16,17 @@ use yii\helpers\Url;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-        <?= $form->field($model, 'main_category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category']) ?>
+        <?= $form->field($model, 'main_category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category', 'class' => 'form-control change_main_cat']) ?>
     </div>
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-        <?php
-        echo $form->field($model, 'category')->widget(DepDrop::classname(), [
-            'options' => ['id' => 'productbrand-category'],
-            'data' => ArrayHelper::map(\common\models\ProductCategory::find()->where(['category_id' => $model->main_category])->all(), 'id', 'category_name'),
-            'pluginOptions' => [
-                'depends' => ['productbrand-main_category'],
-                'placeholder' => 'Select...',
-                'url' => Url::to(['/product/product-category/categories'])
-            ]
-        ]);
-        ?>
+        <?php $cat = []; ?>
+        <?= $form->field($model, 'category')->dropDownList($cat, ['prompt' => 'Select Category', 'class' => 'form-control change_category']) ?>
+
     </div>
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-        <?php
-        echo $form->field($model, 'subcategory')->widget(DepDrop::classname(), [
-            'data' => ArrayHelper::map(\common\models\ProductSubCategory::find()->where(['category_id' => $model->category])->all(), 'id', 'subcategory_name'),
-            'pluginOptions' => [
-                'depends' => ['productbrand-main_category', 'productbrand-category'],
-                'placeholder' => 'Select...',
-                'url' => Url::to(['/product/product-sub-category/subcat'])
-            ]
-        ]);
-        ?>
+        <?php $cat = []; ?>
+        <?= $form->field($model, 'subcategory')->dropDownList($cat, ['prompt' => 'Select Sub Category', 'class' => 'form-control']) ?>
+        
     </div>
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'brand_name')->textInput(['maxlength' => true]) ?>
@@ -68,3 +53,29 @@ use yii\helpers\Url;
     <?php ActiveForm::end(); ?>
 
 </div>
+<script>
+    $("#productbrand-main_category").select2({
+        placeholder: 'Choose Main Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
+    $("#productbrand-category").select2({
+        placeholder: 'Choose Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
+    $("#productbrand-subcategory").select2({
+        placeholder: 'Choose Sub Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
+</script>

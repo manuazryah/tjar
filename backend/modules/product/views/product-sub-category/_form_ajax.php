@@ -16,21 +16,13 @@ use yii\helpers\Url;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-        <?= $form->field($model, 'main_category_id')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category']) ?>
+        <?= $form->field($model, 'main_category_id')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category', 'class' => 'form-control change_main_cat']) ?>
     </div>
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-        <?php
-        echo $form->field($model, 'category_id')->widget(DepDrop::classname(), [
-            'options' => ['id' => 'productsubcategory-category_id'],
-            'data' => ArrayHelper::map(\common\models\ProductCategory::find()->where(['category_id' => $model->main_category_id])->all(), 'id', 'subcategory_name'),
-            'pluginOptions' => [
-                'depends' => ['productsubcategory-main_category_id'],
-                'placeholder' => 'Select...',
-                'url' => Url::to(['/product/product-category/categories'])
-            ]
-        ]);
-        ?>
-        <?php // $form->field($model, 'subcategory')->dropDownList(ArrayHelper::map(common\models\ProductSubCategory::find()->all(), 'id', 'subcategory_name'), ['prompt' => 'select subcategory']) ?>
+        <?php $cat = []; ?>
+        <?= $form->field($model, 'category_id')->dropDownList($cat, ['prompt' => 'Select Category', 'class' => 'form-control change_category']) ?>
+
+
     </div>
 
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
@@ -67,9 +59,9 @@ use yii\helpers\Url;
         event.preventDefault();
         if (valid()) {
             var main_category_id = $('#productsubcategory-main_category_id').val();
-//            var main_catname = $('#productsubcategory-main_category_id option:selected').text();
+            var main_catname = $('#productsubcategory-main_category_id option:selected').text();
             var category_id = $('#productsubcategory-category_id').val();
-//            var cat_name = $('#productsubcategory-category_id option:selected').text();
+            var cat_name = $('#productsubcategory-category_id option:selected').text();
             var subcategory_name = $('#productsubcategory-subcategory_name').val();
             var canonical_name = $('#productsubcategory-canonical_name').val();
             var subcategory_name_arabic = $('#productsubcategory-subcategory_name_arabic').val();
@@ -83,10 +75,13 @@ use yii\helpers\Url;
                     var $data = JSON.parse(data);
                     if ($data.con === "1") {
                         $('#products-subcategory').html($data.field);
-                        $('#products-main_category').val(main_category_id);
+//                        $('#products-main_category').val(main_category_id);
+                        $('#s2id_products-main_category').select2('data', {id: main_category_id, text: main_catname});
                         $('#products-category').html($data.field_category);
-                        $('#products-category').val(category_id);
-                        $('#products-subcategory').append($('<option value="' + $data.id + '" selected="selected">' + $data.name + '</option>'));
+                        $('#s2id_products-category').select2('data', {id: category_id, text: cat_name});
+//                        $('#products-category').val(category_id);
+                        $('#s2id_products-subcategory').select2('data', {id: $data.id, text: $data.name});
+//                        $('#products-subcategory').append($('<option value="' + $data.id + '" selected="selected">' + $data.name + '</option>'));
 ////               
                         $('#modal_subcategory').modal('toggle');
                         $('#products-category').removeAttr('disabled');
@@ -134,4 +129,20 @@ use yii\helpers\Url;
                 replace(/^-|-$/g, '');
         return $slug.toLowerCase();
     }
+    $("#productsubcategory-main_category_id").select2({
+        placeholder: '- select Main Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
+    $("#productsubcategory-category_id").select2({
+        placeholder: '- select Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
 </script>

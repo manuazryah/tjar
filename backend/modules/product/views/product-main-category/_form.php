@@ -12,7 +12,7 @@ s
 
 <div class="product-main-category-form form-inline">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => 'prdct_main_category']); ?>
 
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'autocomplete' => 'off']) ?>

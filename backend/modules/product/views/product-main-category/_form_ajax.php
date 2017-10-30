@@ -60,6 +60,7 @@ s
                     var $data = JSON.parse(data);
                     if ($data.con === "1") {
                         $('#products-main_category').append($('<option value="' + $data.id + '" selected="selected" >' + $data.name + '</option>'));
+                        $('#s2id_products-main_category').select2('data', {id: $data.id, text: $data.name});
                       
                         $('#modal_maincat').modal('toggle');
                     } else {

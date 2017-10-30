@@ -4,19 +4,17 @@
  * and open the template in the editor.
  */
 $(document).ready(function () {
-    $('.change_main_cat').change(function () {
-
+    $('body').on('change', '.change_main_cat', function () {
         var id = $(this).attr('id');
         var main_category = $(this).val();
         main_category_cat(main_category, id);
     });
-    $('.change_category').change(function () {
-
+    $('body').on('change', '.change_category', function () {
         var id = $(this).attr('id');
         var category = $(this).val();
         category_subcat(category, id);
     });
-    $('.change_subcategory').change(function () {
+    $('body').on('change', '.change_subcategory', function () {
 
         var id = $(this).attr('id');
         var category = $(this).val();
@@ -35,9 +33,16 @@ function main_category_cat(main_category, ids) {
             var $data = JSON.parse(data);
             if ($data.con === "1") {
 //                $('.change_category').removeAttr('disabled');
-                $('#products-category').html('').html($data.val);
+                var $ids = ids.split("-");
+                if ($ids['1'] === 'main_category_id') {
+                    var $form = 'category_id';
+                } else {
+                    var $form = 'category';
+                }
+                $('#' + $ids['0'] + '-' + $form).html('').html($data.val);
+                $('#s2id_' + $ids['0'] + '-' + $form).select2('data', {id: '', text: 'Select Category'});
+//                $('#products-category').html('').html($data.val);
                 hideLoader();
-
             } else {
                 alert('Internal Error');
                 hideLoader();
@@ -59,8 +64,15 @@ function category_subcat(category, ids) {
         success: function (data) {
             var $data = JSON.parse(data);
             if ($data.con === "1") {
-//                $('.change_subcategory').removeAttr('disabled');
-                $('#products-subcategory').html('').html($data.val);
+                var $ids = ids.split("-");
+                if ($ids['1'] === 'category_id') {
+                    var $form = 'subcategory_id';
+                } else {
+                    var $form = 'subcategory';
+                }
+                $('#' + $ids['0'] + '-' + $form).html('').html($data.val);
+                $('#s2id_' + $ids['0'] + '-' + $form).select2('data', {id: '', text: 'Select Sub Category'});
+//                $('#products-subcategory').html('').html($data.val);
                 hideLoader();
             } else {
                 alert('Internal Error');
@@ -85,6 +97,7 @@ function subcategory_brand(category, id) {
             if ($data.con === "1") {
 //                $('.change_subcategory').removeAttr('disabled');
                 $('#products-brand').html('').html($data.val);
+                $('#s2id_products-brand').select2('data', {id: '', text: 'Select Brand'});
                 hideLoader();
             } else {
                 alert('Internal Error');

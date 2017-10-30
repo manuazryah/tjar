@@ -16,32 +16,17 @@ use yii\helpers\Url;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-        <?= $form->field($model, 'main_category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category']) ?>
+        <?= $form->field($model, 'main_category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category', 'class' => 'form-control change_main_cat']) ?>
     </div>
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-        <?php
-        echo $form->field($model, 'category')->widget(DepDrop::classname(), [
-            'options' => ['id' => 'productbrand-category'],
-            'data' => ArrayHelper::map(\common\models\ProductCategory::find()->where(['category_id' => $model->main_category])->all(), 'id', 'category_name'),
-            'pluginOptions' => [
-                'depends' => ['productbrand-main_category'],
-                'placeholder' => 'Select...',
-                'url' => Url::to(['/product/product-category/categories'])
-            ]
-        ]);
-        ?>
+        <?php $cat = []; ?>
+        <?= $form->field($model, 'category')->dropDownList($cat, ['prompt' => 'Select Category', 'class' => 'form-control change_category']) ?>
+        
     </div>
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-        <?php
-        echo $form->field($model, 'subcategory')->widget(DepDrop::classname(), [
-            'data' => ArrayHelper::map(\common\models\ProductSubCategory::find()->where(['category_id' => $model->category])->all(), 'id', 'subcategory_name'),
-            'pluginOptions' => [
-                'depends' => ['productbrand-main_category', 'productbrand-category'],
-                'placeholder' => 'Select...',
-                'url' => Url::to(['/product/product-sub-category/subcat'])
-            ]
-        ]);
-        ?>
+        <?php $cat = []; ?>
+        <?= $form->field($model, 'subcategory')->dropDownList($cat, ['prompt' => 'Select Sub Category']) ?>
+        
     </div>
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'brand_name')->textInput(['maxlength' => true]) ?>
@@ -73,8 +58,11 @@ use yii\helpers\Url;
         event.preventDefault();
         if (valid()) {
             var main_category = $('#productbrand-main_category').val();
+            var main_catname = $('#productbrand-main_category option:selected').text();
             var category = $('#productbrand-category').val();
+            var catname = $('#productbrand-category option:selected').text();
             var subcategory = $('#productbrand-subcategory').val();
+            var subcat_name = $('#productbrand-subcategory option:selected').text();
             var brand_name = $('#productbrand-brand_name').val();
             var brand_name_arabic = $('#productbrand-brand_name_arabic').val();
             var comments = $('#productbrand-comments').val();
@@ -86,14 +74,17 @@ use yii\helpers\Url;
                 success: function (data) {
                     var $data = JSON.parse(data);
                     if ($data.con === "1") {
-                        $('#products-main_category').val(main_category);
+//                        $('#products-main_category').val(main_category);
+                        $('#s2id_products-main_category').select2('data', {id: main_category, text: main_catname});
                         $('#products-category').html($data.field_category);
-                        $('#products-category').val(category);
+                        $('#s2id_products-category').select2('data', {id: category, text: catname});
+//                        $('#products-category').val(category);
                         $('#products-subcategory').html($data.field_subcat);
-                        $('#products-subcategory').val(subcategory);
+                        $('#s2id_products-subcategory').select2('data', {id: subcategory, text: subcat_name});
+//                        $('#products-subcategory').val(subcategory);
                          $('#products-brand').html($data.field);
-                        $('#products-brand').val($data.id);
-                         $('#products-brand').append($('<option value="' + $data.id + '" selected="selected">' + $data.name + '</option>'));
+                        $('#s2id_products-brand').select2('data', {id: $data.id, text: $data.name});
+//                         $('#products-brand').append($('<option value="' + $data.id + '" selected="selected">' + $data.name + '</option>'));
 ////               
                         $('#modal_brand').modal('toggle');
                         $('#products-category').removeAttr('disabled');
@@ -125,4 +116,28 @@ use yii\helpers\Url;
             return false;
         }
     }
+    $("#productbrand-main_category").select2({
+        placeholder: '- select Main Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
+    $("#productbrand-category").select2({
+        placeholder: '- select Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
+    $("#productbrand-subcategory").select2({
+        placeholder: '- select Sub Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
 </script>
