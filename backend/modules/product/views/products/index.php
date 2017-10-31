@@ -27,7 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
 				<div class="panel-body">
 
 
-					<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+					<?php
+					// echo $this->render('_search', ['model' => $searchModel]);
+					?>
 
 
 
@@ -37,15 +39,16 @@ $this->params['breadcrumbs'][] = $this->title;
 						<span>Search</span>
 					</button>
 					<div class="table-responsive" style="border: none">
+
 						<?=
 						GridView::widget([
 						    'dataProvider' => $dataProvider,
 						    'filterModel' => $searchModel,
 						    'columns' => [
 							    ['class' => 'yii\grid\SerialColumn'],
-							'product_name',
-//							'canonical_name',
-							[
+//							'product_name',
+							'canonical_name',
+							    [
 							    'attribute' => 'main_category',
 							    'filter' => ArrayHelper::map(ProductMainCategory::find()->all(), 'id', 'name'),
 							    'value' => 'mainCategory.name'
@@ -55,8 +58,15 @@ $this->params['breadcrumbs'][] = $this->title;
 							    'filter' => ArrayHelper::map(ProductCategory::find()->all(), 'id', 'category_name'),
 							    'value' => 'categoryName.category_name'
 							],
-							'category',
-							'subcategory',
+							    [
+							    'attribute' => 'gallery_images',
+							    'format' => 'raw',
+							    'value' => function ($data) {
+								    $img = '<img width="120px" src="' . Yii::$app->homeUrl . '../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $data->id) . '/' . $data->id . '/profile/' . $data->canonical_name . '_thumb.' . $data->gallery_images . '"/>';
+								    return $img;
+							    },
+							],
+//							'subcategory',
 							// 'brand',
 							// 'item_ean',
 							// 'gender',

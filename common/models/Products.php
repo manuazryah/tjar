@@ -46,7 +46,7 @@ class Products extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['product_name', 'canonical_name', 'main_category', 'category', 'brand', 'item_ean', 'main_description', 'CB', 'UB', 'product_name_arabic', 'main_description_arabic'], 'required'],
+//			[['product_name', 'canonical_name', 'main_category', 'category', 'brand', 'item_ean', 'main_description', 'CB', 'UB', 'product_name_arabic', 'main_description_arabic'], 'required'],
 			[['main_category', 'category', 'subcategory', 'brand', 'gender', 'status', 'CB', 'UB'], 'integer'],
 			[['main_description', 'meta_description', 'meta_keyword', 'main_description_arabic'], 'string'],
 			[['DOC', 'DOU'], 'safe'],

@@ -3,6 +3,7 @@
 foreach ($features as $mod) {
 
 	$specification_model = \common\models\Features::findOne($mod->specification);
+	$value = $specification_model->tablevalue__name;
 	?>
 	<div class="col-md-6 col-sm-6 col-xs-12 left_padd">
 		<div class="form-group field-product-feature required">
@@ -18,7 +19,7 @@ foreach ($features as $mod) {
 				<select id="specifications[]" class="form-control" name="specifications[<?= $mod->id ?>]" aria-required="true" data-krajee-depdrop="depdrop_37f5edbf" aria-invalid="true">
 					<option value="">Select...</option>
 					<?php foreach ($specifiction_dropdown as $spec_val) { ?>
-						<option value="<?= $spec_val->id . '_' . $spec_val->brand_name ?>"><?= $spec_val->brand_name ?></option>
+						<option value="<?= $spec_val->id . '_' . $spec_val->$value ?>"><?= $spec_val->$value ?></option>
 					<?php } ?>
 				</select>
 			<?php } else { ?>
