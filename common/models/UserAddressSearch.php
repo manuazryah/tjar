@@ -10,24 +10,22 @@ use common\models\UserAddress;
 /**
  * UserAddressSearch represents the model behind the search form of `common\models\UserAddress`.
  */
-class UserAddressSearch extends UserAddress
-{
+class UserAddressSearch extends UserAddress {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'user_id', 'country_id', 'city_id', 'street_id', 'default_address', 'pincode', 'status', 'CB', 'UB'], 'integer'],
-            [['first_name', 'last_name', 'address', 'landmark', 'DOC', 'DOU'], 'safe'],
+            [['first_name', 'last_name', 'address', 'landmark', 'DOC', 'DOU', 'phone'], 'safe'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,8 +37,7 @@ class UserAddressSearch extends UserAddress
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = UserAddress::find();
 
         // add conditions that should always apply here
@@ -64,6 +61,7 @@ class UserAddressSearch extends UserAddress
             'country_id' => $this->country_id,
             'city_id' => $this->city_id,
             'street_id' => $this->street_id,
+            'phone' => $this->phone,
             'default_address' => $this->default_address,
             'pincode' => $this->pincode,
             'status' => $this->status,
@@ -74,10 +72,11 @@ class UserAddressSearch extends UserAddress
         ]);
 
         $query->andFilterWhere(['like', 'first_name', $this->first_name])
-            ->andFilterWhere(['like', 'last_name', $this->last_name])
-            ->andFilterWhere(['like', 'address', $this->address])
-            ->andFilterWhere(['like', 'landmark', $this->landmark]);
+                ->andFilterWhere(['like', 'last_name', $this->last_name])
+                ->andFilterWhere(['like', 'address', $this->address])
+                ->andFilterWhere(['like', 'landmark', $this->landmark]);
 
         return $dataProvider;
     }
+
 }

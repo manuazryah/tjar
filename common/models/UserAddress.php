@@ -43,9 +43,9 @@ class UserAddress extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['user_id', 'country_id', 'city_id', 'street_id', 'default_address', 'pincode', 'status', 'CB', 'UB'], 'integer'],
+            [['user_id', 'country_id', 'city_id', 'street_id', 'default_address', 'pincode', 'status', 'CB', 'UB', 'phone'], 'integer'],
             [['address', 'landmark'], 'string'],
-            [['CB', 'UB'], 'required'],
+            [['first_name', 'last_name', 'address', 'city_id'], 'required'],
             [['DOC', 'DOU'], 'safe'],
             [['first_name', 'last_name'], 'string', 'max' => 100],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],

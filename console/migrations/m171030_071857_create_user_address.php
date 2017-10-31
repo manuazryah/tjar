@@ -25,6 +25,7 @@ class m171030_071857_create_user_address extends Migration {
             'country_id' => $this->integer()->Null(),
             'city_id' => $this->integer()->Null(),
             'street_id' => $this->integer()->Null(),
+            'phone' => $this->integer()->Null(),
             'address' => $this->text()->Null(),
             'landmark' => $this->text()->Null(),
             'default_address' => $this->smallInteger()->notNull()->defaultValue(0),

@@ -9,6 +9,13 @@ body{
     max-width: 1680px;
     padding: 0px;
 }
+.container2 {
+    margin: 0 auto;
+    min-width: 1000px;
+    max-width: 1680px;
+    padding: 0px;
+    width: 1000px;
+}
 a{
     color: inherit;
 }
@@ -3018,10 +3025,88 @@ input[type=checkbox], input[type=radio]{
 
 /***********************************************************Common-pages***********************************************/
 
+#common-page{
+    padding: 0 15px;
+}
+#common-page .main-heading{
+    margin-bottom: 40px;
+    text-align: center;
+    color: #434343;
+    font-weight: 400;
+}
 #common-page ol{
     margin: 0px;
+    padding: 0px 30px;
+    list-style-position: outside;
+}
+#common-page ol li{
+    color: #747474;
+    line-height: 1.5;
+    margin: 0 0 5px;
+    padding: 0 0 0 5px;
+}
+#common-page ul{
+    margin: 0px;
     padding: 0px;
-    padding-left: 20px;
+    padding-left: 30px;
+    list-style-position: outside;
+    list-style: none;
+}
+#common-page ul li{
+    color: #747474;
+    line-height: 1.5;
+    margin: 0 0 5px;
+    padding: 0 0 0 5px;
+}
+#common-page ul li:before{
+    content: "\f0f6";
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-left: -1.3em;
+    width: 1.3em;
+}
+#common-page h2{
+    font-size: 15px;
+    color: #434343;
+    font-weight: 700;
+    margin: 0 0 30px;
+    padding: 0;
+    letter-spacing: 1px;
+}
+#common-page p{
+    margin: 0 0 20px;
+    color: #747474;
+}
+.marg-top-btm20{
+    margin: 20px 0px;
+}
+#common-page ol p{
+    margin-left: 15px;
+    margin-bottom: 8px;
+}
+#common-page .question li{
+    font-weight: 700;
+    font-size: 15px;
+}
+.container2 .page{
+    margin: 0px 15px;
+    padding: 15px 20px;
+    border-bottom: 3px solid #f4f5f6;
+}
+.container2 .breadcrumb{
+    margin-bottom: 0px;
+}
+.container2 .breadcrumb .path{
+    padding-left: 0px;
+}
+.container2 .current-page{
+    text-align: left;
+    font-size: 17px;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    color: #515452;
+    font-weight: 700;
+    text-transform: capitalize;
 }
 
 /***********************************************************Common-pages-END***********************************************/
@@ -3112,3 +3197,110 @@ input[type=checkbox], input[type=radio]{
 }
 
 /************************************************************BING-TRANSLATOR-END*********************************************/
+
+#divC{
+    font-size: 14px;
+    background-color:#FFF;
+    position:relative;
+    width:100%;
+    height:auto;
+    padding:5px;
+    border:solid 1px #F1F1F1;
+    border-radius:2px;
+    -moz-border-radius:2px; -webkit-border-radius:2px;
+}
+#divC {
+    display:none;
+    padding:20px 10px;
+}
+#divAnim #btAnimate{
+    font-size: 14px;
+    color: #00609d;
+    font-weight: 500;
+    /* padding: 16px 0; */
+    cursor: pointer;
+    background: #f1f1f1;
+    border: none;
+    width: 100%;
+    text-align: left;
+    padding: 15px 15px;
+    position: relative;
+    padding-left: 55px;
+}
+#divAnim #btAnimate span{
+    position: absolute;
+    font-size: 29px;
+    top: 3px;
+    left: 20px;
+}
+#divAnim #btAnimate:focus{
+    outline: none;
+}
+.Cancel {
+    background: transparent;
+    width: auto;
+    color: #00609d;
+    font-weight: 600;
+    font-size: 100%;
+    float: none;
+    text-transform: uppercase;
+    padding: 13px 26px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    transition: all 0.4s;
+    border: none;
+    cursor: pointer;
+}
+.Cancel:focus{
+    outline: none;
+}
+.MyAccount-content .my-account-address .address{
+    border: 1px solid #f1f1f1;
+    padding: 15px;
+}
+.MyAccount-content address{
+    display: block;
+    max-width: 523px;
+    margin-bottom: 0px;
+}
+.MyAccount-content .address .number{
+    margin-left: 25px;
+}
+.MyAccount-content .option-space{
+    margin-bottom: 15px;
+}
+.MyAccount-content .option-space .default{
+    background: #ffdd31;
+    color: #656565;
+    border: none;
+    margin-left: 20px;
+    text-transform: uppercase;
+    font-size: 11px;
+    padding: 4px 7px;
+    border-radius: 2px;
+    font-weight: 500;
+    margin-right: 15px;
+}
+.MyAccount-content .option-space .default:focus{
+    outline: none;
+}
+.MyAccount-content .option-space .option-btn{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+.MyAccount-content .option-space .options{
+    left: -149px;
+    top: 10px;
+}
+.account-logout{
+    background: white;
+    border: none;
+    padding: 0px;
+    font-size: 12px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: rgba(71,71,71,.8);
+    cursor: pointer;
+}

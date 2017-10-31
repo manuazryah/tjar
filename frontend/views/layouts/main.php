@@ -93,8 +93,8 @@ if (isset(Yii::$app->session['log-return'])) {
                             <li><a href="#">Call us now +123 5678 890</a></li>
                             <li><a href="#">Sell with us</a></li>
                             <li><a href="#">Track order</a></li>
-                            <li><a data-toggle="modal" data-target="#Login" href="#">Signup</a></li>
                             <?php if (Yii::$app->user->identity->id == '') { ?>
+                                <li><a data-toggle="modal" data-target="#Login" href="#">Signup</a></li>
                                 <li><a data-toggle="modal" data-target="#Login" href="#">Log in</a></li>
                             <?php } else {
                                 ?>
@@ -897,6 +897,27 @@ if (isset(Yii::$app->session['log-return'])) {
                         return false;
                     }
                 }
+            });
+        </script>
+        <script>
+            jQuery(document).ready(function ($) {
+                $('#btAnimate').click(function () {
+                    // ANIMATE THE CONTAINER. DURATION SET TO 500 MILLISECONDS.
+                    $("#divAnim").animate(500);
+                    $('#divC').show('slow');          // ALSO SHOW THE DIV.
+                    $('#divC').css('display', 'inline-block');          // ALSO SHOW THE DIV.
+                });
+
+                // REVERSE ANIMATE.
+                $('#btHide').click(function () {
+                    $("#divAnim").animate(500);
+                    $('#divC').hide('slow');          // HIDE THE DIV.
+                });
+                $('.option-btn').hover(function () {
+                    $(this).find('.options').stop(true, true).delay(100).fadeIn(100);
+                }, function () {
+                    $(this).find('.options').stop(true, true).delay(100).fadeOut(100);
+                });
             });
         </script>
         <?php $this->endBody() ?>
