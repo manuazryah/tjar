@@ -16,32 +16,25 @@ use yii\helpers\Url;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-        <?= $form->field($model, 'main_category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category']) ?>
+        <?= $form->field($model, 'main_category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category', 'class' => 'form-control change_main_cat']) ?>
     </div>
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'> 
         <?php
-        echo $form->field($model, 'category')->widget(DepDrop::classname(), [
-            'options' => ['id' => 'zpmscreentype-category'],
-            'data' => ArrayHelper::map(\common\models\ProductCategory::find()->where(['category_id' => $model->main_category])->all(), 'id', 'category_name'),
-            'pluginOptions' => [
-                'depends' => ['zpmscreentype-main_category'],
-                'placeholder' => 'Select...',
-                'url' => Url::to(['/product/product-category/categories'])
-            ]
-        ]);
+        $cat = [];
+        if (!$model->isNewRecord) {
+            $cat = ArrayHelper::map(common\models\ProductCategory::find()->where(['category_id' => $model->main_category, 'status' => '1'])->all(), 'id', 'category_name');
+        }
         ?>
+        <?= $form->field($model, 'category')->dropDownList($cat, ['prompt' => 'Select Category', 'class' => 'form-control change_category']) ?>
     </div>
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>  
         <?php
-        echo $form->field($model, 'subcategory')->widget(DepDrop::classname(), [
-            'data' => ArrayHelper::map(\common\models\ProductSubCategory::find()->where(['category_id' => $model->category])->all(), 'id', 'subcategory_name'),
-            'pluginOptions' => [
-                'depends' => ['zpmscreentype-main_category', 'zpmscreentype-category'],
-                'placeholder' => 'Select...',
-                'url' => Url::to(['/product/product-sub-category/subcat'])
-            ]
-        ]);
+        $subcat = [];
+        if (!$model->isNewRecord) {
+            $subcat = ArrayHelper::map(common\models\ProductSubCategory::find()->where(['category_id' => $model->category, 'status' => '1'])->all(), 'id', 'subcategory_name');
+        }
         ?>
+        <?= $form->field($model, 'subcategory')->dropDownList($subcat, ['prompt' => 'Select Sub Category']) ?>
     </div>
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>    
         <?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
@@ -61,3 +54,29 @@ use yii\helpers\Url;
     <?php ActiveForm::end(); ?>
 
 </div>
+<script>
+    $("#zpmscreentype-main_category").select2({
+        placeholder: 'Select Main Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
+    $("#zpmscreentype-category").select2({
+        placeholder: 'Select Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
+    $("#zpmscreentype-subcategory").select2({
+        placeholder: 'Select Sub Category',
+        allowClear: true
+    }).on('select2-open', function ()
+    {
+        // Adding Custom Scrollbar
+        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
+</script>

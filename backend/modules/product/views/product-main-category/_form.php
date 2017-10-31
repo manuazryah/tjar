@@ -36,7 +36,7 @@ s
     </div>
     <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
         <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => 'btn btn-success prdct_main_category', 'style' => 'margin-top: 18px; height: 36px; width:100px;float: right;']) ?>
+            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success prdct_main_category' : 'btn btn-primary', 'style' => 'margin-top: 18px; height: 36px; width:100px;float: right;']) ?>
         </div>
     </div>
 

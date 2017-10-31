@@ -19,9 +19,14 @@ use yii\helpers\Url;
         <?= $form->field($model, 'category')->dropDownList(ArrayHelper::map(common\models\ProductCategory::find()->all(), 'id', 'category_name'), ['prompt' => 'select category', 'class' => 'form-control change_category']) ?>
     </div>
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-        <?php $cat = []; ?>
-        <?= $form->field($model, 'subcategory')->dropDownList($cat, ['prompt' => 'Select Sub Category', 'class' => 'form-control']) ?>
-        
+        <?php
+        $subcat = [];
+        if (!$model->isNewRecord) {
+            $subcat = ArrayHelper::map(common\models\ProductSubCategory::find()->where(['category_id' => $model->category, 'status' => '1'])->all(), 'id', 'subcategory_name');
+        }
+        ?>
+        <?= $form->field($model, 'subcategory')->dropDownList($subcat, ['prompt' => 'Select Sub Category', 'class' => 'form-control']) ?>
+
     </div>
     <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
         <?= $form->field($model, 'tag_name')->textarea(['rows' => '2']) ?>
