@@ -18,8 +18,15 @@ use yii\helpers\Html;
         </div>
         <?= Html::endForm() ?>
 
-<?php }
-?>
+<?php } else {
+        ?>
+
+        <div class="col-md-8 col-sm-8 col-xs-8 search" id="header_search">
+                <input type="search" name="serch" placeholder="Search for Products, Brands & More" class="search-keyword"/>
+                <div class="search-keyword-dropdown"></div>
+                <button class="search-submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </div>
+<?php } ?>
 
 
 
@@ -45,7 +52,7 @@ use yii\helpers\Html;
                                 if (type == 1) {
                                         var urlval = 'product/product/search-keyword';
                                 } else {
-                                        var urlval = 'product/search-keyword';
+                                        var urlval = 'products/search-keyword';
                                 }
 
                                 if (e.keyCode != 40 && e.keyCode != 38 && e.keyCode != 27) {

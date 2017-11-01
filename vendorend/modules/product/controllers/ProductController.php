@@ -128,6 +128,7 @@ class ProductController extends \yii\web\Controller {
 
         public function actionProductSearch($query_search = null) {
                 if (isset($query_search)) {
+                        $query_search = Yii::$app->EncryptDecrypt->Encrypt('decrypt', $query_search);
                         $category = \common\models\SearchTag::findOne($query_search);
                         $search_products = Products::find()->where(['status' => 1])->andWhere(new Expression('FIND_IN_SET(:search_tags, search_tags)'))->addParams([':search_tags' => $query_search])->andWhere(['category' => $category->category])->all();
                 } else {

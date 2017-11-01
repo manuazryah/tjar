@@ -443,8 +443,9 @@ nav.navbar {
 }
 #header_search  .search-dropdown li{
         font-size: 14px;
-        padding: 5px 15px;
+        padding: 10px 15px;
         text-transform: capitalize;
+        height: 40px;
 }
 #header_search .search-dropdown li:hover{
         background-color: rgba(193, 193, 193, 0.5);
