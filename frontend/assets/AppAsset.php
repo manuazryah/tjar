@@ -34,7 +34,7 @@ class AppAsset extends AssetBundle {
         'js/msdropdown/jquery.dd.min.js',
         'js/msdropdown/jquery.dd.js',
         'js/magiczoom.js',
-//        'js/custom.js',
+        'js/custom.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

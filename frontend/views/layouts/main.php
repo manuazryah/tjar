@@ -59,11 +59,11 @@ if (isset(Yii::$app->session['log-return'])) {
             <div class="top-small-header">
                 <div class="container">
                     <div class="dropdown">
-                        <button onclick="myFunction()" class="dropbtn language"><span class="country-flag"><img src="images/flags/USA.png"/></span>ENGLISH<span class="arrow-down"><i class="fa fa-caret-down" aria-hidden="true"></i></span></button>
+                        <button onclick="myFunction()" class="dropbtn language"><span class="country-flag"><img src="<?= Yii::$app->homeUrl ?>/images/flags/USA.png"/></span>ENGLISH<span class="arrow-down"><i class="fa fa-caret-down" aria-hidden="true"></i></span></button>
                         <div id="myDropdown" class="dropdown-content">
                             <ul>
-                                <li class="language-choose" id="English"><a  ><span class="country-flag"><img src="images/flags/USA.png"/></span> English</a></li>
-                                <li class="language-choose" id="Arabic"><a  ><span class="country-flag"><img src="images/flags/UAE.png"/></span> ARABIC</a></li>
+                                <li class="language-choose" id="English"><a  ><span class="country-flag"><img src="<?= Yii::$app->homeUrl ?>/images/flags/USA.png"/></span> English</a></li>
+                                <li class="language-choose" id="Arabic"><a  ><span class="country-flag"><img src="<?= Yii::$app->homeUrl ?>/images/flags/UAE.png"/></span> ARABIC</a></li>
                             </ul>
                         </div>
 
@@ -72,8 +72,8 @@ if (isset(Yii::$app->session['log-return'])) {
                     </div>
                     <!--                    <div class="language">
                                             <ul>
-                                                <li><span class="country-flag"><img src="images/flags/USA.png"/></span><a href="#">English</a><span class="arrow-down"><i class="fa fa-caret-down" aria-hidden="true"></i></span></li>
-                                                <li><span class="country-flag"><img src="images/flags/USA.png"/></span><a href="#">English</a><span class="arrow-down"><i class="fa fa-caret-down" aria-hidden="true"></i></span></li>
+                                                <li><span class="country-flag"><img src="<?= Yii::$app->homeUrl ?>/images/flags/USA.png"/></span><a href="#">English</a><span class="arrow-down"><i class="fa fa-caret-down" aria-hidden="true"></i></span></li>
+                                                <li><span class="country-flag"><img src="<?= Yii::$app->homeUrl ?>/images/flags/USA.png"/></span><a href="#">English</a><span class="arrow-down"><i class="fa fa-caret-down" aria-hidden="true"></i></span></li>
                                             </ul>
                                         </div>-->
                     <!--                                        <table>
@@ -81,11 +81,11 @@ if (isset(Yii::$app->session['log-return'])) {
                                                                     <td valign="top">
                                                                         <div class="ddOutOfVision" id="countries_msddHolder" style="height: 0px; overflow: hidden; position: absolute;">
                                                                             <select data-width="fit" name="countries" id="countries" style="width:300px;" tabindex="-1">
-                                                                                <option  class=" language lang" value="us" data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag us" data-title="United States">English</option>
-                                                                                <option  class=" language lang" value="ae" data-image="images/msdropdown/icons/blank.gif" data-imagecss="flag ae" data-title="United Arab Emirates">Arabic</option>
+                                                                                <option  class=" language lang" value="us" data-image="<?= Yii::$app->homeUrl ?>/images/msdropdown/icons/blank.gif" data-imagecss="flag us" data-title="United States">English</option>
+                                                                                <option  class=" language lang" value="ae" data-image="<?= Yii::$app->homeUrl ?>/images/msdropdown/icons/blank.gif" data-imagecss="flag ae" data-title="United Arab Emirates">Arabic</option>
                                                                             </select>
                                                                         </div>
-                                                                        <div class="dd ddcommon borderRad    iusTp" id="countries_msdd" tabindex="0" style="width: 100%;"><div class="ddTitle borderRadiusTp"><span class="divider"></span><span class="ddArrow arrowoff"></span><span class="ddTitleText " id="countries_title"><img src="images/msdropdown/icons/blank.gif" class="flag us fnone"><span class="ddlabel">ENGLISH</span><span class="description" style="display: none;"></span></span></div><input id="countries_titleText" type="text" autocomplete="off" class="text shadow borderRadius" style="display: none;"><div class="ddChild ddchild_ border shadow" id="countries_child" style="z-index: 9999; position: absolute; height: 64px; top: 29px; display: block;"><ul><li class="enabled _msddli_ selected" title="United States"><img src="images/msdropdown/icons/blank.gif" class="flag us fnone"><span class="ddlabel">ENGLISH</span><div class="clear"></div></li><li class="enabled _msddli_" title="United Arab Emirates"><img src="images/msdropdown/icons/blank.gif" class="flag ae fnone"><span class="ddlabel">ARABIC</span><div class="clear"></div></li></ul></div></div></td>
+                                                                        <div class="dd ddcommon borderRad    iusTp" id="countries_msdd" tabindex="0" style="width: 100%;"><div class="ddTitle borderRadiusTp"><span class="divider"></span><span class="ddArrow arrowoff"></span><span class="ddTitleText " id="countries_title"><img src="<?= Yii::$app->homeUrl ?>/images/msdropdown/icons/blank.gif" class="flag us fnone"><span class="ddlabel">ENGLISH</span><span class="description" style="display: none;"></span></span></div><input id="countries_titleText" type="text" autocomplete="off" class="text shadow borderRadius" style="display: none;"><div class="ddChild ddchild_ border shadow" id="countries_child" style="z-index: 9999; position: absolute; height: 64px; top: 29px; display: block;"><ul><li class="enabled _msddli_ selected" title="United States"><img src="<?= Yii::$app->homeUrl ?>/images/msdropdown/icons/blank.gif" class="flag us fnone"><span class="ddlabel">ENGLISH</span><div class="clear"></div></li><li class="enabled _msddli_" title="United Arab Emirates"><img src="<?= Yii::$app->homeUrl ?>/images/msdropdown/icons/blank.gif" class="flag ae fnone"><span class="ddlabel">ARABIC</span><div class="clear"></div></li></ul></div></div></td>
                                                                 </tr>
                                                             </table>-->
                     <div class="other-options">
@@ -139,8 +139,8 @@ if (isset(Yii::$app->session['log-return'])) {
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="col-lg-5 col-md-4 col-sm-4 col-xs-12 left-img">
-                            <img class="img-responsive" src="images/Login-left.png" />
-                            <img class="logo" src="images/Login-left-logo.png"/>
+                            <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/Login-left.png" />
+                            <img class="logo" src="<?= Yii::$app->homeUrl ?>/images/Login-left-logo.png"/>
                             <p class="msg">
                                 <strong>Welcome</strong><br>
                                 Get access to your Orders,
@@ -277,7 +277,7 @@ if (isset(Yii::$app->session['log-return'])) {
                 <div class="container">
                     <div class="col-md-2 col-sm-2 col-xs-12">
                         <div class="logo">
-                            <a href="index.php"><img src="images/logo.png"/></a>
+                            <a href="index.php"><img src="<?= Yii::$app->homeUrl ?>/images/logo.png"/></a>
                         </div>
                     </div>
                     <div class="col-md-8 col-sm-8 col-xs-8 search">
@@ -285,7 +285,26 @@ if (isset(Yii::$app->session['log-return'])) {
                         <button class="search-submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                     </div>
                     <div class="col-md-2 col-sm-2 col-xs-4 cart">
-                        <button><i class="fa fa-shopping-cart" aria-hidden="true"></i><span>CART</span></button><label>0</label>
+                        <button><i class="fa fa-shopping-cart" aria-hidden="true"></i><span>CART</span></button><label class="cart_count">0</label>
+<!--                    <div class="container">
+                                <div class="shopping-cart">-->
+                                    <div class="shopping-cart-header">
+                                        <i class="fa fa-shopping-basket" aria-hidden="true"></i><span class="badge cart_count">(0)</span>
+                                        <div class="shopping-cart-total">
+                                            <span class="lighter-text">Total:</span>
+                                            <span class="main-color-text cart_amount"></span>
+                                        </div>
+                                    </div>
+
+                                    <ul class="shopping-cart-items">
+
+                                    </ul>
+                                    <div class="col-md-12 checkout-btn-space">
+                                        <?= Html::a('<button class="green2">check out</button>', ['/cart/mycart'], ['class' => '']) ?>
+                                        <!--<button class="green2">check out</button>-->
+                                    </div>
+                                <!--</div>-->
+                            <!--</div>-->
                     </div>
                 </div>
             </div>
@@ -563,7 +582,7 @@ if (isset(Yii::$app->session['log-return'])) {
                 <div class="container">
                     <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
                         <div class="footer-logo">
-                            <img class="img-responsive" src="images/logo.png">
+                            <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/logo.png">
                         </div>
                         <div class="footer-about">
                             <p>

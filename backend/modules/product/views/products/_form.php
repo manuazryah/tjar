@@ -117,7 +117,7 @@ use common\models\SearchTag;
                     <?php
                     $brand = [];
                     if (!$model->isNewRecord) {
-                        $subcat = ArrayHelper::map(common\models\ProductBrand::find()->where(['subcategory' => $model->subcategory, 'status' => '1'])->all(), 'id', 'brand_name');
+                        $brand = ArrayHelper::map(common\models\ProductBrand::find()->where(['subcategory' => $model->subcategory, 'status' => '1'])->all(), 'id', 'brand_name');
                     }
                     ?>
                     <?= $form->field($model, 'brand')->dropDownList($brand, ['prompt' => 'Select Brand', 'class' => 'form-control change_brand']) ?>
@@ -157,6 +157,13 @@ use common\models\SearchTag;
 
                 </div>
                 <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
+                    <?php
+                    if (!$model->isNewRecord) {
+                        if (isset($model->search_tags)) {
+                            $model->search_tags = explode(',', $model->search_tags);
+                        }
+                    }
+                    ?>
                     <?= $form->field($model, 'search_tags')->dropDownList(ArrayHelper::map(SearchTag::find()->where(['status' => '1'])->all(), 'id', 'tag_name'), ['class' => 'form-control', 'id' => 'product-search_tags', 'multiple' => 'multiple']) ?>
                     <label  value ='<?= Url::to('../search-tag/ajaxcreate') ?>' class="btn btn-icon btn-white extra_btn searchtag">Add Search Tag</label>
                     <?php
@@ -170,10 +177,7 @@ use common\models\SearchTag;
                     ?>
 
                 </div>
-                <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-                    <?= $form->field($model, 'search_tags_arabic')->dropDownList(ArrayHelper::map(SearchTag::find()->where(['status' => '1'])->all(), 'id', 'tag_name_arabic'), ['class' => 'form-control', 'id' => 'product-search_tags_arabic', 'multiple' => 'multiple']) ?>
-
-                </div>
+                
                 <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
                     <?= $form->field($model, 'status')->dropDownList(['1' => 'Enable', '0' => 'Disable']) ?>
 
