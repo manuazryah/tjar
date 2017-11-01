@@ -9,7 +9,7 @@ use yii\bootstrap\Modal;
         <li><?= Html::a('Orders', ['/myaccounts/my-account/my-orders'], ['class' => 'title']) ?></li>
         <li><?= Html::a('Reviews & Ratings', ['/myaccounts/my-account/reviews'], ['class' => 'title']) ?></li>
         <li><?= Html::a('Addresses', ['/myaccounts/my-account/address'], ['class' => 'title']) ?></li>
-        <li><a href="#">Account Details</a></li>
+        <li><?= Html::a('Account Details', ['/myaccounts/my-account/account-details'], ['class' => 'title']) ?></li>
         <li><?= Html::a('Wish List', ['/myaccounts/my-account/wish-list'], ['class' => 'title']) ?></li>
         <?php
         echo '<li class="">'
