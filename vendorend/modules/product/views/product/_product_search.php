@@ -10,8 +10,8 @@
                 }
                 ?>
 
-                <li class="<?= $p == 1 ? 'search-selected' : '' ?>" id="<?= $value->tag_name ?>">
-                        <a href="<?= Yii::$app->homeUrl ?>product/product/product-search?query_search=<?= Yii::$app->EncryptDecrypt->Encrypt('encrypt', $value->id) ?>"> <span class="search-li-value"><?= $value->tag_name ?> </span> in  <span class="search-category"> <?= $category_name ?> </span> </a>
+                <li class="select <?= $p == 1 ? 'search-selected' : '' ?>" id="<?= $value->id ?>">
+                        <a id="<?= $value->id ?>" href="<?= Yii::$app->homeUrl ?>product/product/product-search?query_search=<?= Yii::$app->EncryptDecrypt->Encrypt('encrypt', $value->id) ?>"> <span class="search-li-value"><?= $value->tag_name ?> </span> in  <span class="search-category"> <?= $category_name ?> </span> </a>
                 </li>
 
         <?php } ?>

@@ -20,12 +20,13 @@ use yii\helpers\Html;
 
 <?php } else {
         ?>
-
+        <?= Html::beginForm(['/products/product-search'], 'get', ['id' => 'serach-formm']) ?>
         <div class="col-md-8 col-sm-8 col-xs-8 search" id="header_search">
                 <input type="search" name="serch" placeholder="Search for Products, Brands & More" class="search-keyword"/>
                 <div class="search-keyword-dropdown"></div>
                 <button class="search-submit"><i class="fa fa-search" aria-hidden="true"></i></button>
         </div>
+        <?= Html::endForm() ?>
 <?php } ?>
 
 
@@ -68,7 +69,7 @@ use yii\helpers\Html;
                         }
                 });
 
-                /* * ******* selected li value to textbox ********* */
+                /* * ******* selected li on mouseover ********* */
                 $(document).on('mouseover', '.search-dropdown li', function () {
                         $(this).addClass('search-selected').siblings().removeClass('search-selected');
                 });
@@ -102,25 +103,19 @@ use yii\helpers\Html;
                                 $('.search-keyword').val('');
 
                         } else if (e.keyCode == 13) { //enter
+//
+                                if ($('.select').hasClass('search-selected')) {
+                                        e.preventDefault();
+                                        window.location.replace($('.search-selected a').attr('href'));
 
-//                                var value = $('.search-selected').attr('id');
-//                                $('.search-dropdown').hide();
-//                                $('.search-keyword').val(value);
-//                                $('form#serach-formm').submit();
-//                                e.preventDefault();
-                                //   e.preventDefault();
-
-                                if ($('.search-dropdown li').has('.search-selected')) {
-                                        alert();
-                                        $($('.search-dropdown li')).trigger("click");
                                 } else {
-                                        alert('else');
+                                        $('form#serach-formm').submit();
                                 }
 
                         }
 
                         $(".search-dropdown").scrollTop(0); //set to top
-                        $(".search-dropdown").scrollTop($('.search-selected:first').offset().top - $(".search-dropdown").height())
+                        $(".search-dropdown").scrollTop($('.search-selected:first').offset().top - $(".search-dropdown").height());
 
                 });
         });
