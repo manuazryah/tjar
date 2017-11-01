@@ -22,62 +22,69 @@ class CartController extends \yii\web\Controller {
         if (yii::$app->request->isAjax) {
             $vendor_prdct = Yii::$app->request->post()['vendor_prdct'];
             $qty = Yii::$app->request->post()['qty'];
-            $id = ProductVendor::findOne(yii::$app->EncryptDecrypt->Encrypt('decrypt', $vendor_prdct));
-            $id = products::findOne(['canonical_name' => $canonical_name])->id;
-            if (isset(Yii::$app->user->identity->id)) {
-                $user_id = Yii::$app->user->identity->id;
-                $condition = ['user_id' => $user_id];
-           } else {
-                if (!isset(Yii::$app->session['temp_user'])) {
-                    $milliseconds = round(microtime(true) * 1000);
-                    Yii::$app->session['temp_user'] = $milliseconds;
-                }
-                $sessonid = Yii::$app->session['temp_user'];
-                $condition = ['session_id' => $sessonid];
-                $user_id='';
-            }
-            $cart = Cart::find()->where(['product_id' => $id])->andWhere($condition)->one();
+            $prdct_vendor = ProductVendor::findOne(yii::$app->EncryptDecrypt->Encrypt('decrypt', $vendor_prdct));
+//            $id = products::findOne(['canonical_name' => $prdct_vendor->product_id])->id;
+            $condition = $this->usercheck();
+            $user_id = isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id : '';
+
+
+            $cart = Cart::find()->where(['product_id' => $prdct_vendor->id])->andWhere($condition)->one();
             if (!empty($cart)) {
-                $cart->quantity = ($cart->quantity) + $qty;
-//                $cart->quantity = $quantity > $stock ? $stock : $quantity;
+                $quantity = ($cart->quantity) + $qty;
+                $cart->quantity = $quantity > $prdct_vendor->qty ? $prdct_vendor->qty : $quantity;
 //            $cart->quantity = $qty;
                 $cart->save();
-//                $this->cart_content($condition);
+                $this->cart_content();
             } else {
                 $model = new cart;
                 $model->user_id = $user_id;
                 $model->session_id = Yii::$app->session['temp_user'];
-                $model->product_id = $id;
+                $model->product_id = $prdct_vendor->id;
                 $model->quantity = $qty;
-                date_default_timezone_set('Asia/Kolkata');
                 $model->date = date('Y-m-d H:i:s');
                 if ($model->save()) {
-//                    $this->cart_content($condition);
+                    $this->cart_content();
                 }
             }
         }
     }
 
+    public function actionMycart() {
+        if (isset(Yii::$app->user->identity->id)) {
+            if (isset(Yii::$app->session['temp_user'])) {
+                $this->changecart(Yii::$app->session['temp_user']);
+            }
+        }
+        $condition = $this->usercheck();
+        $cart_items = Cart::find()->where($condition)->all();
+        if (!empty($cart_items)) {
+            $subtotal = $this->total($cart_items);
+            return $this->render('cart', ['cart_items' => $cart_items, 'subtotal' => $subtotal]);
+        } else {
+            return $this->render('emptycart');
+        }
+    }
+    public function actionCart_remove($id) {
+        $cart = Cart::findone($id);
+        if ($cart->delete()) {
+            return $this->redirect('mycart');
+        } else {
+            return $this->redirect('mycart');
+        }
+    }
+
     public function actionGetcartcount() {
         if (yii::$app->request->isAjax) {
-
-//            $date = $this->date();
-//            Cart::deleteAll('date <= :date', ['date' => $date]);
+            $date = $this->date();
+            Cart::deleteAll('date <= :date', ['date' => $date]);
             if (isset(Yii::$app->user->identity->id)) {
                 if (isset(Yii::$app->session['temp_user'])) {
                     /*                     * *******Change tempuser cart to login user********* */
                     $this->changecart(Yii::$app->session['temp_user']);
 //
                 }
-                $condition = ['user_id' => Yii::$app->user->identity->id];
-            } else {
-                if (isset(Yii::$app->session['temp_user'])) {
-                    $condition = ['session_id' => Yii::$app->session['temp_user']];
-                } else {
-                    echo '0';
-                    exit;
-                }
             }
+            $condition = $this->usercheck();
             $cart_items = Cart::find()->where($condition)->all();
             if (!empty($cart_items)) {
                 echo count($cart_items);
@@ -91,46 +98,75 @@ class CartController extends \yii\web\Controller {
 
     public function actionGetcarttotal() {
         if (yii::$app->request->isAjax) {
-            if (isset(Yii::$app->user->identity->id)) {
-                $cart_items = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
-                if (!empty($cart_items)) {
-                    echo sprintf('%0.2f', $this->total($cart_items));
-                } else {
-                    echo '0';
-                }
+            $condition = $this->usercheck();
+            $cart_items = Cart::find()->where($condition)->all();
+            if (!empty($cart_items)) {
+                echo sprintf('%0.2f', $this->total($cart_items));
             } else {
-                if (isset(Yii::$app->session['temp_user'])) {
-                    $cart_items = Cart::find()->where(['session_id' => Yii::$app->session['temp_user']])->all();
-
-                    if (!empty($cart_items)) {
-                        echo sprintf('%0.2f', $this->total($cart_items));
-                    } else {
-                        echo '0';
-                    }
-                } else {
-                    echo '0';
-                }
+                echo '0';
             }
         }
     }
 
-   
-    function cart_content($cart_contents) {
+    public function actionSelectcart() {
+        $this->cart_content();
+    }
+
+    public function total($cart) {
+        $subtotal = '0';
+        foreach ($cart as $cart_item) {
+            $product = ProductVendor::findOne($cart_item->product_id);
+            if ($product->offer_price == '0' || $product->offer_price == '') {
+                $price = $product->price;
+            } else {
+                $price = $product->offer_price;
+            }
+            $subtotal += ($price * $cart_item->quantity);
+        }
+        return $subtotal;
+    }
+
+    function usercheck() {
+        if (isset(Yii::$app->user->identity->id)) {
+            $user_id = Yii::$app->user->identity->id;
+            $condition = ['user_id' => $user_id];
+        } else {
+            if (!isset(Yii::$app->session['temp_user'])) {
+                $milliseconds = round(microtime(true) * 1000);
+                Yii::$app->session['temp_user'] = $milliseconds;
+            }
+            $sessonid = Yii::$app->session['temp_user'];
+            $condition = ['session_id' => $sessonid];
+        }
+        return $condition;
+    }
+
+    function changecart($temp) {
+        $models = Cart::find()->where(['session_id' => Yii::$app->session['temp_user']])->all();
+        foreach ($models as $msd) {
+            $msd->user_id = Yii::$app->user->identity->id;
+            $msd->save();
+        }
+    }
+
+    function cart_content() {
+        $condition = $this->usercheck();
+        $cart_contents = Cart::find()->where($condition)->all();
         if (!empty($cart_contents)) {
             foreach ($cart_contents as $cart_content) {
-                    $prod_details = Product::findOne($cart_content->product_id);
-                    if ($prod_details->offer_price == '0' || $prod_details->offer_price == '') {
-                        $price = $prod_details->price;
-                    } else {
-                        $price = $prod_details->offer_price;
-                    }
-                    $product_image = Yii::$app->basePath . '/../uploads/product/' . $prod_details->id . '/profile/' . $prod_details->canonical_name . '.' . $prod_details->profile;
-                    if (file_exists($product_image)) {
-                        $image = '<img src="' . Yii::$app->homeUrl . 'uploads/product/' . $prod_details->id . '/profile/' . $prod_details->canonical_name . '_thumb.' . $prod_details->profile . '" alt="item1" />';
-                    } else {
-                        $image = '<img src="' . Yii::$app->homeUrl . 'uploads/product/profile_thumb.png" alt=""/>';
-                    }
-                $product_name = $cart_content->item_type == 1 ? 'Custom Perfume' : $prod_details->product_name;
+                $prod_details = ProductVendor::findOne($cart_content->product_id);
+                $product = Products::findOne($prod_details->product_id);
+                if ($prod_details->offer_price == '0' || $prod_details->offer_price == '') {
+                    $price = $prod_details->price;
+                } else {
+                    $price = $prod_details->offer_price;
+                }
+                $product_image = Yii::$app->basePath . '/../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product->id) . '/' . $product->id . '/profile/' . $product->canonical_name . '_thumb.' . $product->gallery_images;
+                if (file_exists($product_image)) {
+                    $image = '<img src="' . Yii::$app->homeUrl . '/uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product->id) . '/' . $product->id . '/profile/' . $product->canonical_name . '_thumb.' . $product->gallery_images . '" alt="item1" />';
+                }
+                $product_name = $product->product_name;
+//                $str= strlen($product_name) > 25 ?substr($product_name, 0, 25) . '...':'';
                 if (strlen($product_name) > 25) {
                     $str = substr($product_name, 0, 25) . '...';
                 } else {
@@ -139,7 +175,7 @@ class CartController extends \yii\web\Controller {
                 echo '<li class="clearfix">
                        ' . $image . '
                        <span class="item-name" title="' . $product_name . '">' . $str . '</span>
-                       <span class="item-price">' . $price . '</span>
+                       <span class="item-price">' . sprintf("%0.2f", $price) . '</span>
                        <span class="item-quantity">Quantity: ' . $cart_content->quantity . '</span>
                        </li>';
 //                <button title="Remove From Cart" class="remove-cart"><i class="fa fa-times" aria-hidden="true"></i></button>
@@ -154,86 +190,6 @@ class CartController extends \yii\web\Controller {
                               </div>';
 //                   Html::a ('<button class="green2">Continue shopping</button>,'.['site/index'].','.['class' => 'button']).
 //                </div>';
-        }
-    }
-
-    public function total($cart) {
-        $subtotal = '0';
-        foreach ($cart as $cart_item) {
-            if ($cart_item->item_type == 1) {
-                $subtotal += ($cart_item->rate * $cart_item->quantity);
-            } else {
-                $product = Product::findOne($cart_item->product_id);
-                if ($product->offer_price == '0' || $product->offer_price == '') {
-                    $price = $product->price;
-                } else {
-                    $price = $product->offer_price;
-                }
-                $subtotal += ($price * $cart_item->quantity);
-            }
-        }
-        return $subtotal;
-    }
-
-    function net_amount($total_amt) {
-        $limit = Settings::findOne(1)->value;
-        $net_amnt = $total_amt;
-        if ($limit > $total_amt) {
-            $extra = Settings::findOne(2)->value;
-            $net_amnt = $extra + $total_amt;
-        }
-        return $net_amnt;
-    }
-
-    public function generateProductEan($serial_no) {
-        $orderid_exist = OrderMaster::find()->where(['order_id' => $serial_no])->one();
-        if (!empty($orderid_exist)) {
-            return $this->generateProductEan($serial_no + 1);
-        } else {
-            return $serial_no;
-        }
-    }
-
-    public function Updateorderid($id) {
-        $orderid = \common\models\Settings::findOne(4);
-        $orderid->value = $id;
-        $orderid->save();
-        return;
-    }
-
-    function changecart($temp) {
-        $models = Cart::find()->where(['session_id' => Yii::$app->session['temp_user']])->all();
-        foreach ($models as $msd) {
-            $msd->user_id = Yii::$app->user->identity->id;
-            $msd->save();
-        }
-    }
-
-    function addtocart() {
-        $datas = \common\models\CreateYourOwn::find()->where(['session_id' => Yii::$app->session['temp_create_yourown'], 'status' => 0])->orWhere(['user_id' => Yii::$app->user->identity->id, 'status' => 0])->all();
-        if (!empty($datas)) {
-            foreach ($datas as $msd) {
-                $model = new Cart();
-                $model->user_id = Yii::$app->user->identity->id;
-                $model->product_id = $msd->id;
-                $model->quantity = 1;
-                $model->date = date('Y-m-d h:m:s');
-                $model->rate = $msd->tot_amount;
-                $model->item_type = 1;
-                if ($model->save()) {
-                    $msd->session_id = '';
-                    $msd->user_id = Yii::$app->user->identity->id;
-                    $msd->status = 1;
-                    $msd->save();
-                }
-            }
-        }
-        return;
-    }
-
-    function clearcart($models) {
-        foreach ($models as $model) {
-            $model->delete();
         }
     }
 

@@ -1,7 +1,7 @@
 $(document).ready(function () {
     getcartcount();
 //    getcarttotal();
-//    getcartdata();
+    getcartdata();
     $(".add_to_cart").click(function () {
 //        $("html, body").animate({
 //            scrollTop: 0
@@ -61,7 +61,7 @@ function addtocart(vendor_prdct, qty, action) {
         url: homeUrl + 'cart/buynow',
         data: {vendor_prdct: vendor_prdct, qty: qty}
     }).done(function (data) {
-
+        $(".shopping-cart-items").html(data);
 
     });
 }
