@@ -1,15 +1,15 @@
 $(document).ready(function () {
     getcartcount();
 //    getcarttotal();
-    getcartdata();
+//    getcartdata();
     $(".add_to_cart").click(function () {
 //        $("html, body").animate({
 //            scrollTop: 0
 //        }, 1500);
-        var canname = $(this).attr('id');
+        var vendor_prdct = $(this).attr('id');
 //        var qty = $('.q_ty').val();
         var qty = '1';
-        addtocart(canname, qty, 'add_to');
+        addtocart(vendor_prdct, qty, 'add_to');
     });
 
 
@@ -24,7 +24,7 @@ function getcartcount() {
         data: {}
     }).done(function (data) {
         $(".cart_count").html(data);
-        hideLoader();
+//        hideLoader();
     });
 }
 function getcarttotal() {
@@ -38,7 +38,7 @@ function getcarttotal() {
     }).done(function (data) {
 
         $(".cart_amount").html(data);
-        hideLoader();
+//        hideLoader();
     });
 }
 function getcartdata() {
@@ -51,15 +51,15 @@ function getcartdata() {
     }).done(function (data) {
         $(".shopping-cart-items").html(data);
         //$(".cart_box").show('fast');
-        hideLoader();
+//        hideLoader();
     });
 }
-function addtocart(canname, qty, action) {
+function addtocart(vendor_prdct, qty, action) {
 
     $.ajax({
         type: "POST",
         url: homeUrl + 'cart/buynow',
-        data: {cano_name: canname, qty: qty}
+        data: {vendor_prdct: vendor_prdct, qty: qty}
     }).done(function (data) {
 
 

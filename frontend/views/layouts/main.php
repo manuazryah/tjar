@@ -306,21 +306,21 @@ if (isset(Yii::$app->session['log-return'])) {
                         <button><i class="fa fa-shopping-cart" aria-hidden="true"></i><span>CART</span></button><label class="cart_count">0</label>
                         <!--                    <div class="container">
                                                         <div class="shopping-cart">-->
-                        <div class="shopping-cart-header">
+<!--                        <div class="shopping-cart-header">
                             <i class="fa fa-shopping-basket" aria-hidden="true"></i><span class="badge cart_count">(0)</span>
                             <div class="shopping-cart-total">
                                 <span class="lighter-text">Total:</span>
                                 <span class="main-color-text cart_amount"></span>
                             </div>
-                        </div>
+                        </div>-->
 
-                        <ul class="shopping-cart-items">
+<!--                        <ul class="shopping-cart-items">
 
                         </ul>
                         <div class="col-md-12 checkout-btn-space">
                             <?= Html::a('<button class="green2">check out</button>', ['/cart/mycart'], ['class' => '']) ?>
-                            <!--<button class="green2">check out</button>-->
-                        </div>
+                            <button class="green2">check out</button>
+                        </div>-->
                         <!--</div>-->
                         <!--</div>-->
                     </div>

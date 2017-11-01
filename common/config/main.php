@@ -19,5 +19,8 @@ return [
         'SetLanguage' => [
             'class' => 'common\components\SetLanguage'
         ],
+        'EncryptDecrypt' => [
+            'class' => 'common\components\EncryptDecrypt'
+        ],
     ],
 ];

@@ -27,9 +27,10 @@ else
                 <div id="affix">
                     <div class="app-figure" id="zoom-fig">
                         <a id="Zoom-1" class="MagicZoom" title=""
-                           href="<?= Yii::$app->homeUrl ?>/images/products/1.png"
+                           href="<?= Yii::$app->homeUrl . '/uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_details->id) . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '.' . $product_details->gallery_images ?>"
                            >
-                            <img src="<?= Yii::$app->homeUrl ?>/images/products/1.png?scale.height=400" alt=""/>
+                            <!--Yii::$app->homeUrl . '../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $data->id) . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '_thumb.' . $product_details->gallery_images-->
+                            <img src="<?= Yii::$app->homeUrl . '/uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_details->id) . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '.' . $product_details->gallery_images ?>" alt=""/>
                             <div class="offer-tag">
                                 <img src="<?= Yii::$app->homeUrl ?>/images/offer-tag-bg.png"/><span>10% OFF</span>
                             </div>
@@ -79,7 +80,7 @@ else
                             </a>
                         </div>
                         <div class="function-btn">
-                            <?= Html::a('add to cart', '#', ['class' => 'start-shopping add_to_cart', 'id' => $product_details->canonical_name]) ?>
+                            <?= Html::a('add to cart', '#', ['class' => 'start-shopping add_to_cart', 'id' => yii::$app->EncryptDecrypt->Encrypt('encrypt', $vendor_product->id)]) ?>
                             <!--<a href="cart.php"><button class="start-shopping">add to cart</button></a>-->
                             <a href="#"><button class="start-shopping">Buy now</button></a>
                         </div>
@@ -100,11 +101,21 @@ else
                     <!--<span class="current-page">product</span>-->
                 </div>
 
-                <h4 class="product-heading">OPPO F3 (BLACK,64 GB) (4 GB RAM)</h4>
+                <h4 class="product-heading"><?= $product_details->product_name ?></h4>
                 <div class="rating">
                     <input type="number" class="rating" id="test" name="test" data-min="1" data-max="5" value="0">
                 </div>
-                <p class="price">200.00 AED  <span>318.00 AED</span> </p>
+                <?php
+                if (isset($vendor_product->offer_price)) {
+                    $price1 = $vendor_product->offer_price;
+                    $price2 = $vendor_product->price;
+                } else {
+                    $price1 = $vendor_product->price;
+                    $price2 = "";
+                }
+                ?>
+                <p class="price"><?= sprintf('%0.2f', $price1) ?> AED  <?= $price2 != '' ? '<span>' . sprintf("%0.2f", $price2) . '  AED</span>' : ''; ?> </p>
+                <!--<span><?= sprintf('%0.2f', $price2) ?> AED</span>-->
                 <p class="message">FREE Shipping on orders over 150.00 AED</p>
                 <div class="product-specifications">
                     <div class="product-detailed-points">

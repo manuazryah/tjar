@@ -6,15 +6,7 @@ use yii;
 use common\models\Products;
 use common\models\Cart;
 use common\models\User;
-use frontend\models\CartsignupForm;
-use common\models\Settings;
-use yii\base\Component;
-use yii\db\MigrationInterface;
-use yii\di\Instance;
-use yii\db\Expression;
-use common\models\OrderMaster;
-use common\models\OrderDetails;
-use common\models\CreateYourOwn;
+use common\models\ProductVendor;
 
 class CartController extends \yii\web\Controller {
 
@@ -28,8 +20,9 @@ class CartController extends \yii\web\Controller {
 
     public function actionBuynow() {
         if (yii::$app->request->isAjax) {
-            $canonical_name = Yii::$app->request->post()['cano_name'];
+            $vendor_prdct = Yii::$app->request->post()['vendor_prdct'];
             $qty = Yii::$app->request->post()['qty'];
+            $id = ProductVendor::findOne(yii::$app->EncryptDecrypt->Encrypt('decrypt', $vendor_prdct));
             $id = products::findOne(['canonical_name' => $canonical_name])->id;
             if (isset(Yii::$app->user->identity->id)) {
                 $user_id = Yii::$app->user->identity->id;
@@ -121,51 +114,7 @@ class CartController extends \yii\web\Controller {
         }
     }
 
-    public function actionSelectcart() {
-        if (yii::$app->request->isAjax) {
-            if (isset(Yii::$app->user->identity->id)) {
-                $user_id = Yii::$app->user->identity->id;
-                $cart_contents = Cart::find()->where(['user_id' => $user_id])->all();
-                if (!empty($cart_contents)) {
-                    $this->cart_content($cart_contents);
-                } else {
-//                    echo 'Cart box is Empty';
-                    echo '<div style="padding: 25px 0px; display: flow-root;">
-                               <a href="' . yii::$app->homeUrl . '"><div class="col-md-12 empty-img text-center" >
-                               <img style="margin: 0 auto; float: none; left: 0px; right: 0px; vertical-align: middle; margin-bottom: 10px;" class="img-responsive" src="' . Yii::$app->homeUrl . 'images/empty-cart.jpg"/>
-                               </div>
-                              <span class="col-md-12 text-center">Cart is Empty. Start Shopping.</span></a>
-                              </div>';
-                }
-            } else {
-                if (isset(Yii::$app->session['temp_user'])) {
-
-                    $session_id = Yii::$app->session['temp_user'];
-                    $cart_contents = Cart::find()->where(['session_id' => $session_id])->all();
-//                                $cart_contents = Cart::model()->findAllByAttributes(array('session_id' => $session_id));
-                    if (!empty($cart_contents)) {
-                        $this->cart_content($cart_contents);
-                    } else {
-//                        echo 'Cart box is Empty';
-                        echo '<div style="padding: 25px 0px; display: flow-root;">
-                               <a href="' . yii::$app->homeUrl . '"><div class="col-md-12 empty-img text-center" >
-                               <img style="margin: 0 auto; float: none; left: 0px; right: 0px; vertical-align: middle; margin-bottom: 10px;" class="img-responsive" src="' . Yii::$app->homeUrl . 'images/empty-cart.jpg"/>
-                               </div>
-                              <span class="col-md-12 text-center">Cart is Empty. Start Shopping.</span></a>
-                              </div>';
-                    }
-                } else {
-//                    echo 'Cart box is Empty';
-                    echo '<div style="padding: 25px 0px; display: flow-root;">
-                               <a href="' . yii::$app->homeUrl . '"><div class="col-md-12 empty-img text-center" >
-                               <img style="margin: 0 auto; float: none; left: 0px; right: 0px; vertical-align: middle; margin-bottom: 10px;" class="img-responsive" src="' . Yii::$app->homeUrl . 'images/empty-cart.jpg"/>
-                               </div>
-                              <span class="col-md-12 text-center">Cart is Empty. Start Shopping.</span></a>
-                              </div>';
-                }
-            }
-        }
-    }
+   
     function cart_content($cart_contents) {
         if (!empty($cart_contents)) {
             foreach ($cart_contents as $cart_content) {
