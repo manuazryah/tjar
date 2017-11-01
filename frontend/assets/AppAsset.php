@@ -12,7 +12,7 @@ class AppAsset extends AssetBundle {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/fontawsome.css',
+        'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
         'css/menu-style.css',
         'css/ionicons.min.css',
         'css/flag-icon.min.css',

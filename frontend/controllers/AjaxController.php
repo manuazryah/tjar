@@ -51,4 +51,13 @@ class AjaxController extends Controller {
         }
     }
 
+    public function actionRemoveLoginSession() {
+        if (Yii::$app->request->isAjax) {
+            if (isset(Yii::$app->session['log-return'])) {
+                unset(Yii::$app->session['log-return']);
+            }
+            echo 1;
+        }
+    }
+
 }

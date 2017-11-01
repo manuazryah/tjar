@@ -24,13 +24,12 @@ class MyAccountController extends \yii\web\Controller {
         }
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
             $model->user_id = Yii::$app->user->identity->id;
-//            $model->country_id = 1;
             if (empty($user_address)) {
                 $model->default_address = 1;
             } else {
                 $user_exist = UserAddress::findOne(['user_id' => Yii::$app->user->identity->id, 'default_address' => 1]);
                 if (!empty($user_exist)) {
-                    if (isset($model->default_address)) {
+                    if ($model->default_address != 0) {
                         $user_exist->default_address = 0;
                         $user_exist->update();
                     }
@@ -53,6 +52,14 @@ class MyAccountController extends \yii\web\Controller {
     }
 
     public function actionSetDefault($id) {
+        $model = UserAddress::findOne($id);
+        $default_exist = UserAddress::findOne(['user_id' => Yii::$app->user->identity->id, 'default_address' => 1]);
+        if (!empty($default_exist)) {
+            $default_exist->default_address = 0;
+            $default_exist->update();
+        }
+        $model->default_address = 1;
+        $model->save();
         return $this->redirect('address');
     }
 
@@ -66,6 +73,12 @@ class MyAccountController extends \yii\web\Controller {
 
     public function actionReviews() {
         return $this->render('reviews');
+    }
+
+    public function actionDelete($id) {
+        $model = UserAddress::findOne($id);
+        $model->delete();
+        return $this->redirect('address');
     }
 
 }

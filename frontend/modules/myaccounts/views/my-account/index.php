@@ -24,22 +24,13 @@ use common\components\LeftMenuWidget;
                         <p>From your account dashboard you can view your <a href="orders.php">recent orders</a>, manage your <a href="">shipping and billing addresses</a> and <a href="">edit your password and account details</a>.</p>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                        <a href="orders.php" class="box">
-                            <i class="fa fa-gift" aria-hidden="true"></i>
-                            <p>Orders</p>
-                        </a>
+                        <?= Html::a('<i class="fa fa-gift" aria-hidden="true"></i><p>Orders</p>', ['/myaccounts/my-account/my-orders'], ['class' => 'box']) ?>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                        <a href="" class="box">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <p>Reviews & Ratings</p>
-                        </a>
+                        <?= Html::a('<i class="fa fa-map-marker" aria-hidden="true"></i><p>Reviews & Ratings</p>', ['/myaccounts/my-account/reviews'], ['class' => 'box']) ?>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                        <a href="" class="box">
-                            <i class="fa fa-map-marker" aria-hidden="true"></i>
-                            <p>Addresses</p>
-                        </a>
+                        <?= Html::a('<i class="fa fa-map-marker" aria-hidden="true"></i><p>Addresses</p>', ['/myaccounts/my-account/address'], ['class' => 'box']) ?>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                         <a href="" class="box">
@@ -48,16 +39,18 @@ use common\components\LeftMenuWidget;
                         </a>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                        <a href="" class="box">
-                            <i class="fa fa-heart" aria-hidden="true"></i>
-                            <p>Wish List</p>
-                        </a>
+                        <?= Html::a('<i class="fa fa-heart" aria-hidden="true"></i><p>Wish List</p>', ['/myaccounts/my-account/wish-list'], ['class' => 'box']) ?>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                        <a href="" class="box">
-                            <i class="fa fa-sign-out" aria-hidden="true"></i>
-                            <p>log out</p>
-                        </a>
+                        <?php
+                        echo ''
+                        . Html::beginForm(['/site/logout'], 'post') . '<a class="box box-out">'
+                        . Html::submitButton(
+                                ' <i class="fa fa-sign-out" aria-hidden="true"></i><p>log out</p>', ['class' => 'logout-box']
+                        ) . '</a>'
+                        . Html::endForm()
+                        . '';
+                        ?>
                     </div>
                 </div>
 

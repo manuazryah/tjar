@@ -20,7 +20,9 @@ Yii::$app->session['language'] = $language;
 $words = \common\components\SetLanguage::Words($language);
 $words = json_decode($words);
 if (isset(Yii::$app->session['log-return'])) {
-    $log_error = Yii::$app->session['log-return'];
+    $log_error = 1;
+    $email = Yii::$app->session['log-return']['email'];
+    $pass = Yii::$app->session['log-return']['password'];
 } else {
     $log_error = '';
 }
@@ -39,8 +41,14 @@ if (isset(Yii::$app->session['log-return'])) {
             var homeUrl = '<?= yii::$app->homeUrl; ?>';
             $(document).ready(function () {
                 var log_error = '<?php echo $log_error ?>';
+                var email = '<?php echo $email ?>';
+                var pass = '<?php echo $pass ?>';
                 if (log_error == 1) {
-//                    $('.modal ').css('display', 'block');
+                    $('.log-popup-err').css('display', 'block');
+                    $('#user-email').val(email);
+                    $('#user-password').val(pass);
+                    $('.modal ').css('display', 'block');
+                    $('.modal ').addClass('in');
                 }
             });
         </script>
@@ -94,8 +102,8 @@ if (isset(Yii::$app->session['log-return'])) {
                             <li><a href="#">Sell with us</a></li>
                             <li><a href="#">Track order</a></li>
                             <?php if (Yii::$app->user->identity->id == '') { ?>
-                                <li><a data-toggle="modal" data-target="#Login" href="#">Signup</a></li>
-                                <li><a data-toggle="modal" data-target="#Login" href="#">Log in</a></li>
+                                <li><a class="log-sign">Signup</a></li>
+                                <li><a class="log-sign">Log in</a></li>
                             <?php } else {
                                 ?>
                                 <li class="dropdown user-profile">
@@ -112,13 +120,19 @@ if (isset(Yii::$app->session['log-return'])) {
                                             <?= Html::a('Account', ['/myaccounts/my-account/index'], ['class' => 'title']) ?>
                                         </li>
                                         <li>
-                                            <?= Html::a('Order', ['/settings/account-settings'], ['class' => 'title']) ?>
+                                            <?= Html::a('Order', ['/myaccounts/my-account/my-orders'], ['class' => 'title']) ?>
+                                        </li>
+                                        <li>
+                                            <?= Html::a('Wishlist', ['/myaccounts/my-account/wish-list'], ['class' => 'title']) ?>
+                                        </li>
+                                        <li>
+                                            <?= Html::a('Reviews & Ratings', ['/myaccounts/my-account/reviews'], ['class' => 'title']) ?>
                                         </li>
                                         <?php
                                         echo '<li class="last">'
                                         . Html::beginForm(['/site/logout'], 'post') . '<a>'
                                         . Html::submitButton(
-                                                'Logout', ['class' => 'btn logout_btn']
+                                                'Logout', ['style' => 'background: white;padding-left: 19px;padding: 10px 20px;border: none;']
                                         ) . '</a>'
                                         . Html::endForm()
                                         . '</li>';
@@ -180,6 +194,7 @@ if (isset(Yii::$app->session['log-return'])) {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="log-popup-err">Invalid Username or Password</div>
                                         <!-- Button -->
                                         <div class="form-group login-group-checkbox">
                                             <label for="lg_remember">
@@ -273,6 +288,9 @@ if (isset(Yii::$app->session['log-return'])) {
 
                 </div>
             </div>
+            <?php
+            unset(Yii::$app->session['log-return']);
+            ?>
             <div class="top-header-2">
                 <div class="container">
                     <div class="col-md-2 col-sm-2 col-xs-12">
@@ -286,25 +304,25 @@ if (isset(Yii::$app->session['log-return'])) {
                     </div>
                     <div class="col-md-2 col-sm-2 col-xs-4 cart">
                         <button><i class="fa fa-shopping-cart" aria-hidden="true"></i><span>CART</span></button><label class="cart_count">0</label>
-<!--                    <div class="container">
-                                <div class="shopping-cart">-->
-                                    <div class="shopping-cart-header">
-                                        <i class="fa fa-shopping-basket" aria-hidden="true"></i><span class="badge cart_count">(0)</span>
-                                        <div class="shopping-cart-total">
-                                            <span class="lighter-text">Total:</span>
-                                            <span class="main-color-text cart_amount"></span>
-                                        </div>
-                                    </div>
+                        <!--                    <div class="container">
+                                                        <div class="shopping-cart">-->
+                        <div class="shopping-cart-header">
+                            <i class="fa fa-shopping-basket" aria-hidden="true"></i><span class="badge cart_count">(0)</span>
+                            <div class="shopping-cart-total">
+                                <span class="lighter-text">Total:</span>
+                                <span class="main-color-text cart_amount"></span>
+                            </div>
+                        </div>
 
-                                    <ul class="shopping-cart-items">
+                        <ul class="shopping-cart-items">
 
-                                    </ul>
-                                    <div class="col-md-12 checkout-btn-space">
-                                        <?= Html::a('<button class="green2">check out</button>', ['/cart/mycart'], ['class' => '']) ?>
-                                        <!--<button class="green2">check out</button>-->
-                                    </div>
-                                <!--</div>-->
-                            <!--</div>-->
+                        </ul>
+                        <div class="col-md-12 checkout-btn-space">
+                            <?= Html::a('<button class="green2">check out</button>', ['/cart/mycart'], ['class' => '']) ?>
+                            <!--<button class="green2">check out</button>-->
+                        </div>
+                        <!--</div>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </div>
@@ -870,7 +888,7 @@ if (isset(Yii::$app->session['log-return'])) {
                     return valid;
                 }
                 function validateLogin() {
-
+                    var valid = 0;
                     if (!$('#user-email').val()) {
                         if ($("#user-email").parent().next(".validation").length == 0) // only add if not added
                         {
@@ -881,11 +899,14 @@ if (isset(Yii::$app->session['log-return'])) {
                     } else {
                         var emailaddress = $('#user-email').val();
                         if (!isValidEmailAddress(emailaddress)) {
+                            if ($("#user-email").parent().next(".validation").length != 0) // only add if not added
+                            {
+                                $("#user-email").parent().next(".validation").remove(); // remove it
+                            }
                             $("#user-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Enter valid email.</div>");
                             var valid = 1;
                         } else {
                             $("#user-email").parent().next(".validation").remove(); // remove it
-                            var valid = 0;
                         }
                     }
                     if (!$('#user-password').val()) {
@@ -897,7 +918,6 @@ if (isset(Yii::$app->session['log-return'])) {
                         var valid = 1;
                     } else {
                         $("#user-password").parent().next(".validation").remove(); // remove it
-                        var valid = 0;
                     }
                     return valid;
                 }
@@ -936,6 +956,25 @@ if (isset(Yii::$app->session['log-return'])) {
                     $(this).find('.options').stop(true, true).delay(100).fadeIn(100);
                 }, function () {
                     $(this).find('.options').stop(true, true).delay(100).fadeOut(100);
+                });
+                $('.log-sign').click(function () {
+                    $('.modal').css('display', 'block');
+                    $('.modal').addClass('in');
+                });
+                $('.clos').click(function () {
+                    $('.modal').css('display', 'none');
+                    $('.log-popup-err').css('display', 'none');
+                    $('.modal').removeClass('in');
+                    $('#user-email').val('');
+                    $('#user-password').val('');
+                    $.ajax({
+                        type: 'POST',
+                        cache: false,
+                        url: homeUrl + 'ajax/remove-login-session',
+                        success: function (data) {
+                            return true;
+                        }
+                    });
                 });
             });
         </script>

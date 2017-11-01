@@ -3304,3 +3304,42 @@ input[type=checkbox], input[type=radio]{
     color: rgba(71,71,71,.8);
     cursor: pointer;
 }
+.user-profile .dropdown-menu{
+    right: 15px;
+    left: auto;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+.user-profile .dropdown-menu li{
+    border: none !important;
+    width: 100%;
+    padding: 0px !important;
+    border-bottom: 1px solid #e4e4e4 !important;
+}
+.user-profile .dropdown-menu li:last-child{
+    border-bottom: 0px !important;
+}
+.log-sign{
+    cursor: pointer;
+}
+.log-popup-err{
+    display:none;
+    color: #de0808;
+    padding-left: 5px;
+    font-size: 12px;
+}
+.dropdown-menu > li > a {
+    padding: 8px 20px;
+}
+.top-small-header .other-options .options li:nth-child(1) a {
+    color: #98999a;
+}
+.logout-box{
+    border: none;
+    background: white;
+    text-transform: uppercase;
+}
+.box-out:hover .logout-box {
+    background-color: rgb(249, 249, 249);
+    text-decoration: none;
+}
