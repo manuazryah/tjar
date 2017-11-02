@@ -23,6 +23,10 @@ use yii\widgets\ActiveForm;
     #user-gender{
         padding-top: 8px;
     }
+    button[disabled], html input[disabled] {
+        cursor: default;
+        background: #f1f1f1;
+    }
 </style>
 <div class="container">
     <div class="row">
@@ -100,20 +104,20 @@ use yii\widgets\ActiveForm;
                                     </div>
                                 </form>
                                 <form id="change-password-form" style="display:none">
-                                    <span class="pss-err-msg" style="color: red;padding-top: 8px;font-size: 12px;"></span>
+                                    <span class="pss-err-msg" style="color: red;padding-top: 8px;font-size: 12px;font-weight: 500;"></span>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padlft0 marg-top-20">
                                         <div class="form-group field-user-oldpassword">
-                                            <input type="text" id="user-oldpassword" class="field__input field__input--zip input-width" name="old_password" value="" placeholder="Enter Old Password">
+                                            <input type="password" id="user-oldpassword" class="field__input field__input--zip input-width" name="old_password" value="" placeholder="Enter Old Password">
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padlft0 marg-top-20">
                                         <div class="form-group field-user-newpassword">
-                                            <input type="text" id="user-newpassword" class="field__input field__input--zip input-width" name="new_password" value="" placeholder="Enter New Password">
+                                            <input type="password" id="user-newpassword" class="field__input field__input--zip input-width" name="new_password" value="" placeholder="Enter New Password">
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padlft0 marg-top-20">
                                         <div class="form-group field-user-confirmpassword">
-                                            <input type="text" id="user-confirmpassword" class="field__input field__input--zip input-width" name="confirn_password" value="" placeholder="Enter Confirm Password">
+                                            <input type="password" id="user-confirmpassword" class="field__input field__input--zip input-width" name="confirn_password" value="" placeholder="Enter Confirm Password">
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 email-save marg-top-20 padlft0">
@@ -175,6 +179,8 @@ use yii\widgets\ActiveForm;
             $('#einfo-edit').show();
             $('#einfo-cancel').css('display', 'none');
             $('.email-save').css('display', 'none');
+            $('#email-save-form').show();
+            $('#change-password-form').hide();
         });
         $('#einfo-changepass').click(function () {
             $('#email-save-form').hide();

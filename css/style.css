@@ -3358,3 +3358,6 @@ input[type=checkbox], input[type=radio]{
 #header_search  .search-dropdown .search-selected{
     background-color:  rgba(193, 193, 193, 0.5);
 }
+.help-block {
+    font-size: 12px;
+}
