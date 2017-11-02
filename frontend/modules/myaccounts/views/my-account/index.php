@@ -33,10 +33,7 @@ use common\components\LeftMenuWidget;
                         <?= Html::a('<i class="fa fa-map-marker" aria-hidden="true"></i><p>Addresses</p>', ['/myaccounts/my-account/address'], ['class' => 'box']) ?>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                        <a href="" class="box">
-                            <i class="fa fa-user" aria-hidden="true"></i>
-                            <p>Account Details</p>
-                        </a>
+                        <?= Html::a('<i class="fa fa-use" aria-hidden="true"></i><p>Account Details</p>', ['/myaccounts/my-account/account-details'], ['class' => 'box']) ?>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                         <?= Html::a('<i class="fa fa-heart" aria-hidden="true"></i><p>Wish List</p>', ['/myaccounts/my-account/wish-list'], ['class' => 'box']) ?>
