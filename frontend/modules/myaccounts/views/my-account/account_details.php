@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use common\components\LeftMenuWidget;
 use common\models\User;
 use yii\widgets\ActiveForm;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 ?>
@@ -53,38 +54,62 @@ use yii\widgets\ActiveForm;
                                 $model->first_name = $user_details->first_name;
                                 $model->last_name = $user_details->last_name;
                                 $model->mobile_number = $user_details->mobile_number;
+                                $model->dob = $user_details->dob;
                                 if (isset($user_details->gender)) {
                                     $model->gender = $user_details->gender;
                                 } else {
                                     $model->gender = 1;
                                 }
+                                if (isset($user_details->dob) && $user_details->dob != '0000-00-00 00:00:00') {
+                                    $model->dob = date('d-m-Y', strtotime($model->dob));
+                                } else {
+                                    $model->dob = date('d-m-Y');
+                                }
                             }
                             ?>
                             <?php $form_prof = ActiveForm::begin(['action' => Yii::$app->homeUrl . 'myaccounts/my-account/edit-personal-info', 'id' => 'personal-info-form']); ?>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padlft0">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0">
-                                    <?= $form_prof->field($model, 'first_name')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width', 'placeholder' => 'First Name'])->label() ?>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 padright0">
-                                    <?= $form_prof->field($model, 'last_name')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width', 'placeholder' => 'Last Name'])->label() ?>
-                                </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marg-top-20">
+                                <fieldset>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padlft0">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 padlft0">
+                                            <?= $form_prof->field($model, 'first_name')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width', 'placeholder' => 'First Name'])->label() ?>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 padlft0">
+                                            <?= $form_prof->field($model, 'last_name')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width', 'placeholder' => 'Last Name'])->label() ?>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padright0" id="gender-div">
+                                            <?= $form_prof->field($model, 'gender')->radioList(array('1' => 'Male', 2 => 'Female')); ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padlft0">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0">
+                                            <?php
+                                            echo DatePicker::widget([
+                                                'model' => $model,
+                                                'form' => $form_prof,
+                                                'type' => DatePicker::TYPE_INPUT,
+                                                'attribute' => 'dob',
+                                                'pluginOptions' => [
+                                                    'autoclose' => true,
+                                                    'format' => 'dd-mm-yyyy',
+                                                ]
+                                            ]);
+                                            ?>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 padright0" id="gender-div">
+                                            <?= $form_prof->field($model, 'mobile_number')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width', 'placeholder' => 'Mobile Number'])->label() ?>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pad0" id="personal-submit">
+                                        <div class="marg-top-20">
+                                            <?= Html::submitButton('Save', ['class' => 'Proceed marg-btm-20', 'style' => 'width: 25%;margin-right: 40px;']) ?>
+                                        </div>
+                                    </div>
+                                    <?php ActiveForm::end(); ?>
+                                </fieldset>
                             </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padlft0">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 padright0" id="gender-div">
-                                    <?= $form_prof->field($model, 'gender')->radioList(array('1' => 'Male', 2 => 'Female')); ?>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 padright0" id="gender-div">
-                                    <?= $form_prof->field($model, 'mobile_number')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width', 'placeholder' => 'Mobile Number'])->label() ?>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="clearfix"></div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pad0" id="personal-submit">
-                                <div class="marg-top-20">
-                                    <?= Html::submitButton('Save', ['class' => 'Proceed marg-btm-20', 'style' => 'width: 25%;margin-right: 40px;']) ?>
-                                </div>
-                            </div>
-                            <?php ActiveForm::end(); ?>
                         </div>
                         <div class="emailaddress-info">
                             <div class="personal-info-head marg-btm-20">
@@ -94,34 +119,42 @@ use yii\widgets\ActiveForm;
                                 <span class="info-link" id="einfo-changepass">Change Password</span>
                                 <div class="clearfix"></div>
                                 <form id="email-save-form">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 marg-top-20">
-                                        <div class="form-group field-user-email">
-                                            <input type="text" id="edit-user-email" class="field__input field__input--zip input-width" name="email" value="<?= $user_details->email ?>" placeholder="Email">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 email-save" style="margin-top: 18px;display: none;">
-                                        <button class="Proceed center" id="email-save">Save Changes</button>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marg-top-20">
+                                        <fieldset>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 marg-top-20">
+                                                <div class="form-group field-user-email">
+                                                    <input type="text" id="edit-user-email" class="field__input field__input--zip input-width" name="email" value="<?= $user_details->email ?>" placeholder="Email">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 email-save" style="margin-top: 18px;display: none;">
+                                                <button class="Proceed center" id="email-save">Save</button>
+                                            </div>
+                                        </fieldset>
                                     </div>
                                 </form>
                                 <form id="change-password-form" style="display:none">
-                                    <span class="pss-err-msg" style="color: red;padding-top: 8px;font-size: 12px;font-weight: 500;"></span>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padlft0 marg-top-20">
-                                        <div class="form-group field-user-oldpassword">
-                                            <input type="password" id="user-oldpassword" class="field__input field__input--zip input-width" name="old_password" value="" placeholder="Enter Old Password">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padlft0 marg-top-20">
-                                        <div class="form-group field-user-newpassword">
-                                            <input type="password" id="user-newpassword" class="field__input field__input--zip input-width" name="new_password" value="" placeholder="Enter New Password">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padlft0 marg-top-20">
-                                        <div class="form-group field-user-confirmpassword">
-                                            <input type="password" id="user-confirmpassword" class="field__input field__input--zip input-width" name="confirn_password" value="" placeholder="Enter Confirm Password">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 email-save marg-top-20 padlft0">
-                                        <button class="Proceed center" id="change-pass" style="font-size: 13px;">Change Password</button>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marg-top-20">
+                                        <fieldset>
+                                            <legend>Password change</legend>
+                                            <p class=" marg-btm-20">
+                                                <span class="pss-err-msg" style="color: red;padding-top: 8px;font-size: 12px;font-weight: 500;"></span>
+                                            </p>
+                                            <p class=" marg-btm-20">
+                                                <label for="password_current">Current password (leave blank to leave unchanged)</label>
+                                                <input type="password" id="user-oldpassword" class="woocommerce-Input woocommerce-Input--password input-text" name="old_password" value="" placeholder="Enter Old Password">
+                                            </p>
+                                            <p class=" marg-btm-20">
+                                                <label for="password_1">New password (leave blank to leave unchanged)</label>
+                                                <input type="password" id="user-newpassword" class="woocommerce-Input woocommerce-Input--password input-text" name="new_password" value="" placeholder="Enter New Password">
+                                            </p>
+                                            <p class=" marg-btm-20">
+                                                <label for="password_2">Confirm new password</label>
+                                                <input type="password" id="user-confirmpassword" class="woocommerce-Input woocommerce-Input--password input-text" name="confirn_password" value="" placeholder="Enter Confirm Password">
+                                            </p>
+                                            <p class=" marg-btm-20">
+                                                <button class="Proceed center" id="change-pass">Change Password</button>
+                                            </p>
+                                        </fieldset>
                                     </div>
                                 </form>
                             </div>
@@ -140,6 +173,7 @@ use yii\widgets\ActiveForm;
         $("#user-mobile_number").prop('disabled', true);
         $("#edit-user-email").prop('disabled', true);
         $("#user-gender input:radio").attr('disabled', true);
+        $("#user-dob").attr('disabled', true);
 
         $('#pinfo-edit').click(function () {
             $('#personal-submit').css('display', 'block');
@@ -149,6 +183,7 @@ use yii\widgets\ActiveForm;
             $("#user-first_name").prop('disabled', false);
             $("#user-last_name").prop('disabled', false);
             $("#user-mobile_number").prop('disabled', false);
+            $("#user-dob").prop('disabled', false);
         });
 
         $('#pinfo-cancel').click(function () {
@@ -159,6 +194,7 @@ use yii\widgets\ActiveForm;
             $("#user-first_name").prop('disabled', true);
             $("#user-last_name").prop('disabled', true);
             $("#user-mobile_number").prop('disabled', true);
+            $("#user-dob").prop('disabled', true);
         });
 
         $('#einfo-edit').click(function () {
@@ -250,34 +286,34 @@ use yii\widgets\ActiveForm;
         function validateChangePass() {
             var valid = 0;
             if (!$('#user-oldpassword').val()) {
-                if ($("#user-oldpassword").parent().next(".validation").length == 0) // only add if not added
+                if ($("#user-oldpassword").next(".validation").length == 0) // only add if not added
                 {
-                    $("#user-oldpassword").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>This Field cannot be blank.</div>");
+                    $("#user-oldpassword").after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>This Field cannot be blank.</div>");
                 }
                 $('#user-oldpassword').focus();
                 var valid = 1;
             } else {
-                $("#user-oldpassword").parent().next(".validation").remove(); // remove it
+                $("#user-oldpassword").next(".validation").remove(); // remove it
             }
             if (!$('#user-newpassword').val()) {
-                if ($("#user-newpassword").parent().next(".validation").length == 0) // only add if not added
+                if ($("#user-newpassword").next(".validation").length == 0) // only add if not added
                 {
-                    $("#user-newpassword").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>This Field cannot be blank.</div>");
+                    $("#user-newpassword").after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>This Field cannot be blank.</div>");
                 }
                 $('#user-newpassword').focus();
                 var valid = 1;
             } else {
-                $("#user-newpassword").parent().next(".validation").remove(); // remove it
+                $("#user-newpassword").next(".validation").remove(); // remove it
             }
             if (!$('#user-confirmpassword').val()) {
-                if ($("#user-confirmpassword").parent().next(".validation").length == 0) // only add if not added
+                if ($("#user-confirmpassword").next(".validation").length == 0) // only add if not added
                 {
-                    $("#user-confirmpassword").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>This Field cannot be blank.</div>");
+                    $("#user-confirmpassword").after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>This Field cannot be blank.</div>");
                 }
                 $('#user-confirmpassword').focus();
                 var valid = 1;
             } else {
-                $("#user-confirmpassword").parent().next(".validation").remove(); // remove it
+                $("#user-confirmpassword").next(".validation").remove(); // remove it
             }
             return valid;
         }

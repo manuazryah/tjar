@@ -100,6 +100,7 @@ class MyAccountController extends \yii\web\Controller {
             $user_details->first_name = $model->first_name;
             $user_details->last_name = $model->last_name;
             $user_details->gender = $model->gender;
+            $user_details->dob = date('Y-m-d', strtotime($model->dob));
             $user_details->save();
         }
         return $this->redirect('account-details');

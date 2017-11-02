@@ -78,7 +78,7 @@ class User extends ActiveRecord implements IdentityInterface {
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
             'country' => 'Country',
-            'dob' => 'Dob',
+            'dob' => 'Date of Birth',
             'gender' => 'Gender',
             'country_code' => 'Country Code',
             'mobile_no' => 'Mobile No',
