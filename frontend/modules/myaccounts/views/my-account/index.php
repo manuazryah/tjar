@@ -21,7 +21,7 @@ use common\components\LeftMenuWidget;
                         <p>Hello <span><?= Yii::$app->user->identity->first_name ?></span></p>
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 welcome-msg">
-                        <p>From your account dashboard you can view your <a href="orders.php">recent orders</a>, manage your <a href="">shipping and billing addresses</a> and <a href="">edit your password and account details</a>.</p>
+                        <p>From your account dashboard you can view your <?= Html::a('recent orders', ['/myaccounts/my-account/my-orders'], ['class' => '']) ?>, manage your <?= Html::a('addresses', ['/myaccounts/my-account/address'], ['class' => '']) ?> and <?= Html::a('edit your password and account details', ['/myaccounts/my-account/account-details'], ['class' => '']) ?>.</p>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                         <?= Html::a('<i class="fa fa-gift" aria-hidden="true"></i><p>Orders</p>', ['/myaccounts/my-account/my-orders'], ['class' => 'box']) ?>
@@ -33,7 +33,7 @@ use common\components\LeftMenuWidget;
                         <?= Html::a('<i class="fa fa-map-marker" aria-hidden="true"></i><p>Addresses</p>', ['/myaccounts/my-account/address'], ['class' => 'box']) ?>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                        <?= Html::a('<i class="fa fa-use" aria-hidden="true"></i><p>Account Details</p>', ['/myaccounts/my-account/account-details'], ['class' => 'box']) ?>
+                        <?= Html::a('<i class="fa fa-user" aria-hidden="true"></i><p>Account Details</p>', ['/myaccounts/my-account/account-details'], ['class' => 'box']) ?>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                         <?= Html::a('<i class="fa fa-heart" aria-hidden="true"></i><p>Wish List</p>', ['/myaccounts/my-account/wish-list'], ['class' => 'box']) ?>
