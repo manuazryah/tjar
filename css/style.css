@@ -3361,8 +3361,8 @@ input[type=checkbox], input[type=radio]{
 .help-block {
     font-size: 12px;
 }
-.login_checkout{
-    background-color: orange !important;
+.modal.in{
+    background: rgba(0, 0, 0, 0.34);
 }
 button.green2 {
     width: 100%;
