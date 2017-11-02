@@ -46,11 +46,11 @@ class Products extends \yii\db\ActiveRecord {
          */
         public function rules() {
                 return [
-//			[['product_name', 'canonical_name', 'main_category', 'category', 'brand', 'item_ean', 'main_description', 'CB', 'UB', 'product_name_arabic', 'main_description_arabic'], 'required'],
+                    //   [['product_name', 'canonical_name', 'main_category', 'category', 'brand', 'item_ean', 'main_description', 'CB', 'UB', 'product_name_arabic', 'main_description_arabic', 'highlights'], 'required'],
                         [['main_category', 'category', 'subcategory', 'brand', 'gender', 'status', 'CB', 'UB'], 'integer'],
-                        [['main_description', 'meta_description', 'meta_keyword', 'main_description_arabic'], 'string'],
+                        [['main_description', 'meta_description', 'meta_keyword', 'main_description_arabic', 'highlights', 'highlights_arabic', 'important_notes', 'important_notes_arabic'], 'string'],
                         [['DOC', 'DOU'], 'safe'],
-                        [['product_name', 'canonical_name', 'item_ean', 'gallery_images', 'related_products', 'meta_title', 'field1', 'field2', 'field3', 'product_name_arabic'], 'string', 'max' => 500],
+                        [['product_name', 'canonical_name', 'item_ean', 'gallery_images', 'related_products', 'meta_title', 'field1', 'field2', 'field3', 'product_name_arabic', 'short_description', 'short_description_arabic'], 'string', 'max' => 500],
                         [['search_tags'], 'safe'],
                 ];
         }
@@ -70,7 +70,13 @@ class Products extends \yii\db\ActiveRecord {
                     'brand' => 'Brand',
                     'item_ean' => 'Item Ean',
                     'gender' => 'Gender',
+                    'short_description' => 'Short Description',
+                    'short_description_arabic' => 'Short Description Arabic',
                     'main_description' => 'Main Description',
+                    'highlights' => 'Highlights',
+                    'highlights_arabic' => 'Highlights Arabic',
+                    'important_notes' => 'Important Notes',
+                    'important_notes_arabic' => 'Important Notes Arabic',
                     'gallery_images' => 'Gallery Images',
                     'related_products' => 'Related Products',
                     'search_tags' => 'Search Tags',

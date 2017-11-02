@@ -78,14 +78,14 @@ class SiteController extends Controller {
          *
          * @return mixed
          */
-        public function actionLogin() {
+        public function actionLogin($go = null) {
                 if (!Yii::$app->user->isGuest) {
                         return $this->goHome();
                 }
 
                 $modellogin = new LoginForm();
                 if ($modellogin->load(Yii::$app->request->post()) && $modellogin->login()) {
-                        return $this->goBack();
+                        return $this->redirect($go);
                 } else {
                         Yii::$app->session['log-return'] = 1;
                         return $this->redirect(Yii::$app->request->referrer);
