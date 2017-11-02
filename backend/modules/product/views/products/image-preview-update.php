@@ -110,7 +110,7 @@
 <input type="hidden" id="prof-change-model-id" name="prof-change-model-id" value="<?= $model->id ?>">
 <div class="show-image" id="<?= $k ?>">
 	<div style="min-height: 74px;">
-		<img srcset="<?= Yii::$app->homeUrl . '../uploads/products/' . $split_folder . '/' . $model->id . '/profile/' . $model->canonical_name . '_thumb.' . $model->gallery_images ?>" alt="no-image" newpath="<?= $model->canonical_name . '.' . $model->gallery_images ?>"style="" id="prof_image_changed">
+		<img srcset="<?= Yii::$app->homeUrl . '../uploads/products/' . $split_folder . '/' . $model->id . '/profile/' . $model->canonical_name . '.' . $model->gallery_images ?>" alt="no-image" newpath="<?= $model->canonical_name . '.' . $model->gallery_images ?>"style="width:100px;height:100px" id="prof_image_changed">
 
 		<a class="update delete_image btn btn-icon btn-red"  id-for="<?= $model->canonical_name . '.' . $model->gallery_images ?>" id="model_<?= $model->id ?>_<?= $id ?>" href="" ><i class="fa-remove"></i>
 		</a>
@@ -121,7 +121,7 @@
 	</label>
 </div>
 <?php
-$path = \Yii::$app->basePath . '/../uploads/products/' . $split_folder . '/' . $model->id . '/gallery_thumb';
+$path = \Yii::$app->basePath . '/../uploads/products/' . $split_folder . '/' . $model->id . '/gallery';
 
 if (count(glob("{$path}/*")) > 0) {
 
@@ -133,7 +133,7 @@ if (count(glob("{$path}/*")) > 0) {
 			?>
 			<div class="show-image" id="<?= $k ?>">
 				<div style="min-height: 74px;">
-					<img srcset="<?= Yii::$app->homeUrl . '../uploads/products/' . $split_folder . '/' . $model->id . '/gallery_thumb' . '/' . end($arry) ?>?<?= rand(); ?>" alt="no-image" img-name="<?= end($arry) ?>"style="" id="image_<?= $id ?>">
+					<img srcset="<?= Yii::$app->homeUrl . '../uploads/products/' . $split_folder . '/' . $model->id . '/gallery' . '/' . end($arry) ?>?<?= rand(); ?>" alt="no-image" img-name="<?= end($arry) ?>" id="image_<?= $id ?>" style="width:100px;height:100px">
 
 					<a class="update delete_image btn btn-icon btn-red"  id-for="<?= end($arry) ?>" id="delete_id_<?= $id ?>_<?= $model->id ?>" href="" hide_delete="<?= $id ?>"><i class="fa-remove"></i>
 					</a>
