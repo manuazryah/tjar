@@ -26,7 +26,9 @@ else
 
                                 <div id="affix">
                                         <div class="app-figure" id="zoom-fig">
-                                                <a id="Zoom-1" class="MagicZoom" title="" href="<?= Yii::$app->homeUrl ?>/images/products/1.png">
+                                                <a id="Zoom-1" class="MagicZoom" title=""
+                                                   href="<?= Yii::$app->homeUrl ?>/images/products/1.png"
+                                                   >
                                                         <img src="<?= Yii::$app->homeUrl ?>/images/products/1.png?scale.height=400" alt=""/>
                                                         <div class="offer-tag">
                                                                 <img src="<?= Yii::$app->homeUrl ?>/images/offer-tag-bg.png"/><span>10% OFF</span>
