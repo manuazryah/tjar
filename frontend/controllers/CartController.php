@@ -52,7 +52,7 @@ class CartController extends \yii\web\Controller {
     public function actionMycart() {
         if (isset(Yii::$app->user->identity->id)) {
             if (isset(Yii::$app->session['temp_user'])) {
-                $this->changecart(Yii::$app->session['temp_user']);
+//                $this->changecart(Yii::$app->session['temp_user']);
             }
         }
         $condition = $this->usercheck();
@@ -64,12 +64,64 @@ class CartController extends \yii\web\Controller {
             return $this->render('emptycart');
         }
     }
+
     public function actionCart_remove($id) {
         $cart = Cart::findone($id);
         if ($cart->delete()) {
             return $this->redirect('mycart');
         } else {
             return $this->redirect('mycart');
+        }
+    }
+
+    public function actionFindstock() {
+        if (yii::$app->request->isAjax) {
+            $cart_id = Yii::$app->request->post()['cartid'];
+            $qty = Yii::$app->request->post()['quantity'];
+            if (isset($cart_id)) {
+                $cart = Cart::findOne(yii::$app->EncryptDecrypt->Encrypt('decrypt', $cart_id));
+                if ($qty == 0 || $qty == "") {
+                    $qty = 1;
+                }
+                $product = ProductVendor::findOne($cart->product_id);
+                $quantity = $qty > $product->qty ? $product->qty : $qty;
+                if ($product->offer_price == '0' || $product->offer_price == '') {
+                    $price = $product->price;
+                } else {
+                    $price = $product->offer_price;
+                }
+                $total = $price * $quantity;
+                echo json_encode(array('msg' => 'success', 'quantity' => $quantity, 'total' => sprintf('%0.2f', $total)));
+            }
+        }
+    }
+
+    public function actionUpdatecart() {
+        if (yii::$app->request->isAjax) {
+            $cart_id = Yii::$app->request->post()['cartid'];
+            $qty = Yii::$app->request->post()['quantity'];
+            if (isset($cart_id)) {
+                $cart = Cart::findone(yii::$app->EncryptDecrypt->Encrypt('decrypt', $cart_id));
+                $product = ProductVendor::findOne($cart->product_id);
+                if ($qty == 0 || $qty == "") {
+                    $qty = 1;
+                }
+                $cart->quantity = $qty > $product->qty ? $product->qty : $qty;
+                if ($cart->save()) {
+                    $condition = $this->usercheck();
+                    $cart_items = Cart::find()->where($condition)->all();
+                    if (!empty($cart_items)) {
+                        $subtotal = $this->total($cart_items);
+                        $grandtotal = $this->grandtotal($subtotal);
+                    }
+                    echo json_encode(array('msg' => 'success', 'subtotal' => sprintf('%0.2f', $subtotal), 'grandtotal' => sprintf('%0.2f', $grandtotal)));
+                } else {
+                    echo json_encode(array('msg' => 'error', 'content' => 'Cannot be Changed'));
+                }
+            }
+//            else {
+//                echo json_encode(array('msg' => 'error', 'content' => 'Id cannot be set'));
+//            }
         }
     }
 
@@ -126,6 +178,11 @@ class CartController extends \yii\web\Controller {
         return $subtotal;
     }
 
+    function grandtotal($subtotal) {
+        $grandtotal = $subtotal;
+        return $grandtotal;
+    }
+
     function usercheck() {
         if (isset(Yii::$app->user->identity->id)) {
             $user_id = Yii::$app->user->identity->id;
@@ -141,11 +198,18 @@ class CartController extends \yii\web\Controller {
         return $condition;
     }
 
-    function changecart($temp) {
+    function changecart() {
         $models = Cart::find()->where(['session_id' => Yii::$app->session['temp_user']])->all();
         foreach ($models as $msd) {
-            $msd->user_id = Yii::$app->user->identity->id;
-            $msd->save();
+            $product_allready = Cart::find()->where(['user_id' => Yii::$app->user->identity->id, 'product_id' => $msd->product_id])->one();
+            if ($product_allready) {
+                $product_allready->quantity = $product_allready->quantity + $msd->quantity;
+                $product_allready->save();
+                $msd->delete();
+            } else {
+                $msd->user_id = Yii::$app->user->identity->id;
+                $msd->save();
+            }
         }
     }
 

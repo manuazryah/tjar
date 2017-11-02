@@ -20,6 +20,10 @@ $this->title = 'Shopping Cart';
         margin: 0 auto;
         display: block;
     }
+    .col-md-12{
+        text-align: center;
+        margin-top: 15px;
+    }
 </style>
 <div id="cart">
     <div class="container">

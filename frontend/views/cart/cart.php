@@ -47,20 +47,20 @@ $this->title = 'Shopping Cart';
 
                                             <td class="product-item" data-title="Product">
 
-                                                <a href="#"><img width="180" height="180" src="<?= Yii::$app->homeUrl . '/uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product->id) . '/' . $product->id . '/profile/' . $product->canonical_name . '.' . $product->gallery_images ?>" class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" alt="product-women-01" srcset="" sizes="(max-width: 180px) 100vw, 180px"></a><a class="product-discrp" href=""><?= $product->product_name; ?></a></td>
+                                                <a href="#"><img  height="60" src="<?= Yii::$app->homeUrl . '/uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product->id) . '/' . $product->id . '/profile/' . $product->canonical_name . '_thumb.' . $product->gallery_images ?>" class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" alt="product-women-01" srcset="" sizes="(max-width: 180px) 100vw, 180px"></a><a class="product-discrp" href=""><?= $product->product_name; ?></a></td>
 
                                             <td class="product-price" data-title="Price">
                                                 <span class="woocommerce-Price-amount amount"><?= sprintf("%0.2f", $price); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
 
                                             <td class="product-quantity" data-title="Quantity">
                                                 <div class="quantity">
-                                                    <input type="number" step="1" min="1" max="<?= $prod_details->qty; ?>" name="" value="<?= $cart_item->quantity ?>" title="Qty" class="input-text qty text" size="4" pattern="[0-9]*" inputmode="numeric">
+                                                    <input type="number" step="1" min="1" max="<?= $prod_details->qty; ?>" name="" value="<?= $cart_item->quantity ?>" title="Qty" class="input-text qty text cart_qty" id="<?= yii::$app->EncryptDecrypt->Encrypt('encrypt', $cart_item->id);?>" size="4" pattern="[0-9]*" inputmode="numeric">
                                                 </div>
                                             </td>
 
                                             <td class="product-subtotal" data-title="Total">
                                                 <?php $total = $price * $cart_item->quantity; ?>
-                                                <span class="woocommerce-Price-amount amount"><?= sprintf("%0.2f", $total); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                                <span class="woocommerce-Price-amount amount total_<?= yii::$app->EncryptDecrypt->Encrypt('encrypt', $cart_item->id) ?>"><?= sprintf("%0.2f", $total); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
 
                                             <td class="product-remove">
                                                 <?= Html::a('<i class="fa fa-trash-o"></i>', ['cart/cart_remove?id=' . $cart_item->id], ['class' => 'remove', 'title' => 'Remove this item']) ?>
@@ -75,7 +75,7 @@ $this->title = 'Shopping Cart';
                                                 <label for="coupon_code">Coupon:</label> <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="Coupon code"> <input type="submit" class="button apply-coupen" name="apply_coupon" value="Apply Coupon">
                                             </div>
                                             <input type="submit" class="button update-cart" name="update_cart" value="Update Cart">
-                                            <input type="hidden" id="_wpnonce" name="_wpnonce" value="6fa1d8e185"><input type="hidden" name="_wp_http_referer" value="/wordpress/lemonshop/cart/">			</td>
+                                            <input type="hidden" id="_wpnonce" name="_wpnonce" value="6fa1d8e185"><input type="hidden" name="_wp_http_referer" value="/wordpress/lemonshop/cart/"></td>
                                     </tr>
 
                                 </tbody>
@@ -107,15 +107,23 @@ $this->title = 'Shopping Cart';
 
                                                     <tr class="order-total">
                                                         <th>Grand Total</th>
-                                                        <td data-title="Total"><strong><span class="woocommerce-Price-amount amount"><?= sprintf("%0.2f", $subtotal); ?><span class="woocommerce-Price-currencySymbol">AED</span></span></strong> </td>
+                                                        <td data-title="Total"><strong><span class="woocommerce-Price-amount amount grand_total"><?= sprintf("%0.2f", $subtotal); ?><span class="woocommerce-Price-currencySymbol">AED</span></span></strong> </td>
                                                     </tr>
 
                                                 </tbody></table>
                                         </div>
+                                        <?php 
+                                        if(!isset(Yii::$app->user->identity->id)){?>
+                                        <div class="wc-proceed-to-checkout ">
+                                            <a data-toggle="modal" data-target="#Login" href="" class="checkout-button button alt wc-forward login_checkout">
+                                                Login to Checkout</a>
+                                        </div>
+                                        <?php }else{ ?>
                                         <div class="wc-proceed-to-checkout">
                                             <a data-toggle="modal" data-target="#checkout" href="" class="checkout-button button alt wc-forward">
                                                 Proceed to Checkout</a>
                                         </div>
+                                        <?php }?>
                                         <div class="modal fade" role="dialog"  id="checkout">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 modal-dialog bg-white checkout-lft-box">
                                                 <div class="step__sections">
@@ -124,11 +132,11 @@ $this->title = 'Shopping Cart';
                                                         <div class="section__header">
                                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                                 <h2 class="section__title">Customer information</h2>
-                                                                <p class="layout-flex__item">
+<!--                                                                <p class="layout-flex__item">
                                                                     <span class="visually-hidden">Already have an account?</span>
                                                                     <a data-toggle="modal" data-target="#Login" href=""> Log in
                                                                     </a>     
-                                                                </p>
+                                                                </p>-->
                                                             </div>
                                                             <form>
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

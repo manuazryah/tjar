@@ -47,8 +47,8 @@ if (isset(Yii::$app->session['log-return'])) {
                                         $('.log-popup-err').css('display', 'block');
                                         $('#user-email').val(email);
                                         $('#user-password').val(pass);
-                                        $('.modal ').css('display', 'block');
-                                        $('.modal ').addClass('in');
+                                        $('.login-modal ').css('display', 'block');
+                                        $('.login-modal ').addClass('in');
                                 }
                         });
                 </script>
@@ -73,6 +73,40 @@ if (isset(Yii::$app->session['log-return'])) {
                         box-shadow: 1px 1px 10px rgba(33, 33, 33, 0.62);
                         padding-bottom: 0px;
                 }
+                .page-loading-overlay {
+                position: fixed;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                right: 0;
+                overflow: hidden;
+                background: rgba(44, 46, 47, 0.28);
+                z-index: 10000;
+                -webkit-perspective: 10000;
+                -moz-perspective: 10000;
+                perspective: 10000;
+                -webkit-perspective: 10000px;
+                -moz-perspective: 10000px;
+                perspective: 10000px;
+                zoom: 1;
+                filter: alpha(opacity=100);
+                -webkit-opacity: 1;
+                -moz-opacity: 1;
+                opacity: 1;
+                -webkit-transition: all 800ms ease-in-out;
+                -moz-transition: all 800ms ease-in-out;
+                -o-transition: all 800ms ease-in-out;
+                transition: all 800ms ease-in-out
+        }
+
+        .page-loading-overlay.loaded {
+                zoom: 1;
+                filter: alpha(opacity=0);
+                -webkit-opacity: 0;
+                -moz-opacity: 0;
+                opacity: 0;
+                visibility: hidden
+        }
         </style>
         <body>
                 <?php $this->beginBody() ?>
@@ -160,7 +194,7 @@ if (isset(Yii::$app->session['log-return'])) {
                                         </div>
                                 </div>
                         </div>
-                        <div class="modal fade" id="Login" role="dialog">
+                        <div class="modal fade login-modal" id="Login" role="dialog">
                                 <div class="modal-dialog">
 
                                         <!-- Modal content-->
@@ -184,7 +218,7 @@ if (isset(Yii::$app->session['log-return'])) {
                                                                         <?php
                                                                         $modellogin = new LoginForm();
                                                                         ?>
-                                                                        <?php $form_login = ActiveForm::begin(['action' => Yii::$app->homeUrl . 'site/login?go=' . Yii::$app->request->hostInfo . Yii::$app->request->url, 'id' => 'login-form', 'options' => ['class' => 'form-horizontal']]); ?>
+                                                                        <?php $form_login = ActiveForm::begin(['action' => Yii::$app->homeUrl . 'site/login?go='.Yii::$app->request->hostInfo . Yii::$app->request->url, 'id' => 'login-form', 'options' => ['class' => 'form-horizontal']]); ?>
                                                                         <!--<form class="form-horizontal" action=" " method="post"  id="login_form">-->
                                                                         <fieldset>
                                                                                 <div class="form-group">
@@ -965,13 +999,13 @@ if (isset(Yii::$app->session['log-return'])) {
                                         $(this).find('.options').stop(true, true).delay(100).fadeOut(100);
                                 });
                                 $('.log-sign').click(function () {
-                                        $('.modal').css('display', 'block');
-                                        $('.modal').addClass('in');
+                                        $('.login-modal').css('display', 'block');
+                                        $('.login-modal').addClass('in');
                                 });
                                 $('.clos').click(function () {
-                                        $('.modal').css('display', 'none');
+                                        $('.login-modal').css('display', 'none');
                                         $('.log-popup-err').css('display', 'none');
-                                        $('.modal').removeClass('in');
+                                        $('.login-modal').removeClass('in');
                                         $('#user-email').val('');
                                         $('#user-password').val('');
                                         $.ajax({
