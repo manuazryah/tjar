@@ -18,7 +18,10 @@ else
 
                                 <div id="affix">
                                         <div class="app-figure" id="zoom-fig">
+
+
                                                 <?php
+                                                /* show profile image */
                                                 $product_image = Yii::$app->basePath . '/../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_details->id) . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '.' . $product_details->gallery_images;
                                                 if (file_exists($product_image)) {
                                                         ?>
@@ -41,11 +44,11 @@ else
 
 
                                                         </a>
-
                                                 <?php } ?>
+
                                                 <div class="selectors">
 
-                                                        <?php if (file_exists($product_image)) { ?>
+                                                        <?php /* show profile image as thumb */ if (file_exists($product_image)) { ?>
                                                                 <a
                                                                         data-zoom-id="Zoom-1"
                                                                         href="<?= Yii::$app->homeUrl . 'uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_details->id) . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '.' . $product_details->gallery_images ?>"
@@ -59,6 +62,7 @@ else
 
 
                                                         <?php
+                                                        /* show gallery images */
                                                         $path = Yii::getAlias('@paths') . '/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_details->id) . '/' . $product_details->id . '/gallery_thumb';
                                                         if (file_exists($product_image)) {
                                                                 if (count(glob("{$path}/*")) > 0) {
@@ -131,7 +135,7 @@ else
                                 <div class="product-specifications">
                                         <?php if (isset($vendor_product->warranty) && $vendor_product->warranty != '') { ?>
                                                 <div class="product-detailed-points">
-                                                        <h5>Warrenty: </h5>
+                                                        <h5>Warranty: </h5>
                                                         <span class="message"><?= $vendor_product->warranty ?></span>
                                                 </div>
                                         <?php } ?>
