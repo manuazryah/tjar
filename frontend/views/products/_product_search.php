@@ -11,7 +11,7 @@
                 ?>
 
                 <li class="<?= $p == 1 ? 'search-selected' : '' ?>" id="<?= $value->tag_name ?>">
-                        <a href="<?= Yii::$app->homeUrl ?>products/product-search?query_search=<?= Yii::$app->EncryptDecrypt->Encrypt('encrypt', $value->id) ?>"> <span class="search-li-value"><?= $value->tag_name ?> </span> in  <span class="search-category"> <?= $category_name ?> </span> </a>
+                        <a href="<?= Yii::$app->homeUrl ?>products/product-search?query_search=<?= Yii::$app->EncryptDecrypt->Encrypt('encrypt', $value->id) ?>"> <div><span class="search-li-value"><?= $value->tag_name ?> </span> in  <span class="search-category"> <?= $category_name ?> </span> </div></a>
                 </li>
 
         <?php } ?>
