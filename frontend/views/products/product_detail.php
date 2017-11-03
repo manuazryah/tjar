@@ -91,7 +91,7 @@ else
 
                                                 </div>
                                                 <div class="function-btn">
-                                                        <?= Html::a('add to cart', '#', ['class' => 'start-shopping add_to_cart', 'id' => yii::$app->EncryptDecrypt->Encrypt('encrypt', $vendor_product->id)]) ?>
+                                                        <?= Html::a('<button class="start-shopping">add to cart</button>', '#', ['class' => 'add_to_cart', 'id' => yii::$app->EncryptDecrypt->Encrypt('encrypt', $vendor_product->id)]) ?>
                                                         <!--<a href="cart.php"><button class="start-shopping">add to cart</button></a>-->
                                                         <a href="#"><button class="start-shopping">Buy now</button></a>
                                                 </div>
