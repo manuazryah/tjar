@@ -38,7 +38,7 @@ use common\models\LoginForm;
                 <div class="item active">
 
                     <!-- Slide Background -->
-                    <img src="images/banner/banner1.jpg" alt="Bootstrap Touch Slider"  class="slide-image"/>
+                    <img src="<?= Yii::$app->homeUrl ?>images/banner/banner1.jpg" alt="Bootstrap Touch Slider"  class="slide-image"/>
                     <!--<div class="bs-slider-overlay"></div>-->
 
                     <div class="container">
@@ -57,7 +57,7 @@ use common\models\LoginForm;
                 <div class="item">
 
                     <!-- Slide Background -->
-                    <img src="images/banner/banner1.jpg" alt="Bootstrap Touch Slider"  class="slide-image"/>
+                    <img src="<?= Yii::$app->homeUrl ?>images/banner/banner1.jpg" alt="Bootstrap Touch Slider"  class="slide-image"/>
                     <!--<div class="bs-slider-overlay"></div>-->
                     <!-- Slide Text Layer -->
                     <!--                            <div class="slide-text slide_style_center">
@@ -71,7 +71,7 @@ use common\models\LoginForm;
                 <div class="item">
 
                     <!-- Slide Background -->
-                    <img src="images/banner/banner1.jpg" alt="Bootstrap Touch Slider"  class="slide-image"/>
+                    <img src="<?= Yii::$app->homeUrl ?>images/banner/banner1.jpg" alt="Bootstrap Touch Slider"  class="slide-image"/>
                     <!--<div class="bs-slider-overlay"></div>-->
                     <!-- Slide Text Layer -->
                     <!--                            <div class="slide-text slide_style_right">
@@ -106,7 +106,7 @@ use common\models\LoginForm;
             <div>
                 <div class='col-md-12' style="padding: 0px">
                     <div class="hot-deals-heading">
-                        <img class="img-responsive" src="images/hot-deals-strip.png"/>
+                        <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/hot-deals-strip.png"/>
                         <h3>DEALS OF THE DAY</h3>
                     </div>
                     <div class="carousel slide media-carousel" id="media">
@@ -114,9 +114,9 @@ use common\models\LoginForm;
                             <div class="item  active"  >
                                 <div class="" >
                                     <div class="col-md-4 product">
-                                        <a href="product-detail.php">
+                                        <a href="#">
                                             <div class="thumbnail">
-                                                <img alt="" src="images/hot-deals/img-1.png">
+                                                <img alt="" src="<?= Yii::$app->homeUrl ?>images/hot-deals/img-1.png">
                                                 <div class="hot-deals-details">
                                                     <h3 class="product-name">Product Name</h3>
                                                     <div class="rating">
@@ -133,9 +133,9 @@ use common\models\LoginForm;
                                 <div class="row">
 
                                     <div class="col-md-4 product">
-                                        <a href="product-detail.php">
+                                        <a href="#">
                                             <div class="thumbnail">
-                                                <img alt="" src="images/hot-deals/img-1.png">
+                                                <img alt="" src="<?= Yii::$app->homeUrl ?>images/hot-deals/img-1.png">
                                                 <div class="hot-deals-details">
                                                     <h3 class="product-name">Product Name</h3>
                                                     <div class="rating">
@@ -152,9 +152,9 @@ use common\models\LoginForm;
                                 <div class="row">
 
                                     <div class="col-md-4 product">
-                                        <a href="product-detail.php">
+                                        <a href="#">
                                             <div class="thumbnail">
-                                                <img alt="" src="images/hot-deals/img-1.png">
+                                                <img alt="" src="<?= Yii::$app->homeUrl ?>images/hot-deals/img-1.png">
                                                 <div class="hot-deals-details">
                                                     <h3 class="product-name">Product Name</h3>
                                                     <div class="rating">
@@ -182,17 +182,17 @@ use common\models\LoginForm;
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <a href="#">
-                    <img class="img-responsive" src="images/col-3-specialoff/off-1.png">
+                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/col-3-specialoff/off-1.png">
                 </a>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <a href="#">
-                    <img class="img-responsive" src="images/col-3-specialoff/off-2.png">
+                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/col-3-specialoff/off-2.png">
                 </a>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <a href="#">
-                    <img class="img-responsive" src="images/col-3-specialoff/off-3.png">
+                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/col-3-specialoff/off-3.png">
                 </a>
             </div>
         </div>
@@ -209,7 +209,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/featured/product1.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/featured/product1.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -221,7 +221,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/featured/product2.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/featured/product2.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -233,7 +233,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/featured/product3.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/featured/product3.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -245,7 +245,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/featured/product4.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/featured/product4.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -257,7 +257,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/featured/product5.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/featured/product5.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -269,7 +269,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/featured/product1.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/featured/product1.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -281,7 +281,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/featured/product2.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/featured/product2.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -293,7 +293,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/featured/product3.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/featured/product3.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -305,7 +305,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/featured/product4.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/featured/product4.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -317,7 +317,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/featured/product5.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/featured/product5.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -337,13 +337,13 @@ use common\models\LoginForm;
     <div class="container">
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 xs-pad-botm30">
-                <img class="img-responsive xs-align-center" src="images/col-3-specialoff/off-4.png">
+                <img class="img-responsive xs-align-center" src="<?= Yii::$app->homeUrl ?>images/col-3-specialoff/off-4.png">
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 xs-pad-botm30">
-                <img class="img-responsive xs-align-center" src="images/col-3-specialoff/off-5.png">
+                <img class="img-responsive xs-align-center" src="<?= Yii::$app->homeUrl ?>images/col-3-specialoff/off-5.png">
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 xs-pad-botm30 xs-align-center">
-                <img class="img-responsive xs-align-center" src="images/col-3-specialoff/off-6.png">
+                <img class="img-responsive xs-align-center" src="<?= Yii::$app->homeUrl ?>images/col-3-specialoff/off-6.png">
             </div>
         </div>
     </div>
@@ -359,7 +359,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/eletronic/product1.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/eletronic/product1.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -371,7 +371,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/eletronic/product2.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/eletronic/product2.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -383,7 +383,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/eletronic/product3.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/eletronic/product3.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -395,7 +395,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/eletronic/product4.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/eletronic/product4.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -407,7 +407,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/eletronic/product5.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/eletronic/product5.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -419,7 +419,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/eletronic/product1.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/eletronic/product1.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -431,7 +431,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/eletronic/product2.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/eletronic/product2.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -443,7 +443,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/eletronic/product3.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/eletronic/product3.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -455,7 +455,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/eletronic/product4.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/eletronic/product4.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -467,7 +467,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/eletronic/product5.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/eletronic/product5.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -487,10 +487,10 @@ use common\models\LoginForm;
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-sm-6">
-                <img class="img-responsive" src="images/col-6-specialoff/off1.png">
+                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/col-6-specialoff/off1.png">
             </div>
             <div class="col-md-6 col-sm-6">
-                <img class="img-responsive" src="images/col-6-specialoff/off2.png">
+                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/col-6-specialoff/off2.png">
             </div>
         </div>
     </div>
@@ -506,7 +506,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/hom&furniture/product1.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/hom&furniture/product1.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -518,7 +518,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/hom&furniture/product2.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/hom&furniture/product2.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -530,7 +530,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/hom&furniture/product3.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/hom&furniture/product3.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -542,7 +542,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/hom&furniture/product4.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/hom&furniture/product4.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -554,7 +554,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/hom&furniture/product5.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/hom&furniture/product5.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -566,7 +566,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/hom&furniture/product1.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/hom&furniture/product1.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -578,7 +578,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/hom&furniture/product2.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/hom&furniture/product2.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -590,7 +590,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/hom&furniture/product3.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/hom&furniture/product3.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -602,7 +602,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/hom&furniture/product4.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/hom&furniture/product4.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>
@@ -614,7 +614,7 @@ use common\models\LoginForm;
                         <div class="pad25">
                             <a href="#">
                                 <div class="product-img">
-                                    <img class="img-responsive" src="images/products/hom&furniture/product5.png"/>
+                                    <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/hom&furniture/product5.png"/>
                                 </div>
                                 <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
                                 <h5 class="product-discount">Upto 50% off</h5>

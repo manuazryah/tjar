@@ -114,8 +114,8 @@ class User extends ActiveRecord implements IdentityInterface {
      * @return static|null
      */
     public static function findByEmail($username) {
-
-        return static::findOne(['email' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::find()->where(['email' => $username, 'status' => self::STATUS_ACTIVE])->orWhere(['mobile_number' => $username, 'status' => self::STATUS_ACTIVE])->one();
+//        return static::findOne(['email' => $username, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**

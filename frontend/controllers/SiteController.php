@@ -19,186 +19,211 @@ use common\models\User;
  */
 class SiteController extends Controller {
 
-        /**
-         * @inheritdoc
-         */
-        public function behaviors() {
-                return [
-                    'access' => [
-                        'class' => AccessControl::className(),
-                        'only' => ['logout', 'signup'],
-                        'rules' => [
-                                [
-                                'actions' => ['signup'],
-                                'allow' => true,
-                                'roles' => ['?'],
-                            ],
-                                [
-                                'actions' => ['logout'],
-                                'allow' => true,
-                                'roles' => ['@'],
-                            ],
-                        ],
+    /**
+     * @inheritdoc
+     */
+    public function behaviors() {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['logout', 'signup', 'new-password'],
+                'rules' => [
+                    [
+                        'actions' => ['signup', 'new-password'],
+                        'allow' => true,
+                        'roles' => ['?'],
                     ],
-                    'verbs' => [
-                        'class' => VerbFilter::className(),
-                        'actions' => [
-                            'logout' => ['post'],
-                        ],
+                    [
+                        'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
-                ];
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function actions() {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
+        ];
+    }
+
+    /**
+     * Displays homepage.
+     *
+     * @return mixed
+     */
+    public function actionIndex() {
+        return $this->render('index');
+    }
+
+    /**
+     * Logs in a user.
+     *
+     * @return mixed
+     */
+    public function actionLogin($go = null) {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
         }
 
-        /**
-         * @inheritdoc
-         */
-        public function actions() {
-                return [
-                    'error' => [
-                        'class' => 'yii\web\ErrorAction',
-                    ],
-                    'captcha' => [
-                        'class' => 'yii\captcha\CaptchaAction',
-                        'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-                    ],
-                ];
+        $modellogin = new LoginForm();
+        if ($modellogin->load(Yii::$app->request->post()) && $modellogin->login()) {
+            return $this->redirect($go);
+        } else {
+            Yii::$app->session['log-return'] = 1;
+            return $this->redirect(Yii::$app->request->referrer);
         }
+    }
 
-        /**
-         * Displays homepage.
-         *
-         * @return mixed
-         */
-        public function actionIndex() {
-                return $this->render('index');
+    /**
+     * Logs out the current user.
+     *
+     * @return mixed
+     */
+    public function actionLogout() {
+        Yii::$app->user->logout();
+
+        return $this->goHome();
+    }
+
+    /**
+     * Displays contact page.
+     *
+     * @return mixed
+     */
+    public function actionContact() {
+        $model = new ContactForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
+                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
+            } else {
+                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
+            }
+
+            return $this->refresh();
+        } else {
+            return $this->render('contact', [
+                        'model' => $model,
+            ]);
         }
+    }
 
-        /**
-         * Logs in a user.
-         *
-         * @return mixed
-         */
-        public function actionLogin($go = null) {
-                if (!Yii::$app->user->isGuest) {
-                        return $this->goHome();
+    /**
+     * Displays about page.
+     *
+     * @return mixed
+     */
+    public function actionAbout() {
+        return $this->render('about');
+    }
+
+    /**
+     * Signs user up.
+     *
+     * @return mixed
+     */
+    public function actionRegister() {
+        $modelregister = new User();
+        if ($modelregister->load(Yii::$app->request->post())) {
+            if ($user = $modelregister->signup()) {
+                if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
                 }
-
-                $modellogin = new LoginForm();
-                if ($modellogin->load(Yii::$app->request->post()) && $modellogin->login()) {
-                        return $this->redirect($go);
-                } else {
-                        Yii::$app->session['log-return'] = 1;
-                        return $this->redirect(Yii::$app->request->referrer);
-                }
+            }
         }
 
-        /**
-         * Logs out the current user.
-         *
-         * @return mixed
-         */
-        public function actionLogout() {
-                Yii::$app->user->logout();
+        return $this->render('signup', [
+                    'model' => $model,
+        ]);
+    }
+
+    /**
+     * Requests password reset.
+     *
+     * @return mixed
+     */
+    public function actionRequestPasswordReset() {
+        $model = new PasswordResetRequestForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if ($model->sendEmail()) {
+                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
 
                 return $this->goHome();
+            } else {
+                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
+            }
         }
 
-        /**
-         * Displays contact page.
-         *
-         * @return mixed
-         */
-        public function actionContact() {
-                $model = new ContactForm();
-                if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-                        if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-                        } else {
-                                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
-                        }
+        return $this->render('requestPasswordResetToken', [
+                    'model' => $model,
+        ]);
+    }
 
-                        return $this->refresh();
-                } else {
-                        return $this->render('contact', [
-                                    'model' => $model,
-                        ]);
-                }
+    /**
+     * Resets password.
+     *
+     * @param string $token
+     * @return mixed
+     * @throws BadRequestHttpException
+     */
+    public function actionResetPassword($token) {
+        try {
+            $model = new ResetPasswordForm($token);
+        } catch (InvalidParamException $e) {
+            throw new BadRequestHttpException($e->getMessage());
         }
 
-        /**
-         * Displays about page.
-         *
-         * @return mixed
-         */
-        public function actionAbout() {
-                return $this->render('about');
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+            Yii::$app->session->setFlash('success', 'New password saved.');
+
+            return $this->goHome();
         }
 
-        /**
-         * Signs user up.
-         *
-         * @return mixed
-         */
-        public function actionRegister() {
-                $modelregister = new User();
-                if ($modelregister->load(Yii::$app->request->post())) {
-                        if ($user = $modelregister->signup()) {
-                                if (Yii::$app->getUser()->login($user)) {
-                                        return $this->goHome();
-                                }
-                        }
-                }
+        return $this->render('resetPassword', [
+                    'model' => $model,
+        ]);
+    }
 
-                return $this->render('signup', [
-                            'model' => $model,
-                ]);
+    /**
+     * Resets password.
+     *
+     * @param string $token
+     * @return mixed
+     * @throws BadRequestHttpException
+     */
+    public function actionNewPassword() {
+        $token = \common\models\ForgotPassword::find()->where(['token' => Yii::$app->request->post(forgot_otp)])->one();
+        $user = User::find()->where(['id' => $token->user_id])->one();
+        $user->password_hash = Yii::$app->security->generatePasswordHash(Yii::$app->request->post('reset_passwd'));
+        if ($user->update()) {
+            $token->delete();
+            $modellogin = new LoginForm();
+            $modellogin->username = $user->email;
+            $modellogin->password = Yii::$app->request->post('reset_passwd');
+            if ($modellogin->login()) {
+                return $this->redirect('index');
+            } else {
+                Yii::$app->session['log-return'] = 1;
+                return $this->redirect(Yii::$app->request->referrer);
+            }
         }
-
-        /**
-         * Requests password reset.
-         *
-         * @return mixed
-         */
-        public function actionRequestPasswordReset() {
-                $model = new PasswordResetRequestForm();
-                if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-                        if ($model->sendEmail()) {
-                                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-
-                                return $this->goHome();
-                        } else {
-                                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
-                        }
-                }
-
-                return $this->render('requestPasswordResetToken', [
-                            'model' => $model,
-                ]);
-        }
-
-        /**
-         * Resets password.
-         *
-         * @param string $token
-         * @return mixed
-         * @throws BadRequestHttpException
-         */
-        public function actionResetPassword($token) {
-                try {
-                        $model = new ResetPasswordForm($token);
-                } catch (InvalidParamException $e) {
-                        throw new BadRequestHttpException($e->getMessage());
-                }
-
-                if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-                        Yii::$app->session->setFlash('success', 'New password saved.');
-
-                        return $this->goHome();
-                }
-
-                return $this->render('resetPassword', [
-                            'model' => $model,
-                ]);
-        }
+    }
 
 }
