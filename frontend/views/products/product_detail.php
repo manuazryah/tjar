@@ -162,17 +162,22 @@ else
                                                         </div>
                                                 </span>
                                         </div>
-                                        <div class="product-detailed-points">
-                                                <h5>Highlights: </h5>
-                                                <span class="message">
-                                                        <?= $product_details->highlights ?>
-                                                </span>
-                                        </div>
 
-                                        <div class="product-detailed-points">
-                                                <h5>Important Notes:</h5>
-                                                <span class="message"><?= $product_details->important_notes ?></span>
-                                        </div>
+                                        <?php if (isset($product_details->highlights)) { ?>
+                                                <div class="product-detailed-points">
+                                                        <h5>Highlights: </h5>
+                                                        <span class="message">
+                                                                <?= $product_details->highlights ?>
+                                                        </span>
+                                                </div>
+                                        <?php } ?>
+
+                                        <?php if (isset($product_details->important_notes)) { ?>
+                                                <div class="product-detailed-points">
+                                                        <h5>Important Notes:</h5>
+                                                        <span class="message"><?= $product_details->important_notes ?></span>
+                                                </div>
+                                        <?php } ?>
 
                                         <div class="product-detailed-points availability">
                                                 <h5>seller:</h5>
