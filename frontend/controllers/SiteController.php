@@ -218,7 +218,7 @@ class SiteController extends Controller {
             $modellogin->username = $user->email;
             $modellogin->password = Yii::$app->request->post('reset_passwd');
             if ($modellogin->login()) {
-                return $this->redirect('index');
+                return $this->redirect(Yii::$app->request->referrer);
             } else {
                 Yii::$app->session['log-return'] = 1;
                 return $this->redirect(Yii::$app->request->referrer);
