@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+        $('.review-success').hide();
         $(document).on('submit', '#add-review-form', function (e) {
                 e.preventDefault();
                 var data = $(this).serialize();
@@ -9,6 +9,8 @@ $(document).ready(function () {
                         data: data,
                         success: function (data) {
                                 $('#addreview').css({'display': 'none'});
+                                $('.review-success').show();
+                                $('.review-success').delay(4000).fadeOut();
                         }
                 });
         });

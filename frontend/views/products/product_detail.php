@@ -227,6 +227,7 @@ else
                                         <div class="">
                                                 <div class="well well-sm">
                                                         <div class="row">
+                                                                <div class="review-success"><i class="fa fa-check" aria-hidden="true" style="color:#FFF;margin-right: 5px;"></i>Review Added Succesfully</div>
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                                         <h5>RATINGS AND REVIEWS</h5>
                                                                 </div>
