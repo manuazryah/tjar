@@ -66,10 +66,20 @@ use yii\helpers\Html;
                 border-bottom: 1px solid #d0d0d0;
                 color: black;
         }
+        .button.tiny, button.tiny {
+                background-color: #0070CC;
+                padding:0px 23px !important;
+                border-radius: 2px;
+                line-height: 35px;
+                color: white;
+                float:right;
+        }
 </style>
 <div class="panel panel-default">
         <div class="panel-body">
                 <div class="panel-body">
+                        <?php $action = '../../product-detail/' . $product_model->canonical_name; ?>
+                        <?= Html::a('<button type="button" class="tiny ng-binding" >Product Preview</button>', [$action], ['target' => '_blank']) ?>
                         <div class="col-md-4">
                                 <div class="sell-pro-div-left">
                                         <?php

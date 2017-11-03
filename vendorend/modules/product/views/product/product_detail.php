@@ -89,6 +89,8 @@ use yii\helpers\Html;
                                         <div class="panel-body">
                                                 <div class="small-24 columns sell-this-button">
                                                         <?= Html::a('<button type="button" class="tiny ng-binding" >Sell This Product</button>', ['/product/product/sell-product', 'id' => $id]) ?>
+                                                        <?php $action = '../../product-detail/' . $product_model->canonical_name; ?>
+                                                        <?= Html::a('<button type="button" class="tiny ng-binding" >Product Preview</button>', [$action], ['target' => '_blank']) ?>
                                                         <!--<button type="button" class="tiny ng-binding" >Sell This Product</button></div>-->
                                                 </div>
                                         </div>
