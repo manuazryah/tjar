@@ -139,12 +139,13 @@ class SiteController extends Controller {
      *
      * @return mixed
      */
-    public function actionRegister() {
+    public function actionRegister($go = null) {
         $modelregister = new User();
         if ($modelregister->load(Yii::$app->request->post())) {
             if ($user = $modelregister->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
+                    return $this->redirect($go);
+//                    return $this->goHome();
                 }
             }
         }

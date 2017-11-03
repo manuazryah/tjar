@@ -29,6 +29,37 @@ $(document).ready(function () {
 
 });
 /******************************************************************/
+function findstock(id, quantity) {
+    $.ajax({
+        type: "POST",
+        url: homeUrl + 'cart/findstock',
+        data: {cartid: id, quantity: quantity},
+        success: function (data) {
+            var $data = JSON.parse(data);
+            if ($data.msg === "success") {
+                $('.total_' + id).html($data.total + '<span class="woocommerce-Price-currencySymbol"> AED</span>');
+                $('#' + id).val($data.quantity);
+                hideLoader();
+            }
+//
+        }
+    });
+}
+function updatecart(id, quantity) {
+    $.ajax({
+        type: "POST",
+        url: homeUrl + 'cart/updatecart',
+        data: {cartid: id, quantity: quantity},
+        success: function (data) {
+            var $data = JSON.parse(data);
+            if ($data.msg === "success") {
+                $('.cart_subtotal').html($data.subtotal + '<span class="woocommerce-Price-currencySymbol">AED</span>');
+                $('.grand_total').html($data.grandtotal + '<span class="woocommerce-Price-currencySymbol">AED</span>');
+                hideLoader();
+            }
+        }
+    });
+}
 function getcartcount() {
 
     $.ajax({
@@ -79,6 +110,7 @@ function addtocart(vendor_prdct, qty, action) {
     }).done(function (data) {
         $(".shopping-cart-items").html(data);
         $(".shopping-cart").css("display", "block");
+        getcartcount();
         hideLoader();
 
     });

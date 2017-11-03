@@ -1,6 +1,8 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
 use common\models\Products;
 use common\models\ProductVendor;
 //use common\models\Settings;
@@ -11,6 +13,9 @@ $this->title = 'Shopping Cart';
 <style>
     .attachment-shop_thumbnail{
         margin-right: 25px;
+    }
+    .new_address_area{
+        display: none;
     }
 </style>
 <div id="cart">
@@ -54,7 +59,7 @@ $this->title = 'Shopping Cart';
 
                                             <td class="product-quantity" data-title="Quantity">
                                                 <div class="quantity">
-                                                    <input type="number" step="1" min="1" max="<?= $prod_details->qty; ?>" name="" value="<?= $cart_item->quantity ?>" title="Qty" class="input-text qty text cart_qty" id="<?= yii::$app->EncryptDecrypt->Encrypt('encrypt', $cart_item->id);?>" size="4" pattern="[0-9]*" inputmode="numeric">
+                                                    <input type="number" step="1" min="1" max="<?= $prod_details->qty; ?>" name="" value="<?= $cart_item->quantity ?>" title="Qty" class="input-text qty text cart_qty" id="<?= yii::$app->EncryptDecrypt->Encrypt('encrypt', $cart_item->id); ?>" size="4" pattern="[0-9]*" inputmode="numeric">
                                                 </div>
                                             </td>
 
@@ -112,18 +117,17 @@ $this->title = 'Shopping Cart';
 
                                                 </tbody></table>
                                         </div>
-                                        <?php 
-                                        if(!isset(Yii::$app->user->identity->id)){?>
-                                        <div class="wc-proceed-to-checkout ">
-                                            <a data-toggle="modal" data-target="#Login" href="" class="checkout-button button alt wc-forward login_checkout">
-                                                Login to Checkout</a>
-                                        </div>
-                                        <?php }else{ ?>
-                                        <div class="wc-proceed-to-checkout">
-                                            <a data-toggle="modal" data-target="#checkout" href="" class="checkout-button button alt wc-forward">
-                                                Proceed to Checkout</a>
-                                        </div>
-                                        <?php }?>
+                                        <?php if (!isset(Yii::$app->user->identity->id)) { ?>
+                                            <div class="wc-proceed-to-checkout ">
+                                                <a data-toggle="modal" data-target="#Login" href="" class="checkout-button button alt wc-forward login_checkout">
+                                                    Login to Checkout</a>
+                                            </div>
+                                        <?php } else { ?>
+                                            <div class="wc-proceed-to-checkout">
+                                                <a data-toggle="modal" data-target="#checkout" href="" class="checkout-button button alt wc-forward">
+                                                    Proceed to Checkout</a>
+                                            </div>
+                                        <?php } ?>
                                         <div class="modal fade" role="dialog"  id="checkout">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 modal-dialog bg-white checkout-lft-box">
                                                 <div class="step__sections">
@@ -138,65 +142,69 @@ $this->title = 'Shopping Cart';
                                                                     </a>     
                                                                 </p>-->
                                                             </div>
-                                                            <form>
-                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                    <input class="field__input input-width" type="email" placeholder="Email">
-                                                                </div>
-                                                                <div class="clearfix"></div>
-                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                    <input class="input-checkbox" data-backup="" type="checkbox" value="1" name="" id="subscribe"><label class="checkbox__label" for="subscribe">Subscribe to our newsletter</label>
-                                                                </div>
-                                                            </form>
+                                                            <?php $form = ActiveForm::begin(); ?>
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <select class="field__input input-width" id="billing" name="UserAddress[billing]" required="required">
+                                                                    <option value=''>Select</option>
+                                                                    <?php foreach ($addresses as $address) { ?>
+                                                                        <option value="<?= $address->id ?>" ><?= $address->first_name . ', ' . $address->address . ', ' . $address->landmark ?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                            </div>
+                                                           <div class="clearfix"></div>
+                                                            <div class="col-lg-12">OR</div>
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <button type="button" id="new_address">  ADD A NEW ADDRESS</button>
+                                                              <!--<input class="input-checkbox" data-backup="" type="checkbox" value="1" name="" id="subscribe"><label class="checkbox__label" for="subscribe">Subscribe to our newsletter</label>-->
+                                                            </div>
+                                                            <!--                                                            </form>-->
                                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 shipping-address">
-                                                                <h2 class="section__title">Address</h2>
-                                                                <form>
+                                                                <div class="new_address_area">
+                                                                    <h2 class="section__title">Address</h2>
+                                                                    <!--<form>-->
                                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 first-name">
-                                                                        <input placeholder="First name" required="" autocomplete="" data-backup="first_name" class="field__input input-width" size="" type="text" name="" id="checkout_shipping_address_first_name">
+                                                                        <?= $form->field($model, 'first_name')->textInput(['maxlength' => true, 'class' => 'field__input input-width billing', 'placeholder' => 'First Name', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                                     </div>
                                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 last-name padright0">
-                                                                        <input placeholder="Last name" required="" autocomplete="" data-backup="last_name" class="field__input input-width" size="" type="text" name="" id="checkout_shipping_address_last_name">
+                                                                        <?= $form->field($model, 'last_name')->textInput(['maxlength' => true, 'class' => 'field__input input-width billing', 'placeholder' => 'Last Name', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                                     </div>
                                                                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padlft0 address">
-                                                                        <input placeholder="Address" required="" autocomplete="" data-backup="" class="field__input input-width" size="" type="text" name="" id="">
+                                                                        <?= $form->field($model, 'address')->textInput(['maxlength' => true, 'class' => 'field__input input-width billing', 'placeholder' => 'Address', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                                     </div>
                                                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padlft0 padright0 apt">
-                                                                        <input placeholder="Apt, suite, etc. (optional)" required="" autocomplete="" data-backup="" class="field__input input-width" size="" type="text" name="" id="">
+                                                                        <?= $form->field($model, 'landmark')->textInput(['maxlength' => true, 'class' => 'field__input input-width billing', 'placeholder' => 'Apt, suite, etc. (optional)', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                                     </div>
                                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padlft0 padright0 city">
-                                                                        <input placeholder="City" required="" autocomplete="" data-backup="" class="field__input input-width" size="" type="text" name="" id="">
+                                                                        <?= $form->field($model, 'country_id')->dropDownList(ArrayHelper::map(common\models\Country::find()->all(), 'id', 'country_name'), ['class' => 'country-select input-width billing', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                                     </div>
-                                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padlft0">
-                                                                        <select class="country-select input-width"  required name="school" id="schoolContainer">
-                                                                            <option value="None" selected=""> Your Country</option>
-                                                                            <option value="uae">UAE</option>
-                                                                            <option value="india">INDIA</option>
-                                                                            <option value="usa">USA</option>
-                                                                        </select>
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padlft0 padright0">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0">
+                                                                            <?= $form->field($model, 'city_id')->dropDownList(ArrayHelper::map(common\models\City::find()->all(), 'id', 'city_name'), ['prompt' => 'City', 'class' => 'country-select input-width billing', 'disabled' => 'disabled'])->label(FALSE) ?>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 padright0">
+                                                                            <?= $form->field($model, 'street_id')->dropDownList(ArrayHelper::map(common\models\Street::find()->all(), 'id', 'street_name'), ['prompt' => 'Street', 'class' => 'country-select input-width billing', 'disabled' => 'disabled'])->label(FALSE) ?>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padlft0">
-                                                                        <select class="country-select input-width"  required name="school" id="schoolContainer">
-                                                                            <option value="None" selected=""> State</option>
-                                                                            <option value="uae">OMAN</option>
-                                                                            <option value="india">KERALA</option>
-                                                                            <option value="usa">LAS VEGAS</option>
-                                                                        </select>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0">
+                                                                        <?= $form->field($model, 'phone')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width billing', 'placeholder' => 'Phone number', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                                     </div>
-                                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padlft0 padright0">
-                                                                        <input placeholder="Pincode" autocomplete="shipping postal-code" required="" data-backup="zip" data-google-autocomplete="true" data-google-autocomplete-title="Suggestions" class="field__input field__input--zip input-width" aria-required="true" size="" type="text" name="" id="">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 padright0">
+                                                                        <?= $form->field($model, 'pincode')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width billing', 'placeholder' => 'Pincode', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                                     </div>
                                                                     <!--                                    <div class="clearfix"></div>
                                                                                                         <input class="input-checkbox" data-backup="" type="checkbox" value="1" name="" id="save-info"><label class="checkbox__label" for="save-info">Save this information for next time</label>-->
                                                                     <div class="clearfix"></div>
                                                                     <div class="clearfix"></div>
                                                                     <input class="input-checkbox" data-backup="" type="checkbox" value="1" name="" id="save-info"><label class="checkbox__label" for="save-info">Save this information for next time</label>
-                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pad0">
-                                                                        <div class="function-btn">
-                                                                            <button type="button" class="continue-shopping clos" data-dismiss="modal">Return to Cart</button>
-                                                                            <!--<a href="" class="continue-shopping">Return to Cart</a>-->
-                                                                            <input style="float: right;" type="submit" class="start-shopping" placeholder="Continue Checkout" onclick="window.location = 'payment.php';">
-                                                                        </div>
+                                                                </div>
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pad0">
+                                                                    <div class="function-btn">
+                                                                        <button type="button" class="continue-shopping clos" data-dismiss="modal">Return to Cart</button>
+                                                                        <!--<a href="" class="continue-shopping">Return to Cart</a>-->
+                                                                        <input style="float: right;" type="submit" class="start-shopping" placeholder="Continue Checkout" >
                                                                     </div>
-                                                                </form>
+                                                                </div>
+                                                                <?php ActiveForm::end(); ?>
                                                             </div>
                                                         </div>
                                                     </div> 
@@ -215,3 +223,39 @@ $this->title = 'Shopping Cart';
         </div>	
     </div>
 </div>
+<script>
+    $('#new_address').click(function () {
+        if ($(".new_address_area").is(":visible")) {//not view
+            $('.billing').prop('disabled', true);
+            $('#billing').prop('disabled', false);
+            $('#billing').attr('required', 'required');
+           
+        } else {
+            $('.billing').prop('disabled', false);
+            $('#billing').prop('disabled', true);
+            $("#billing").val('');     
+            $('#billing').removeAttr('required');
+
+        }
+        $(".new_address_area").animate({
+            height: 'toggle'
+        });
+
+//alert($('.new_address_area').css('visibility'));
+//        if ($('.new_address_area').css('display') === 'block') {
+//            alert('Car 2 is hidden');
+//        } else {
+//            alert('balle');
+//        }
+    });
+//visibility
+//    $('#billing').on('change', function () {
+//        var id = $(this).val();
+//        if (id === '') {
+//            $('.billing').prop('disabled', false);
+//        } else {
+//            $('.billing').prop('disabled', true);
+//        }
+//
+//    });
+</script>

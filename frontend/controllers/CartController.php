@@ -7,6 +7,9 @@ use common\models\Products;
 use common\models\Cart;
 use common\models\User;
 use common\models\ProductVendor;
+use common\models\UserAddress;
+use common\models\OrderMaster;
+use common\models\OrderDetails;
 
 class CartController extends \yii\web\Controller {
 
@@ -52,16 +55,82 @@ class CartController extends \yii\web\Controller {
     public function actionMycart() {
         if (isset(Yii::$app->user->identity->id)) {
             if (isset(Yii::$app->session['temp_user'])) {
-//                $this->changecart(Yii::$app->session['temp_user']);
+                $this->changecart(Yii::$app->session['temp_user']);
             }
         }
+        $model = new UserAddress();
+        if ($model->load(Yii::$app->request->post())) {
+            if (!isset(Yii::$app->request->post()['UserAddress']['billing'])) {
+                $address_id = $this->addnewuser($model);
+            } else {
+                $address_id = Yii::$app->request->post()['UserAddress']['billing'];
+            }
+            $cart = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
+            $orders = $this->addOrder($cart, $address_id);
+            $this->orderProducts($orders, $cart);
+//            $this->clearcart();
+            return $this->redirect('/tjar');
+        }
+        $address = UserAddress::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
         $condition = $this->usercheck();
         $cart_items = Cart::find()->where($condition)->all();
         if (!empty($cart_items)) {
             $subtotal = $this->total($cart_items);
-            return $this->render('cart', ['cart_items' => $cart_items, 'subtotal' => $subtotal]);
+            return $this->render('cart', ['cart_items' => $cart_items, 'subtotal' => $subtotal, 'model' => $model, 'addresses' => $address]);
         } else {
             return $this->render('emptycart');
+        }
+    }
+
+    public function orderProducts($orders, $carts) {
+        foreach ($carts as $cart) {
+            $prod_details = ProductVendor::findOne($cart->product_id);
+
+            $model_prod = new OrderDetails;
+            $model_prod->master_id = $orders['master_id'];
+            $model_prod->order_id = $orders['order_id'];
+            $model_prod->product_id = $cart->product_id;
+            $model_prod->quantity = $cart->quantity;
+            if ($prod_details->offer_price == '0' || $prod_details->offer_price == '') {
+                $price = $prod_details->price;
+            } else {
+                $price = $prod_details->offer_price;
+            }
+            $model_prod->amount = $price;
+            $model_prod->sub_total = ($cart->quantity) * ($price);
+            $model_prod->status = '0';
+            if ($model_prod->save()) {
+//                    return TRUE;
+            }
+//                 else {
+//                var_dump($model_prod->getErrors());
+//                exit;
+//            }
+        }
+    }
+
+    function addOrder($cart, $address_id) {
+        $model = new OrderMaster;
+        $model->order_id = '123456';
+        $model->user_id = Yii::$app->user->identity->id;
+        $model->total_amount = $this->total($cart);
+        $model->net_amount = $this->net_amount($model->total_amount);
+        $model->order_date = date('Y-m-d H:i:s');
+        $model->DOC = date('Y-m-d');
+        $model->ship_address_id = $address_id;
+        if ($model->save()) {
+//            $this->Updateorderid($model1->order_id);
+            return ['master_id' => $model->id, 'order_id' => $model->order_id];
+        }
+    }
+
+    function addnewuser($model) {
+        $user_address = UserAddress::find()->where(['user_id' => Yii::$app->user->identity->id, 'default_address' => '1'])->one();
+        Yii::$app->SetValues->Attributes($model);
+        $model->user_id = Yii::$app->user->identity->id;
+        $model->default_address = empty($user_address) ? '1' : '0';
+        if ($model->save()) {
+            return $model->id;
         }
     }
 
@@ -178,6 +247,16 @@ class CartController extends \yii\web\Controller {
         return $subtotal;
     }
 
+    function net_amount($total_amt) {
+//        $limit = Settings::findOne(1)->value;
+//        $net_amnt = $total_amt;
+//        if ($limit > $total_amt) {
+//            $extra = Settings::findOne(2)->value;
+//            $net_amnt = $extra + $total_amt;
+//        }
+        return $total_amt;
+    }
+
     function grandtotal($subtotal) {
         $grandtotal = $subtotal;
         return $grandtotal;
@@ -198,18 +277,26 @@ class CartController extends \yii\web\Controller {
         return $condition;
     }
 
-    function changecart() {
-        $models = Cart::find()->where(['session_id' => Yii::$app->session['temp_user']])->all();
-        foreach ($models as $msd) {
-            $product_allready = Cart::find()->where(['user_id' => Yii::$app->user->identity->id, 'product_id' => $msd->product_id])->one();
-            if ($product_allready) {
-                $product_allready->quantity = $product_allready->quantity + $msd->quantity;
-                $product_allready->save();
-                $msd->delete();
-            } else {
-                $msd->user_id = Yii::$app->user->identity->id;
-                $msd->save();
+    function changecart($tempuser) {
+//        echo $tempuser;exit;
+        if (isset($tempuser)) {
+            $models = Cart::find()->where(['session_id' => Yii::$app->session['temp_user']])->all();
+            foreach ($models as $msd) {
+                $product_allready = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])
+                                ->andWhere(['product_id' => $msd->product_id])
+                                ->andWhere(['<>', 'session_id', Yii::$app->session['temp_user']])->one();
+//                 $product_allready = Cart::find()->where(['user_id' => Yii::$app->user->identity->id, 'product_id' => $msd->product_id])->one();
+                if ($product_allready) {
+                    $product_allready->quantity = $product_allready->quantity + $msd->quantity;
+                    $product_allready->save();
+//                    echo 'aaa'.$msd->id;
+                    $msd->delete();
+                } else {
+                    $msd->user_id = Yii::$app->user->identity->id;
+                    $msd->save();
+                }
             }
+            Yii::$app->session['temp_user'] = '';
         }
     }
 
