@@ -331,6 +331,7 @@ if (isset(Yii::$app->session['log-return'])) {
                                 <div id="forgot" class="tab-pane fade">
                                     <fieldset id="forgot-datas">
                                         <div id="forgot-entry">
+                                            <div class="err-msg"></div>
                                             <div class="form-group">
                                                 <div class="col-md-12 inputGroupContainer">
                                                     <div class="input-group">
@@ -346,6 +347,9 @@ if (isset(Yii::$app->session['log-return'])) {
                                                     <button type="submit" class="btn btn-warning" id="forgot-btn">Forgot</button>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div id="reset-entry-div">
+
                                         </div>
                                         <ul class="qstn">
                                             <li><a data-toggle="tab" href="#signup">Don't have an <span>account?</span></a></li>
@@ -839,6 +843,19 @@ if (isset(Yii::$app->session['log-return'])) {
                     validateOtp($(this).val());
                 });
 
+                $(document).on('click', '#resend-otp', function (e) {
+                    var user_id = $(this).attr('data-val');
+                    e.preventDefault();
+                    $.ajax({
+                        type: 'POST',
+                        cache: false,
+                        data: {data_val: user_id},
+                        url: homeUrl + 'ajax/resend-otp',
+                        success: function (data) {
+                        }
+                    });
+                });
+
                 $('#forgot-btn').on('click', function (e) {
                     e.preventDefault();
                     if (validateForgot() == 0) {
@@ -850,8 +867,10 @@ if (isset(Yii::$app->session['log-return'])) {
                             success: function (data) {
                                 var res = $.parseJSON(data);
                                 if (res.result['err_code'] == 1) {
-                                    $("#forgot-datas").html(res.result['html_data']);
+                                    $("#reset-entry-div").html(res.result['html_data']);
                                     $("#forgot-entry").hide();
+                                } else if (res.result['err_code'] == 0) {
+                                    $(".err-msg").html(res.result['msg']);
                                 }
                             }
                         });
@@ -927,7 +946,6 @@ if (isset(Yii::$app->session['log-return'])) {
                     } else {
                         var otp = $('#otp-check').val();
                         if (otp == 1) {
-                            alert('if');
                             if ($("#forgot-otp").parent().next(".validation").length != 0) // only add if not added
                             {
                                 $("#forgot-otp").parent().next(".validation").remove(); // remove it
@@ -1138,6 +1156,8 @@ if (isset(Yii::$app->session['log-return'])) {
                     $('#signup-mobile_number').val('');
                     $('#signup-password').val('');
                     $('#forgot-email').val('');
+                    $('#reset-entry').remove();
+                    $('#forgot-entry').show();
 
                     $('#Login .validation').remove();
                     $.ajax({

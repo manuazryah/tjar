@@ -72,13 +72,15 @@ class AjaxController extends Controller {
                 $token_model->token = $token_value;
                 $token_model->type = 1;
                 if ($token_model->save()) {
-//                    $this->sendMail($val, $check_exists);
-                    $data_html = $this->renderPartial('_form_forgot');
+//                    $this->sendMail($check_exists);
+                    $data_html = $this->renderPartial('_form_forgot', [
+                        'token_model' => $token_model
+                    ]);
                     $msg = 'OTP sent to Mobile/Email';
                     $err_code = 1;
                 }
             } else {
-                $msg = 'Invalid username';
+                $msg = '<p style="font-size: 12px;color: red;padding-left: 18px;">Invalid Email/Mobile Number</p>';
                 $err_code = 0;
             }
             $arr_variable = array('err_code' => $err_code, 'msg' => $msg, 'html_data' => $data_html);
@@ -115,6 +117,16 @@ class AjaxController extends Controller {
                 echo 1;
             } else {
                 echo 0;
+            }
+        }
+    }
+
+    public function actionResendOtp() {
+        if (Yii::$app->request->isAjax) {
+            $user_exists = User::find()->where(['id' => Yii::$app->request->post('data_val')])->one();
+            $check_exists = ForgotPassword::find()->where(['user_id' => Yii::$app->request->post('data_val')])->one();
+            if (!empty($check_exists)) {
+                $this->sendMail($val, $check_exists);
             }
         }
     }
