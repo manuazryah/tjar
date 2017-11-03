@@ -140,6 +140,7 @@ class ProductsController extends \yii\web\Controller {
                 $product_details = Products::find()->where(['canonical_name' => $product, 'status' => '1'])->one();
                 $vendor_product = ProductVendor::find()->where(['vendor_id' => $vendor_id, 'product_id' => $product_details->id])->one();
                 $product_specifications = \common\models\ProductSpecifications::find()->where(['product_id' => $product_details->id])->andWhere(['not', ['product_feature_id' => null]])->all();
+                $new_customer_review = new \common\models\CustomerReviews();
 //                $this->RecentlyViewed($product_details);
 //                $product_reveiws = \common\models\CustomerReviews::find()->where(['product_id' => $product_details->id, 'status' => '1'])->all();
 
@@ -148,6 +149,7 @@ class ProductsController extends \yii\web\Controller {
                             'vendor_product' => $vendor_product,
                             'user_id' => $user_id,
                             'product_specifications' => $product_specifications,
+                            'new_customer_review' => $new_customer_review,
                 ]);
         }
 
@@ -240,37 +242,16 @@ class ProductsController extends \yii\web\Controller {
         }
 
         /**
-         * This function will display new modal for add new customer reviews
-         */
-        public function actionAddReview() {
-                if (Yii::$app->user->isGuest) {
-                        return $this->redirect(array('site/login-signup'));
-                }
-                if (Yii::$app->request->isAjax) {
-                        $product_id = $_POST['product_id'];
-                        $model_review = new \common\models\CustomerReviews();
-                        $product_details = Product::findOne($product_id);
-                        $data = $this->renderPartial('add_reviews', [
-                            'model_review' => $model_review,
-                            'product_id' => $product_id,
-                            'product_details' => $product_details,
-                        ]);
-                        echo $data;
-                }
-        }
-
-        /**
          * This function will save new customer reviews
          */
-        public function actionSaveReview() {
+        public function actionAddReview() {
+
                 if (Yii::$app->request->isAjax) {
                         $model_review = new \common\models\CustomerReviews();
                         if ($model_review->load(Yii::$app->request->post())) {
                                 $model_review->user_id = Yii::$app->user->identity->id;
                                 $model_review->review_date = date('Y-m-d');
                                 $model_review->save();
-                                echo 1;
-                                exit;
                         }
                 }
         }

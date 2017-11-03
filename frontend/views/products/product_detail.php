@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 if (isset($product_details->meta_title) && $product_details->meta_title != '')
         $this->title = $product_details->meta_title;
@@ -22,17 +23,22 @@ else
                                                         ?>
                                                         <a id="Zoom-1" class="MagicZoom" title="" href="<?= Yii::$app->homeUrl . 'uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_details->id) . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '.' . $product_details->gallery_images ?>">
                                                                 <img src="<?= Yii::$app->homeUrl . 'uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_details->id) . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '.' . $product_details->gallery_images ?>?scale.height=400" alt=""/>
-                                                                <div class="offer-tag">
-                                                                        <img src="<?= Yii::$app->homeUrl ?>/images/offer-tag-bg.png"/><span>10% OFF</span>
-                                                                </div>
+                                                                <?php
+                                                                if (isset($vendor_product->offer_price) && $vendor_product->offer_price != "0") {
+                                                                        $percentage = round(100 - (($vendor_product->offer_price / $vendor_product->price) * 100));
+                                                                        ?>
+                                                                        <div class="offer-tag">
+                                                                                <img src="<?= Yii::$app->homeUrl ?>/images/offer-tag-bg.png"/><span><?= $percentage ?>% OFF</span>
+                                                                        </div>
+                                                                <?php } ?>
                                                         </a>
                                                 <?php } else { ?>
 
                                                         <a id="Zoom-1" class="MagicZoom" title="" href="#">
                                                                 <img src="<?= Yii::$app->homeUrl . 'uploads/products/gallery_dummy.png' ?>?scale.height=400" alt=""/>
-                                                                <div class="offer-tag">
-                                                                        <img src="<?= Yii::$app->homeUrl ?>/images/offer-tag-bg.png"/><span>10% OFF</span>
-                                                                </div>
+
+
+
                                                         </a>
 
                                                 <?php } ?>
@@ -64,9 +70,8 @@ else
                                                                                         $img_nmees = explode('.', $img_nmee);
                                                                                         if ($img_nmees['1'] != '') {
                                                                                                 ?>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <!--                                                                                                <a data-zoom-id="Zoom-1" href="<?= Yii::$app->homeUrl . 'uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_details->id) . '/' . $product_details->id . '/gallery/' . end($arry) ?>" data-image="<?= Yii::$app->homeUrl . 'uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_details->id) . '/' . $product_details->id . '/gallery/' . end($arry) ?>?scale.height=400">
 
-                                                                                                -->                                                                                                <a
+                                                                                                <a
                                                                                                         data-zoom-id="Zoom-1"
                                                                                                         href="<?= Yii::$app->homeUrl . 'uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_details->id) . '/' . $product_details->id . '/gallery/' . end($arry) ?>"
                                                                                                         data-image="<?= Yii::$app->homeUrl . 'uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_details->id) . '/' . $product_details->id . '/gallery/' . end($arry) ?>?scale.height=400"
@@ -306,11 +311,14 @@ else
 
 
                                                                 <div id = "addreview">
-                                                                        <form name = "myform" >
-                                                                                <input name="title" id="title" class="input-text js-input form-control" placeholder="Title" type="text" required="">
-                                                                                <textarea class="form-control" placeholder="Discription" required="required" id="message" name="message"></textarea>
-                                                                                <input type = "submit" id = "add" />
-                                                                        </form>
+                                                                        <?php $form_review = ActiveForm::begin(['id' => 'add-review-form']); ?>
+
+                                                                        <?= $form_review->field($new_customer_review, 'product_id')->hiddenInput(['value' => $product_details->id])->label(false); ?>
+                                                                        <?= $form_review->field($new_customer_review, 'title')->textInput(['maxlength' => true, 'class' => 'input-text js-input form-control', 'placeholder' => 'Title', 'required' => ''])->label(FALSE) ?>
+                                                                        <?= $form_review->field($new_customer_review, 'description')->textarea(['class' => 'form-control', 'placeholder' => 'Description', 'required' => ''])->label(FALSE) ?>
+                                                                        <?= Html::submitButton('Submit', ['id' => 'add', 'class' => 'add-review-form']) ?>
+
+                                                                        <?php ActiveForm::end(); ?>
                                                                 </div>
 
                                                         </div>

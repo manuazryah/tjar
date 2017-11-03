@@ -121,17 +121,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 });
 
                 $('.product_form').on('change', function () {
-                        var change = $(this).attr('id');
-                        var res = change.split("_");
-                        var qty = $('#product_qty_' + res['2']).val();
-                        var price = $('#product_price_' + res['2']).val();
-                        var offerprice = $('#product_offer_price_' + res['2']).val();
-                        var status = $('#product_status_' + res['2']).val();
-                        var id = res['2'];
+
+                        var res = $(this).attr('id').match(/\d+/);
+                        var qty = $('#product_qty_' + res).val();
+                        var price = $('#product_price_' + res).val();
+                        var offerprice = $('#product_offer_price_' + res).val();
+                        var status = $('#product_status_' + res).val();
+
                         $.ajax({
                                 url: homeUrl + 'product/product/ajaxchange-product',
                                 type: "post",
-                                data: {qty: qty, price: price, offerprice: offerprice, status: status, id: id},
+                                data: {qty: qty, price: price, offerprice: offerprice, status: status, id: res},
                                 success: function (data) {
                                         var $data = JSON.parse(data);
                                         if ($data.msg === "success") {

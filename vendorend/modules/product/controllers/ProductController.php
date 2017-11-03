@@ -94,6 +94,8 @@ class ProductController extends \yii\web\Controller {
                                 if ($model->save()) {
                                         echo json_encode(array('msg' => 'success', 'title' => 'succesfully changed'));
                                 } else {
+                                        var_dump($model);
+                                        exit;
                                         echo json_encode(array('msg' => 'error', 'title' => 'Internal error '));
                                 }
                         } else {
