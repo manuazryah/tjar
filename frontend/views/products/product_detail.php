@@ -3,6 +3,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\components\RecentlyViewedWidget;
 
 if (isset($product_details->meta_title) && $product_details->meta_title != '')
         $this->title = $product_details->meta_title;
@@ -316,7 +317,7 @@ else
                                                                 <div id = "addreview">
                                                                         <?php $form_review = ActiveForm::begin(['id' => 'add-review-form']); ?>
 
-                                                                        <?= $form_review->field($new_customer_review, 'product_id')->hiddenInput(['value' => $product_details->id])->label(false); ?>
+                                                                        <?= $form_review->field($new_customer_review, 'product_id')->hiddenInput(['value' => $vendor_product->id])->label(false); ?>
                                                                         <?= $form_review->field($new_customer_review, 'title')->textInput(['maxlength' => true, 'class' => 'input-text js-input form-control', 'placeholder' => 'Title', 'required' => ''])->label(FALSE) ?>
                                                                         <?= $form_review->field($new_customer_review, 'description')->textarea(['class' => 'form-control', 'placeholder' => 'Description', 'required' => ''])->label(FALSE) ?>
                                                                         <?= Html::submitButton('Submit', ['id' => 'add', 'class' => 'add-review-form']) ?>
@@ -465,7 +466,7 @@ else
                         </section>
 
 
-                        <section id="product-slider">
+<!--                        <section id="product-slider">
                                 <div class="container">
                                         <div class="category-heading">Recently Viewed</div>
                                         <div class="row">
@@ -597,8 +598,8 @@ else
                                                 </div>
                                         </div>
                                 </div>
-                        </section>
-
+                        </section>-->
+                        <?= RecentlyViewedWidget::widget(['id' => $user_id]) ?>
                 </div>
         </div>
 </div>

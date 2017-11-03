@@ -9,6 +9,7 @@ use common\models\Products;
 use common\models\ProductsSearch;
 use common\models\ProductVendor;
 use yii\db\Expression;
+use common\models\RecentlyViewed;
 
 class ProductsController extends \yii\web\Controller {
 
@@ -141,7 +142,7 @@ class ProductsController extends \yii\web\Controller {
                 $vendor_product = ProductVendor::find()->where(['vendor_id' => $vendor_id, 'product_id' => $product_details->id])->one();
                 $product_specifications = \common\models\ProductSpecifications::find()->where(['product_id' => $product_details->id])->andWhere(['not', ['product_feature_id' => null]])->all();
                 $new_customer_review = new \common\models\CustomerReviews();
-//                $this->RecentlyViewed($product_details);
+                $this->RecentlyViewed($vendor_product);
 //                $product_reveiws = \common\models\CustomerReviews::find()->where(['product_id' => $product_details->id, 'status' => '1'])->all();
 
                 return $this->render('product_detail', [
@@ -165,6 +166,7 @@ class ProductsController extends \yii\web\Controller {
                         $user_id = Yii::$app->user->identity->id;
                         $model = RecentlyViewed::find()->where(['product_id' => $product->id, 'user_id' => $user_id])->one();
                 } else {
+                        die('else');
                         if (!isset(Yii::$app->session['temp_user_product']) || Yii::$app->session['temp_user_product'] == '') {
                                 $milliseconds = round(microtime(true) * 1000);
                                 Yii::$app->session['temp_user_product'] = $milliseconds;
