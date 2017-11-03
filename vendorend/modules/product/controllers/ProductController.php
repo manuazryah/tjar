@@ -35,10 +35,11 @@ class ProductController extends \yii\web\Controller {
                 $model = new ProductVendor();
                 $vendor_address = \common\models\Locations::find()->where(['vendor_id' => Yii::$app->user->identity->id])->orderBy(['(dafault_address)' => SORT_DESC])->all();
                 $product_model = Products::find()->where(['id' => $id])->one();
+                $product_specifications = \common\models\ProductSpecifications::find()->where(['product_id' => $id])->all();
                 if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
                         $model->vendor_id = Yii::$app->user->identity->id;
                         if ($model->save()) {
-                                return $this->redirect('product-list');
+                                return $this->redirect('index');
                         }
                 }
                 return $this->render('sell_product', [
@@ -46,6 +47,7 @@ class ProductController extends \yii\web\Controller {
                             'vendor_address' => $vendor_address,
                             'model' => $model,
                             'id' => $id,
+                            'product_specifications' => $product_specifications,
                 ]);
         }
 
@@ -57,9 +59,11 @@ class ProductController extends \yii\web\Controller {
         public function actionView($id) {
                 $model = ProductVendor::find()->where(['id' => $id])->one();
                 $product = Products::find()->where(['id' => $model->product_id])->one();
+                $product_specifications = \common\models\ProductSpecifications::find()->where(['product_id' => $model->product_id])->all();
                 return $this->renderAjax('view', [
                             'model' => $model,
                             'product' => $product,
+                            'product_specifications' => $product_specifications,
                 ]);
         }
 
@@ -107,11 +111,13 @@ class ProductController extends \yii\web\Controller {
         public function actionDetails($id) {
                 $vendor_address = \common\models\Locations::find()->where(['vendor_id' => Yii::$app->user->identity->id])->orderBy(['(dafault_address)' => SORT_DESC])->all();
                 $product_model = Products::find()->where(['id' => $id])->one();
+                $product_specifications = \common\models\ProductSpecifications::find()->where(['product_id' => $id])->all();
 
                 return $this->renderAjax('product_detail', [
                             'product_model' => $product_model,
                             'vendor_address' => $vendor_address,
                             'id' => $id,
+                            'product_specifications' => $product_specifications,
                 ]);
         }
 

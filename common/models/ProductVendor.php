@@ -35,76 +35,77 @@ use Yii;
  */
 class ProductVendor extends \yii\db\ActiveRecord {
 
-    /**
-     * @inheritdoc
-     */
-    public static function tableName() {
-        return 'product_vendor';
-    }
+        /**
+         * @inheritdoc
+         */
+        public static function tableName() {
+                return 'product_vendor';
+        }
 
 //    public $free_shipping = false;
 //    public $courier_handover = true;
 
-    /**
-     * @inheritdoc
-     */
-    public function rules() {
-        return [
-            [['qty', 'handling_time', 'price'], 'required'],
-            [['sku'], 'unique'],
-            [['product_id', 'vendor_id', 'qty', 'sku', 'handling_time', 'pick_up_location', 'free_shipping', 'courier_handover', 'full_fill', 'status', 'CB', 'UB'], 'integer'],
-            [['price', 'offer_price'], 'number'],
-            [['offer_note', 'conditions'], 'string'],
-            [['CB', 'UB'], 'required'],
-            [['DOC', 'DOU'], 'safe'],
-            [['field1', 'field2', 'field3'], 'string', 'max' => 500],
-            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Products::className(), 'targetAttribute' => ['product_id' => 'id']],
-            [['vendor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Vendors::className(), 'targetAttribute' => ['vendor_id' => 'id']],
-        ];
-    }
+        /**
+         * @inheritdoc
+         */
+        public function rules() {
+                return [
+                        [['qty', 'handling_time', 'price'], 'required'],
+                        [['sku'], 'unique'],
+                        [['product_id', 'vendor_id', 'qty', 'sku', 'handling_time', 'pick_up_location', 'free_shipping', 'courier_handover', 'full_fill', 'status', 'CB', 'UB'], 'integer'],
+                        [['price', 'offer_price'], 'number'],
+                        [['offer_note', 'conditions'], 'string'],
+                        [['CB', 'UB'], 'required'],
+                        [['DOC', 'DOU'], 'safe'],
+                        [['field1', 'field2', 'field3', 'warranty'], 'string', 'max' => 500],
+                        [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Products::className(), 'targetAttribute' => ['product_id' => 'id']],
+                        [['vendor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Vendors::className(), 'targetAttribute' => ['vendor_id' => 'id']],
+                ];
+        }
 
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels() {
-        return [
-            'id' => 'ID',
-            'product_id' => 'Product ID',
-            'vendor_id' => 'Vendor ID',
-            'qty' => 'Qty',
-            'price' => 'Price',
-            'sku' => 'Sku',
-            'offer_note' => 'Offer Note',
-            'handling_time' => 'Handling Time',
-            'pick_up_location' => 'Pick Up Location',
-            'free_shipping' => ' Free Shipping (You will pay for item shipping)',
-            'courier_handover' => 'Item Pick-Up (Collection)',
-            'conditions' => 'Conditions',
-            'offer_price' => 'Offer Price',
-            'full_fill' => 'Full Fill',
-            'field1' => 'Field1',
-            'field2' => 'Field2',
-            'field3' => 'Field3',
-            'status' => 'Status',
-            'CB' => 'Cb',
-            'UB' => 'Ub',
-            'DOC' => 'Doc',
-            'DOU' => 'Dou',
-        ];
-    }
+        /**
+         * @inheritdoc
+         */
+        public function attributeLabels() {
+                return [
+                    'id' => 'ID',
+                    'product_id' => 'Product ID',
+                    'vendor_id' => 'Vendor ID',
+                    'qty' => 'Qty',
+                    'price' => 'Price',
+                    'sku' => 'Sku',
+                    'offer_note' => 'Offer Note',
+                    'handling_time' => 'Handling Time',
+                    'pick_up_location' => 'Pick Up Location',
+                    'free_shipping' => ' Free Shipping (You will pay for item shipping)',
+                    'courier_handover' => 'Item Pick-Up (Collection)',
+                    'conditions' => 'Conditions',
+                    'offer_price' => 'Offer Price',
+                    'full_fill' => 'Full Fill',
+                    'warranty' => 'Warranty',
+                    'field1' => 'Field1',
+                    'field2' => 'Field2',
+                    'field3' => 'Field3',
+                    'status' => 'Status',
+                    'CB' => 'Cb',
+                    'UB' => 'Ub',
+                    'DOC' => 'Doc',
+                    'DOU' => 'Dou',
+                ];
+        }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProduct() {
-        return $this->hasOne(Products::className(), ['id' => 'product_id']);
-    }
+        /**
+         * @return \yii\db\ActiveQuery
+         */
+        public function getProduct() {
+                return $this->hasOne(Products::className(), ['id' => 'product_id']);
+        }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getVendor() {
-        return $this->hasOne(Vendors::className(), ['id' => 'vendor_id']);
-    }
+        /**
+         * @return \yii\db\ActiveQuery
+         */
+        public function getVendor() {
+                return $this->hasOne(Vendors::className(), ['id' => 'vendor_id']);
+        }
 
 }

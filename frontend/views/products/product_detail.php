@@ -128,10 +128,12 @@ else
                                 <!--<span><?= sprintf('%0.2f', $price2) ?> AED</span>-->
                                 <p class="message">FREE Shipping on orders over 150.00 AED</p>
                                 <div class="product-specifications">
-                                        <div class="product-detailed-points">
-                                                <h5>Warrenty: </h5>
-                                                <span class="message">1 Year for mobile & 6 months for Accessories</span>
-                                        </div>
+                                        <?php if (isset($vendor_product->warranty) && $vendor_product->warranty != '') { ?>
+                                                <div class="product-detailed-points">
+                                                        <h5>Warrenty: </h5>
+                                                        <span class="message"><?= $vendor_product->warranty ?></span>
+                                                </div>
+                                        <?php } ?>
                                         <div class="product-detailed-points">
                                                 <h5 class="model-clr">Color:</h5>
                                                 <span class="message">
