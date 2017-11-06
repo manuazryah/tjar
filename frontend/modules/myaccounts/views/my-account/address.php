@@ -86,7 +86,7 @@ if ($model->isNewRecord) {
                                     <div class="marg-top-20">
                                         <!--<a href="" class="continue-shopping">Return to Cart</a>-->
                                         <?= Html::submitButton('Save', ['class' => 'Proceed', 'style' => 'width: 25%;margin-right: 40px;']) ?>
-                                        <?= Html::a('Cancel', ['address'], ['class' => 'Cancel','id'=>'btHide']) ?>
+                                        <?= Html::a('Cancel', ['address'], ['class' => 'Cancel', 'id' => 'btHide']) ?>
                                         <!--<a class="Cancel" id="btHide" href="">Cancel</a>-->
                                     </div>
                                 </div>
