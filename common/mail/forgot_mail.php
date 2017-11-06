@@ -1,6 +1,11 @@
-<div class="content" style="margin-left: 40px;">
-    <h2 style="text-align: center;margin-bottom: 0px">FORGOT</h2>
-    <h3 style="text-align: center;margin-top: 0px;">YOUR PASSWORD ?</h3>
-    <p style="text-align: center;padding-bottom: 20px;">Not to worry, we got you! Let's get you a new password.</p>
-    <p style="text-align: center;"><a href="http://<?= Yii::$app->request->serverName ?>/site/new-password?token=<?= $val ?>" style="display: inline-block;cursor: pointer;padding: 6px 12px;font-size: 13px;line-height: 1.42857143;text-decoration: none;color: #fff;border-color: #80b636;background-color: #8dc63f;border: 1px solid transparent;">Reset Password</a></p>
+<div class="content" style="background: #f5f2f2;margin: 25px 80px;">
+    <div class="header-content" style="background: #03A9F4;padding: 15px 30px;color: white;text-transform: uppercase;    font-weight: 600;">Tjar Varification Code</div>
+    <div style="padding: 15px 30px;background: #f5f2f2;">
+        <p style="font-size: 12px;">Dear Tjar User,</p>
+        <p style="font-size: 12px;">This email address is being used to recover a Tjar Account. If you initiated the recovery process, it is asking you to enter the numeric verification code that appears below.</p>
+        <p style="font-size: 12px;">If you did not initiate an account recovery process and have a Tjar Account associated with this email address, it is possible that someone else is trying to access your account. Do not forward or give this code to anyone.</p>
+        <p style="text-align: center;font-weight: 600;">984578</p>
+        <p style="font-size: 13px;">Sincerely,</p>
+        <p style="font-size: 13px;">The Tjar Accounts Team</p>
+    </div>
 </div>

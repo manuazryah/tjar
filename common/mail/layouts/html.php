@@ -40,11 +40,15 @@ else
                                 </div>
                                 <br/>
                                 <div class="navigation-bar"style="text-align: center;">
-                                    <ul style="text-align: center;width: 100%;padding: 5px 0px;margin: 0;list-style-type: none;background-color: #93c622;">
-                                        <li style="display: inline;"><a target="_blank" style="width: 6em;text-decoration: none;color: white;padding: 0.2em 0.6em;border-right: 1px solid white;" href="http://<?= Yii::$app->request->serverName ?>/about-coral-perfumes">ABOUT US</a></li>
-                                        <li style="display: inline;"><a target="_blank" style="width: 6em;text-decoration: none;color: white;padding: 0.2em 0.6em;border-right: 1px solid white;" href="http://<?= Yii::$app->request->serverName ?>/product/index?featured=1">OUR PRODUCTS</a></li>
-                                        <li style="display: inline;"><a target="_blank" style="width: 6em;text-decoration: none;color: white;padding: 0.2em 0.6em;border-right: 1px solid white;" href="http://<?= Yii::$app->request->serverName ?>/coral-perfumes-showrooms">SHOWROOMS</a></li>
-                                        <li style="display: inline;"><a target="_blank" style="width: 6em;text-decoration: none;color: white;padding: 0.2em 0.6em;" href="http://<?= Yii::$app->request->serverName ?>/coral-perfumes-contact">CONTACT US</a></li>
+                                    <ul style="text-align: center;width: 100%;padding: 10px 0px;margin: 0;list-style-type: none;background-color: #005e9d;">
+                                        <li style="display: inline;"><a target="_blank" style="width: 6em;text-decoration: none;color: white;padding: 0.2em 0.6em;font-size: 15px;text-transform: uppercase;font-weight: 500;" href="http://<?= Yii::$app->request->serverName ?>/about-coral-perfumes">Electronics</a></li>
+                                        <li style="display: inline;"><a target="_blank" style="width: 6em;text-decoration: none;color: white;padding: 0.2em 0.6em;font-size: 15px;text-transform: uppercase;font-weight: 500;" href="http://<?= Yii::$app->request->serverName ?>/product/index?featured=1">Appliances</a></li>
+                                        <li style="display: inline;"><a target="_blank" style="width: 6em;text-decoration: none;color: white;padding: 0.2em 0.6em;font-size: 15px;text-transform: uppercase;font-weight: 500;" href="http://<?= Yii::$app->request->serverName ?>/coral-perfumes-showrooms">Men</a></li>
+                                        <li style="display: inline;"><a target="_blank" style="width: 6em;text-decoration: none;color: white;padding: 0.2em 0.6em;font-size: 15px;text-transform: uppercase;font-weight: 500;" href="http://<?= Yii::$app->request->serverName ?>/coral-perfumes-contact">Women</a></li>
+                                        <li style="display: inline;"><a target="_blank" style="width: 6em;text-decoration: none;color: white;padding: 0.2em 0.6em;font-size: 15px;text-transform: uppercase;font-weight: 500;" href="http://<?= Yii::$app->request->serverName ?>/coral-perfumes-contact">BABY & KIDS</a></li>
+                                        <li style="display: inline;"><a target="_blank" style="width: 6em;text-decoration: none;color: white;padding: 0.2em 0.6em;font-size: 15px;text-transform: uppercase;font-weight: 500;" href="http://<?= Yii::$app->request->serverName ?>/coral-perfumes-contact">HOME & FURNITURE</a></li>
+                                        <li style="display: inline;"><a target="_blank" style="width: 6em;text-decoration: none;color: white;padding: 0.2em 0.6em;font-size: 15px;text-transform: uppercase;font-weight: 500;" href="http://<?= Yii::$app->request->serverName ?>/coral-perfumes-contact">BOOKS & MORE</a></li>
+                                        <li style="display: inline;"><a target="_blank" style="width: 6em;text-decoration: none;color: white;padding: 0.2em 0.6em;font-size: 15px;text-transform: uppercase;font-weight: 500;" href="http://<?= Yii::$app->request->serverName ?>/coral-perfumes-contact">OFFER ZONE</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -55,11 +59,11 @@ else
                     <tr>
                         <td style="width:100%">
                             <?= $content ?>
-                            <hr style="border: 1px solid #93c622;">
+                            <hr style="border: 1px solid #0f60a0;">
                                 <div class="main-content" style="text-align:center;">
-                                    <p style="margin:0px;font-size: 13px;"><a href="mailto:info@coralperfumes.com" style="color:#501a8f;text-decoration: none;"><span style="font-weight: 600;">Email : </span></i>info@coralperfumes.com</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://www.beta.coralperfumes.com" style="color:#501a8f;text-decoration: none;"><span style="font-weight: 600;">Web : </span>beta.coralperfumes.com</a></p>
+                                    <p style="margin:0px;font-size: 13px;"><a href="mailto:info@tjar.com" style="color:#501a8f;text-decoration: none;"><span style="font-weight: 600;">Email : </span></i>info@tjar.com</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://www.tjar.com" style="color:#501a8f;text-decoration: none;"><span style="font-weight: 600;">Web : </span>tjar.com</a></p>
                                     <br/>
-                                    <p style="margin-top:0px;margin-bottom: 0px;font-size: 15px;">Coral Perfumes Industry LLC, Dubai - 186887</p>
+                                    <p style="margin-top:0px;margin-bottom: 0px;font-size: 15px;">Tjar</p>
                                 </div>
                         </td>
                     </tr>

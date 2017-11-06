@@ -227,4 +227,8 @@ class SiteController extends Controller {
         }
     }
 
+    public function actionMail() {
+        return $this->renderPartial('mail');
+    }
+
 }
