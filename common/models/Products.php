@@ -50,8 +50,8 @@ class Products extends \yii\db\ActiveRecord {
                         [['main_category', 'category', 'subcategory', 'brand', 'gender', 'status', 'CB', 'UB'], 'integer'],
                         [['main_description', 'meta_description', 'meta_keyword', 'main_description_arabic', 'highlights', 'highlights_arabic', 'important_notes', 'important_notes_arabic'], 'string'],
                         [['DOC', 'DOU'], 'safe'],
-                        [['product_name', 'canonical_name', 'item_ean', 'gallery_images', 'related_products', 'meta_title', 'field1', 'field2', 'field3', 'product_name_arabic', 'short_description', 'short_description_arabic'], 'string', 'max' => 500],
-                        [['search_tags'], 'safe'],
+                        [['product_name', 'canonical_name', 'item_ean', 'gallery_images', 'meta_title', 'field1', 'field2', 'field3', 'product_name_arabic', 'short_description', 'short_description_arabic'], 'string', 'max' => 500],
+                        [['search_tags', 'related_products'], 'safe'],
                 ];
         }
 

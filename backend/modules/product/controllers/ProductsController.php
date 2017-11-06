@@ -76,6 +76,7 @@ class ProductsController extends Controller {
                                 if ($tag) {
                                         $model->search_tags = implode(',', $tag);
                                 }
+                                $model->related_products = implode(',', $model->related_products);
                                 if ($model->save()) {
 
                                         if ($this->SaveGalleyImage($model)) {
@@ -321,6 +322,7 @@ class ProductsController extends Controller {
 
                         $model->gallery_images = $image;
 
+                        $model->related_products = implode(',', $model->related_products);
                         if ($model->validate() && $model->save()) {
                                 $new_specifictns = Yii::$app->request->post()['specifications_new'];
                                 $specfctns = Yii::$app->request->post()['specifications'];

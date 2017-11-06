@@ -175,7 +175,12 @@ use common\models\SearchTag;
                                 </div>
 
                                 <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
-                                        <?= $form->field($model, 'related_products')->textInput(['maxlength' => true]) ?>
+                                        <?php
+                                        if (isset($model->related_products) && $model->related_products != '') {
+                                                $model->related_products = explode(',', $model->related_products);
+                                        }
+                                        ?>
+                                        <?= $form->field($model, 'related_products')->dropDownList(ArrayHelper::map(common\models\Products::find()->all(), 'id', 'product_name'), ['prompt' => 'Select', 'multiple' => true]) ?>
 
                                 </div>
                                 <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
@@ -225,7 +230,7 @@ use common\models\SearchTag;
                                 <input type="hidden" name="model-id"id="model-id" value="<?= $model->isNewRecord ? 0 : $model->id ?>">
 
 
-                                <?php //}  ?>
+                                <?php //}    ?>
                                 <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
                                         <?= $form->field($model, 'gallery_images')->fileInput(['multiple' => true, 'id' => $model->isNewRecord ? 'products-gallery_images' : 'products-gallery_images_update']) ?>
                                 </div>
@@ -413,6 +418,14 @@ use common\models\SearchTag;
                 });
                 $("#products-brand").select2({
                         placeholder: 'Choose Brand',
+                        allowClear: true
+                }).on('select2-open', function ()
+                {
+                        // Adding Custom Scrollbar
+                        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+                });
+                $("#products-related_products").select2({
+                        placeholder: 'Choose Products',
                         allowClear: true
                 }).on('select2-open', function ()
                 {
