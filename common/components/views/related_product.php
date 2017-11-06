@@ -6,53 +6,66 @@ use common\components\ProductLinksWidget;
 ?>
 <?php
 if (!empty($related_product)) {
-    ?>
-    <div class="pad-30"></div>
-    <div class="international-brands">
-        <h1>Related Products</h1>
-        <div class="product-slider">
-            <div id="adv_gp_products_8_columns_carousel" class="carousel slide four_shows_one_move gp_products_carousel_wrapper" data-ride="carousel" data-interval="2000">
-                <!--========= Wrapper for slides =========-->
-                <div class="carousel-inner" role="listbox">
-                    <!--========= 1st slide =========-->
-                    <?php
-                    $k = 0;
-                    foreach ($related_product as $val) {
-                        $k++;
-                        ?>
-                        <div class="item <?php
-                        if ($k == 1) {
-                            echo ' active';
-                        }
-                        ?>">
-                            <div class="col-xs-12 col-sm-6 col-md-3 gp_products_item">
-                                <?= ProductLinksWidget::widget(['id' => $val->id]) ?>
-                            </div>
+        ?>
+        <section id="product-slider">
+                <div class="container">
+                        <div class="category-heading">Related Products</div>
+                        <div class="row">
+                                <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel1" data-interval="1000">
+                                        <div class="MultiCarousel-inner" style="transform: translateX(0px); width: 2560px;">
+                                                <?php
+                                                foreach ($related_product as $value) {
+                                                        $vendor_product = common\models\ProductVendor::find()->where(['product_id' => $value->id])->one();
+                                                        ?>
+
+                                                        <div class="item" style="width: 256px;">
+                                                                <div class="pad25">
+                                                                        <a href="#">
+                                                                                <div class="product-img">
+
+                                                                                        <?php
+                                                                                        $product_image = Yii::$app->basePath . '/../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $value->id) . '/' . $value->id . '/profile/' . $value->canonical_name . '_thumb.' . $value->gallery_images;
+                                                                                        if (file_exists($product_image)) {
+                                                                                                ?>
+                                                                                                <img src="<?= Yii::$app->homeUrl . 'uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $value->id) . '/' . $value->id . '/profile/' . $value->canonical_name . '_thumb.' . $value->gallery_images ?>" class="img-responsive">
+
+                                                                                        <?php } else { ?>
+                                                                                                <img src="<?= yii::$app->homeUrl; ?>uploads/products/gallery_dummy.png" class="img-responsive">
+
+                                                                                        <?php } ?>
+                                                                                </div>
+                                                                                <h3 class="product-name"><?= $value->product_name ?></h3>
+                                                                                <?php
+                                                                                if (isset($vendor_product->offer_price) && $vendor_product->offer_price != "0") {
+                                                                                        $percentage = round(100 - (($vendor_product->offer_price / $vendor_product->price) * 100));
+                                                                                        ?>
+                                                                                        <h5 class="product-discount">Upto <?= $percentage ?>% off</h5>
+                                                                                <?php } ?>
+
+                                                                                <?php
+                                                                                if (isset($vendor_product->offer_price)) {
+                                                                                        $price1 = $vendor_product->offer_price;
+                                                                                        $price2 = $vendor_product->price;
+                                                                                } else {
+                                                                                        $price1 = $vendor_product->price;
+                                                                                        $price2 = "";
+                                                                                }
+                                                                                ?>
+
+                                                                                <h6 class="actual-price">$<?= sprintf('%0.2f', $price1) ?><span class="old-price">/ <strike>$<?= sprintf("%0.2f", $price2) ?></strike></span></h6>
+                                                                        </a>
+                                                                </div>
+                                                        </div>
+                                                <?php } ?>
+
+                                        </div>
+                                        <button class="btn btn-primary leftLst over">&lt;</button>
+                                        <button class="btn btn-primary rightLst">&gt;</button>
+                                </div>
                         </div>
-                        <?php
-                    }
-                    ?>
-
                 </div>
-
-                <!--======= Navigation Buttons =========-->
-
-                <!--======= Left Button =========-->
-                <a class="left carousel-control gp_products_carousel_control_left" href="#adv_gp_products_8_columns_carousel" role="button" data-slide="prev">
-                    <span class="fa fa-angle-left gp_products_carousel_control_icons" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-
-                <!--======= Right Button =========-->
-                <a class="right carousel-control gp_products_carousel_control_right" href="#adv_gp_products_8_columns_carousel" role="button" data-slide="next">
-                    <span class="fa fa-angle-right gp_products_carousel_control_icons" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-
-            </div> <!--*-*-*-*-*-*-*-*-*-*- END BOOTSTRAP CAROUSEL *-*-*-*-*-*-*-*-*-*-->
-        </div>
-    </div>
-    <?php
+        </section>
+        <?php
 }
 ?>
 

@@ -4,6 +4,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\components\RecentlyViewedWidget;
+use common\components\RelatedProductWidget;
 
 if (isset($product_details->meta_title) && $product_details->meta_title != '')
         $this->title = $product_details->meta_title;
@@ -18,7 +19,6 @@ else
 
                                 <div id="affix">
                                         <div class="app-figure" id="zoom-fig">
-
 
                                                 <?php
                                                 /* show profile image */
@@ -41,24 +41,10 @@ else
                                                         <a id="Zoom-1" class="MagicZoom" title="" href="#">
                                                                 <img src="<?= Yii::$app->homeUrl . 'uploads/products/gallery_dummy.png' ?>?scale.height=400" alt=""/>
 
-
-
                                                         </a>
                                                 <?php } ?>
 
                                                 <div class="selectors">
-
-                                                        <?php /* show profile image as thumb */ if (file_exists($product_image)) { ?>
-                                                                <a
-                                                                        data-zoom-id="Zoom-1"
-                                                                        href="<?= Yii::$app->homeUrl . 'uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_details->id) . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '.' . $product_details->gallery_images ?>"
-                                                                        data-image="<?= Yii::$app->homeUrl . 'uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_details->id) . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '.' . $product_details->gallery_images ?>?scale.height=400"
-                                                                        >
-                                                                        <img srcset="<?= Yii::$app->homeUrl . 'uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_details->id) . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '_thumb.' . $product_details->gallery_images ?>?scale.width=112 2x" src="<?= Yii::$app->homeUrl . 'uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_details->id) . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '_thumb.' . $product_details->gallery_images ?>?scale.width=56"/>
-                                                                </a>
-                                                        <?php } ?>
-
-
 
 
                                                         <?php
@@ -340,274 +326,10 @@ else
                                 </div>
                         </div>
 
-                        <section id="product-slider">
-                                <div class="container">
-                                        <div class="category-heading">Related Products</div>
-                                        <div class="row">
-                                                <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel1" data-interval="1000">
-                                                        <div class="MultiCarousel-inner" style="transform: translateX(0px); width: 2560px;">
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product1.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product2.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product3.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product4.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product5.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product1.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product2.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product3.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product4.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product5.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                        </div>
-                                                        <button class="btn btn-primary leftLst over">&lt;</button>
-                                                        <button class="btn btn-primary rightLst">&gt;</button>
-                                                </div>
-                                        </div>
-                                </div>
-                        </section>
 
 
-<!--                        <section id="product-slider">
-                                <div class="container">
-                                        <div class="category-heading">Recently Viewed</div>
-                                        <div class="row">
-                                                <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel1" data-interval="1000">
-                                                        <div class="MultiCarousel-inner" style="transform: translateX(0px); width: 2560px;">
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product1.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product2.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product3.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product4.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product5.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product1.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product2.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product3.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product4.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                                <div class="item" style="width: 256px;">
-                                                                        <div class="pad25">
-                                                                                <a href="#">
-                                                                                        <div class="product-img">
-                                                                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>/images/products/featured/product5.png">
-                                                                                        </div>
-                                                                                        <h3 class="product-name">Vu 102cm (40) Full HD LED TV</h3>
-                                                                                        <h5 class="product-discount">Upto 50% off</h5>
-                                                                                        <h6 class="actual-price">$120.00<span class="old-price">/ <strike>$130.00</strike></span></h6>
-                                                                                </a>
-                                                                        </div>
-                                                                </div>
-                                                        </div>
-                                                        <button class="btn btn-primary leftLst over">&lt;</button>
-                                                        <button class="btn btn-primary rightLst">&gt;</button>
-                                                </div>
-                                        </div>
-                                </div>
-                        </section>-->
+                        <?= RelatedProductWidget::widget(['id' => $product_details->related_products]) ?>
+
                         <?= RecentlyViewedWidget::widget(['id' => $user_id]) ?>
                 </div>
         </div>
