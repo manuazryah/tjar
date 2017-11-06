@@ -144,6 +144,7 @@ class SiteController extends Controller {
         if ($modelregister->load(Yii::$app->request->post())) {
             if ($user = $modelregister->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
+//                    $this->sendResponseMail($user);
                     return $this->redirect($go);
 //                    return $this->goHome();
                 }
@@ -225,6 +226,16 @@ class SiteController extends Controller {
                 return $this->redirect(Yii::$app->request->referrer);
             }
         }
+    }
+
+    public function sendResponseMail($model) {
+
+        $message = Yii::$app->mailer->compose('response-mail', ['model' => $model]) // a view rendering result becomes the message body here
+                ->setFrom('no-replay@tjar.com')
+                ->setTo($model->email)
+                ->setSubject('Welcome to Tjar');
+        $message->send();
+        return TRUE;
     }
 
     public function actionMail() {

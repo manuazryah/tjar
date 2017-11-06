@@ -59,12 +59,11 @@ else
                     <tr>
                         <td style="width:100%">
                             <?= $content ?>
-                            <hr style="border: 1px solid #0f60a0;">
-                                <div class="main-content" style="text-align:center;">
-                                    <p style="margin:0px;font-size: 13px;"><a href="mailto:info@tjar.com" style="color:#501a8f;text-decoration: none;"><span style="font-weight: 600;">Email : </span></i>info@tjar.com</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://www.tjar.com" style="color:#501a8f;text-decoration: none;"><span style="font-weight: 600;">Web : </span>tjar.com</a></p>
-                                    <br/>
-                                    <p style="margin-top:0px;margin-bottom: 0px;font-size: 15px;">Tjar</p>
-                                </div>
+                            <!--<hr style="border: 1px solid #0f60a0;">-->
+                            <div class="main-content" style="text-align:center;border-top: 2px solid #0f60a0;padding: 15px 0px;">
+                                <p style="margin:0px;font-size: 13px;"><a href="mailto:info@tjar.com" style="color:#501a8f;text-decoration: none;"><span style="font-weight: 600;">Email : </span></i>info@tjar.com</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://www.tjar.com" style="color:#501a8f;text-decoration: none;"><span style="font-weight: 600;">Web : </span>tjar.com</a></p>
+                                <p style="margin-top:0px;margin-bottom: 0px;font-size: 15px;">Tjar.com</p>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
