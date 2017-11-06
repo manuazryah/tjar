@@ -21,50 +21,49 @@ use Yii;
  * @property string $DOC
  * @property string $DOU
  */
-class Features extends \yii\db\ActiveRecord
-{
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'features';
-    }
+class Features extends \yii\db\ActiveRecord {
 
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['filter_tittle', 'CB', 'UB'], 'required'],
-            [['category', 'status', 'CB', 'UB'], 'integer'],
-            [['comments'], 'string'],
-            [['DOC', 'DOU'], 'safe'],
-            [['filter_tittle'], 'string', 'max' => 500],
-            [['table_name', 'model_name', 'tablevalue__name', 'table_value_id'], 'string', 'max' => 100],
-        ];
-    }
+        /**
+         * @inheritdoc
+         */
+        public static function tableName() {
+                return 'features';
+        }
 
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'filter_tittle' => 'Filter Tittle',
-            'table_name' => 'Table Name',
-            'model_name' => 'Model Name',
-            'tablevalue__name' => 'Tablevalue  Name',
-            'table_value_id' => 'Table Value ID',
-            'category' => 'Category',
-            'comments' => 'Comments',
-            'status' => 'Status',
-            'CB' => 'Cb',
-            'UB' => 'Ub',
-            'DOC' => 'Doc',
-            'DOU' => 'Dou',
-        ];
-    }
+        /**
+         * @inheritdoc
+         */
+        public function rules() {
+                return [
+                        [['filter_tittle', 'CB', 'UB'], 'required'],
+                        [['category', 'status', 'CB', 'UB'], 'integer'],
+                        [['comments'], 'string'],
+                        [['DOC', 'DOU'], 'safe'],
+                        [['filter_tittle', 'filter_tittle_arabic'], 'string', 'max' => 500],
+                        [['table_name', 'model_name', 'tablevalue__name', 'table_value_id'], 'string', 'max' => 100],
+                ];
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public function attributeLabels() {
+                return [
+                    'id' => 'ID',
+                    'filter_tittle' => 'Filter Tittle',
+                    'filter_tittle_arabic' => 'Filter Tittle Arabic',
+                    'table_name' => 'Table Name',
+                    'model_name' => 'Model Name',
+                    'tablevalue__name' => 'Tablevalue  Name',
+                    'table_value_id' => 'Table Value ID',
+                    'category' => 'Category',
+                    'comments' => 'Comments',
+                    'status' => 'Status',
+                    'CB' => 'Cb',
+                    'UB' => 'Ub',
+                    'DOC' => 'Doc',
+                    'DOU' => 'Dou',
+                ];
+        }
+
 }

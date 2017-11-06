@@ -26,7 +26,7 @@ class m171102_105419_create_customer_review extends Migration {
                     'status' => $this->integer(),
                         ], $tableOptions);
                 $this->addForeignKey('fk-customer_reviews-user_id', 'customer_reviews', 'user_id', 'user', 'id', 'CASCADE');
-                $this->addForeignKey('fk-customer_reviews-product_id', 'customer_reviews', 'product_id', 'products', 'id', 'CASCADE');
+                $this->addForeignKey('fk-customer_reviews-product_id', 'customer_reviews', 'product_id', 'product_vendor', 'id', 'CASCADE');
         }
 
         /**

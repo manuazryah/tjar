@@ -15,7 +15,7 @@ use Yii;
  * @property string $review_date
  * @property int $status
  *
- * @property Products $product
+ * @property ProductVendor $product
  * @property User $user
  */
 class CustomerReviews extends \yii\db\ActiveRecord
@@ -38,7 +38,7 @@ class CustomerReviews extends \yii\db\ActiveRecord
             [['user_id', 'product_id', 'status'], 'integer'],
             [['title', 'description'], 'string'],
             [['review_date'], 'safe'],
-            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Products::className(), 'targetAttribute' => ['product_id' => 'id']],
+            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductVendor::className(), 'targetAttribute' => ['product_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -64,7 +64,7 @@ class CustomerReviews extends \yii\db\ActiveRecord
      */
     public function getProduct()
     {
-        return $this->hasOne(Products::className(), ['id' => 'product_id']);
+        return $this->hasOne(ProductVendor::className(), ['id' => 'product_id']);
     }
 
     /**

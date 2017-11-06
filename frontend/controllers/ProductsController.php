@@ -143,7 +143,7 @@ class ProductsController extends \yii\web\Controller {
                 $product_specifications = \common\models\ProductSpecifications::find()->where(['product_id' => $product_details->id])->andWhere(['not', ['product_feature_id' => null]])->all();
                 $new_customer_review = new \common\models\CustomerReviews();
                 $this->RecentlyViewed($vendor_product);
-//                $product_reveiws = \common\models\CustomerReviews::find()->where(['product_id' => $product_details->id, 'status' => '1'])->all();
+                $product_reveiws = \common\models\CustomerReviews::find()->where(['product_id' => $vendor_product->id, 'status' => '1'])->all();
 
                 return $this->render('product_detail', [
                             'product_details' => $product_details,
@@ -151,6 +151,7 @@ class ProductsController extends \yii\web\Controller {
                             'user_id' => $user_id,
                             'product_specifications' => $product_specifications,
                             'new_customer_review' => $new_customer_review,
+                            'product_reveiws' => $product_reveiws,
                 ]);
         }
 
@@ -250,6 +251,7 @@ class ProductsController extends \yii\web\Controller {
                 if (Yii::$app->request->isAjax) {
                         $model_review = new \common\models\CustomerReviews();
                         if ($model_review->load(Yii::$app->request->post())) {
+                                $model_review->product_id = 4;
                                 $model_review->user_id = Yii::$app->user->identity->id;
                                 $model_review->review_date = date('Y-m-d');
                                 $model_review->save();

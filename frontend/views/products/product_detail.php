@@ -158,8 +158,8 @@ else
                                         </div>
 
                                         <div class="product-detailed-points">
-                                                <div class="col-md-2"><h5> Notes:</h5></div>
-                                                <?= Yii::$app->SetLanguage->ViewData($product_details, 'important_notes'); ?>
+                                                <h5> Notes:</h5>
+                                                <p class="important-notes"> <?= Yii::$app->SetLanguage->ViewData($product_details, 'important_notes'); ?></p>
                                         </div>
 
                                         <div class="product-detailed-points availability">
@@ -188,7 +188,7 @@ else
                                 <div class="product-info-tab">
                                         <ul class="nav nav-tabs">
                                                 <li class="active"><a data-toggle="tab" href="#info" aria-expanded="true">Product Description</a></li>
-                                                <li class=""><a data-toggle="tab" href="#spec" aria-expanded="false">Specifications</a></li>
+                                                <!--<li class=""><a data-toggle="tab" href="#spec" aria-expanded="false">Specifications</a></li>-->
                                         </ul>
 
                                         <div class="tab-content">
@@ -197,25 +197,46 @@ else
                                                                 <p>
                                                                         <?= Yii::$app->SetLanguage->ViewData($product_details, 'main_description'); ?>
                                                                 </p>
+
+                                                                <label>Specifications</label>
+                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                        <tbody>
+                                                                                <?php
+                                                                                foreach ($product_specifications as $specification) {
+                                                                                        if (isset($specification->Product_feature_text) && $specification->Product_feature_text != '') {
+                                                                                                $product_features = \common\models\ProductFeatures::findOne($specification->product_feature_id);
+                                                                                                $specification_model = \common\models\Features::findOne($product_features->specification);
+                                                                                                $value = $specification_model->tablevalue__name;
+                                                                                                ?>
+                                                                                                <tr><td class="label"> <?= Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle'); ?> </td><td class="value"><?= $specification->Product_feature_text ?></td></tr>
+                                                                                                <?php
+                                                                                        }
+                                                                                }
+                                                                                ?>
+                                                                        </tbody>
+                                                                </table>
+
                                                         </div>
 
                                                 </div>
-                                                <div id="spec" class="tab-pane fade">
-                                                        <table cellspacing="0" cellpadding="0" border="0">
-                                                                <tbody>
-                                                                        <?php
-                                                                        foreach ($product_specifications as $specification) {
-                                                                                $product_features = \common\models\ProductFeatures::findOne($specification->product_feature_id);
-                                                                                $specification_model = \common\models\Features::findOne($product_features->specification);
-                                                                                $value = $specification_model->tablevalue__name;
-                                                                                ?>
-
-                                                                                <tr><td class="label"> <?= $specification_model->filter_tittle; ?> </td><td class="value"><?= $specification->Product_feature_text ?></td></tr>
-
-                                                                        <?php } ?>
-                                                                </tbody>
-                                                        </table>
-                                                </div>
+                                                <!--                                                <div id="spec" class="tab-pane fade">
+                                                                                                        <table cellspacing="0" cellpadding="0" border="0">
+                                                                                                                <tbody>
+                                                <?php /*
+                                                  foreach ($product_specifications as $specification) {
+                                                  if (isset($specification->Product_feature_text) && $specification->Product_feature_text != '') {
+                                                  $product_features = \common\models\ProductFeatures::findOne($specification->product_feature_id);
+                                                  $specification_model = \common\models\Features::findOne($product_features->specification);
+                                                  $value = $specification_model->tablevalue__name; */
+                                                ?>
+                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                   ?> </td><td class="value"><?php // $specification->Product_feature_text                                                   ?></td></tr>
+                                                <?php
+                                                /*  }
+                                                  } */
+                                                ?>
+                                                                                                                </tbody>
+                                                                                                        </table>
+                                                                                                </div>-->
                                         </div>
                                 </div>
 
@@ -299,14 +320,16 @@ else
                                                                                 </div>
 
                                                                                 <!-- end 1 -->
+
+
                                                                         </div>
+
+
                                                                         <!-- end row -->
                                                                 </div>
                                                                 <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 review-add-btn">
                                                                         <button id = "buttonreview" <?php if (isset(Yii::$app->user->identity->id)) { ?> onclick = "displayLoginBox()" <?php } ?> href="cart.php" class="add-review <?php if (!isset(Yii::$app->user->identity->id)) { ?> log-sign <?php } ?>">add review</button>
                                                                 </div>
-
-
                                                                 <div id = "addreview">
                                                                         <?php $form_review = ActiveForm::begin(['id' => 'add-review-form']); ?>
 
@@ -318,9 +341,33 @@ else
                                                                         <?php ActiveForm::end(); ?>
                                                                 </div>
 
+                                                                <div style="clear:both" class="marg-btm-20"></div>
+
+                                                                <?php
+                                                                if (!empty($product_reveiws)) {
+                                                                        foreach ($product_reveiws as $reveiws) {
+                                                                                ?>
+                                                                                <div class="col-md-12 col-sm-12 col-xs-12 reviews-list">
+                                                                                        <label><?= $reveiws->title ?></label>
+                                                                                        <p><?= $reveiws->description ?></p>
+                                                                                        <p class="review-add-name"><i><?= \common\models\User::findOne($reveiws->user_id)->first_name ?>   <?= date("M d , Y", strtotime($reveiws->review_date)) ?></i></p>
+                                                                                </div>
+
+                                                                                <?php
+                                                                        }
+                                                                }
+                                                                ?>
+
+
+
                                                         </div>
+
                                                 </div>
+
                                         </div>
+
+
+
                                 </div>
                         </div>
 
