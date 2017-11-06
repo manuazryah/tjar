@@ -210,8 +210,8 @@ if (isset(Yii::$app->session['log-return'])) {
                         </div>
                         <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 form">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#log">Login</a></li>
-                                <li><a data-toggle="tab" href="#signup">Signup</a></li>
+                                <li class="active log-tab"><a>Login</a></li>
+                                <li class="sign-tab"><a>Signup</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div id="log" class="tab-pane fade in active">
@@ -256,8 +256,8 @@ if (isset(Yii::$app->session['log-return'])) {
                                             </div>
                                         </div>
                                         <ul class="qstn">
-                                            <li><a data-toggle="tab" href="#signup">Don't have an <span>account?</span></a></li>
-                                            <li><a data-toggle="tab" href="#forgot">Forgot <span>password?</span></a></li>
+                                            <li><a class="sign-tab">Don't have an <span>account?</span></a></li>
+                                            <li><a class="forgot-tab">Forgot <span>password?</span></a></li>
                                         </ul>
                                     </fieldset>
                                     <?php ActiveForm::end(); ?>
@@ -267,7 +267,7 @@ if (isset(Yii::$app->session['log-return'])) {
                                     <?php
                                     $modelregister = new User();
                                     ?>
-                                    <?php $form_signin = ActiveForm::begin(['action' => Yii::$app->homeUrl . 'site/register?go=' . Yii::$app->request->hostInfo . Yii::$app->request->url, 'id' => 'signup-form', 'options' => ['class' => 'form-horizontal']]); ?>
+                                    <?php $form_signin = ActiveForm::begin(['action' => Yii::$app->homeUrl . 'site/register', 'id' => 'signup-form', 'options' => ['class' => 'form-horizontal']]); ?>
                                     <!--<form class="form-horizontal" action=" " method="post"  id="signup_form">-->
                                     <fieldset>
                                         <div class="form-group">
@@ -321,7 +321,7 @@ if (isset(Yii::$app->session['log-return'])) {
                                             </div>
                                         </div>
                                         <ul class="qstn">
-                                            <li style="float: none; text-align: center;"><a data-toggle="tab" href="#log">Already have an account? <span>Login!</span></a></li>
+                                            <li style="float: none; text-align: center;"><a class="log-tab">Already have an account? <span>Login!</span></a></li>
                                         </ul>
                                     </fieldset>
 
@@ -352,7 +352,7 @@ if (isset(Yii::$app->session['log-return'])) {
 
                                         </div>
                                         <ul class="qstn">
-                                            <li><a data-toggle="tab" href="#signup">Don't have an <span>account?</span></a></li>
+                                            <li><a class="sign-tab">Don't have an <span>account?</span></a></li>
                                         </ul>
                                     </fieldset>
                                 </div>
@@ -1168,6 +1168,35 @@ if (isset(Yii::$app->session['log-return'])) {
                             return true;
                         }
                     });
+                });
+
+                $('.log-tab').click(function () {
+                    $('.log-tab').addClass('active');
+                    $('.sign-tab').removeClass('active');
+                    $('#signup').removeClass('in');
+                    $('#signup').removeClass('active');
+                    $('#log').addClass('in');
+                    $('#log').addClass('active');
+                    $('#forgot').removeClass('in');
+                    $('#forgot').removeClass('active');
+                });
+                $('.sign-tab').click(function () {
+                    $('.sign-tab').addClass('active');
+                    $('.log-tab').removeClass('active');
+                    $('#signup').addClass('in');
+                    $('#signup').addClass('active');
+                    $('#log').removeClass('in');
+                    $('#log').removeClass('active');
+                    $('#forgot').removeClass('in');
+                    $('#forgot').removeClass('active');
+                });
+                $('.forgot-tab').click(function () {
+                    $('#signup').removeClass('in');
+                    $('#signup').removeClass('active');
+                    $('#log').removeClass('in');
+                    $('#log').removeClass('active');
+                    $('#forgot').addClass('in');
+                    $('#forgot').addClass('active');
                 });
             });
         </script>
