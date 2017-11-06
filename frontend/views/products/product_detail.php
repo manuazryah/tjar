@@ -229,7 +229,7 @@ else
                                                   $specification_model = \common\models\Features::findOne($product_features->specification);
                                                   $value = $specification_model->tablevalue__name; */
                                                 ?>
-                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                   ?> </td><td class="value"><?php // $specification->Product_feature_text                                                   ?></td></tr>
+                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                         ?> </td><td class="value"><?php // $specification->Product_feature_text                                                         ?></td></tr>
                                                 <?php
                                                 /*  }
                                                   } */
@@ -341,8 +341,8 @@ else
                                                                         <?php ActiveForm::end(); ?>
                                                                 </div>
 
+                                                                <!------------------------Display Reviews---------------------->>
                                                                 <div style="clear:both" class="marg-btm-20"></div>
-
                                                                 <?php
                                                                 if (!empty($product_reveiws)) {
                                                                         foreach ($product_reveiws as $reveiws) {
@@ -372,9 +372,10 @@ else
                         </div>
 
 
-
+                        <!-----------------------------------------List Related Products--------------------------------------------->
                         <?= RelatedProductWidget::widget(['id' => $product_details->related_products]) ?>
 
+                        <!-----------------------------------------List Recently Viewed--------------------------------------------->
                         <?= RecentlyViewedWidget::widget(['id' => $user_id]) ?>
                 </div>
         </div>

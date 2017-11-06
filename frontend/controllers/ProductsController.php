@@ -170,11 +170,12 @@ class ProductsController extends \yii\web\Controller {
                         if (!isset(Yii::$app->session['temp_user_product']) || Yii::$app->session['temp_user_product'] == '') {
                                 $milliseconds = round(microtime(true) * 1000);
                                 Yii::$app->session['temp_user_product'] = $milliseconds;
-                                $model = RecentlyViewed::find()->where(['product_id' => $product->id, 'session_id' => Yii::$app->session['temp_user_product']])->one();
                         }
                         $sessonid = Yii::$app->session['temp_user_product'];
+                        $model = RecentlyViewed::find()->where(['product_id' => $product->id, 'session_id' => Yii::$app->session['temp_user_product']])->one();
                 }
                 if (empty($model)) {
+
                         $model = new RecentlyViewed();
                         $model->user_id = $user_id;
                         $model->session_id = $sessonid;
@@ -184,7 +185,6 @@ class ProductsController extends \yii\web\Controller {
                         $model->date = date('Y-m-d');
                 }
                 $model->save();
-
                 return;
         }
 
