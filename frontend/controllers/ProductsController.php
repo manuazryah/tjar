@@ -166,7 +166,6 @@ class ProductsController extends \yii\web\Controller {
                         $user_id = Yii::$app->user->identity->id;
                         $model = RecentlyViewed::find()->where(['product_id' => $product->id, 'user_id' => $user_id])->one();
                 } else {
-                        die('else');
                         if (!isset(Yii::$app->session['temp_user_product']) || Yii::$app->session['temp_user_product'] == '') {
                                 $milliseconds = round(microtime(true) * 1000);
                                 Yii::$app->session['temp_user_product'] = $milliseconds;

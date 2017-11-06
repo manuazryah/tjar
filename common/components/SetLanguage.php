@@ -19,8 +19,6 @@ class SetLanguage extends Component {
 
         public function Language() {
                 $cookies1 = Yii::$app->request->cookies;
-                //   setcookie('abc', '', time() - 999999, '/', '');
-
                 if ($cookies1->has('language')) {
                         $language = $cookies1->getValue('language');
                 } else {
@@ -59,6 +57,7 @@ class SetLanguage extends Component {
                             'home' => 'الأثاث المنزلي',
                             'books' => 'كتب وأكثر',
                             'offer_zone' => 'منطقة العرض',
+                            'Warranty' => 'ضمانض',
                         ];
                 } else {
                         $array = [
@@ -70,10 +69,29 @@ class SetLanguage extends Component {
                             'home' => 'HOME & FURNITURE',
                             'books' => 'BOOKS & MORE',
                             'offer_zone' => 'OFFER ZONE',
+                            'Warranty' => 'Warranty',
                         ];
                 }
                 $values = json_encode($array);
                 return $values;
+        }
+
+        Public function ViewData($model, $field) {
+
+                $data = $model->$field;
+                $cookies = Yii::$app->request->cookies;
+                if ($cookies->has('language')) {
+                        $language = $cookies->getValue('language');
+                        if ($language == 'Arabic') {
+                                $table = Yii::$app->db->schema->getTableSchema($model->tableName());
+
+                                if (isset($table->columns[$field . '_arabic'])) {
+                                        $x = $field . '_arabic';
+                                        $data = $model->$x;
+                                }
+                        }
+                }
+                return $data;
         }
 
 }

@@ -34,7 +34,7 @@ if (!empty($related_product)) {
 
                                                                                         <?php } ?>
                                                                                 </div>
-                                                                                <h3 class="product-name"><?= $value->product_name ?></h3>
+                                                                                <h3 class="product-name"><?= Yii::$app->SetLanguage->ViewData($value, 'product_name'); ?></h3>
                                                                                 <?php
                                                                                 if (isset($vendor_product->offer_price) && $vendor_product->offer_price != "0") {
                                                                                         $percentage = round(100 - (($vendor_product->offer_price / $vendor_product->price) * 100));

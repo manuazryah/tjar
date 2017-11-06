@@ -87,7 +87,6 @@ else
                                                 </div>
                                         </div>
                                 </div>
-                                <!--<span class="company-speciality col-md-12">Safe and Secure Payments. Easy returns. 100% Authentic products.</span>-->
                         </div>
 
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 product-details-right">
@@ -102,7 +101,10 @@ else
                                         <!--<span class="current-page">product</span>-->
                                 </div>
 
-                                <h4 class="product-heading"><?= $product_details->product_name ?></h4>
+
+                                <h4 class="product-heading"><?= Yii::$app->SetLanguage->ViewData($product_details, 'product_name'); ?></h4>
+
+
                                 <div class="rating">
                                         <input type="number" class="rating" id="test" name="test" data-min="1" data-max="5" value="0">
                                 </div>
@@ -116,7 +118,6 @@ else
                                 }
                                 ?>
                                 <p class="price"><?= sprintf('%0.2f', $price1) ?> AED  <?= $price2 != '' ? '<span>' . sprintf("%0.2f", $price2) . '  AED</span>' : ''; ?> </p>
-                                <!--<span><?= sprintf('%0.2f', $price2) ?> AED</span>-->
                                 <p class="message">FREE Shipping on orders over 150.00 AED</p>
                                 <div class="product-specifications">
                                         <?php if (isset($vendor_product->warranty) && $vendor_product->warranty != '') { ?>
@@ -149,21 +150,17 @@ else
                                                 </span>
                                         </div>
 
-                                        <?php if (isset($product_details->highlights)) { ?>
-                                                <div class="product-detailed-points">
-                                                        <h5>Highlights: </h5>
-                                                        <span class="message">
-                                                                <?= $product_details->highlights ?>
-                                                        </span>
-                                                </div>
-                                        <?php } ?>
+                                        <div class="product-detailed-points">
+                                                <h5>Highlights: </h5>
+                                                <span class="message">
+                                                        <?= Yii::$app->SetLanguage->ViewData($product_details, 'highlights'); ?>
+                                                </span>
+                                        </div>
 
-                                        <?php if (isset($product_details->important_notes)) { ?>
-                                                <div class="product-detailed-points">
-                                                        <h5>Important Notes:</h5>
-                                                        <span class="message"><?= $product_details->important_notes ?></span>
-                                                </div>
-                                        <?php } ?>
+                                        <div class="product-detailed-points">
+                                                <div class="col-md-2"><h5> Notes:</h5></div>
+                                                <?= Yii::$app->SetLanguage->ViewData($product_details, 'important_notes'); ?>
+                                        </div>
 
                                         <div class="product-detailed-points availability">
                                                 <h5>seller:</h5>
@@ -185,7 +182,7 @@ else
                                         </div>
                                 </div>
                                 <div class="message">
-                                        <?= $product_details->short_description ?>
+                                        <?= Yii::$app->SetLanguage->ViewData($product_details, 'short_description'); ?>
                                 </div>
 
                                 <div class="product-info-tab">
@@ -198,9 +195,10 @@ else
                                                 <div id="info" class="tab-pane fade active in">
                                                         <div class="pro-dis-img">
                                                                 <p>
-                                                                        <?= $product_details->main_description ?>
+                                                                        <?= Yii::$app->SetLanguage->ViewData($product_details, 'main_description'); ?>
                                                                 </p>
                                                         </div>
+
                                                 </div>
                                                 <div id="spec" class="tab-pane fade">
                                                         <table cellspacing="0" cellpadding="0" border="0">

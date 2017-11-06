@@ -76,7 +76,8 @@ class ProductsController extends Controller {
                                 if ($tag) {
                                         $model->search_tags = implode(',', $tag);
                                 }
-                                $model->related_products = implode(',', $model->related_products);
+                                if (isset($model->related_products))
+                                        $model->related_products = implode(',', $model->related_products);
                                 if ($model->save()) {
 
                                         if ($this->SaveGalleyImage($model)) {

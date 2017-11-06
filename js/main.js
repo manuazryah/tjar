@@ -15,4 +15,17 @@ $(document).ready(function () {
                 });
         });
 
+
+        $('.language-choose').on('click', function () {
+                var language = $(this).attr('id');
+                $.ajax({
+                        type: 'POST',
+                        url: homeUrl + 'ajax/language',
+                        data: {language: language},
+                        success: function (data) {
+                                location.reload();
+                        }
+                });
+        });
+
 });
