@@ -184,6 +184,7 @@ class ProductsController extends \yii\web\Controller {
                         $model->date = date('Y-m-d');
                 }
                 $model->save();
+
                 return;
         }
 
