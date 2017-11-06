@@ -103,12 +103,8 @@ class AjaxController extends Controller {
         $message = Yii::$app->mailer->compose('forgot_mail', ['model' => $model, 'val' => $val]) // a view rendering result becomes the message body here
                 ->setFrom('no-replay@tjar.com')
                 ->setTo($model->email)
-                ->setSubject('Tjar password assistance
-
-');
-        echo $message;
-        exit;
-//        $message->send();
+                ->setSubject('Tjar password assistance');
+        $message->send();
         return TRUE;
     }
 
