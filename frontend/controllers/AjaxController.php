@@ -73,6 +73,7 @@ class AjaxController extends Controller {
                 $token_model->type = 1;
                 if ($token_model->save()) {
 //                    $this->sendMail($check_exists);
+//                    $this->sendSMS($check_exists);
                     $data_html = $this->renderPartial('_form_forgot', [
                         'token_model' => $token_model
                     ]);
@@ -125,9 +126,9 @@ class AjaxController extends Controller {
         if (Yii::$app->request->isAjax) {
             $user_exists = User::find()->where(['id' => Yii::$app->request->post('data_val')])->one();
             $check_exists = ForgotPassword::find()->where(['user_id' => Yii::$app->request->post('data_val')])->one();
-            if (!empty($check_exists)) {
-                $this->sendMail($val, $check_exists);
-            }
+//            if (!empty($check_exists)) {
+//                $this->sendMail($val, $check_exists);
+//            }
         }
     }
 
