@@ -67,18 +67,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'filter' => ArrayHelper::map(Products::find()->asArray()->all(), 'id', 'product_name'),
                                 ],
                                 'title',
-                                [
-                                    'attribute' => 'description',
-                                    'value' => function($data) {
-                                        $str = substr($data->description, 0, strpos(wordwrap($data->description, 100), "\n"));
-                                        if (strlen($data->description) > 100) {
-                                            $dot = ' ....';
-                                        } else {
-                                            $dot = '';
-                                        }
-                                        return $str . $dot;
-                                    },
-                                ],
+                                'description',
+//                                [
+//                                    'attribute' => 'description',
+//                                    'value' => function($data) {
+//                                        $str = substr($data->description, 0, strpos(wordwrap($data->description, 100), "\n"));
+//                                        if (strlen($data->description) > 100) {
+//                                            $dot = ' ....';
+//                                        } else {
+//                                            $dot = '';
+//                                        }
+//                                        return $str . $dot;
+//                                    },
+//                                ],
 //                                'description:ntext',
                                 // 'review_date',
                                 // 'status',
