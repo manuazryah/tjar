@@ -10,6 +10,7 @@ use common\models\ProductVendor;
 use common\models\UserAddress;
 use common\models\OrderMaster;
 use common\models\OrderDetails;
+use common\models\Settings;
 
 class CartController extends \yii\web\Controller {
 
@@ -59,26 +60,46 @@ class CartController extends \yii\web\Controller {
             }
         }
         $model = new UserAddress();
-        if ($model->load(Yii::$app->request->post())) {
-            if (!isset(Yii::$app->request->post()['UserAddress']['billing'])) {
-                $address_id = $this->addnewuser($model);
-            } else {
-                $address_id = Yii::$app->request->post()['UserAddress']['billing'];
-            }
-            $cart = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
-            $orders = $this->addOrder($cart, $address_id);
-            $this->orderProducts($orders, $cart);
-//            $this->clearcart();
-            return $this->redirect('/tjar');
-        }
-        $address = UserAddress::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
+//        if ($model->load(Yii::$app->request->post())) {
+//            if (!isset(Yii::$app->request->post()['UserAddress']['billing'])) {
+//                $address_id = $this->addnewuser($model);
+//            } else {
+//                $address_id = Yii::$app->request->post()['UserAddress']['billing'];
+//            }
+//            $cart = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
+//            $orders = $this->addOrder($cart, $address_id);
+//            $this->orderProducts($orders, $cart);
+////            $this->clearcart($cart);
+//            return $this->redirect('mycart');
+//        }
+//        $address = UserAddress::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
         $condition = $this->usercheck();
         $cart_items = Cart::find()->where($condition)->all();
         if (!empty($cart_items)) {
             $subtotal = $this->total($cart_items);
-            return $this->render('cart', ['cart_items' => $cart_items, 'subtotal' => $subtotal, 'model' => $model, 'addresses' => $address]);
+            return $this->render('cart', ['cart_items' => $cart_items, 'subtotal' => $subtotal, 'model' => $model]);
         } else {
             return $this->render('emptycart');
+        }
+    }
+
+    public function actionAddAddress() {
+        if (yii::$app->request->isAjax) {
+            $model = new UserAddress();
+            $model->user_id = Yii::$app->user->identity->id;
+            $model->first_name = Yii::$app->request->post()['first_name'];
+            $model->last_name = Yii::$app->request->post()['last_name'];
+            $model->address = Yii::$app->request->post()['address'];
+            $model->city_id = Yii::$app->request->post()['city_id'];
+            $model->landmark = Yii::$app->request->post()['landmark'];
+            $model->country_id = Yii::$app->request->post()['country_id'];
+            $model->street_id = Yii::$app->request->post()['street_id'];
+            $model->phone = Yii::$app->request->post()['phone'];
+            $model->pincode = Yii::$app->request->post()['pincode'];
+            $model->address = Yii::$app->request->post()['address'];
+            if($model->save()){
+                echo json_encode(array('msg' => 'success', 'id' => $model->id));exit;
+            }
         }
     }
 
@@ -110,8 +131,10 @@ class CartController extends \yii\web\Controller {
     }
 
     function addOrder($cart, $address_id) {
+        $serial_no = Settings::findOne(1)->value;
+        $prefix = Settings::findOne(1)->prefix;
         $model = new OrderMaster;
-        $model->order_id = '123456';
+        $model->order_id = $this->generateProductEan($prefix, $serial_no);
         $model->user_id = Yii::$app->user->identity->id;
         $model->total_amount = $this->total($cart);
         $model->net_amount = $this->net_amount($model->total_amount);
@@ -119,9 +142,26 @@ class CartController extends \yii\web\Controller {
         $model->DOC = date('Y-m-d');
         $model->ship_address_id = $address_id;
         if ($model->save()) {
-//            $this->Updateorderid($model1->order_id);
+
             return ['master_id' => $model->id, 'order_id' => $model->order_id];
         }
+    }
+
+    public function generateProductEan($prefix, $serial_no) {
+        $orderid_exist = OrderMaster::find()->where(['order_id' => $prefix . $serial_no])->one();
+        if (!empty($orderid_exist)) {
+            return $this->generateProductEan($prefix, $serial_no + 1);
+        } else {
+            $this->Updateorderid($serial_no);
+            return $prefix . $serial_no;
+        }
+    }
+
+    public function Updateorderid($id) {
+        $orderid = Settings::findOne(1);
+        $orderid->value = $id;
+        $orderid->save();
+        return;
     }
 
     function addnewuser($model) {
@@ -262,6 +302,21 @@ class CartController extends \yii\web\Controller {
         return $grandtotal;
     }
 
+    public function actionUseraddress() {
+        if (yii::$app->request->isAjax) {
+            if (isset(Yii::$app->user->identity->id)) {
+                $addresses = UserAddress::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
+                $addres_field .= "<option value=''>Select</option>";
+                foreach ($addresses as $address) {
+                    $addres_field .= "<option value = '$address->id'>$address->first_name, $address->address , $address->landmark</option>";
+                }
+                echo json_encode(array('msg' => 'success', 'addres_field' => $addres_field));
+            } else {
+                echo json_encode(array('msg' => 'failed'));
+            }
+        }
+    }
+
     function usercheck() {
         if (isset(Yii::$app->user->identity->id)) {
             $user_id = Yii::$app->user->identity->id;
@@ -300,6 +355,12 @@ class CartController extends \yii\web\Controller {
         }
     }
 
+    function clearcart($models) {
+        foreach ($models as $model) {
+            $model->delete();
+        }
+    }
+
     function cart_content() {
         $condition = $this->usercheck();
         $cart_contents = Cart::find()->where($condition)->all();
@@ -324,21 +385,21 @@ class CartController extends \yii\web\Controller {
                     $str = $product_name;
                 }
                 echo '<li class="clearfix">
-                       ' . $image . '
-                       <span class="item-name" title="' . $product_name . '">' . $str . '</span>
-                       <span class="item-price">' . sprintf("%0.2f", $price) . '</span>
-                       <span class="item-quantity">Quantity: ' . $cart_content->quantity . '</span>
-                       </li>';
+    ' . $image . '
+    <span class="item-name" title="' . $product_name . '">' . $str . '</span>
+    <span class="item-price">' . sprintf("%0.2f", $price) . '</span>
+    <span class="item-quantity">Quantity: ' . $cart_content->quantity . '</span>
+</li>';
 //                <button title="Remove From Cart" class="remove-cart"><i class="fa fa-times" aria-hidden="true"></i></button>
             }
         } else {
 //            echo 'Cart box is Empty';
             echo '<div style="padding: 25px 0px; display: flow-root;">
-                               <a href="' . yii::$app->homeUrl . '"><div class="col-md-12 empty-img text-center" >
-                               <img style="margin: 0 auto; float: none; left: 0px; right: 0px; vertical-align: middle; margin-bottom: 10px;" class="img-responsive" src="' . Yii::$app->homeUrl . 'images/empty-cart.jpg"/>
-                               </div>
-                              <span class="col-md-12 text-center">Cart is Empty. Start Shopping.</span></a>
-                              </div>';
+    <a href="' . yii::$app->homeUrl . '"><div class="col-md-12 empty-img text-center" >
+            <img style="margin: 0 auto; float: none; left: 0px; right: 0px; vertical-align: middle; margin-bottom: 10px;" class="img-responsive" src="' . Yii::$app->homeUrl . 'images/empty-cart.jpg"/>
+        </div>
+        <span class="col-md-12 text-center">Cart is Empty. Start Shopping.</span></a>
+</div>';
 //                   Html::a ('<button class="green2">Continue shopping</button>,'.['site/index'].','.['class' => 'button']).
 //                </div>';
         }

@@ -242,4 +242,16 @@ class SiteController extends Controller {
         return $this->renderPartial('mail');
     }
 
+    public function actionLoginstatus() {
+        if (yii::$app->request->isAjax) {
+            if (isset(Yii::$app->user->identity->id)) {
+                echo '1';
+                exit;
+            } else {
+                echo '0';
+                exit;
+            }
+        }
+    }
+
 }
