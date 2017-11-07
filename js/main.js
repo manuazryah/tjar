@@ -8,6 +8,7 @@ $(document).ready(function () {
                         url: homeUrl + 'products/add-review',
                         data: data,
                         success: function (data) {
+                                $('#add-review-form')[0].reset();
                                 $('#addreview').css({'display': 'none'});
                                 $('.review-success').show();
                                 $('.review-success').delay(4000).fadeOut();

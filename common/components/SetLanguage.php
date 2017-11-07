@@ -47,7 +47,6 @@ class SetLanguage extends Component {
 
         public function Words($language) {
                 if ($language == 'Arabic') {
-
                         $array = [
                             'electronics' => 'إلكترونيات',
                             'appliances' => 'الأجهزة',
