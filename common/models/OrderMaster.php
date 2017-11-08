@@ -27,21 +27,19 @@ use Yii;
  * @property string $DOC
  * @property string $DOU
  */
-class OrderMaster extends \yii\db\ActiveRecord
-{
+class OrderMaster extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'order_master';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['order_id', 'user_id', 'total_amount', 'net_amount'], 'required'],
             [['user_id', 'promotion_id', 'ship_address_id', 'bill_address_id', 'payment_status', 'admin_status', 'shipping_status', 'status'], 'integer'],
@@ -55,20 +53,19 @@ class OrderMaster extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'order_id' => 'Order ID',
-            'user_id' => 'User ID',
+            'user_id' => 'User',
             'total_amount' => 'Total Amount',
-            'promotion_id' => 'Promotion ID',
+            'promotion_id' => 'Promotion',
             'promotion_discount' => 'Promotion Discount',
             'discount_amount' => 'Discount Amount',
             'net_amount' => 'Net Amount',
             'order_date' => 'Order Date',
-            'ship_address_id' => 'Ship Address ID',
-            'bill_address_id' => 'Bill Address ID',
+            'ship_address_id' => 'Ship Address',
+            'bill_address_id' => 'Bill Address',
             'user_comment' => 'User Comment',
             'admin_comment' => 'Admin Comment',
             'payment_status' => 'Payment Status',
@@ -79,4 +76,5 @@ class OrderMaster extends \yii\db\ActiveRecord
             'DOU' => 'Dou',
         ];
     }
+
 }

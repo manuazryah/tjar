@@ -48,13 +48,12 @@ class OrderDetails extends \yii\db\ActiveRecord {
             'id' => 'ID',
             'master_id' => 'Master ID',
             'order_id' => 'Order ID',
-            'product_id' => 'Product ID',
+            'product_id' => 'Product Name',
             'quantity' => 'Quantity',
             'amount' => 'Amount',
             'sub_total' => 'Sub Total',
             'delivered_date' => 'Delivered Date',
             'status' => 'Status',
-            'vendor_id' => 'Vendor',
             'DOC' => 'Doc',
         ];
     }
