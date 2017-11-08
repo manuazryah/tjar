@@ -526,22 +526,6 @@ AppAsset::register($this);
                                 </li>
                             </ul>
                         </li>
-
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-shopping-cart"></i>
-                                <span class="title">Orders</span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <?= Html::a('Order Management', ['/orders/order-master/index'], ['class' => 'title']) ?>
-                                </li>
-                                <li>
-                                    <?= Html::a('Full Fill by Tjar', ['/orders/order-master/full-fill'], ['class' => 'title']) ?>
-                                </li>
-                            </ul>
-                        </li>
-
                         <li>
                             <a href="#">
                                 <i class="fa fa-bars"></i>

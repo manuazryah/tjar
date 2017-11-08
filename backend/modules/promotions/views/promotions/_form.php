@@ -21,13 +21,13 @@ use yii\helpers\ArrayHelper;
         </div><div class='col-md-4 col-sm-6 col-xs-12 left_padd promption-productid'>
                 <?php
                 if (!$model->isNewRecord) {
-                        if (isset($model->product_id)) {
+                        if (isset($model->product_id) && $model->product_id != '') {
                                 $model->product_id = explode(',', $model->product_id);
                         }
                 }
                 ?>
 
-                <?php $products = common\models\Products::find()->where(['status' => 1])->all(); ?>   <?= $form->field($model, 'product_id')->dropDownList(ArrayHelper::map($products, 'id', 'product_name'), ['prompt' => '--Select--', 'multiple' => true]) ?>
+                <?php $products = common\models\ProductVendor::find()->where(['status' => 1])->all(); ?>   <?= $form->field($model, 'product_id')->dropDownList(ArrayHelper::map($products, 'id', 'productname'), ['prompt' => '--Select--', 'multiple' => true]) ?>
 
         </div><div class='col-md-4 col-sm-6 col-xs-12 left_padd promption-userid'>
 
