@@ -12,7 +12,7 @@ use common\models\OrderDetails;
 
 class OrderController extends \yii\web\Controller {
 
-    public function actionIndex() {
+    public function actionIndex($order_status = NULL) {
         $order_array = [];
         $vendor_id = Yii::$app->user->identity->id;
         $order_master = OrderMaster::find()->where(['admin_status' => 1])->all();
@@ -31,18 +31,17 @@ class OrderController extends \yii\web\Controller {
         $searchModel = new OrderDetailsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->query->andWhere(['vendor_id' => $vendor_id])->andWhere(['in', 'order_id', $order_array])->andWhere(['in', 'product_id', $product_array]);
-        $dataProvider1 = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider1->query->andWhere(['vendor_id' => $vendor_id])->andWhere(['in', 'order_id', $order_array])->andWhere(['status' => 1])->andWhere(['in', 'product_id', $product_array]);
-        $dataProvider2 = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider2->query->andWhere(['vendor_id' => $vendor_id])->andWhere(['in', 'order_id', $order_array])->andWhere(['status' => 0])->andWhere(['in', 'product_id', $product_array]);
-        $dataProvider3 = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider3->query->andWhere(['vendor_id' => $vendor_id])->andWhere(['in', 'order_id', $order_array])->andWhere(['status' => 2])->andWhere(['in', 'product_id', $product_array]);
+        if ($order_status == 1) {
+            $dataProvider->query->andWhere(['status' => 1]);
+        } elseif ($order_status == 2) {
+            $dataProvider->query->andWhere(['status' => 0]);
+        } elseif ($order_status == 3) {
+            $dataProvider->query->andWhere(['status' => 2]);
+        }
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
-                    'dataProvider1' => $dataProvider1,
-                    'dataProvider2' => $dataProvider2,
-                    'dataProvider3' => $dataProvider3,
+                    'order_status' => $order_status,
         ]);
     }
 

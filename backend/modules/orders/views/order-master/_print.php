@@ -97,7 +97,7 @@
                         $product = common\models\ProductVendor::find()->where(['id' => $value->product_id])->one();
                         ?>
                         <tr>
-                            <td style="width:50%"><?= $product->product_id; ?></td>
+                            <td style="width:50%"><?= \common\models\Products::findOne($product->product_id)->product_name; ?></td>
                             <td style="width:15%"><span style="float: right;padding-right: 20px;"><?= $value->quantity ?></span></td>
                             <td style="width:15%"><span style="float: right;padding-right: 20px;"><?= sprintf('%0.2f', $value->amount); ?></span></td>
                             <td style="width:20%"><span style="float: right;padding-right: 20px;"><?= sprintf('%0.2f', ($value->quantity * $value->amount)); ?></span></td>
