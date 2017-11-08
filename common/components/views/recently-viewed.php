@@ -4,10 +4,12 @@ use yii\helpers\Html;
 use common\models\Fregrance;
 use common\components\ProductLinksWidget;
 ?>
-<?php if (!empty($recently_viewed)) { ?>
+<?php
+if (!empty($recently_viewed)) {
+        ?>
         <section id="product-slider">
                 <div class="container">
-                        <div class="category-heading">Recently Viewed</div>
+                        <div class="category-heading"><?= Yii::$app->session['words']->Recently_Viewed ?></div>
                         <div class="row">
                                 <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel1" data-interval="1000">
                                         <div class="MultiCarousel-inner" style="transform: translateX(0px); width: 2560px;">
@@ -38,7 +40,7 @@ use common\components\ProductLinksWidget;
                                                                                         if (isset($vendor_product->offer_price) && $vendor_product->offer_price != "0") {
                                                                                                 $percentage = round(100 - (($vendor_product->offer_price / $vendor_product->price) * 100));
                                                                                                 ?>
-                                                                                                <h5 class="product-discount">Upto <?= $percentage ?>% off</h5>
+                                                                                                <h5 class="product-discount">Upto <?= $percentage ?>% <?= Yii::$app->session['words']->Off ?></h5>
                                                                                         <?php } ?>
 
                                                                                         <?php

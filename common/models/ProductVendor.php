@@ -108,4 +108,8 @@ class ProductVendor extends \yii\db\ActiveRecord {
                 return $this->hasOne(Vendors::className(), ['id' => 'vendor_id']);
         }
 
+        public function getProductName() {
+                return $this->product->product_name;
+        }
+
 }

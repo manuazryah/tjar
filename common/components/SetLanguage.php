@@ -24,6 +24,7 @@ class SetLanguage extends Component {
                 } else {
                         $language = 'English';
                 }
+                Yii::$app->session['language'] = $language;
                 return $language;
         }
 
@@ -33,11 +34,13 @@ class SetLanguage extends Component {
 
         public function SetLanguage($langauge = null) {
 
+                setcookie('language', '', time() - 999999, '/', '');
                 $cookie = new Cookie([
                     'name' => 'language',
                     'value' => $langauge,
                     'expire' => time() + 86400 * 1,
                 ]);
+
                 Yii::$app->getResponse()->getCookies()->add($cookie);
         }
 
@@ -47,29 +50,9 @@ class SetLanguage extends Component {
 
         public function Words($language) {
                 if ($language == 'Arabic') {
-                        $array = [
-                            'electronics' => 'إلكترونيات',
-                            'appliances' => 'الأجهزة',
-                            'men' => 'رجالي',
-                            'women' => 'نساء',
-                            'baby' => 'بيبي & كيدس',
-                            'home' => 'الأثاث المنزلي',
-                            'books' => 'كتب وأكثر',
-                            'offer_zone' => 'منطقة العرض',
-                            'Warranty' => 'ضمانض',
-                        ];
+                        require(__DIR__ . '/ArabicWords.php');
                 } else {
-                        $array = [
-                            'electronics' => 'Electronics',
-                            'appliances' => 'Appliances',
-                            'men' => 'Men',
-                            'women' => 'Women',
-                            'baby' => 'BABY & KIDS',
-                            'home' => 'HOME & FURNITURE',
-                            'books' => 'BOOKS & MORE',
-                            'offer_zone' => 'OFFER ZONE',
-                            'Warranty' => 'Warranty',
-                        ];
+                        require(__DIR__ . '/EnglishWords.php');
                 }
                 $values = json_encode($array);
                 return $values;
@@ -83,7 +66,6 @@ class SetLanguage extends Component {
                         $language = $cookies->getValue('language');
                         if ($language == 'Arabic') {
                                 $table = Yii::$app->db->schema->getTableSchema($model->tableName());
-
                                 if (isset($table->columns[$field . '_arabic'])) {
                                         $x = $field . '_arabic';
                                         $data = $model->$x;
