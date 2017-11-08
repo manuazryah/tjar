@@ -42,22 +42,8 @@ $(document).ready(function () {
     });
     $('.checkout_check').click(function () {
         useraddress();
-//        $.ajax({
-//            type: "POST",
-//            url: homeUrl + 'cart/useraddress',
-//            data: {login: '1'},
-//            success: function (data) {
-//                var $data = JSON.parse(data);
-//                if ($data.msg === "success") {
-//                    $('#billing').html('').html($data.addres_field);
-//                    $('#checkout').modal('show');
-//                } else {
-//                    location.reload();
-//                }
-////
-//            }
-//        });
     });
+
     $('body').on('click', '.continue_shipping', function (e) {
         e.preventDefault();
         showLoader();
@@ -81,22 +67,66 @@ $(document).ready(function () {
 
 
     });
+    $('body').on('click', '.continue_billing', function (e) {
+        e.preventDefault();
+        showLoader();
+        var data = $('#shipping_id').serialize();
+        var billing = $('#billing').val();
+        if (billing === "") {
+            var first_name = $('#useraddress-first_name').val();
+            var last_name = $('#useraddress-last_name').val();
+            var address = $('#useraddress-address').val();
+            var city_id = $('#useraddress-city_id').val();
+            if (first_name === '' || last_name === '' || address === '' || city_id === '') {
+                alert('Fill the Field');
+                hideLoader();
+            } else {
+                bill_address(data);
+            }
+        } else {
+            bill_address(data);
+        }
+
+
+
+});
 
 
 });
 /******************************************************************/
+function bill_address(data) {
+    $.ajax({
+        type: "POST",
+        url: homeUrl + 'cart/add-billing',
+        data: data,
+        success: function (data) {
+            var $data = JSON.parse(data);
+            if ($data.msg === "success") {
+                $('#checkout').modal('hide');
+                $('#ordermaster-bill_address_id').val($data.id);
+                hideLoader();
+                $('.proceed-to-checkout').addClass('hide');
+                $('.confirm-checkout').removeClass('hide');
+                $('#order_master_form').attr('action', 'checkout');
+            }
+//
+        }
+    });
+}
 function ship_bill_address(data) {
     $.ajax({
         type: "POST",
-        url: homeUrl + 'cart/add-address',
+        url: homeUrl + 'cart/add-shipping',
         data: data,
         success: function (data) {
             var $data = JSON.parse(data);
             if ($data.msg === "success") {
                 if ($data.delivery === '') {
-                    alert('Shipping Address Added Successfully');
-//                    $('#checkout').modal('hide');
-//                    $('#checkout').modal('show');
+//                    alert('Shipping Address Added Successfully');
+                    $("#checkout").hide();
+                    // Show the div after 1s
+                    $("#checkout").delay(1000).fadeIn(100);
+                    $('#ordermaster-ship_address_id').val($data.id);
                     useraddress();
                         $('#shipping_id')[0].reset();
                         $('.section__title').html('Billing Address');
@@ -104,9 +134,18 @@ function ship_bill_address(data) {
                         $('#billing').prop('disabled', false);
                         $('.new_address_area').css({'display': 'none'});
                         $('.delivery_address').html('');
+                    $('#proceed_to_checkout').removeClass('continue_shipping');
+                    $('#proceed_to_checkout').addClass('continue_billing');
                         hideLoader();
                 } else {
-                    location.reload();
+                    $('#checkout').modal('hide');
+                    $('#ordermaster-ship_address_id').val($data.id);
+                    $('#ordermaster-bill_address_id').val($data.delivery);
+                    $('.proceed-to-checkout').addClass('hide');
+                    $('.confirm-checkout').removeClass('hide');
+//                    $('#order_master_form').attr('action', 'checkout');
+                    hideLoader();
+//                    location.reload();
                 }
 //                        $('#checkout').modal('toggle');
             }
@@ -225,3 +264,5 @@ function showLoader() {
 function hideLoader() {
     $('.page-loading-overlay').addClass('loaded');
 }
+
+
