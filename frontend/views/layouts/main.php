@@ -19,7 +19,7 @@ $language = common\components\SetLanguage::Language();
 Yii::$app->session['language'] = $language;
 $words = \common\components\SetLanguage::Words($language);
 $words = json_decode($words);
-
+Yii::$app->session['words'] = $words;
 
 if (isset(Yii::$app->session['log-return'])) {
         $log_error = 1;
@@ -275,7 +275,7 @@ if (isset(Yii::$app->session['log-return'])) {
                                                                                 <div class="form-group">
                                                                                         <div class="col-md-6 inputGroupContainer">
                                                                                                 <div class="input-group">
-                                                                                                        <?php // $form_signin->field($modelregister, 'first_name')->textInput(['maxlength' => true])  ?>
+                                                                                                        <?php // $form_signin->field($modelregister, 'first_name')->textInput(['maxlength' => true])   ?>
                                                                                                         <input id="signup-first_name" name="User[first_name]" placeholder="First Name" class="form-control" type="text">
                                                                                                         <span class="input-group-addon"><i class="fa fa-user-o" aria-hidden="true"></i></span>
                                                                                                 </div>
@@ -1068,17 +1068,17 @@ if (isset(Yii::$app->session['log-return'])) {
                                                 var valid = 1;
                                         } else {
                                                 $("#user-email").parent().next(".validation").remove(); // remove it
-        //                        var emailaddress = $('#user-email').val();
-        //                        if (!isValidEmailAddress(emailaddress)) {
-        //                            if ($("#user-email").parent().next(".validation").length != 0) // only add if not added
-        //                            {
-        //                                $("#user-email").parent().next(".validation").remove(); // remove it
-        //                            }
-        //                            $("#user-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Enter valid email.</div>");
-        //                            var valid = 1;
-        //                        } else {
-        //                            $("#user-email").parent().next(".validation").remove(); // remove it
-        //                        }
+                                                //                        var emailaddress = $('#user-email').val();
+                                                //                        if (!isValidEmailAddress(emailaddress)) {
+                                                //                            if ($("#user-email").parent().next(".validation").length != 0) // only add if not added
+                                                //                            {
+                                                //                                $("#user-email").parent().next(".validation").remove(); // remove it
+                                                //                            }
+                                                //                            $("#user-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Enter valid email.</div>");
+                                                //                            var valid = 1;
+                                                //                        } else {
+                                                //                            $("#user-email").parent().next(".validation").remove(); // remove it
+                                                //                        }
                                         }
                                         if (!$('#user-password').val()) {
                                                 if ($("#user-password").parent().next(".validation").length == 0) // only add if not added

@@ -32,7 +32,7 @@ else
                                                                         $percentage = round(100 - (($vendor_product->offer_price / $vendor_product->price) * 100));
                                                                         ?>
                                                                         <div class="offer-tag">
-                                                                                <img src="<?= Yii::$app->homeUrl ?>/images/offer-tag-bg.png"/><span><?= $percentage ?>% OFF</span>
+                                                                                <img src="<?= Yii::$app->homeUrl ?>/images/offer-tag-bg.png"/><span><?= $percentage ?>% <?= Yii::$app->session['words']->Off ?></span>
                                                                         </div>
                                                                 <?php } ?>
                                                         </a>
@@ -81,9 +81,9 @@ else
 
                                                 </div>
                                                 <div class="function-btn">
-                                                        <?= Html::a('<button class="start-shopping">add to cart</button>', '#', ['class' => 'add_to_cart', 'id' => yii::$app->EncryptDecrypt->Encrypt('encrypt', $vendor_product->id)]) ?>
+                                                        <?= Html::a('<button class="start-shopping">' . Yii::$app->session['words']->add_to_cart . '</button>', '#', ['class' => 'add_to_cart', 'id' => yii::$app->EncryptDecrypt->Encrypt('encrypt', $vendor_product->id)]) ?>
                                                         <!--<a href="cart.php"><button class="start-shopping">add to cart</button></a>-->
-                                                        <a href="#"><button class="start-shopping">Buy now</button></a>
+                                                        <a href="#"><button class="start-shopping"><?= Yii::$app->session['words']->buy_now ?></button></a>
                                                 </div>
                                         </div>
                                 </div>
@@ -117,12 +117,12 @@ else
                                         $price2 = "";
                                 }
                                 ?>
-                                <p class="price"><?= sprintf('%0.2f', $price1) ?> AED  <?= $price2 != '' ? '<span>' . sprintf("%0.2f", $price2) . '  AED</span>' : ''; ?> </p>
-                                <p class="message">FREE Shipping on orders over 150.00 AED</p>
+                                <p class="price"><?= sprintf('%0.2f', $price1) ?> <?= Yii::$app->session['words']->AED ?>  <?= $price2 != '' ? '<span>' . sprintf("%0.2f", $price2) . " " . Yii::$app->session['words']->AED . '  </span>' : ''; ?> </p>
+                                <p class="message"><?= Yii::$app->session['words']->free_shipping ?> 150.00 <?= Yii::$app->session['words']->AED ?></p>
                                 <div class="product-specifications">
                                         <?php if (isset($vendor_product->warranty) && $vendor_product->warranty != '') { ?>
                                                 <div class="product-detailed-points">
-                                                        <h5>Warranty: </h5>
+                                                        <h5><?= Yii::$app->session['words']->Warranty ?>: </h5>
                                                         <span class="message"><?= $vendor_product->warranty ?></span>
                                                 </div>
                                         <?php } ?>
@@ -151,23 +151,23 @@ else
                                         </div>
 
                                         <div class="product-detailed-points">
-                                                <h5>Highlights: </h5>
+                                                <h5><?= Yii::$app->session['words']->Highlights ?>: </h5>
                                                 <span class="message">
                                                         <?= Yii::$app->SetLanguage->ViewData($product_details, 'highlights'); ?>
                                                 </span>
                                         </div>
 
                                         <div class="product-detailed-points">
-                                                <h5> Notes:</h5>
+                                                <h5> <?= Yii::$app->session['words']->Notes ?>:</h5>
                                                 <p class="important-notes"> <?= Yii::$app->SetLanguage->ViewData($product_details, 'important_notes'); ?></p>
                                         </div>
 
                                         <div class="product-detailed-points availability">
-                                                <h5>seller:</h5>
+                                                <h5><?= Yii::$app->session['words']->seller ?>:</h5>
                                                 <span class="message"><?= $vendor_product->vendor->first_name ?></span>
                                         </div>
                                         <div class="product-detailed-points availability">
-                                                <h5>availability:</h5>
+                                                <h5><?= Yii::$app->session['words']->availability ?>:</h5>
                                                 <span class="message"><?php
                                                         if (isset($vendor_product->qty)) {
                                                                 if ($vendor_product->qty <= 0) {
@@ -187,7 +187,7 @@ else
 
                                 <div class="product-info-tab">
                                         <ul class="nav nav-tabs">
-                                                <li class="active"><a data-toggle="tab" href="#info" aria-expanded="true">Product Description</a></li>
+                                                <li class="active"><a data-toggle="tab" href="#info" aria-expanded="true"><?= Yii::$app->session['words']->product_description ?></a></li>
                                                 <!--<li class=""><a data-toggle="tab" href="#spec" aria-expanded="false">Specifications</a></li>-->
                                         </ul>
 
@@ -198,7 +198,7 @@ else
                                                                         <?= Yii::$app->SetLanguage->ViewData($product_details, 'main_description'); ?>
                                                                 </p>
 
-                                                                <label>Specifications</label>
+                                                                <label><?= Yii::$app->session['words']->Specifications ?></label>
                                                                 <table cellspacing="0" cellpadding="0" border="0">
                                                                         <tbody>
                                                                                 <?php
@@ -229,7 +229,7 @@ else
                                                   $specification_model = \common\models\Features::findOne($product_features->specification);
                                                   $value = $specification_model->tablevalue__name; */
                                                 ?>
-                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                           ?> </td><td class="value"><?php // $specification->Product_feature_text                                                           ?></td></tr>
+                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                            ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                            ?></td></tr>
                                                 <?php
                                                 /*  }
                                                   } */
@@ -246,7 +246,7 @@ else
                                                         <div class="row">
                                                                 <div class="review-success"><i class="fa fa-check" aria-hidden="true" style="color:#FFF;margin-right: 5px;"></i>Review Added Succesfully</div>
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                        <h5>RATINGS AND REVIEWS</h5>
+                                                                        <h5><?= Yii::$app->session['words']->reviews ?></h5>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 text-center">
                                                                         <h1 class="rating-num">4.0</h1>
@@ -328,7 +328,7 @@ else
                                                                         <!-- end row -->
                                                                 </div>
                                                                 <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 review-add-btn">
-                                                                        <button id = "buttonreview" <?php if (isset(Yii::$app->user->identity->id)) { ?> onclick = "displayLoginBox()" <?php } ?> href="cart.php" class="add-review <?php if (!isset(Yii::$app->user->identity->id)) { ?> log-sign <?php } ?>">add review</button>
+                                                                        <button id = "buttonreview" <?php if (isset(Yii::$app->user->identity->id)) { ?> onclick = "displayLoginBox()" <?php } ?> href="cart.php" class="add-review <?php if (!isset(Yii::$app->user->identity->id)) { ?> log-sign <?php } ?>"><?= Yii::$app->session['words']->add_review ?></button>
                                                                 </div>
                                                                 <div id = "addreview">
                                                                         <?php $form_review = ActiveForm::begin(['id' => 'add-review-form']); ?>
