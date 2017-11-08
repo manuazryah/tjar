@@ -25,6 +25,9 @@ return [
         'product' => [
             'class' => 'vendorend\modules\product\Module',
         ],
+        'orders' => [
+            'class' => 'vendorend\modules\orders\Module',
+        ],
     ],
     'components' => [
         'request' => [
