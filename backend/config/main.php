@@ -46,6 +46,9 @@ return [
         'reviews' => [
             'class' => 'backend\modules\reviews\Module',
         ],
+        'orders' => [
+            'class' => 'backend\modules\orders\Module',
+        ],
     ],
     'components' => [
         'request' => [
