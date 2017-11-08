@@ -41,92 +41,90 @@ $(document).ready(function () {
         });
     });
     $('.checkout_check').click(function () {
-        $.ajax({
-            type: "POST",
-            url: homeUrl + 'cart/useraddress',
-            data: {login: '1'},
-            success: function (data) {
-                var $data = JSON.parse(data);
-                if ($data.msg === "success") {
-                    $('#billing').html('').html($data.addres_field);
-                    $('#checkout').modal('show');
-                } else {
-                    location.reload();
-                }
-//
-            }
-        });
+        useraddress();
+//        $.ajax({
+//            type: "POST",
+//            url: homeUrl + 'cart/useraddress',
+//            data: {login: '1'},
+//            success: function (data) {
+//                var $data = JSON.parse(data);
+//                if ($data.msg === "success") {
+//                    $('#billing').html('').html($data.addres_field);
+//                    $('#checkout').modal('show');
+//                } else {
+//                    location.reload();
+//                }
+////
+//            }
+//        });
     });
     $('body').on('click', '.continue_shipping', function (e) {
         e.preventDefault();
+        showLoader();
+        var data = $('#shipping_id').serialize();
         var billing = $('#billing').val();
-
         if (billing === "") {
             var first_name = $('#useraddress-first_name').val();
             var last_name = $('#useraddress-last_name').val();
             var address = $('#useraddress-address').val();
             var city_id = $('#useraddress-city_id').val();
-            if (first_name !== '' && last_name !== '' && address !== '' && city_id !== '') {
-                var landmark = $('#useraddress-landmark').val();
-                var country_id = $('#useraddress-country_id').val();
-                var street_id = $('#useraddress-street_id').val();
-                var phone = $('#useraddress-phone').val();
-                var pincode = $('#useraddress-pincode').val();
-//                var address_id = addaddress(first_name, last_name, address, city_id, landmark, country_id, street_id, phone, pincode);
-//                console.log(address_id);
-                $.ajax({
-                    type: "POST",
-                    url: homeUrl + 'cart/add-address',
-                    data: {first_name: first_name, last_name: last_name, address: address, city_id: city_id, landmark: landmark,
-                        country_id: country_id, street_id: street_id, phone: phone, pincode: pincode},
-                    success: function (data) {
-                        var $data = JSON.parse(data);
-                        if ($data.msg === "success") {
-                            $('#cart_shipping').val($data.id);
-                            if ($('#delivery_address').prop("checked") == true) {
-                                $('#cart_delivery').val($data.id);
-                            }
-                            $('#checkout').modal('toggle');
-                            $('#billing_id').modal('show');
-//                return $data.id;
-
-                        } else {
-                            location.reload();
-                        }
-//
-                    }
-                });
-
-
-            } else {
+            if (first_name === '' || last_name === '' || address === '' || city_id === '') {
                 alert('Fill the Field');
+                hideLoader();
+            } else {
+                ship_bill_address(data);
             }
-
         } else {
-            $('#cart_shipping').val(billing);
-            if ($('#delivery_address').prop("checked") == true) {
-                $('#cart_delivery').val(billing);
-            }
-            $('#checkout').modal('toggle');
-            $('#billing_id').modal('show');
+            ship_bill_address(data);
         }
+
+
 
     });
 
 
 });
 /******************************************************************/
-function addaddress(first_name, last_name, address, city_id, landmark, country_id, street_id, phone, pincode) {
+function ship_bill_address(data) {
     $.ajax({
         type: "POST",
         url: homeUrl + 'cart/add-address',
-        data: {first_name: first_name, last_name: last_name, address: address, city_id: city_id, landmark: landmark,
-            country_id: country_id, street_id: street_id, phone: phone, pincode: pincode},
+        data: data,
         success: function (data) {
             var $data = JSON.parse(data);
             if ($data.msg === "success") {
-//                return $data.id;
-
+                if ($data.delivery === '') {
+                    alert('Shipping Address Added Successfully');
+//                    $('#checkout').modal('hide');
+//                    $('#checkout').modal('show');
+                    useraddress();
+                        $('#shipping_id')[0].reset();
+                        $('.section__title').html('Billing Address');
+                        $('#billing').val('');
+                        $('#billing').prop('disabled', false);
+                        $('.new_address_area').css({'display': 'none'});
+                        $('.delivery_address').html('');
+                        hideLoader();
+                } else {
+                    location.reload();
+                }
+//                        $('#checkout').modal('toggle');
+            }
+//
+        }
+    });
+}
+function useraddress() {
+    $.ajax({
+        type: "POST",
+        url: homeUrl + 'cart/useraddress',
+        data: {login: '1'},
+        success: function (data) {
+            var $data = JSON.parse(data);
+            if ($data.msg === "success") {
+                $('#billing').html('').html($data.addres_field);
+                $('#checkout').modal('show');
+                hideLoader();
             } else {
                 location.reload();
             }
@@ -134,6 +132,7 @@ function addaddress(first_name, last_name, address, city_id, landmark, country_i
         }
     });
 }
+
 function findstock(id, quantity) {
     $.ajax({
         type: "POST",

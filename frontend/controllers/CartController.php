@@ -54,25 +54,16 @@ class CartController extends \yii\web\Controller {
     }
 
     public function actionMycart() {
+//        unset(Yii::$app->session['temp_user2']);
+//        unset(Yii::$app->session['temp_user_main']);exit;
+//        echo Yii::$app->session['temp_user_main'];
+//        exit;
         if (isset(Yii::$app->user->identity->id)) {
             if (isset(Yii::$app->session['temp_user'])) {
                 $this->changecart(Yii::$app->session['temp_user']);
             }
         }
         $model = new UserAddress();
-//        if ($model->load(Yii::$app->request->post())) {
-//            if (!isset(Yii::$app->request->post()['UserAddress']['billing'])) {
-//                $address_id = $this->addnewuser($model);
-//            } else {
-//                $address_id = Yii::$app->request->post()['UserAddress']['billing'];
-//            }
-//            $cart = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
-//            $orders = $this->addOrder($cart, $address_id);
-//            $this->orderProducts($orders, $cart);
-////            $this->clearcart($cart);
-//            return $this->redirect('mycart');
-//        }
-//        $address = UserAddress::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
         $condition = $this->usercheck();
         $cart_items = Cart::find()->where($condition)->all();
         if (!empty($cart_items)) {
@@ -83,24 +74,95 @@ class CartController extends \yii\web\Controller {
         }
     }
 
+    public function actionCheckout() {
+        if (isset(Yii::$app->user->identity->id)) {
+            if (isset(Yii::$app->session['temp_user_main'])) {
+                $cart = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
+                $address_id = explode('/', Yii::$app->session['temp_user_main']);
+                $orders = $this->addOrder($cart, $address_id['0'], $address_id['1']);
+                if ($this->orderProducts($orders, $cart)) {
+                    $this->clearcart($cart);
+                    $this->redirect(array('checkout/payment'));
+                } else {
+                    $this->redirect('mycart');
+                }
+            } else {
+                return $this->redirect('mycart');
+            }
+        } else {
+            $this->redirect(array('site/login'));
+        }
+    }
+
     public function actionAddAddress() {
         if (yii::$app->request->isAjax) {
-            $model = new UserAddress();
-            $model->user_id = Yii::$app->user->identity->id;
-            $model->first_name = Yii::$app->request->post()['first_name'];
-            $model->last_name = Yii::$app->request->post()['last_name'];
-            $model->address = Yii::$app->request->post()['address'];
-            $model->city_id = Yii::$app->request->post()['city_id'];
-            $model->landmark = Yii::$app->request->post()['landmark'];
-            $model->country_id = Yii::$app->request->post()['country_id'];
-            $model->street_id = Yii::$app->request->post()['street_id'];
-            $model->phone = Yii::$app->request->post()['phone'];
-            $model->pincode = Yii::$app->request->post()['pincode'];
-            $model->address = Yii::$app->request->post()['address'];
-            if($model->save()){
-                echo json_encode(array('msg' => 'success', 'id' => $model->id));exit;
+//            echo Yii::$app->session['temp_user2'].'//';exit;
+            if (isset(Yii::$app->session['temp_user2'])) {
+                $this->billaddress();
+            } else {
+                $delivery = '';
+                if (isset(Yii::$app->request->post()['UserAddress']['delivery'])) {
+                    $delivery = Yii::$app->request->post()['UserAddress']['delivery'];
+                }
+                if (isset(Yii::$app->request->post()['UserAddress']['billing'])) {
+                    $this->set_session(Yii::$app->request->post()['UserAddress']['billing'], $delivery);
+//                   Yii::$app->session['temp_user2'] = Yii::$app->request->post()['UserAddress']['billing'] . '/' . $delivery;
+                    echo json_encode(array('msg' => 'success', 'id' => $model->id, 'delivery' => $delivery));
+                    exit;
+                } else {
+                    $address_id = $this->adduseraddress();
+                    $this->set_session($address_id, $delivery);
+//                    Yii::$app->session['temp_user2'] = $address_id . '/' . $delivery;
+                    echo json_encode(array('msg' => 'success', 'id' => $address_id, 'delivery' => $delivery));
+                    exit;
+                }
             }
         }
+    }
+
+    function set_session($address_id, $delivery) {
+        !empty($delivery) ? Yii::$app->session['temp_user_main'] = $address_id . '/' . $delivery :
+                        Yii::$app->session['temp_user2'] = $address_id . '/' . $delivery;
+    }
+
+    function billaddress() {
+//        echo Yii::$app->session['temp_user2'];exit;
+        $temp = explode('/', Yii::$app->session['temp_user2']);
+        if (isset(Yii::$app->request->post()['UserAddress']['billing'])) {
+            Yii::$app->session['temp_user_main'] = $temp['0'] . '/' . Yii::$app->request->post()['UserAddress']['billing'];
+            echo json_encode(array('msg' => 'success', 'id' => $model->id, 'delivery' => Yii::$app->request->post()['UserAddress']['billing']));
+            exit;
+        } else {
+
+            $address_id = $this->adduseraddress();
+            Yii::$app->session['temp_user_main'] = $temp['0'] . '/' . $address_id;
+            echo json_encode(array('msg' => 'success', 'id' => $address_id, 'delivery' => $address_id));
+            exit;
+        }
+    }
+
+    function adduseraddress() {
+        $model = new UserAddress();
+        $model->user_id = Yii::$app->user->identity->id;
+        $model->first_name = Yii::$app->request->post()['UserAddress']['first_name'];
+        $model->last_name = Yii::$app->request->post()['UserAddress']['last_name'];
+        $model->address = Yii::$app->request->post()['UserAddress']['address'];
+        $model->city_id = Yii::$app->request->post()['UserAddress']['city_id'];
+        $model->landmark = Yii::$app->request->post()['UserAddress']['landmark'];
+        $model->country_id = Yii::$app->request->post()['UserAddress']['country_id'];
+        $model->street_id = Yii::$app->request->post()['UserAddress']['street_id'];
+        $model->phone = Yii::$app->request->post()['UserAddress']['phone'];
+        $model->pincode = Yii::$app->request->post()['UserAddress']['pincode'];
+        $model->address = Yii::$app->request->post()['UserAddress']['address'];
+        if ($model->validate() && $model->save()) {
+            return $model->id;
+//            Yii::$app->session['temp_user2'] = $model->id . '/' . $delivery;
+//            echo json_encode(array('msg' => 'success', 'id' => $model->id, 'delivery' => $delivery));
+//            exit;
+        }
+//        else {
+//            var_dump($model->getErrors());
+//        }
     }
 
     public function orderProducts($orders, $carts) {
@@ -111,6 +173,7 @@ class CartController extends \yii\web\Controller {
             $model_prod->master_id = $orders['master_id'];
             $model_prod->order_id = $orders['order_id'];
             $model_prod->product_id = $cart->product_id;
+            $model_prod->vendor_id = $prod_details->vendor_id;
             $model_prod->quantity = $cart->quantity;
             if ($prod_details->offer_price == '0' || $prod_details->offer_price == '') {
                 $price = $prod_details->price;
@@ -123,14 +186,15 @@ class CartController extends \yii\web\Controller {
             if ($model_prod->save()) {
 //                    return TRUE;
             }
-//                 else {
+//            else {
 //                var_dump($model_prod->getErrors());
 //                exit;
 //            }
         }
+        return TRUE;
     }
 
-    function addOrder($cart, $address_id) {
+    function addOrder($cart, $ship_address, $bill_address) {
         $serial_no = Settings::findOne(1)->value;
         $prefix = Settings::findOne(1)->prefix;
         $model = new OrderMaster;
@@ -140,11 +204,15 @@ class CartController extends \yii\web\Controller {
         $model->net_amount = $this->net_amount($model->total_amount);
         $model->order_date = date('Y-m-d H:i:s');
         $model->DOC = date('Y-m-d');
-        $model->ship_address_id = $address_id;
+        $model->ship_address_id = $ship_address;
+        $model->bill_address_id = $bill_address;
         if ($model->save()) {
-
             return ['master_id' => $model->id, 'order_id' => $model->order_id];
         }
+//        else {
+//                var_dump($model->getErrors());
+//                exit;
+//            }
     }
 
     public function generateProductEan($prefix, $serial_no) {
@@ -164,15 +232,15 @@ class CartController extends \yii\web\Controller {
         return;
     }
 
-    function addnewuser($model) {
-        $user_address = UserAddress::find()->where(['user_id' => Yii::$app->user->identity->id, 'default_address' => '1'])->one();
-        Yii::$app->SetValues->Attributes($model);
-        $model->user_id = Yii::$app->user->identity->id;
-        $model->default_address = empty($user_address) ? '1' : '0';
-        if ($model->save()) {
-            return $model->id;
-        }
-    }
+//    function addnewuser($model) {
+//        $user_address = UserAddress::find()->where(['user_id' => Yii::$app->user->identity->id, 'default_address' => '1'])->one();
+//        Yii::$app->SetValues->Attributes($model);
+//        $model->user_id = Yii::$app->user->identity->id;
+//        $model->default_address = empty($user_address) ? '1' : '0';
+//        if ($model->save()) {
+//            return $model->id;
+//        }
+//    }
 
     public function actionCart_remove($id) {
         $cart = Cart::findone($id);
@@ -221,7 +289,7 @@ class CartController extends \yii\web\Controller {
                     $cart_items = Cart::find()->where($condition)->all();
                     if (!empty($cart_items)) {
                         $subtotal = $this->total($cart_items);
-                        $grandtotal = $this->grandtotal($subtotal);
+                        $grandtotal = $this->net_amount($subtotal);
                     }
                     echo json_encode(array('msg' => 'success', 'subtotal' => sprintf('%0.2f', $subtotal), 'grandtotal' => sprintf('%0.2f', $grandtotal)));
                 } else {
@@ -248,11 +316,23 @@ class CartController extends \yii\web\Controller {
             $condition = $this->usercheck();
             $cart_items = Cart::find()->where($condition)->all();
             if (!empty($cart_items)) {
+                $this->check_product($cart_items);
+                $cart_items = Cart::find()->where($condition)->all();
                 echo count($cart_items);
                 exit;
             } else {
                 echo "0";
                 exit;
+            }
+        }
+    }
+
+    function check_product($cart_items) {
+        foreach ($cart_items as $cart) {
+            $check_product_vendor = ProductVendor::find()->where(['id' => $cart->product_id, 'status' => '1'])->one();
+            $check_product = Products::find()->where(['id' => $check_product_vendor->product_id, 'status' => '1'])->one();
+            if (empty($check_product) || empty($check_product_vendor)) {
+                $cart->delete();
             }
         }
     }
@@ -287,18 +367,14 @@ class CartController extends \yii\web\Controller {
         return $subtotal;
     }
 
-    function net_amount($total_amt) {
-//        $limit = Settings::findOne(1)->value;
-//        $net_amnt = $total_amt;
-//        if ($limit > $total_amt) {
-//            $extra = Settings::findOne(2)->value;
-//            $net_amnt = $extra + $total_amt;
-//        }
-        return $total_amt;
-    }
-
-    function grandtotal($subtotal) {
+    function net_amount($subtotal) {
         $grandtotal = $subtotal;
+        $shippinng_limit = Settings::findOne(2)->value;
+        if ($shippinng_limit < $subtotal) {
+            $extra = Settings::findOne(3)->value;
+            $grandtotal = $extra + $subtotal;
+        }
+
         return $grandtotal;
     }
 
@@ -351,7 +427,8 @@ class CartController extends \yii\web\Controller {
                     $msd->save();
                 }
             }
-            Yii::$app->session['temp_user'] = '';
+            unset(Yii::$app->session['temp_user']);
+//            Yii::$app->session['temp_user'] = '';
         }
     }
 
@@ -359,6 +436,8 @@ class CartController extends \yii\web\Controller {
         foreach ($models as $model) {
             $model->delete();
         }
+        unset(Yii::$app->session['temp_user2']);
+        unset(Yii::$app->session['temp_user_main']);
     }
 
     function cart_content() {

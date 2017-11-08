@@ -10,15 +10,14 @@ use common\models\OrderDetails;
 /**
  * OrderDetailsSearch represents the model behind the search form about `common\models\OrderDetails`.
  */
-class OrderDetailsSearch extends OrderDetails
-{
+class OrderDetailsSearch extends OrderDetails {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['id', 'master_id', 'product_id', 'quantity', 'status'], 'integer'],
+            [['id', 'master_id', 'product_id', 'quantity', 'status', 'vendor_id'], 'integer'],
             [['order_id', 'delivered_date', 'DOC'], 'safe'],
             [['amount', 'sub_total'], 'number'],
         ];
@@ -27,8 +26,7 @@ class OrderDetailsSearch extends OrderDetails
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -40,8 +38,7 @@ class OrderDetailsSearch extends OrderDetails
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = OrderDetails::find();
 
         // add conditions that should always apply here
@@ -63,6 +60,7 @@ class OrderDetailsSearch extends OrderDetails
             'id' => $this->id,
             'master_id' => $this->master_id,
             'product_id' => $this->product_id,
+            'vendor_id' => $this->vendor_id,
             'quantity' => $this->quantity,
             'amount' => $this->amount,
             'sub_total' => $this->sub_total,
@@ -75,4 +73,5 @@ class OrderDetailsSearch extends OrderDetails
 
         return $dataProvider;
     }
+
 }

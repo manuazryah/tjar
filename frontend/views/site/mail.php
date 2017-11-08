@@ -58,7 +58,7 @@ else
                 <tbody>
                     <tr>
                         <td style="width:100%">
-                            <!--                            <div class="content" style="background: #f5f2f2;margin: 25px 80px;">
+                                                        <div class="content" style="background: #f5f2f2;margin: 25px 80px;">
                                                             <div class="header-content" style="background: #d8ecf5;padding: 15px 30px;color: #060606;text-transform: uppercase;font-weight: 600;">Tjar Varification Code</div>
                                                             <div style="padding: 15px 30px;background: #f9f9f9;">
                                                                 <p style="font-size: 12px;">Dear Tjar User,</p>
@@ -68,8 +68,8 @@ else
                                                                 <p style="font-size: 13px;">Sincerely,</p>
                                                                 <p style="font-size: 13px;">The Tjar Accounts Team</p>
                                                             </div>
-                                                        </div>-->
-                            <!--                            <div class="content" style="background: #f5f2f2;margin: 25px 80px;">
+                                                        </div>
+                                                        <div class="content" style="background: #f5f2f2;margin: 25px 80px;">
                                                             <div class="header-content" style="background: #d8ecf5;padding: 28px 30px;padding-top: 15px;color: #060606;font-weight: 600;">
                                                                 <div style="float:left;text-transform: uppercase;">Order Details</div>
                                                                 <div style="float:right;">
@@ -120,7 +120,7 @@ else
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>-->
+                                                        </div>
                             <div class="content" style="background: #f5f2f2;margin: 25px 80px;">
                                 <div class="header-content" style="background: #d8ecf5;padding: 15px 30px;color: #060606;text-transform: uppercase;font-weight: 600;">Welcome to Tjar</div>
                                 <div style="padding: 15px 30px;background: #f9f9f9;">
