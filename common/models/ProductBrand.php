@@ -42,7 +42,7 @@ class ProductBrand extends \yii\db\ActiveRecord {
 			[['main_category', 'category', 'subcategory', 'status', 'CB', 'UB'], 'integer'],
 			[['comments'], 'string'],
 			[['DOC', 'DOU'], 'safe'],
-			[['brand_name', 'brand_name_arabic'], 'string', 'max' => 500],
+			[['brand_name', 'brand_name_arabic', 'canonical_name'], 'string', 'max' => 500],
 			[['main_category'], 'exist', 'skipOnError' => true, 'targetClass' => ProductMainCategory::className(), 'targetAttribute' => ['main_category' => 'id']],
 			[['subcategory'], 'exist', 'skipOnError' => true, 'targetClass' => ProductSubCategory::className(), 'targetAttribute' => ['subcategory' => 'id']],
 			[['category'], 'exist', 'skipOnError' => true, 'targetClass' => ProductCategory::className(), 'targetAttribute' => ['category' => 'id']],

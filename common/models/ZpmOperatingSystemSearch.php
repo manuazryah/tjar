@@ -10,72 +10,71 @@ use common\models\ZpmOperatingSystem;
 /**
  * ZpmOperatingSystemSearch represents the model behind the search form about `common\models\ZpmOperatingSystem`.
  */
-class ZpmOperatingSystemSearch extends ZpmOperatingSystem
-{
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['id', 'main_category', 'category', 'subcategory', 'status', 'CB', 'UB'], 'integer'],
-            [['value', 'value_arabic', 'field1', 'field2', 'field3', 'DOC', 'DOU'], 'safe'],
-        ];
-    }
+class ZpmOperatingSystemSearch extends ZpmOperatingSystem {
 
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function rules() {
+		return [
+			[['id', 'main_category', 'category', 'subcategory', 'status', 'CB', 'UB'], 'integer'],
+			[['value', 'value_arabic', 'canonical_name ', 'field1', 'field2', 'field3', 'DOC', 'DOU'], 'safe'],
+		];
+	}
 
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
-    public function search($params)
-    {
-        $query = ZpmOperatingSystem::find();
+	/**
+	 * @inheritdoc
+	 */
+	public function scenarios() {
+		// bypass scenarios() implementation in the parent class
+		return Model::scenarios();
+	}
 
-        // add conditions that should always apply here
+	/**
+	 * Creates data provider instance with search query applied
+	 *
+	 * @param array $params
+	 *
+	 * @return ActiveDataProvider
+	 */
+	public function search($params) {
+		$query = ZpmOperatingSystem::find();
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
+		// add conditions that should always apply here
 
-        $this->load($params);
+		$dataProvider = new ActiveDataProvider([
+		    'query' => $query,
+		]);
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
-        }
+		$this->load($params);
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'main_category' => $this->main_category,
-            'category' => $this->category,
-            'subcategory' => $this->subcategory,
-            'status' => $this->status,
-            'CB' => $this->CB,
-            'UB' => $this->UB,
-            'DOC' => $this->DOC,
-            'DOU' => $this->DOU,
-        ]);
+		if (!$this->validate()) {
+			// uncomment the following line if you do not want to return any records when validation fails
+			// $query->where('0=1');
+			return $dataProvider;
+		}
 
-        $query->andFilterWhere(['like', 'value', $this->value])
-            ->andFilterWhere(['like', 'value_arabic', $this->value_arabic])
-            ->andFilterWhere(['like', 'field1', $this->field1])
-            ->andFilterWhere(['like', 'field2', $this->field2])
-            ->andFilterWhere(['like', 'field3', $this->field3]);
+		// grid filtering conditions
+		$query->andFilterWhere([
+		    'id' => $this->id,
+		    'main_category' => $this->main_category,
+		    'category' => $this->category,
+		    'subcategory' => $this->subcategory,
+		    'status' => $this->status,
+		    'CB' => $this->CB,
+		    'UB' => $this->UB,
+		    'DOC' => $this->DOC,
+		    'DOU' => $this->DOU,
+		]);
 
-        return $dataProvider;
-    }
+		$query->andFilterWhere(['like', 'value', $this->value])
+			->andFilterWhere(['like', 'canonical_name', $this->canonical_name])
+			->andFilterWhere(['like', 'value_arabic', $this->value_arabic])
+			->andFilterWhere(['like', 'field1', $this->field1])
+			->andFilterWhere(['like', 'field2', $this->field2])
+			->andFilterWhere(['like', 'field3', $this->field3]);
+
+		return $dataProvider;
+	}
+
 }

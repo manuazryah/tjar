@@ -10,70 +10,69 @@ use common\models\ProductBrand;
 /**
  * ProductBrandSearch represents the model behind the search form about `common\models\ProductBrand`.
  */
-class ProductBrandSearch extends ProductBrand
-{
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['id', 'main_category', 'category', 'subcategory', 'status', 'CB', 'UB'], 'integer'],
-            [['brand_name', 'brand_name_arabic', 'comments', 'DOC', 'DOU'], 'safe'],
-        ];
-    }
+class ProductBrandSearch extends ProductBrand {
 
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function rules() {
+		return [
+			[['id', 'main_category', 'category', 'subcategory', 'status', 'CB', 'UB'], 'integer'],
+			[['brand_name', 'brand_name_arabic', 'comments', 'canonical_name', 'DOC', 'DOU'], 'safe'],
+		];
+	}
 
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
-    public function search($params)
-    {
-        $query = ProductBrand::find();
+	/**
+	 * @inheritdoc
+	 */
+	public function scenarios() {
+		// bypass scenarios() implementation in the parent class
+		return Model::scenarios();
+	}
 
-        // add conditions that should always apply here
+	/**
+	 * Creates data provider instance with search query applied
+	 *
+	 * @param array $params
+	 *
+	 * @return ActiveDataProvider
+	 */
+	public function search($params) {
+		$query = ProductBrand::find();
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
+		// add conditions that should always apply here
 
-        $this->load($params);
+		$dataProvider = new ActiveDataProvider([
+		    'query' => $query,
+		]);
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
-        }
+		$this->load($params);
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'main_category' => $this->main_category,
-            'category' => $this->category,
-            'subcategory' => $this->subcategory,
-            'status' => $this->status,
-            'CB' => $this->CB,
-            'UB' => $this->UB,
-            'DOC' => $this->DOC,
-            'DOU' => $this->DOU,
-        ]);
+		if (!$this->validate()) {
+			// uncomment the following line if you do not want to return any records when validation fails
+			// $query->where('0=1');
+			return $dataProvider;
+		}
 
-        $query->andFilterWhere(['like', 'brand_name', $this->brand_name])
-            ->andFilterWhere(['like', 'brand_name_arabic', $this->brand_name_arabic])
-            ->andFilterWhere(['like', 'comments', $this->comments]);
+		// grid filtering conditions
+		$query->andFilterWhere([
+		    'id' => $this->id,
+		    'main_category' => $this->main_category,
+		    'category' => $this->category,
+		    'subcategory' => $this->subcategory,
+		    'status' => $this->status,
+		    'CB' => $this->CB,
+		    'UB' => $this->UB,
+		    'DOC' => $this->DOC,
+		    'DOU' => $this->DOU,
+		]);
 
-        return $dataProvider;
-    }
+		$query->andFilterWhere(['like', 'brand_name', $this->brand_name])
+			->andFilterWhere(['like', 'canonical_name', $this->canonical_name])
+			->andFilterWhere(['like', 'brand_name_arabic', $this->brand_name_arabic])
+			->andFilterWhere(['like', 'comments', $this->comments]);
+
+		return $dataProvider;
+	}
+
 }
