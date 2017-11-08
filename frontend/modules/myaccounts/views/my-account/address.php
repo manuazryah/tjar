@@ -15,14 +15,7 @@ if ($model->isNewRecord) {
 
 /* @var $this yii\web\View */
 ?>
-<script>
-    $(document).ready(function () {
-        var error_return = '<?php echo $error_return ?>';
-        if (error_return == 1 || error_return == 2) {
-            $('#divC').css('display', 'inline-block');
-        }
-    });
-</script>
+
 <div class="container">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pad-t-b-30 bg-white">
@@ -38,7 +31,15 @@ if ($model->isNewRecord) {
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 welcome-msg">
                         <p>The following addresses will be used on the checkout page by default.</p>
                     </div>
-
+                    <?php yii\widgets\Pjax::begin(['id' => 'user-addresses']); ?>
+                    <script>
+                        $(document).ready(function () {
+                            var error_return = '<?php echo $error_return ?>';
+                            if (error_return == 1 || error_return == 2) {
+                                $('#divC').css('display', 'inline-block');
+                            }
+                        });
+                    </script>
                     <div id="divAnim">
                         <!--<input type="button" id="btAnimate" value="Click it" />-->
                         <button type="button" id="btAnimate"><?= $error_return == 2 ? '<span><i class="fa fa-pencil" aria-hidden="true"></i></span> UPDATE ADDRESS' : '<span>+</span>  ADD A NEW ADDRESS' ?></button>
@@ -147,6 +148,7 @@ if ($model->isNewRecord) {
                         <?php }
                         ?>
                     </div>
+                    <?php yii\widgets\Pjax::end(); ?>
                 </div>
             </div>
         </div>
@@ -154,7 +156,7 @@ if ($model->isNewRecord) {
 </div>
 <script>
     jQuery(document).ready(function ($) {
-        $('#useraddress-city_id').on('change', function (e) {
+        $(document).on('change', '#useraddress-city_id', function (e) {
             var city_id = $(this).val();
             $.ajax({
                 type: 'POST',
@@ -165,6 +167,9 @@ if ($model->isNewRecord) {
                     $('#useraddress-street_id').html(data);
                 }
             });
+        });
+        $(document).on('click', '#btAnimate', function (e) {
+            $('#divC').css('display', 'inline-block');
         });
     });
 </script>

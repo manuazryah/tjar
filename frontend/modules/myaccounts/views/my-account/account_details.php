@@ -67,7 +67,8 @@ use kartik\date\DatePicker;
                                 }
                             }
                             ?>
-                            <?php $form_prof = ActiveForm::begin(['action' => Yii::$app->homeUrl . 'myaccounts/my-account/edit-personal-info', 'id' => 'personal-info-form']); ?>
+                            <?php yii\widgets\Pjax::begin(['id' => 'user-account']); ?>
+                            <?php $form_prof = ActiveForm::begin(['action' => 'edit-personal-info', 'id' => 'personal-info-form', 'method' => 'post',]); ?>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marg-top-20">
                                 <fieldset>
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padlft0">
@@ -107,9 +108,10 @@ use kartik\date\DatePicker;
                                             <?= Html::submitButton('Save', ['class' => 'Proceed marg-btm-20', 'style' => 'width: 25%;margin-right: 40px;']) ?>
                                         </div>
                                     </div>
-                                    <?php ActiveForm::end(); ?>
                                 </fieldset>
                             </div>
+                            <?php ActiveForm::end(); ?>
+                            <?php yii\widgets\Pjax::end(); ?>
                         </div>
                         <div class="emailaddress-info">
                             <div class="personal-info-head marg-btm-20">
@@ -270,6 +272,9 @@ use kartik\date\DatePicker;
                             $('.pss-err-msg').text(res.result['msg']);
                             if (res.result['err_code'] == 1) {
                                 $('.pss-err-msg').css('color', 'green');
+                                $('#user-oldpassword').val('');
+                                $('#user-newpassword').val('');
+                                $('#user-confirmpassword').val('');
                             } else {
                                 $('.pss-err-msg').css('color', 'red');
                             }
