@@ -15,6 +15,21 @@ use yii\helpers\Json;
  */
 class ProductSubCategoryController extends Controller {
 
+    public function beforeAction($action) {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+        if (Yii::$app->user->isGuest) {
+            $this->redirect(['/site/index']);
+            return false;
+        }
+        if (Yii::$app->session['post']['product_reviews'] != 1) {
+            $this->redirect(['/site/exception']);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * @inheritdoc
      */
@@ -193,7 +208,7 @@ class ProductSubCategoryController extends Controller {
     public function actionAjaxcreate() {
         $model = new ProductSubCategory();
         if (Yii::$app->request->post()) {
-//            main_category_id: , main_catname: , category_id: , cat_name: , subcategory_name: , canonical_name: , subcategory_name_arabic: , status: , comments: 
+//            main_category_id: , main_catname: , category_id: , cat_name: , subcategory_name: , canonical_name: , subcategory_name_arabic: , status: , comments:
             $model->main_category_id = Yii::$app->request->post()['main_category_id'];
             $model->category_id = Yii::$app->request->post()['category_id'];
             $model->subcategory_name = Yii::$app->request->post()['subcategory_name'];
@@ -232,7 +247,7 @@ class ProductSubCategoryController extends Controller {
             $canonical = Yii::$app->request->post()['canonical'];
             $model = ProductSubCategory::find()->where(['canonical_name' => $canonical])->one();
             if ($model) {
-                echo json_encode(array("con" => "2", 'error' => 'Canonical Name "'.$canonical.'" has already been taken.')); //Failed
+                echo json_encode(array("con" => "2", 'error' => 'Canonical Name "' . $canonical . '" has already been taken.')); //Failed
                 exit;
             } else {
                 echo json_encode(array("con" => "1", 'error' => 'Success')); //Success

@@ -15,6 +15,21 @@ use yii\helpers\Json;
  */
 class ProductCategoryController extends Controller {
 
+    public function beforeAction($action) {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+        if (Yii::$app->user->isGuest) {
+            $this->redirect(['/site/index']);
+            return false;
+        }
+        if (Yii::$app->session['post']['product_reviews'] != 1) {
+            $this->redirect(['/site/exception']);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * @inheritdoc
      */
@@ -67,9 +82,9 @@ class ProductCategoryController extends Controller {
             Yii::$app->getSession()->setFlash('success', 'Category Created Successfully');
             return $this->redirect(['index']);
         } else {
-        return $this->renderAjax('create', [
-                    'model' => $model,
-        ]);
+            return $this->renderAjax('create', [
+                        'model' => $model,
+            ]);
         }
     }
 
@@ -199,7 +214,7 @@ class ProductCategoryController extends Controller {
             $canonical = Yii::$app->request->post()['canonical'];
             $model = ProductCategory::find()->where(['canonical_name' => $canonical])->one();
             if ($model) {
-                echo json_encode(array("con" => "2", 'error' => 'Canonical Name "'.$canonical.'" has already been taken.')); //Failed
+                echo json_encode(array("con" => "2", 'error' => 'Canonical Name "' . $canonical . '" has already been taken.')); //Failed
                 exit;
             } else {
                 echo json_encode(array("con" => "1", 'error' => 'Success')); //Success

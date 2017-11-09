@@ -15,6 +15,21 @@ use yii\helpers\Json;
  */
 class ProductBrandController extends Controller {
 
+    public function beforeAction($action) {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+        if (Yii::$app->user->isGuest) {
+            $this->redirect(['/site/index']);
+            return false;
+        }
+        if (Yii::$app->session['post']['product_reviews'] != 1) {
+            $this->redirect(['/site/exception']);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * @inheritdoc
      */
@@ -148,7 +163,8 @@ class ProductBrandController extends Controller {
         }
         echo Json::encode(['output' => '', 'selected' => '']);
     }
-    public function actionBrand(){
+
+    public function actionBrand() {
         if (yii::$app->request->isAjax) {
             $category = Yii::$app->request->post()['category'];
             if (isset($category)) {
@@ -183,7 +199,7 @@ class ProductBrandController extends Controller {
             $model->status = Yii::$app->request->post()['status'];
             $category = \common\models\ProductCategory::find()->where(['category_id' => $model->main_category])->all();
             $subcategory = \common\models\ProductSubCategory::find()->where(['category_id' => $model->category])->all();
-            $brands= ProductBrand::find()->where(['subcategory' => $model->subcategory])->all();
+            $brands = ProductBrand::find()->where(['subcategory' => $model->subcategory])->all();
             foreach ($subcategory as $subcategry) {
                 $subcat .= '<option value="' . $subcategry->id . '">' . $subcategry->subcategory_name . '</option>';
             }
@@ -194,7 +210,7 @@ class ProductBrandController extends Controller {
                 $field .= '<option value="' . $brand->id . '">' . $brand->brand_name . '</option>';
             }
             if (Yii::$app->SetValues->Attributes($model) && $model->save()) {
-                echo json_encode(array("con" => "1", 'id' => $model->id, 'field'=>$field,'field_subcat' => $subcat, 'field_category' => $cat, 'name' => $model->brand_name)); //Success
+                echo json_encode(array("con" => "1", 'id' => $model->id, 'field' => $field, 'field_subcat' => $subcat, 'field_category' => $cat, 'name' => $model->brand_name)); //Success
                 exit;
             } else {
                 $array = $model->getErrors();

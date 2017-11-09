@@ -7,53 +7,71 @@ use Yii;
 /**
  * This is the model class for table "admin_post".
  *
- * @property integer $id
+ * @property int $id
  * @property string $post_name
- * @property string $admin
- * @property integer $CB
- * @property integer $UB
+ * @property int $admin
+ * @property int $product_reviews
+ * @property int $order
+ * @property int $vendor
+ * @property int $users
+ * @property int $promotions
+ * @property int $masters
+ * @property int $status
+ * @property int $CB
+ * @property int $UB
  * @property string $DOC
  * @property string $DOU
- * @property integer $status
+ *
+ * @property AdminUsers[] $adminUsers
  */
-class AdminPost extends \yii\db\ActiveRecord
-{
+class AdminPost extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'admin_post';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['post_name', 'admin','status'], 'required'],
-            [['CB', 'UB', 'status'], 'integer'],
+            [['post_name', 'admin', 'product_reviews', 'order', 'vendor', 'users', 'promotions', 'masters'], 'required'],
+            [['admin', 'product_reviews', 'order', 'vendor', 'users', 'promotions', 'masters', 'status', 'CB', 'UB'], 'integer'],
             [['DOC', 'DOU'], 'safe'],
-            [['post_name', 'admin'], 'string', 'max' => 255],
-            [['post_name'], 'unique'],
+            [['post_name'], 'string', 'max' => 100],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'post_name' => 'Post Name',
             'admin' => 'Admin',
+            'product_reviews' => 'Product & Reviews',
+            'order' => 'Order',
+            'vendor' => 'Vendor',
+            'users' => 'Users',
+            'promotions' => 'Promotions',
+            'masters' => 'Masters',
+            'status' => 'Status',
             'CB' => 'Cb',
             'UB' => 'Ub',
             'DOC' => 'Doc',
             'DOU' => 'Dou',
-            'status' => 'Status',
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAdminUsers() {
+        return $this->hasMany(AdminUsers::className(), ['post_id' => 'id']);
+    }
+
 }

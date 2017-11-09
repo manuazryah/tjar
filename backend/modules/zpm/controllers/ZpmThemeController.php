@@ -12,13 +12,27 @@ use yii\filters\VerbFilter;
 /**
  * ZpmThemeController implements the CRUD actions for ZpmTheme model.
  */
-class ZpmThemeController extends Controller
-{
+class ZpmThemeController extends Controller {
+
+    public function beforeAction($action) {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+        if (Yii::$app->user->isGuest) {
+            $this->redirect(['/site/index']);
+            return false;
+        }
+        if (Yii::$app->session['post']['masters'] != 1) {
+            $this->redirect(['/site/exception']);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,14 +47,13 @@ class ZpmThemeController extends Controller
      * Lists all ZpmTheme models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new ZpmThemeSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -49,10 +62,9 @@ class ZpmThemeController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -61,8 +73,7 @@ class ZpmThemeController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new ZpmTheme();
 
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
@@ -81,12 +92,11 @@ class ZpmThemeController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
-           Yii::$app->getSession()->setFlash('success', 'Theme Update Successfully');
+            Yii::$app->getSession()->setFlash('success', 'Theme Update Successfully');
             return $this->redirect(['index']);
         } else {
             return $this->renderAjax('update', [
@@ -101,8 +111,7 @@ class ZpmThemeController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDel($id)
-    {
+    public function actionDel($id) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -115,12 +124,12 @@ class ZpmThemeController extends Controller
      * @return ZpmTheme the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = ZpmTheme::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

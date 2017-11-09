@@ -17,9 +17,23 @@ use yii\imagine\Image;
  */
 class ProductsController extends Controller {
 
+//    public function beforeAction($action) {
+//        $this->enableCsrfValidation = false;
+//        return parent::beforeAction($action);
+//    }
     public function beforeAction($action) {
-        $this->enableCsrfValidation = false;
-        return parent::beforeAction($action);
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+        if (Yii::$app->user->isGuest) {
+            $this->redirect(['/site/index']);
+            return false;
+        }
+        if (Yii::$app->session['post']['product_reviews'] != 1) {
+            $this->redirect(['/site/exception']);
+            return false;
+        }
+        return true;
     }
 
     /**

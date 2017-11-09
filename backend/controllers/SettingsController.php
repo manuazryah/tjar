@@ -14,6 +14,21 @@ use yii\filters\VerbFilter;
  */
 class SettingsController extends Controller {
 
+    public function beforeAction($action) {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+        if (Yii::$app->user->isGuest) {
+            $this->redirect(['/site/index']);
+            return false;
+        }
+        if (Yii::$app->session['post']['admin'] != 1) {
+            $this->redirect(['/site/exception']);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * @inheritdoc
      */
@@ -81,7 +96,7 @@ class SettingsController extends Controller {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-             Yii::$app->getSession()->setFlash('success', 'Body Type Updated Successfully');
+            Yii::$app->getSession()->setFlash('success', 'Body Type Updated Successfully');
             return $this->redirect(['index']);
         } else {
             return $this->renderAjax('update', [

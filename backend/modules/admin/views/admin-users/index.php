@@ -27,11 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
                     <?= Html::a('<i class="fa-th-list"></i><span> Create Admin User</span>', ['create'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
-                    <button class="btn btn-white" id="search-option" style="float: right;">
-                        <i class="linecons-search"></i>
-                        <span>Search</span>
-                    </button>
                     <div class="table-responsive" style="border: none">
+                        <button class="btn btn-white" id="search-option" style="float: right;">
+                            <i class="linecons-search"></i>
+                            <span>Search</span>
+                        </button>
                         <?=
                         GridView::widget([
                             'dataProvider' => $dataProvider,

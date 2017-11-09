@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use common\models\AdminPost;
+use yii\helpers\Url;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\AdminPostSearch */
@@ -25,20 +27,28 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="panel-body">
                     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-                    
+                    <?= Html::button('<i class="fa-th-list"></i><span> Create New</span>', ['value' => Url::to('create'), 'class' => 'btn btn-warning  btn-icon btn-icon-standalone modalButton']) ?>
+                    <?php
+                    Modal::begin([
+                        'header' => '',
+                        'id' => 'modal',
+                        'size' => 'modal-lg',
+                    ]);
+                    echo "<div id = 'modalContent'></div>";
+                    Modal::end();
+                    ?>
 
-                    <?= Html::a('<i class="fa-th-list"></i><span> Create Admin Post</span>', ['create'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
-                    <button class="btn btn-white" id="search-option" style="float: right;">
-                        <i class="linecons-search"></i>
-                        <span>Search</span>
-                    </button>
                     <div class="table-responsive table-striped" style="border: none">
+                        <button class="btn btn-white" id="search-option" style="float: right;">
+                            <i class="linecons-search"></i>
+                            <span>Search</span>
+                        </button>
                         <?=
                         GridView::widget([
                             'dataProvider' => $dataProvider,
                             'filterModel' => $searchModel,
                             'columns' => [
-                                ['class' => 'yii\grid\SerialColumn'],
+//                                ['class' => 'yii\grid\SerialColumn'],
 //                            'id',
                                 'post_name',
 //                            [
@@ -55,6 +65,48 @@ $this->params['breadcrumbs'][] = $this->title;
                                         return $data->admin == 1 ? 'Yes' : 'No';
                                     }
                                 ],
+                                [
+                                    'attribute' => 'product_reviews',
+                                    'filter' => ['1' => 'Yes', '0' => 'No'],
+                                    'value' => function($data) {
+                                        return $data->product_reviews == 1 ? 'Yes' : 'No';
+                                    }
+                                ],
+                                [
+                                    'attribute' => 'order',
+                                    'filter' => ['1' => 'Yes', '0' => 'No'],
+                                    'value' => function($data) {
+                                        return $data->order == 1 ? 'Yes' : 'No';
+                                    }
+                                ],
+                                [
+                                    'attribute' => 'vendor',
+                                    'filter' => ['1' => 'Yes', '0' => 'No'],
+                                    'value' => function($data) {
+                                        return $data->vendor == 1 ? 'Yes' : 'No';
+                                    }
+                                ],
+                                [
+                                    'attribute' => 'users',
+                                    'filter' => ['1' => 'Yes', '0' => 'No'],
+                                    'value' => function($data) {
+                                        return $data->users == 1 ? 'Yes' : 'No';
+                                    }
+                                ],
+                                [
+                                    'attribute' => 'promotions',
+                                    'filter' => ['1' => 'Yes', '0' => 'No'],
+                                    'value' => function($data) {
+                                        return $data->promotions == 1 ? 'Yes' : 'No';
+                                    }
+                                ],
+                                [
+                                    'attribute' => 'masters',
+                                    'filter' => ['1' => 'Yes', '0' => 'No'],
+                                    'value' => function($data) {
+                                        return $data->masters == 1 ? 'Yes' : 'No';
+                                    }
+                                ],
 //                            'CB',
 //                            'UB',
                                 // 'DOC',
@@ -66,8 +118,32 @@ $this->params['breadcrumbs'][] = $this->title;
                                         return $data->status == 1 ? 'Enable' : 'Disable';
                                     }
                                 ],
-                                ['class' => 'yii\grid\ActionColumn',
-                                    'template' => '{update}{delete}'],
+                                [
+                                    'class' => 'yii\grid\ActionColumn',
+//                                    'contentOptions' => ['style' => 'width:100px;'],
+                                    'header' => 'Actions',
+                                    'template' => '{update}{delete}',
+                                    'buttons' => [
+                                        'update' => function ($url, $model) {
+                                            return Html::button('<i class="fa fa-pencil"></i>', ['value' => Url::to(['update', 'id' => $model->id]), 'class' => 'modalButton edit-btn']);
+                                        },
+                                        'delete' => function ($url, $model) {
+                                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                                                        'title' => Yii::t('app', 'delete'),
+                                                        'class' => '',
+                                                        'data' => [
+                                                            'confirm' => 'Are you sure you want to delete this item?',
+                                                        ],
+                                            ]);
+                                        },
+                                    ],
+                                    'urlCreator' => function ($action, $model) {
+                                        if ($action === 'delete') {
+                                            $url = Url::to(['del', 'id' => $model->id]);
+                                            return $url;
+                                        }
+                                    }
+                                ],
                             ],
                         ]);
                         ?>

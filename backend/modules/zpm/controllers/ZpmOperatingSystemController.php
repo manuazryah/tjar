@@ -15,6 +15,21 @@ use yii\helpers\Json;
  */
 class ZpmOperatingSystemController extends Controller {
 
+    public function beforeAction($action) {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+        if (Yii::$app->user->isGuest) {
+            $this->redirect(['/site/index']);
+            return false;
+        }
+        if (Yii::$app->session['post']['masters'] != 1) {
+            $this->redirect(['/site/exception']);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * @inheritdoc
      */
@@ -82,7 +97,7 @@ class ZpmOperatingSystemController extends Controller {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
-           Yii::$app->getSession()->setFlash('success', 'Operating System Update Successfully');
+            Yii::$app->getSession()->setFlash('success', 'Operating System Update Successfully');
             return $this->redirect(['index']);
         } else {
             return $this->renderAjax('update', [

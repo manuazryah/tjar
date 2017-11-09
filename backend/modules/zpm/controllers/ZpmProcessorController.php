@@ -14,6 +14,21 @@ use yii\filters\VerbFilter;
  */
 class ZpmProcessorController extends Controller {
 
+    public function beforeAction($action) {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+        if (Yii::$app->user->isGuest) {
+            $this->redirect(['/site/index']);
+            return false;
+        }
+        if (Yii::$app->session['post']['masters'] != 1) {
+            $this->redirect(['/site/exception']);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * @inheritdoc
      */
@@ -62,7 +77,7 @@ class ZpmProcessorController extends Controller {
         $model = new ZpmProcessor();
 
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
-           Yii::$app->getSession()->setFlash('success', 'Processor Created Successfully');
+            Yii::$app->getSession()->setFlash('success', 'Processor Created Successfully');
             return $this->redirect(['index']);
         } else {
             return $this->renderAjax('create', [

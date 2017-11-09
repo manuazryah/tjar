@@ -13,13 +13,17 @@ use yii\filters\VerbFilter;
  * AdminPostController implements the CRUD actions for AdminPost model.
  */
 class AdminPostController extends Controller {
-    
-     public function beforeAction($action) {
+
+    public function beforeAction($action) {
         if (!parent::beforeAction($action)) {
             return false;
         }
         if (Yii::$app->user->isGuest) {
             $this->redirect(['/site/index']);
+            return false;
+        }
+        if (Yii::$app->session['post']['admin'] != 1) {
+            $this->redirect(['/site/exception']);
             return false;
         }
         return true;
@@ -75,7 +79,7 @@ class AdminPostController extends Controller {
 //        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                         'model' => $model,
             ]);
         }
@@ -94,7 +98,7 @@ class AdminPostController extends Controller {
             return $this->redirect(['index']);
 //            return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
+            return $this->renderAjax('update', [
                         'model' => $model,
             ]);
         }

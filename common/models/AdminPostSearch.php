@@ -18,8 +18,8 @@ class AdminPostSearch extends AdminPost
     public function rules()
     {
         return [
-            [['id', 'CB', 'UB', 'status'], 'integer'],
-            [['post_name', 'admin', 'DOC', 'DOU'], 'safe'],
+            [['id', 'admin', 'product_reviews', 'order', 'vendor', 'users', 'promotions', 'masters', 'status', 'CB', 'UB'], 'integer'],
+            [['post_name', 'DOC', 'DOU'], 'safe'],
         ];
     }
 
@@ -60,15 +60,21 @@ class AdminPostSearch extends AdminPost
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'admin' => $this->admin,
+            'product_reviews' => $this->product_reviews,
+            'order' => $this->order,
+            'vendor' => $this->vendor,
+            'users' => $this->users,
+            'promotions' => $this->promotions,
+            'masters' => $this->masters,
+            'status' => $this->status,
             'CB' => $this->CB,
             'UB' => $this->UB,
             'DOC' => $this->DOC,
             'DOU' => $this->DOU,
-            'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'post_name', $this->post_name])
-            ->andFilterWhere(['like', 'admin', $this->admin]);
+        $query->andFilterWhere(['like', 'post_name', $this->post_name]);
 
         return $dataProvider;
     }
