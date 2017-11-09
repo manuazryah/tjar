@@ -15,7 +15,7 @@ use yii\helpers\Url;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'> 
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'main_category')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category', 'class' => 'form-control change_main_cat']) ?>
 
     </div>
