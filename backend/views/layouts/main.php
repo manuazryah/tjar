@@ -509,6 +509,42 @@ AppAsset::register($this);
 
                             </ul>
                         </li>
+
+                        <li>
+                            <a href="">
+                                <i class="fa fa-user"></i>
+                                <span class="title">Users</span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <?= Html::a('Users', ['/user/user/index'], ['class' => 'title']) ?>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="">
+                                <i class="fa fa-cube"></i>
+                                <span class="title">Promotions</span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <?= Html::a('Promotions', ['/promotions/promotions/index'], ['class' => 'title']) ?>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="">
+                                <i class="fa fa-envelope-o"></i>
+                                <span class="title">Reviews</span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <?= Html::a('Reviews', ['/reviews/customer-reviews/index'], ['class' => 'title']) ?>
+                                </li>
+                            </ul>
+                        </li>
                         <li>
                             <a href="#">
                                 <i class="fa fa-microphone"></i>
@@ -564,55 +600,12 @@ AppAsset::register($this);
                                 </li>
                             </ul>
                         </li>
-
-
-
-                        <li>
-                            <a href="">
-                                <i class="fa fa-user"></i>
-                                <span class="title">Users</span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <?= Html::a('Users', ['/user/user/index'], ['class' => 'title']) ?>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="">
-                                <i class="fa fa-cube"></i>
-                                <span class="title">Promotions</span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <?= Html::a('Promotions', ['/promotions/promotions/index'], ['class' => 'title']) ?>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="title">Reviews</span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <?= Html::a('Reviews', ['/reviews/customer-reviews/index'], ['class' => 'title']) ?>
-                                </li>
-                            </ul>
-                        </li>
                         <li>
                             <a href="<?= yii::$app->homeUrl; ?>settings">
                                 <i class="fa fa-star"></i>
                                 <span class="title">Settings</span>
                             </a>
                         </li>
-
-
-
-
-
                     </ul>
 
                 </div>

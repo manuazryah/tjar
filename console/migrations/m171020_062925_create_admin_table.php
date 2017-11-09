@@ -21,7 +21,13 @@ class m171020_062925_create_admin_table extends Migration {
         $this->createTable('{{%admin_post}}', [
             'id' => $this->primaryKey(),
             'post_name' => $this->string(100)->notNull(),
-            'admin' => $this->string(100)->notNull(),
+            'admin' => $this->smallInteger()->notNull()->defaultValue(0),
+            'product_reviews' => $this->smallInteger()->notNull()->defaultValue(0),
+            'order' => $this->smallInteger()->notNull()->defaultValue(0),
+            'vendor' => $this->smallInteger()->notNull()->defaultValue(0),
+            'users' => $this->smallInteger()->notNull()->defaultValue(0),
+            'promotions' => $this->smallInteger()->notNull()->defaultValue(0),
+            'masters' => $this->smallInteger()->notNull()->defaultValue(0),
             'status' => $this->smallInteger()->notNull()->defaultValue(0),
             'CB' => $this->integer()->notNull(),
             'UB' => $this->integer()->notNull(),
@@ -49,6 +55,8 @@ class m171020_062925_create_admin_table extends Migration {
 
         $this->createIndex('post_id', 'admin_users', 'post_id', $unique = false);
         $this->addForeignKey("", "admin_users", "post_id", "admin_post", "id", "RESTRICT", "RESTRICT");
+        $this->insert('admin_post', ['id' => '1', 'post_name' => 'super_admin', 'admin' => 1, 'product_reviews' => 1, 'order' => 1, 'vendor' => 1, 'users' => 1, 'promotions' => 1, 'masters' => 1, 'status' => '1', 'CB' => '1', 'UB' => '1', 'DOC' => '2017-10-20', 'DOU' => '2017-10-20 16:11:28']);
+        $this->insert('admin_users', ['id' => '1', 'post_id' => 1, 'user_name' => 'testing', 'password' => '$2y$13$RS.hkV5A0BeKtCGGzql6yO7lZ2MblwFkNxxixzsf3NbuZwFphLhyi', 'name' => 'testing', 'email' => 'test@test.com', 'phone' => '', 'status' => '1', 'CB' => '1', 'UB' => '1', 'DOC' => '2017-10-20', 'DOU' => '2017-10-20 16:11:28']);
     }
 
     public function down() {
