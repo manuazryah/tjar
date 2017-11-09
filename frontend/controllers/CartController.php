@@ -27,7 +27,6 @@ class CartController extends \yii\web\Controller {
                         $vendor_prdct = Yii::$app->request->post()['vendor_prdct'];
                         $qty = Yii::$app->request->post()['qty'];
                         $prdct_vendor = ProductVendor::findOne(yii::$app->EncryptDecrypt->Encrypt('decrypt', $vendor_prdct));
-//            $id = products::findOne(['canonical_name' => $prdct_vendor->product_id])->id;
                         $condition = $this->usercheck();
                         $user_id = isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id : '';
 
@@ -36,7 +35,6 @@ class CartController extends \yii\web\Controller {
                         if (!empty($cart)) {
                                 $quantity = ($cart->quantity) + $qty;
                                 $cart->quantity = $quantity > $prdct_vendor->qty ? $prdct_vendor->qty : $quantity;
-//            $cart->quantity = $qty;
                                 $cart->save();
                                 $this->cart_content();
                         } else {
@@ -54,28 +52,25 @@ class CartController extends \yii\web\Controller {
         }
 
         public function actionMycart() {
-//        unset(Yii::$app->session['temp_user2']);
-//        unset(Yii::$app->session['temp_user_main']);exit;
-//        echo Yii::$app->session['temp_user_main'];
-//        exit;
                 if (isset(Yii::$app->user->identity->id)) {
                         if (isset(Yii::$app->session['temp_user'])) {
                                 $this->changecart(Yii::$app->session['temp_user']);
                         }
                 }
-
-
                 $model = new UserAddress();
                 $order = new OrderMaster();
                 if ($order->load(Yii::$app->request->post())) {
                         $ship_address = Yii::$app->request->post()['OrderMaster']['ship_address_id'];
                         $bill_address = Yii::$app->request->post()['OrderMaster']['bill_address_id'];
-                        $this->checkout($ship_address, $bill_address);
+                        $check = $this->CheckTempsession(Yii::$app->request->post());
+                        if ($check == 0)
+                                $this->checkout($ship_address, $bill_address);
                 }
 
                 $condition = $this->usercheck();
                 $cart_items = Cart::find()->where($condition)->all();
                 if (!empty($cart_items)) {
+                        \common\models\TempSession::deleteAll(['user_id' => Yii::$app->user->identity->id]);
                         $subtotal = $this->total($cart_items);
                         return $this->render('cart', ['cart_items' => $cart_items, 'subtotal' => $subtotal, 'model' => $model, 'order' => $order]);
                 } else {
@@ -83,17 +78,47 @@ class CartController extends \yii\web\Controller {
                 }
         }
 
+        /*
+         * check temp session value and post value
+         */
+
+        public function CheckTempsession($post) {
+                $check = 0;
+                $temp = \common\models\TempSession::find()->where(['user_id' => Yii::$app->user->identity->id, 'type_id' => 3])->select('value')->all();
+                $temp_coupons = '';
+                $t = 0;
+                foreach ($temp as $value) {
+                        $t++;
+                        if ($t != 1) {
+                                $temp_coupons .= ',';
+                        }
+                        $temp_coupons .= $value->value;
+                }
+                $coupons = $post['promotion_codes'];
+                if ($coupons != $temp_coupons) {
+                        $check = 1;
+                }
+                $ship_address = \common\models\TempSession::find()->where(['user_id' => Yii::$app->user->identity->id, 'type_id' => 1])->one();
+                $bill_address = \common\models\TempSession::find()->where(['user_id' => Yii::$app->user->identity->id, 'type_id' => 2])->one();
+                if ($post['OrderMaster']['ship_address_id'] != $ship_address->value) {
+                        $check = 1;
+                } if ($post['OrderMaster']['bill_address_id'] != $bill_address->value) {
+                        $check = 1;
+                }
+                return $check;
+        }
+
         public function Checkout($ship_address, $bill_address) {
                 if (isset(Yii::$app->user->identity->id)) {
                         $cart = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
                         $orders = $this->addOrder($cart, $ship_address, $bill_address);
                         if ($this->orderProducts($orders, $cart)) {
+                                $this->Addpromotions($orders);
                                 $this->clearcart($cart);
                                 $this->redirect(array('checkout/payment'));
                         } else {
                                 $this->redirect('mycart');
                         }
-//
                 } else {
                         $this->redirect(array('site/login'));
                 }
@@ -106,13 +131,10 @@ class CartController extends \yii\web\Controller {
                                 $delivery = Yii::$app->request->post()['UserAddress']['delivery'];
                         }
                         if (isset(Yii::$app->request->post()['UserAddress']['billing'])) {
-//                   Yii::$app->session['temp_user2'] = Yii::$app->request->post()['UserAddress']['billing'] . '/' . $delivery;
                                 echo json_encode(array('msg' => 'success', 'id' => Yii::$app->request->post()['UserAddress']['billing'], 'delivery' => $delivery));
                                 exit;
                         } else {
                                 $address_id = $this->adduseraddress();
-//                $this->set_session($address_id, $delivery);
-//                    Yii::$app->session['temp_user2'] = $address_id . '/' . $delivery;
                                 echo json_encode(array('msg' => 'success', 'id' => $address_id, 'delivery' => $delivery));
                                 exit;
                         }
@@ -132,51 +154,6 @@ class CartController extends \yii\web\Controller {
                 }
         }
 
-//    public function actionAddAddress() {
-//        if (yii::$app->request->isAjax) {
-////            echo Yii::$app->session['temp_user2'].'//';exit;
-//            if (isset(Yii::$app->session['temp_user2'])) {
-//                $this->billaddress();
-//            } else {
-//                $delivery = '';
-//                if (isset(Yii::$app->request->post()['UserAddress']['delivery'])) {
-//                    $delivery = Yii::$app->request->post()['UserAddress']['delivery'];
-//                }
-//                if (isset(Yii::$app->request->post()['UserAddress']['billing'])) {
-//                    $this->set_session(Yii::$app->request->post()['UserAddress']['billing'], $delivery);
-////                   Yii::$app->session['temp_user2'] = Yii::$app->request->post()['UserAddress']['billing'] . '/' . $delivery;
-//                    echo json_encode(array('msg' => 'success', 'id' => Yii::$app->request->post()['UserAddress']['billing'], 'delivery' => $delivery));
-//                    exit;
-//                } else {
-//                    $address_id = $this->adduseraddress();
-//                    $this->set_session($address_id, $delivery);
-////                    Yii::$app->session['temp_user2'] = $address_id . '/' . $delivery;
-//                    echo json_encode(array('msg' => 'success', 'id' => $address_id, 'delivery' => $delivery));
-//                    exit;
-//                }
-//            }
-//        }
-//    }
-//    function set_session($address_id, $delivery) {
-//        !empty($delivery) ? Yii::$app->session['temp_user_main'] = $address_id . '/' . $delivery :
-//                        Yii::$app->session['temp_user2'] = $address_id . '/' . $delivery;
-//    }
-//    function billaddress() {
-////        echo Yii::$app->session['temp_user2'];exit;
-//        $temp = explode('/', Yii::$app->session['temp_user2']);
-//        if (isset(Yii::$app->request->post()['UserAddress']['billing'])) {
-//            Yii::$app->session['temp_user_main'] = $temp['0'] . '/' . Yii::$app->request->post()['UserAddress']['billing'];
-//            echo json_encode(array('msg' => 'success', 'id' => $model->id, 'delivery' => Yii::$app->request->post()['UserAddress']['billing']));
-//            exit;
-//        } else {
-//
-//            $address_id = $this->adduseraddress();
-//            Yii::$app->session['temp_user_main'] = $temp['0'] . '/' . $address_id;
-//            echo json_encode(array('msg' => 'success', 'id' => $address_id, 'delivery' => $address_id));
-//            exit;
-//        }
-//    }
-
         function adduseraddress() {
                 $model = new UserAddress();
                 $model->user_id = Yii::$app->user->identity->id;
@@ -192,13 +169,7 @@ class CartController extends \yii\web\Controller {
                 $model->address = Yii::$app->request->post()['UserAddress']['address'];
                 if ($model->validate() && $model->save()) {
                         return $model->id;
-//            Yii::$app->session['temp_user2'] = $model->id . '/' . $delivery;
-//            echo json_encode(array('msg' => 'success', 'id' => $model->id, 'delivery' => $delivery));
-//            exit;
                 }
-//        else {
-//            var_dump($model->getErrors());
-//        }
         }
 
         public function orderProducts($orders, $carts) {
@@ -220,12 +191,8 @@ class CartController extends \yii\web\Controller {
                         $model_prod->sub_total = ($cart->quantity) * ($price);
                         $model_prod->status = '0';
                         if ($model_prod->save()) {
-//                    return TRUE;
+
                         }
-//            else {
-//                var_dump($model_prod->getErrors());
-//                exit;
-//            }
                 }
                 return TRUE;
         }
@@ -245,14 +212,30 @@ class CartController extends \yii\web\Controller {
                 if ($model->save()) {
                         return ['master_id' => $model->id, 'order_id' => $model->order_id];
                 }
-//        else {
-//                var_dump($model->getErrors());
-//                exit;
-//            }
         }
 
-        public function Addpromotions() {
+        /*
+         * Add promotion value to db
+         */
 
+        public function Addpromotions($orders) {
+
+                $coupons = \common\models\TempSession::find()->where(['user_id' => Yii::$app->user->identity->id, 'type_id' => 3])->all();
+                $cart_products = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
+                $cart_amount = $this->total($cart_products);
+                foreach ($coupons as $coupons) {
+                        $add_promption = new \common\models\OrderPromotions();
+                        $add_promption->order_master_id = $orders['master_id'];
+                        $add_promption->promotion_id = $coupons->value;
+                        $promotion = \common\models\Promotions::findOne($coupons->value);
+                        if ($promotion->type == 1) {
+                                $promotion_discount = ($cart_amount * $promotion->price) / 100;
+                        } else {
+                                $promotion_discount = $promotion->price;
+                        }
+                        $add_promption->promotion_discount = $promotion_discount;
+                        $add_promption->save();
+                }
         }
 
         public function generateProductEan($prefix, $serial_no) {
@@ -540,9 +523,14 @@ class CartController extends \yii\web\Controller {
                 }
         }
 
+        /*
+         * Add promotion code
+         */
+
         public function actionPromotionCheck() {
                 if (Yii::$app->request->isAjax) {
                         if (isset(Yii::$app->user->identity->id)) {
+
                                 $code = $_POST['code'];
                                 $promotion_total_amount = $_POST['promotion_amount'];
                                 $code_exists = \common\models\Promotions::find()->where(['promotion_code' => $code])->one();
@@ -566,7 +554,8 @@ class CartController extends \yii\web\Controller {
                                                                         $promotion_total_amount = $promotion_total_amount + $promotion_discount;
                                                                         $grand_total = $this->net_amount($cart_amount);
                                                                         $overall_grand_total = $grand_total - $promotion_total_amount;
-                                                                        $arr_variable = array('msg' => '7', 'code' => $code, 'amount' => sprintf("%0.2f", $promotion_discount), 'discount_id' => $code_exists->id, 'total_promotion_amount' => sprintf("%0.2f", $promotion_total_amount), 'overall_grand_total' => sprintf("%0.2f", $overall_grand_total));
+                                                                        $temp_promotion = $this->SaveTemp(3, $code_exists->id);
+                                                                        $arr_variable = array('msg' => '7', 'discount_id' => $code_exists->id, 'code' => $code, 'amount' => sprintf("%0.2f", $promotion_discount), 'total_promotion_amount' => sprintf("%0.2f", $promotion_total_amount), 'overall_grand_total' => sprintf("%0.2f", $overall_grand_total), 'temp_session' => $temp_promotion->id);
                                                                 } else {
                                                                         $arr_variable = array('msg' => '5', 'amount' => $code_exists->amount_range);
                                                                 }
@@ -610,9 +599,7 @@ class CartController extends \yii\web\Controller {
                 $products = explode(',', $code_exists->product_id);
                 $users = explode(',', $code_exists->user_id);
                 $oreder_setails = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
-
                 $exist = 0;
-
                 if ($code_exists->promotion_type == 1 || $code_exists->promotion_type == 3) {
                         foreach ($oreder_setails as $value) {
                                 if (in_array($value->product_id, $products)) {
@@ -656,6 +643,10 @@ class CartController extends \yii\web\Controller {
                 return $permision;
         }
 
+        /*
+         * check the promotion code amount range
+         */
+
         public function AmountRange($code_exists, $cart_amount) {
                 $amount_range = 0;
                 if (isset($code_exists->amount_range) && $code_exists->amount_range != '') {
@@ -667,6 +658,24 @@ class CartController extends \yii\web\Controller {
                 return $amount_range;
         }
 
+        /*
+         * Save promotion in temporary table
+         */
+
+        public function SaveTemp($type_id, $value) {
+
+                $temp_promotion = new \common\models\TempSession;
+                $temp_promotion->user_id = Yii::$app->user->identity->id;
+                $temp_promotion->type_id = $type_id;
+                $temp_promotion->value = $value;
+                $temp_promotion->save();
+                return $temp_promotion;
+        }
+
+        /*
+         * Promotion amount cahnge when quanity change
+         */
+
         public function actionPromotionQuantityChange() {
                 if (Yii::$app->request->isAjax) {
                         $promo_codes = $_POST['promo_codes'];
@@ -676,21 +685,26 @@ class CartController extends \yii\web\Controller {
                         $applied_codes = array();
                         $promocodes = '';
                         $promotion_total_discount = 0;
+                        \common\models\TempSession::deleteAll(['user_id' => Yii::$app->user->identity->id]);
+                        $c = 0;
                         foreach ($codes as $codes) {
-
                                 if (isset($codes) && $codes != '') {
+                                        $c++;
                                         $code_exists = \common\models\Promotions::findOne($codes);
                                         $amount_range = $this->AmountRange($code_exists, $cart_amount);
                                         if ($amount_range == 0) {
-                                                $promocodes .= $codes . ',';
+                                                if ($c != 1) {
+                                                        $promocodes .= ',';
+                                                }
+                                                $promocodes .= $codes;
                                                 if ($code_exists->type == 1) {
                                                         $promotion_discount = ($cart_amount * $code_exists->price) / 100;
                                                 } else {
                                                         $promotion_discount = $code_exists->price;
                                                 }
                                                 $promotion_total_discount += $promotion_discount;
-
-                                                $applied_codes[] = ['discount_id' => $codes, 'code' => $code_exists->promotion_code, 'amount' => $promotion_discount];
+                                                $temp_promotion = $this->SaveTemp(3, $codes);
+                                                $applied_codes[] = ['discount_id' => $codes, 'code' => $code_exists->promotion_code, 'amount' => $promotion_discount, 'temp_session' => $temp_promotion->id];
                                         }
                                 }
                         }
@@ -702,10 +716,16 @@ class CartController extends \yii\web\Controller {
                 }
         }
 
+        /*
+         * Remove Coupon code
+         */
+
         public function actionPromotionRemove() {
                 if (Yii::$app->request->isAjax) {
                         $remov_id = $_POST['id'];
                         $promo_codes = $_POST['promo_codes'];
+                        $temp_id = $_POST['temp_id'];
+
                         $codes = explode(',', $promo_codes);
                         $cart_products = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
                         $cart_amount = $this->total($cart_products);
@@ -726,6 +746,8 @@ class CartController extends \yii\web\Controller {
                                         }
                                 }
                         }
+                        $temp_session = \common\models\TempSession::findOne($temp_id);
+                        $temp_session->delete();
                         $grand_total = $this->net_amount($cart_amount);
                         $overall_grand_total = $grand_total - $promotion_total_discount;
 
