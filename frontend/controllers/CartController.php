@@ -235,6 +235,9 @@ class CartController extends \yii\web\Controller {
                         }
                         $add_promption->promotion_discount = $promotion_discount;
                         $add_promption->save();
+                        if ($promotion->code_usage == 1) {
+                                $this->AddUsed($promotion);
+                        }
                 }
         }
 
@@ -538,35 +541,40 @@ class CartController extends \yii\web\Controller {
                                 $cart_products = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
                                 $cart_amount = $this->total($cart_products);
                                 if (!empty($code_exists)) {
-                                        $date_check = $this->CheckDate($code_exists);
-                                        if ($date_check == 1) {
-                                                $used = $this->CodeUsed($code_exists);
-                                                if ($used == 0) {
-                                                        $exist = $this->PromotionProduct($code_exists, $code);
-                                                        if ($exist == 1) {
-                                                                $amount_range = $this->AmountRange($code_exists, $cart_amount);
-                                                                if ($amount_range == 0) {
-                                                                        if ($code_exists->type == 1) {
-                                                                                $promotion_discount = ($cart_amount * $code_exists->price) / 100;
+                                        $used_code = $this->UsedCode($_POST['code']);
+                                        if ($used_code == 0) {
+                                                $date_check = $this->CheckDate($code_exists);
+                                                if ($date_check == 1) {
+                                                        $used = $this->CodeUsed($code_exists);
+                                                        if ($used == 0) {
+                                                                $exist = $this->PromotionProduct($code_exists, $code);
+                                                                if ($exist == 1) {
+                                                                        $amount_range = $this->AmountRange($code_exists, $cart_amount);
+                                                                        if ($amount_range == 0) {
+                                                                                if ($code_exists->type == 1) {
+                                                                                        $promotion_discount = ($cart_amount * $code_exists->price) / 100;
+                                                                                } else {
+                                                                                        $promotion_discount = $code_exists->price;
+                                                                                }
+                                                                                $promotion_total_amount = $promotion_total_amount + $promotion_discount;
+                                                                                $grand_total = $this->net_amount($cart_amount);
+                                                                                $overall_grand_total = $grand_total - $promotion_total_amount;
+                                                                                $temp_promotion = $this->SaveTemp(3, $code_exists->id);
+                                                                                $arr_variable = array('msg' => '7', 'discount_id' => $code_exists->id, 'code' => $code, 'amount' => sprintf("%0.2f", $promotion_discount), 'total_promotion_amount' => sprintf("%0.2f", $promotion_total_amount), 'overall_grand_total' => sprintf("%0.2f", $overall_grand_total), 'temp_session' => $temp_promotion->id);
                                                                         } else {
-                                                                                $promotion_discount = $code_exists->price;
+                                                                                $arr_variable = array('msg' => '5', 'amount' => $code_exists->amount_range);
                                                                         }
-                                                                        $promotion_total_amount = $promotion_total_amount + $promotion_discount;
-                                                                        $grand_total = $this->net_amount($cart_amount);
-                                                                        $overall_grand_total = $grand_total - $promotion_total_amount;
-                                                                        $temp_promotion = $this->SaveTemp(3, $code_exists->id);
-                                                                        $arr_variable = array('msg' => '7', 'discount_id' => $code_exists->id, 'code' => $code, 'amount' => sprintf("%0.2f", $promotion_discount), 'total_promotion_amount' => sprintf("%0.2f", $promotion_total_amount), 'overall_grand_total' => sprintf("%0.2f", $overall_grand_total), 'temp_session' => $temp_promotion->id);
                                                                 } else {
-                                                                        $arr_variable = array('msg' => '5', 'amount' => $code_exists->amount_range);
+                                                                        $arr_variable = array('msg' => '4');
                                                                 }
                                                         } else {
-                                                                $arr_variable = array('msg' => '4');
+                                                                $arr_variable = array('msg' => '3');
                                                         }
                                                 } else {
-                                                        $arr_variable = array('msg' => '3');
+                                                        $arr_variable = array('msg' => '2');
                                                 }
                                         } else {
-                                                $arr_variable = array('msg' => '2');
+                                                $arr_variable = array('msg' => '8');
                                         }
                                 } else {
                                         $arr_variable = array('msg' => '1');
@@ -577,6 +585,20 @@ class CartController extends \yii\web\Controller {
                         $data['result'] = $arr_variable;
                         echo json_encode($data);
                 }
+        }
+
+        /*
+         * Check code is used in this purchase
+         */
+
+        public function UsedCode($code) {
+                $existss = 0;
+                $code_details = \common\models\Promotions::find()->where(['promotion_code' => $code])->one();
+                $temp_session = \common\models\TempSession::find()->where(['value' => $code_details->id])->exists();
+                if ($temp_session) {
+                        $existss = 1;
+                }
+                return $existss;
         }
 
         /*
@@ -618,7 +640,7 @@ class CartController extends \yii\web\Controller {
          * add this user used this code
          */
 
-        public function AddUsed($code_exists, $order_master) {
+        public function AddUsed($code_exists) {
 
                 $code_exists->code_used = $code_exists->code_used . ',' . Yii::$app->user->identity->id;
                 $code_exists->save();

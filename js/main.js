@@ -53,6 +53,7 @@ $(document).ready(function () {
                                 } else if (res.result['msg'] == 5) {
                                         $("#coupon_code").after('<div class="help-block" style="color:red">This code is only when purchase items above AED  ' + res.result['amount'] + '</div>');
                                 } else if (res.result['msg'] == 7) {
+                                        $('.help-block').hide();
                                         var codes = $('#promotion-codes').val();
                                         if (codes && codes != '') {
                                                 var promo_values = $('#promotion-codes').val() + ',' + res.result['discount_id'];
@@ -66,6 +67,8 @@ $(document).ready(function () {
                                         $('.cart-promotion').show();
                                         $('.promotion_discount').text(res.result['total_promotion_amount']);
                                         $('.grand_total').html(res.result['overall_grand_total'] + '<span class="woocommerce-Price-currencySymbol">AED</span>');
+                                } else if (res.result['msg'] == 8) {
+                                        $("#coupon_code").after('<div class="help-block" style="color:red">Sorry!! You are already used this code!</div>');
                                 }
 
 
@@ -87,8 +90,12 @@ $(document).ready(function () {
                                 });
                                 $('#promotion-codes').val(obj.code);
                                 $('#promotion-code-amount').val(obj.promotion_total_discount);
-                                $('.cart-promotion').show();
-                                $('.promotion_discount').text(obj.promotion_total_discount);
+                                if (obj.promotion_total_discount > 0) {
+                                        $('.cart-promotion').show();
+                                        $('.promotion_discount').text(obj.promotion_total_discount);
+                                } else {
+                                        $('.cart-promotion').hide();
+                                }
                                 $('.grand_total').html(obj.overall_grand_total + '<span class="woocommerce-Price-currencySymbol"> AED</span>');
                         }
                 });
@@ -107,8 +114,12 @@ $(document).ready(function () {
                                 $('#disc_' + id).remove();
                                 $('#promotion-codes').val(obj.code);
                                 $('#promotion-code-amount').val(obj.total_promotion_amount);
-                                $('.cart-promotion').show();
-                                $('.promotion_discount').text(obj.total_promotion_amount);
+                                if (obj.total_promotion_amount > 0) {
+                                        $('.cart-promotion').show();
+                                        $('.promotion_discount').text(obj.total_promotion_amount);
+                                } else {
+                                        $('.cart-promotion').hide();
+                                }
                                 $('.grand_total').html(obj.overall_grand_total + '<span class="woocommerce-Price-currencySymbol"> AED</span>');
                         }
                 });
