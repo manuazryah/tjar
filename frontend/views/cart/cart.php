@@ -124,7 +124,7 @@ $this->title = 'Shopping Cart';
                                                                                                         </tr>
 
                                                                                                         <tr class="cart-promotion" style="display: none">
-                                                                                                                <th>Promotion</th>
+                                                                                                                <th>Coupon Code</th>
                                                                                                                 <td data-title="Subtotal" style="border-top:none"><span class="woocommerce-Price-amount amount"><spn class="promotion_discount"></spn><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
                                                                                                         </tr>
 
