@@ -438,189 +438,202 @@ AppAsset::register($this);
                     <ul id="main-menu" class="main-menu">
                         <!-- add class "multiple-expanded" to allow multiple submenus to open -->
                         <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
-                        <li class="">
-                            <a href="#">
-                                <i class="fa fa-cog"></i>
-                                <span class="title">Admin</span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <?= Html::a('Admin Post', ['/admin/admin-post/index'], ['class' => 'title']) ?>
-                                </li>
-                                <li>
-                                    <?= Html::a('Admin User', ['/admin/admin-users/index'], ['class' => 'title']) ?>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="layout-variants.html">
-                                <i class="fa fa-desktop"></i>
-                                <span class="title">Products</span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <a href="extra-icons-fontawesome.html">
-                                        <span class="title">Master</span>
-                                    </a>
-                                    <ul>
-                                        <li>
-                                            <?= Html::a('Main Category', ['/product/product-main-category/index'], ['class' => 'title']) ?>
-                                        </li>
-                                        <li>
-                                            <?= Html::a('Category', ['/product/product-category/index'], ['class' => 'title']) ?>
-                                        </li>
-                                        <li>
-                                            <?= Html::a('Sub Category', ['/product/product-sub-category/index'], ['class' => 'title']) ?>
-                                        </li>
-                                        <li>
-                                            <?= Html::a('Brand', ['/product/product-brand/index'], ['class' => 'title']) ?>
-                                        </li>
-                                        <li>
-                                            <?= Html::a('Search Tag', ['/product/search-tag/index'], ['class' => 'title']) ?>
-                                        </li>
-                                        <li>
-                                            <?= Html::a('Master Features', ['/product/features/index'], ['class' => 'title']) ?>
-                                        </li>
-                                        <li>
-                                            <?= Html::a('Filter', ['/product/filter/index'], ['class' => 'title']) ?>
-                                        </li>
-                                        <li>
-                                            <?= Html::a('Product Features', ['/product/product-features/index'], ['class' => 'title']) ?>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <?= Html::a('Product', ['/product/products/index'], ['class' => 'title']) ?>
-                                </li>
-                            </ul>
-                        </li>
+                        <?php if (Yii::$app->session['post']['admin'] == 1) { ?>
+                            <li class="">
+                                <a href="#">
+                                    <i class="fa fa-cog"></i>
+                                    <span class="title">Admin</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <?= Html::a('Admin Post', ['/admin/admin-post/index'], ['class' => 'title']) ?>
+                                    </li>
+                                    <li>
+                                        <?= Html::a('Admin User', ['/admin/admin-users/index'], ['class' => 'title']) ?>
+                                    </li>
+                                </ul>
+                            </li>
+                        <?php } ?>
+                        <?php if (Yii::$app->session['post']['product_reviews'] == 1) { ?>
+                            <li>
+                                <a href="layout-variants.html">
+                                    <i class="fa fa-desktop"></i>
+                                    <span class="title">Products</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="extra-icons-fontawesome.html">
+                                            <span class="title">Master</span>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <?= Html::a('Main Category', ['/product/product-main-category/index'], ['class' => 'title']) ?>
+                                            </li>
+                                            <li>
+                                                <?= Html::a('Category', ['/product/product-category/index'], ['class' => 'title']) ?>
+                                            </li>
+                                            <li>
+                                                <?= Html::a('Sub Category', ['/product/product-sub-category/index'], ['class' => 'title']) ?>
+                                            </li>
+                                            <li>
+                                                <?= Html::a('Brand', ['/product/product-brand/index'], ['class' => 'title']) ?>
+                                            </li>
+                                            <li>
+                                                <?= Html::a('Search Tag', ['/product/search-tag/index'], ['class' => 'title']) ?>
+                                            </li>
+                                            <li>
+                                                <?= Html::a('Master Features', ['/product/features/index'], ['class' => 'title']) ?>
+                                            </li>
+                                            <li>
+                                                <?= Html::a('Filter', ['/product/filter/index'], ['class' => 'title']) ?>
+                                            </li>
+                                            <li>
+                                                <?= Html::a('Product Features', ['/product/product-features/index'], ['class' => 'title']) ?>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <?= Html::a('Product', ['/product/products/index'], ['class' => 'title']) ?>
+                                    </li>
+                                </ul>
+                            </li>
+                        <?php } ?>
+                        <?php if (Yii::$app->session['post']['order'] == 1) { ?>
+                            <li>
+                                <a href="">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span class="title">Orders</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <?= Html::a('Order Management', ['/orders/order-master/index'], ['class' => 'title']) ?>
+                                    </li>
+                                    <li>
+                                        <?= Html::a('Full Fill By Tjar', ['/orders/order-master/full-fill'], ['class' => 'title']) ?>
+                                    </li>
+                                </ul>
+                            </li>
+                        <?php } ?>
+                        <?php if (Yii::$app->session['post']['vendor'] == 1) { ?>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-user"></i>
+                                    <span class="title">Vendors</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <?= Html::a('Vendors', ['/vendors/vendors/index'], ['class' => 'title']) ?>
+                                    </li>
 
-                        <li>
-                            <a href="">
-                                <i class="fa fa-shopping-cart"></i>
-                                <span class="title">Orders</span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <?= Html::a('Order Management', ['/orders/order-master/index'], ['class' => 'title']) ?>
-                                </li>
-                                <li>
-                                    <?= Html::a('Full Fill By Tjar', ['/orders/order-master/full-fill'], ['class' => 'title']) ?>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-user"></i>
-                                <span class="title">Vendors</span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <?= Html::a('Vendors', ['/vendors/vendors/index'], ['class' => 'title']) ?>
-                                </li>
 
 
-
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="">
-                                <i class="fa fa-user"></i>
-                                <span class="title">Users</span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <?= Html::a('Users', ['/user/user/index'], ['class' => 'title']) ?>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="">
-                                <i class="fa fa-cube"></i>
-                                <span class="title">Promotions</span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <?= Html::a('Promotions', ['/promotions/promotions/index'], ['class' => 'title']) ?>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="title">Reviews</span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <?= Html::a('Reviews', ['/reviews/customer-reviews/index'], ['class' => 'title']) ?>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-microphone"></i>
-                                <span class="title">Master</span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <?= Html::a('Master Unit', ['/master/master-unit/index'], ['class' => 'title']) ?>
-                                </li>
-                                <li>
-                                    <?= Html::a('City', ['/master/city/index'], ['class' => 'title']) ?>
-                                </li>
-                                <li>
-                                    <?= Html::a('Street', ['/master/street/index'], ['class' => 'title']) ?>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-bars"></i>
-                                <span class="title">ZPM</span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <?= Html::a('Operating System', ['/zpm/zpm-operating-system/index'], ['class' => 'title']) ?>
-                                </li>
-                                <li>
-                                    <?= Html::a('Processor', ['/zpm/zpm-processor/index'], ['class' => 'title']) ?>
-                                </li>
-                                <li>
-                                    <?= Html::a('Type', ['/zpm/zpm-type/index'], ['class' => 'title']) ?>
-                                </li>
-                                <li>
-                                    <?= Html::a('Screen Size', ['/zpm/zpm-screen-size/index'], ['class' => 'title']) ?>
-                                </li>
-                                <li>
-                                    <?= Html::a('Color', ['/zpm/zpm-color/index'], ['class' => 'title']) ?>
-                                </li>
-                                <li>
-                                    <?= Html::a('Screen Type', ['/zpm/zpm-screen-type/index'], ['class' => 'title']) ?>
-                                </li>
-                                <li>
-                                    <?= Html::a('Body Type', ['/zpm/zpm-body-type/index'], ['class' => 'title']) ?>
-                                </li>
-                                <li>
-                                    <?= Html::a('Sleeve', ['/zpm/zpm-sleeve/index'], ['class' => 'title']) ?>
-                                </li>
-                                <li>
-                                    <?= Html::a('Theme', ['/zpm/zpm-theme/index'], ['class' => 'title']) ?>
-                                </li>
-                                <li>
-                                    <?= Html::a('Pattern', ['/zpm/zpm-pattern/index'], ['class' => 'title']) ?>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="<?= yii::$app->homeUrl; ?>settings">
-                                <i class="fa fa-star"></i>
-                                <span class="title">Settings</span>
-                            </a>
-                        </li>
+                                </ul>
+                            </li>
+                        <?php } ?>
+                        <?php if (Yii::$app->session['post']['users'] == 1) { ?>
+                            <li>
+                                <a href="">
+                                    <i class="fa fa-user"></i>
+                                    <span class="title">Users</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <?= Html::a('Users', ['/user/user/index'], ['class' => 'title']) ?>
+                                    </li>
+                                </ul>
+                            </li>
+                        <?php } ?>
+                        <?php if (Yii::$app->session['post']['promotions'] == 1) { ?>
+                            <li>
+                                <a href="">
+                                    <i class="fa fa-cube"></i>
+                                    <span class="title">Promotions</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <?= Html::a('Promotions', ['/promotions/promotions/index'], ['class' => 'title']) ?>
+                                    </li>
+                                </ul>
+                            </li>
+                        <?php } ?>
+                        <?php if (Yii::$app->session['post']['product_reviews'] == 1) { ?>
+                            <li>
+                                <a href="">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="title">Reviews</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <?= Html::a('Reviews', ['/reviews/customer-reviews/index'], ['class' => 'title']) ?>
+                                    </li>
+                                </ul>
+                            </li>
+                        <?php } ?>
+                        <?php if (Yii::$app->session['post']['masters'] == 1) { ?>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-microphone"></i>
+                                    <span class="title">Master</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <?= Html::a('Master Unit', ['/master/master-unit/index'], ['class' => 'title']) ?>
+                                    </li>
+                                    <li>
+                                        <?= Html::a('City', ['/master/city/index'], ['class' => 'title']) ?>
+                                    </li>
+                                    <li>
+                                        <?= Html::a('Street', ['/master/street/index'], ['class' => 'title']) ?>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-bars"></i>
+                                    <span class="title">ZPM</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <?= Html::a('Operating System', ['/zpm/zpm-operating-system/index'], ['class' => 'title']) ?>
+                                    </li>
+                                    <li>
+                                        <?= Html::a('Processor', ['/zpm/zpm-processor/index'], ['class' => 'title']) ?>
+                                    </li>
+                                    <li>
+                                        <?= Html::a('Type', ['/zpm/zpm-type/index'], ['class' => 'title']) ?>
+                                    </li>
+                                    <li>
+                                        <?= Html::a('Screen Size', ['/zpm/zpm-screen-size/index'], ['class' => 'title']) ?>
+                                    </li>
+                                    <li>
+                                        <?= Html::a('Color', ['/zpm/zpm-color/index'], ['class' => 'title']) ?>
+                                    </li>
+                                    <li>
+                                        <?= Html::a('Screen Type', ['/zpm/zpm-screen-type/index'], ['class' => 'title']) ?>
+                                    </li>
+                                    <li>
+                                        <?= Html::a('Body Type', ['/zpm/zpm-body-type/index'], ['class' => 'title']) ?>
+                                    </li>
+                                    <li>
+                                        <?= Html::a('Sleeve', ['/zpm/zpm-sleeve/index'], ['class' => 'title']) ?>
+                                    </li>
+                                    <li>
+                                        <?= Html::a('Theme', ['/zpm/zpm-theme/index'], ['class' => 'title']) ?>
+                                    </li>
+                                    <li>
+                                        <?= Html::a('Pattern', ['/zpm/zpm-pattern/index'], ['class' => 'title']) ?>
+                                    </li>
+                                </ul>
+                            </li>
+                        <?php } ?>
+                        <?php if (Yii::$app->session['post']['admin'] == 1) { ?>
+                            <li>
+                                <a href="<?= yii::$app->homeUrl; ?>settings">
+                                    <i class="fa fa-star"></i>
+                                    <span class="title">Settings</span>
+                                </a>
+                            </li>
+                        <?php } ?>
                     </ul>
 
                 </div>
