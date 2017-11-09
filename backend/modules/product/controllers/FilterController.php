@@ -76,14 +76,16 @@ class FilterController extends Controller {
     public function actionCreate() {
         $model = new Filter();
 
-        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
-            Yii::$app->getSession()->setFlash('success', 'Filter Created Successfully');
-            return $this->redirect(['index']);
-        } else {
-            return $this->renderAjax('create', [
-                        'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate()) {
+            $model->features = implode(',', $model->features);
+            if ($model->save()) {
+                Yii::$app->getSession()->setFlash('success', 'Filter Created Successfully');
+                return $this->redirect(['index']);
+            }
         }
+        return $this->renderAjax('create', [
+                    'model' => $model,
+        ]);
     }
 
     /**
