@@ -96,15 +96,13 @@ class ProductsController extends Controller {
                         $new_prod_path = Yii::$app->basePath . '/../uploads/products/' . $split_folder;
                         if ($this->NewFolder($model->id, $new_prod_path, $split_folder)) {
                             $new_path = \Yii::$app->basePath . '/../uploads/products/' . $split_folder . '/' . $model->id . '/gallery';
-                            $this->CopyImage($path, $new_path, $model, $split_folder);
+                            $this->CopyImage1($path, $new_path, $model, $split_folder);
                             $this->ChangeImageName($model);
                             $this->generateThumbImages($model);
+                            $thumbpath = \Yii::$app->basePath . '/../uploads/products/' . $split_folder . '/' . $model->id . '/' . 'gallery_thumb';
+                            $this->changeGalleryThumbName($thumbpath, $split_folder, $model);
                         }
                     }
-
-
-
-
                     $specfctns = Yii::$app->request->post()['specifications'];
                     if (!empty($specfctns)) {
 
@@ -206,7 +204,6 @@ class ProductsController extends Controller {
         foreach (glob("{$path}/*") as $file) {
             $arry = explode('/', $file);
             if (is_dir($file)) {
-
                 $profile_path = \Yii::$app->basePath . '/../uploads/products/' . $split_folder . '/' . $model->id . '/profile';
 
                 $this->CopyImage($file, $profile_path, $model, $split_folder);
@@ -216,6 +213,26 @@ class ProductsController extends Controller {
                 copy($file, $newfile);
             }
         }
+    }
+
+    function CopyImage1($path, $new_path, $model, $split_folder) {
+        foreach (glob("{$path}/*") as $file) {
+            $arry = explode('/', $file);
+            if (is_dir($file)) {
+                $dir_name = basename($file);
+                $profile_path = \Yii::$app->basePath . '/../uploads/products/' . $split_folder . '/' . $model->id . '/' . $dir_name;
+                if (!is_dir($profile_path)) {
+                    mkdir($profile_path);
+                    chmod($profile_path, 0777);
+                }
+                $this->CopyImage($file, $profile_path, $model, $split_folder);
+            } else {
+
+                $newfile = $new_path . '/' . end($arry);
+                copy($file, $newfile);
+            }
+        }
+        return;
     }
 
     function NewFolder($id, $new_prod_path, $split_folder) {
@@ -261,6 +278,26 @@ class ProductsController extends Controller {
 
     function changeGalleryName($path, $split_folder, $model) {
         if (is_dir(\Yii::$app->basePath . '/../uploads/products/' . $split_folder . '/' . $model->id . '/' . 'gallery')) {
+            $i = 1;
+
+            foreach (glob("{$path}/*") as $file) {
+                $arry = explode('/', $file);
+                $img_name = explode('.', end($arry));
+                $oldDirectory = $path . '/' . $img_name[0] . '.' . $img_name[1];
+                $newDirectory = $path . "/" . $model->canonical_name . '_' . $i . '.' . $img_name[1];
+                rename($oldDirectory, $newDirectory);
+
+
+
+                $i++;
+            }
+
+            return TRUE;
+        }
+    }
+
+    function changeGalleryThumbName($path, $split_folder, $model) {
+        if (is_dir(\Yii::$app->basePath . '/../uploads/products/' . $split_folder . '/' . $model->id . '/' . 'gallery_thumb')) {
             $i = 1;
 
             foreach (glob("{$path}/*") as $file) {
