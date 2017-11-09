@@ -402,9 +402,9 @@ if (isset(Yii::$app->session['log-return'])) {
                                 <div class="menu-container">
                                         <div class="menu">
                                                 <ul>
-                                                        <li><?= Html::a('Mobiles', ['/products/index', 'main_categ' => 'electronics', 'categ' => 'mobile'], ['class' => '']) ?>
+                                                        <li id="main-div"><a href="#"><?= $words->electronics ?><span class="dropdown-arrow hidden-xs"><i class="fa fa-chevron-down" aria-hidden="true"></i></span></a>
                                                                 <ul class="list">
-                                                                        <li><a href="#">Mobiles</a>
+                                                                        <li><?= Html::a('Mobiles', ['/products/index', 'main_categ' => 'electronics', 'categ' => 'mobile'], ['class' => '']) ?>
                                                                                 <ul>
 											<li><?= Html::a('Samsung', ['/products/index', 'main_categ' => 'electronics', 'sub_categ' => 'samsung'], ['class' => '']) ?></li>
                                                                                         <li><a href="#">Lidership</a></li>
