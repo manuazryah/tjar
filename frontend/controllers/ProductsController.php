@@ -42,12 +42,14 @@ class ProductsController extends \yii\web\Controller {
 		}
 		if (!empty($category)) {
 			$products = Products::find()->where(['main_category' => $main_category->id, 'category' => $category->id])->select('id')->asArray()->all();
-			$filters = Filter::find()->where(['category' => $category])->all();
+			$filters = Filter::find()->where(['category' => $category])->select(['features'])->distinct()->all();
 		} elseif (!empty($sub_category)) {
-			$filters = Filter::find()->where(['subcategory' => $sub_category->id])->all();
+
+			$filters = Filter::find()->where(['subcategory' => $sub_category->id])->select(['features'])->distinct()->all();
 			$category = ProductCategory::findOne(['id' => $sub_category->category_id]);
 			$products = Products::find()->where(['main_category' => $main_category->id, 'subcategory' => $sub_category->id])->select('id')->asArray()->all();
 		}
+
 		$result = $this->Filters($params);
 		if ($result[0] == null && $result[1] == 0) {
 			foreach ($products as $product) {

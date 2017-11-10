@@ -108,18 +108,21 @@
 	}
 </style>
 <input type="hidden" id="prof-change-model-id" name="prof-change-model-id" value="<?= $model->id ?>">
+
 <div class="show-image" id="<?= $k ?>">
 	<div style="min-height: 74px;">
-		<img srcset="<?= Yii::$app->homeUrl . '../uploads/products/' . $split_folder . '/' . $model->id . '/profile/' . $model->canonical_name . '.' . $model->gallery_images ?>" alt="no-image" newpath="<?= $model->canonical_name . '.' . $model->gallery_images ?>"style="width:100px;height:100px" id="prof_image_changed">
+		<img srcset="<?= Yii::$app->homeUrl . '../uploads/products/' . $split_folder . '/' . $model->id . '/profile/' . $model->canonical_name . '.' . $model->gallery_images ?>?<?= rand() ?>" alt="no-image" newpath="<?= $model->canonical_name . '.' . $model->gallery_images ?>"style="width:100px;height:100px" id="prof_image_changed">
 
 		<a class="update delete_image btn btn-icon btn-red"  id-for="<?= $model->canonical_name . '.' . $model->gallery_images ?>" id="model_<?= $model->id ?>_<?= $id ?>" href="" ><i class="fa-remove"></i>
 		</a>
 	</div>
+
 	<label class="radio_btn">
 		<input type="radio" name="profile-image" id="radio-btn-<?= $id ?>"  id-for="<?= $id ?>" value="profile-image<?= $id ?>" checked class="setProfile">
 		<span class="checkmark"></span>
 	</label>
 </div>
+
 <?php
 $path = \Yii::$app->basePath . '/../uploads/products/' . $split_folder . '/' . $model->id . '/gallery';
 
@@ -158,7 +161,6 @@ if (count(glob("{$path}/*")) > 0) {
 }
 ?>
 
-
 <script>
 	$(document).ready(function () {
 		var radio_btn = $('input[name="profile-image"]:checked').attr("id-for");
@@ -176,21 +178,30 @@ if (count(glob("{$path}/*")) > 0) {
 //		$('.setProfile').click(function (event) {
 			event.preventDefault();
 			var modelid = $('#prof-change-model-id').val();
-
+//			alert(modelid);
 			var id = $(this).attr("id-for");
+//			alert(id);
 
 			var img_path = $('#image_' + id).attr("img-name");
-			$.ajax({
+			return $.ajax({
 				url: '<?= Yii::$app->homeUrl; ?>product/products/set-newprofile-image', // Upload Script
 				data: {imagepath: img_path, modelid: modelid},
 				type: 'post',
 				success: function (data) {
-//					$('#' + 0).hide();
-					alert("set as profile image");
+					if (data === 0) {
+						alert("error");
+					} else {
+						$('.image_preview').html(data);
+						alert("set as profile image");
+
+
+					}
+
 				},
 				error: function (data) {
 				}
 			});
+
 		});
 		$('.delete_image').click(function (event) {
 			event.preventDefault();

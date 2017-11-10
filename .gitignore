@@ -33,5 +33,4 @@ phpunit.phar
 
 # vagrant runtime
 /.vagrant
-/uploads/create_your_own/bottle/2/large.jpg
-/uploads/create_your_own/bottle/2/small.jpg
+/uploads

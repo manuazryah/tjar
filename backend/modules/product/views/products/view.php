@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Products */
 
-$this->title = $model->id;
+$this->title = $model->product_name;
 $this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -20,53 +20,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         </div>
                         <div class="panel-body">
-                                <?=  Html::a('<i class="fa-th-list"></i><span> Manage Products</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
                                 <div class="panel-body"><div class="products-view">
-                                                <p>
-                                                        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                                                        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-                                                        'class' => 'btn btn-danger',
-                                                        'data' => [
-                                                        'confirm' => 'Are you sure you want to delete this item?',
-                                                        'method' => 'post',
-                                                        ],
-                                                        ]) ?>
-                                                </p>
+						<?=
+						$this->render('_view2', [
+						    'model' => $model,
+						])
+						?>
 
-                                                <?= DetailView::widget([
-                                                'model' => $model,
-                                                'attributes' => [
-                                                            'id',
-            'product_name',
-            'canonical_name',
-            'main_category',
-            'category',
-            'subcategory',
-            'brand',
-            'item_ean',
-            'gender',
-            'main_description:ntext',
-            'gallery_images',
-            'related_products',
-            'search_tags',
-            'meta_title',
-            'meta_description:ntext',
-            'meta_keyword:ntext',
-            'field1',
-            'field2',
-            'field3',
-            'status',
-            'CB',
-            'UB',
-            'DOC',
-            'DOU',
-                                                ],
-                                                ]) ?>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-                                        </div>
-                                </div>
-                        </div>
-                </div>
-        </div>
 
 
