@@ -495,6 +495,9 @@ AppAsset::register($this);
                                     <li>
                                         <?= Html::a('Product', ['/product/products/index'], ['class' => 'title']) ?>
                                     </li>
+                                    <li>
+                                        <?= Html::a('Product Mapping', ['/product/product-mapping/index'], ['class' => 'title']) ?>
+                                    </li>
                                 </ul>
                             </li>
                         <?php } ?>

@@ -65,4 +65,18 @@ class SetValues extends Component {
         return $years;
     }
 
+    public function Selected($value) {
+        $options = array();
+        if (is_array($value)) {
+            $array = $value;
+        } else {
+            $array = explode(',', $value);
+        }
+
+        foreach ($array as $valuee):
+            $options[$valuee] = ['selected' => true];
+        endforeach;
+        return $options;
+    }
+
 }
