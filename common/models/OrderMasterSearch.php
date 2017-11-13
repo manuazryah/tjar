@@ -10,13 +10,15 @@ use common\models\OrderMaster;
 /**
  * OrderMasterSearch represents the model behind the search form about `common\models\OrderMaster`.
  */
-class OrderMasterSearch extends OrderMaster
-{
+class OrderMasterSearch extends OrderMaster {
+
+    public $createdFrom;
+    public $createdTo;
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'user_id', 'promotion_id', 'ship_address_id', 'bill_address_id', 'payment_status', 'admin_status', 'shipping_status', 'status'], 'integer'],
             [['order_id', 'order_date', 'user_comment', 'admin_comment', 'DOC', 'DOU'], 'safe'],
@@ -27,8 +29,7 @@ class OrderMasterSearch extends OrderMaster
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -40,9 +41,18 @@ class OrderMasterSearch extends OrderMaster
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
-        $query = OrderMaster::find();
+    public function search($params) {
+        if (!isset($params["OrderMasterSearch"]["createdFrom"])) {
+            $params["OrderMasterSearch"]["createdFrom"] = '';
+        } else {
+            $params["OrderMasterSearch"]["createdFrom"] = $params["OrderMasterSearch"]["createdFrom"] . ' 00:00:00';
+        }
+        if (!isset($params["OrderMasterSearch"]["createdTo"])) {
+            $params["OrderMasterSearch"]["createdTo"] = '';
+        } else {
+            $params["OrderMasterSearch"]["createdTo"] = $params["OrderMasterSearch"]["createdTo"] . ' 60:60:60';
+        }
+        $query = OrderMaster::find()->orderBy(['id' => SORT_DESC]);
 
         // add conditions that should always apply here
 
@@ -67,7 +77,7 @@ class OrderMasterSearch extends OrderMaster
             'promotion_discount' => $this->promotion_discount,
             'discount_amount' => $this->discount_amount,
             'net_amount' => $this->net_amount,
-            'order_date' => $this->order_date,
+//            'order_date' => $this->order_date,
             'ship_address_id' => $this->ship_address_id,
             'bill_address_id' => $this->bill_address_id,
             'payment_status' => $this->payment_status,
@@ -79,9 +89,12 @@ class OrderMasterSearch extends OrderMaster
         ]);
 
         $query->andFilterWhere(['like', 'order_id', $this->order_id])
-            ->andFilterWhere(['like', 'user_comment', $this->user_comment])
-            ->andFilterWhere(['like', 'admin_comment', $this->admin_comment]);
+                ->andFilterWhere(['like', 'user_comment', $this->user_comment])
+                ->andFilterWhere(['like', 'admin_comment', $this->admin_comment])
+                ->andFilterWhere(['>=', 'order_date', $params["OrderMasterSearch"]["createdFrom"]])
+                ->andFilterWhere(['<=', 'order_date', $params["OrderMasterSearch"]["createdTo"]]);
 
         return $dataProvider;
     }
+
 }

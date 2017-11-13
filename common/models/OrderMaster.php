@@ -77,4 +77,16 @@ class OrderMaster extends \yii\db\ActiveRecord {
         ];
     }
 
+    public static function getTotal($from_date, $to, $field_name) {
+        if ($from_date != '' && $to != '') {
+            $from_date = $from_date . ' 00:00:00';
+            $to = $to . ' 60:60:60';
+            return OrderMaster::find()->where(['>=', 'order_date', $from_date])->andWhere(['<=', 'order_date', $to])->sum($field_name);
+        } elseif ($from_date != '' || $to != '') {
+            return 0;
+        } else {
+            return OrderMaster::find()->sum($field_name);
+        }
+    }
+
 }

@@ -580,7 +580,10 @@ AppAsset::register($this);
                                 </a>
                                 <ul>
                                     <li>
-                                        <?= Html::a('Orders', ['/reports/orders/index'], ['class' => 'title']) ?>
+                                        <?= Html::a('Order report', ['/reports/orders/index'], ['class' => 'title']) ?>
+                                    </li>
+                                    <li>
+                                        <?= Html::a('Item wise report', ['/reports/orders/item-report'], ['class' => 'title']) ?>
                                     </li>
                                 </ul>
                             </li>

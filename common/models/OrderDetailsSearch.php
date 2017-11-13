@@ -12,6 +12,9 @@ use common\models\OrderDetails;
  */
 class OrderDetailsSearch extends OrderDetails {
 
+    public $createdFrom;
+    public $createdTo;
+
     /**
      * @inheritdoc
      */
@@ -39,7 +42,14 @@ class OrderDetailsSearch extends OrderDetails {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = OrderDetails::find();
+        if (isset($params["OrderDetailsSearch"]["createdFrom"]) && $params["OrderDetailsSearch"]["createdFrom"] != '') {
+            $params["OrderDetailsSearch"]["createdFrom"] = $params["OrderDetailsSearch"]["createdFrom"] . ' 00:00:00';
+        }
+        if (isset($params["OrderDetailsSearch"]["createdTo"]) && $params["OrderDetailsSearch"]["createdTo"] != '') {
+            $params["OrderDetailsSearch"]["createdTo"] = $params["OrderDetailsSearch"]["createdTo"] . ' 60:60:60';
+        }
+
+        $query = OrderDetails::find()->orderBy(['id' => SORT_DESC]);
 
         // add conditions that should always apply here
 
@@ -65,10 +75,12 @@ class OrderDetailsSearch extends OrderDetails {
             'sub_total' => $this->sub_total,
             'delivered_date' => $this->delivered_date,
             'status' => $this->status,
-            'DOC' => $this->DOC,
+//            'DOC' => $this->DOC,
         ]);
 
-        $query->andFilterWhere(['like', 'order_id', $this->order_id]);
+        $query->andFilterWhere(['like', 'order_id', $this->order_id])
+                ->andFilterWhere(['>=', 'DOC', $params["OrderDetailsSearch"]["createdFrom"]])
+                ->andFilterWhere(['<=', 'DOC', $params["OrderDetailsSearch"]["createdTo"]]);
 
         return $dataProvider;
     }
