@@ -49,6 +49,9 @@ return [
         'orders' => [
             'class' => 'backend\modules\orders\Module',
         ],
+        'reports' => [
+            'class' => 'backend\modules\reports\Module',
+        ],
     ],
     'components' => [
         'request' => [

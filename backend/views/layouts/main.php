@@ -572,6 +572,19 @@ AppAsset::register($this);
                                 </ul>
                             </li>
                         <?php } ?>
+                        <?php if (Yii::$app->session['post']['admin'] == 1) { ?>
+                            <li>
+                                <a href="">
+                                    <i class="fa fa-files-o"></i>
+                                    <span class="title">Reports</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <?= Html::a('Orders', ['/reports/orders/index'], ['class' => 'title']) ?>
+                                    </li>
+                                </ul>
+                            </li>
+                        <?php } ?>
                         <?php if (Yii::$app->session['post']['masters'] == 1) { ?>
                             <li>
                                 <a href="#">

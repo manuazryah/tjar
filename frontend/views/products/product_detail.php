@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\components\RecentlyViewedWidget;
 use common\components\RelatedProductWidget;
+use yii\db\Expression;
 
 if (isset($product_details->meta_title) && $product_details->meta_title != '')
     $this->title = $product_details->meta_title;
@@ -14,7 +15,7 @@ else
 <div id="product-detail">
     <div class="container">
         <div class="row">
-
+            <?php yii\widgets\Pjax::begin(['id' => 'product-views']); ?>
             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 product-img-view-box">
 
                 <div id="affix">
@@ -119,6 +120,39 @@ else
                 ?>
                 <p class="price"><?= sprintf('%0.2f', $price1) ?> <?= Yii::$app->session['words']->AED ?>  <?= $price2 != '' ? '<span>' . sprintf("%0.2f", $price2) . " " . Yii::$app->session['words']->AED . '  </span>' : ''; ?> </p>
                 <p class="message"><?= Yii::$app->session['words']->free_shipping ?> 150.00 <?= Yii::$app->session['words']->AED ?></p>
+                <?php
+                $product_mappping = \common\models\ProductMapping::find()->where(new Expression('FIND_IN_SET(:product_id, product_id)'))->addParams([':product_id' => $product_details->id])->one();
+                $variants = explode(",", $product_mappping->variants);
+                foreach ($variants as $variant) {
+                    ?>
+                    <div class="product-detailed-points">
+                        <h5 style="width: 100%;"><?= \common\models\Features::findOne($variant)->filter_tittle ?></h5>
+                    </div>
+                    <?php
+                    $query_features = \common\models\ProductFeatures::find()->where(['category' => $product_details->category, 'subcategory' => $product_details->subcategory, 'specification' => $variant])->orderBy(['id' => SORT_DESC])->all();
+                    $items = array();
+                    foreach ($query_features as $query_feature) {
+                        $items[] = $query_feature->id;
+                    }
+                    $query_specifications = \common\models\ProductSpecifications::find()->where(['IN', 'product_feature_id', $items])->orderBy(['id' => SORT_DESC])->all();
+                    $count = count($query_specifications) - 1;
+                    ?>
+                    <select class="form-control variant-url" style="background: #e8e8e8;width: 50%;"><?php
+                        foreach ($query_specifications as $query_specification) {
+                            ?>
+                            <option value="<?= Yii::$app->homeUrl ?>product-detail/<?= common\models\Products::findOne($query_specification->product_id)->canonical_name ?>" <?= $query_specification->product_id == $product_details->id ? 'selected' : '' ?>><?= $query_specification->Product_feature_text ?></option>>
+                        <?php }
+                        ?>
+                    </select>
+                    <?php
+                }
+                ?>
+                <div class="product-detailed-points">
+                    <h5><?= Yii::$app->session['words']->Highlights ?>: </h5>
+                    <span class="message">
+                        <?= Yii::$app->SetLanguage->ViewData($product_details, 'highlights'); ?>
+                    </span>
+                </div>
                 <div class="product-specifications">
                     <?php if (isset($vendor_product->warranty) && $vendor_product->warranty != '') { ?>
                         <div class="product-detailed-points">
@@ -149,14 +183,6 @@ else
                             </div>
                         </span>
                     </div>
-
-                    <div class="product-detailed-points">
-                        <h5><?= Yii::$app->session['words']->Highlights ?>: </h5>
-                        <span class="message">
-                            <?= Yii::$app->SetLanguage->ViewData($product_details, 'highlights'); ?>
-                        </span>
-                    </div>
-
                     <div class="product-detailed-points">
                         <h5> <?= Yii::$app->session['words']->Notes ?>:</h5>
                         <p class="important-notes"> <?= Yii::$app->SetLanguage->ViewData($product_details, 'important_notes'); ?></p>
@@ -229,7 +255,7 @@ else
                           $specification_model = \common\models\Features::findOne($product_features->specification);
                           $value = $specification_model->tablevalue__name; */
                         ?>
-                                                                                                                                <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                              ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                              ?></td></tr>
+                                                                                                                                <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                       ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                       ?></td></tr>
                         <?php
                         /*  }
                           } */
@@ -371,7 +397,7 @@ else
                 </div>
             </div>
 
-
+            <?php yii\widgets\Pjax::end(); ?>
             <!-----------------------------------------List Related Products--------------------------------------------->
             <?= RelatedProductWidget::widget(['id' => $product_details->related_products]) ?>
 
@@ -380,3 +406,12 @@ else
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $(document).on('change', '.variant-url', function (e) {
+            var url = $(this).val();
+            $.pjax({container: '#product-views', url: url});
+        });
+    });
+</script>
