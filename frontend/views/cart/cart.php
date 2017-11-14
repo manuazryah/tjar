@@ -30,8 +30,8 @@ $this->title = 'Shopping Cart';
                                         <div class="woocommerce">
                                                 <!--<form action="#" method="post" id="order_master_form">-->
                                                 <?php $form1 = ActiveForm::begin(['id' => '']); ?>
-                        <input type="hidden" id="cart_count" value="<?= count($cart_items); ?>">
-                        <table class="shop_table shop_table_responsive cart cart_table" cellspacing="0">
+                                                <input type="hidden" id="cart_count" value="<?= count($cart_items); ?>">
+                                                <table class="shop_table shop_table_responsive cart cart_table" cellspacing="0">
                                                         <thead>
                                                                 <tr>
                                                                         <th class="product-item">Cart Item</th>
@@ -41,7 +41,7 @@ $this->title = 'Shopping Cart';
                                                                         <th class="product-remove">Remove</th>
                                                                 </tr>
                                                         </thead>
-                            <tbody class="cart_content">
+                                                        <tbody class="cart_content">
                                                                 <?php
                                                                 foreach ($cart_items as $cart_item) {
                                                                         $prod_details = ProductVendor::findOne($cart_item->product_id);
@@ -52,7 +52,7 @@ $this->title = 'Shopping Cart';
                                                                                 $price = $prod_details->offer_price;
                                                                         }
                                                                         ?>
-                                    <tr class="cart_item tr_<?= $cart_item->id ?>">
+                                                                        <tr class="cart_item tr_<?= $cart_item->id ?>">
 
                                                                                 <td class="product-item" data-title="Product">
 
@@ -63,7 +63,7 @@ $this->title = 'Shopping Cart';
 
                                                                                 <td class="product-quantity" data-title="Quantity">
                                                                                         <div class="quantity">
-                                                                                                <input type="number" step="1" min="1" max="<?= $prod_details->qty; ?>" name="" value="<?= $cart_item->quantity ?>" title="Qty" class="input-text qty text cart_qty" id="<?= yii::$app->EncryptDecrypt->Encrypt('encrypt', $cart_item->id); ?>" size="4" pattern="[0-9]*" inputmode="numeric">
+                                                                                                <input type="number" step="1" min="1" max="<?= $prod_details->qty; ?>" name="" value="<?= $cart_item->quantity ?>" title="Qty" class="input-text qty text cart_qty cart-quanty" id="<?= yii::$app->EncryptDecrypt->Encrypt('encrypt', $cart_item->id); ?>" size="4" pattern="[0-9]*" inputmode="numeric">
                                                                                         </div>
                                                                                 </td>
 
@@ -72,10 +72,10 @@ $this->title = 'Shopping Cart';
                                                                                         <span class="woocommerce-Price-amount amount total_<?= yii::$app->EncryptDecrypt->Encrypt('encrypt', $cart_item->id) ?>"><?= sprintf("%0.2f", $total); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
 
                                                                                 <td class="product-remove">
-                                            <?php // Html::a('<i class="fa fa-trash-o"></i>', ['cart/cart_remove?id=' . $cart_item->id], ['class' => 'remove', 'title' => 'Remove this item']) ?>
-                                            <a  class="remove remove_cart" title="Remove this item" data-product_id="<?= $cart_item->id ?>" data-product_sku=""><i class="fa fa-trash-o"></i></a>
-                                            <span class="error_<?= $cart_item->id ?>" style="color:red"></span>
-                                        </td>
+                                                                                        <?php // Html::a('<i class="fa fa-trash-o"></i>', ['cart/cart_remove?id=' . $cart_item->id], ['class' => 'remove', 'title' => 'Remove this item']) ?>
+                                                                                        <a  class="remove remove_cart" title="Remove this item" data-product_id="<?= $cart_item->id ?>" data-product_sku=""><i class="fa fa-trash-o"></i></a>
+                                                                                        <span class="error_<?= $cart_item->id ?>" style="color:red"></span>
+                                                                                </td>
 
                                                                         </tr>
                                                                 <?php } ?>
