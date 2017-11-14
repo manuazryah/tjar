@@ -13,6 +13,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\ContactForm;
 use common\models\User;
+use common\models\Slider;
 
 /**
  * Site controller
@@ -70,7 +71,10 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        return $this->render('index');
+        $sliders = Slider::find()->where(['status' => 1])->all();
+        return $this->render('index', [
+                    'sliders' => $sliders,
+        ]);
     }
 
     /**

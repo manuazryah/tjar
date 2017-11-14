@@ -26,60 +26,39 @@ use common\models\LoginForm;
 
             <!-- Indicators -->
             <ol class="carousel-indicators">
-                <li data-target="#bootstrap-touch-slider" data-slide-to="0" class="active"></li>
-                <li data-target="#bootstrap-touch-slider" data-slide-to="1"></li>
-                <li data-target="#bootstrap-touch-slider" data-slide-to="2"></li>
+                <?php
+                $j = 0;
+                foreach ($sliders as $value) {
+                    ?>
+                    <li data-target="#bootstrap-touch-slider" data-slide-to="<?= $j ?>" class="<?= $j == 0 ? 'active' : '' ?>"></li>
+                    <?php
+                    $j++;
+                }
+                ?>
             </ol>
 
             <!-- Wrapper For Slides -->
             <div class="carousel-inner" role="listbox">
 
-                <!-- Third Slide -->
-                <div class="item active">
+                <?php
+                $k = 0;
+                foreach ($sliders as $value) {
+                    $link = '';
+                    if (isset($value->slider_link) && $value->slider_link != '') {
+                        $link = $value->slider_link;
+                    }
+                    ?>
+                    <div class="item <?= $k == 0 ? 'active' : '' ?>">
 
-                    <!-- Slide Background -->
-                    <img src="<?= Yii::$app->homeUrl ?>images/banner/banner1.jpg" alt="Bootstrap Touch Slider"  class="slide-image"/>
-                    <!--<div class="bs-slider-overlay"></div>-->
+                        <!-- Slide Background -->
+                        <a href="<?= $link ?>" arget="_blank"><img src="<?= Yii::$app->homeUrl; ?>uploads/cms/slider/<?= $value->id ?>/large.<?= $value->slider_image ?>" alt="Bootstrap Touch Slider"  class="slide-image"/></a>
+                        <!--<div class="bs-slider-overlay"></div>-->
 
-                    <div class="container">
-                        <div class="row">
-                            <!-- Slide Text Layer -->
-                            <!--                                    <div class="slide-text slide_style_left">
-                                                                    <h1 data-animation="animated zoomInRight">Bootstrap Carousel</h1>
-                                                                    <p data-animation="animated fadeInLeft">Bootstrap carousel now touch enable slide.</p>
-                                                                </div>-->
-                        </div>
                     </div>
-                </div>
-                <!-- End of Slide -->
-
-                <!-- Second Slide -->
-                <div class="item">
-
-                    <!-- Slide Background -->
-                    <img src="<?= Yii::$app->homeUrl ?>images/banner/banner1.jpg" alt="Bootstrap Touch Slider"  class="slide-image"/>
-                    <!--<div class="bs-slider-overlay"></div>-->
-                    <!-- Slide Text Layer -->
-                    <!--                            <div class="slide-text slide_style_center">
-                                                    <h1 data-animation="animated flipInX">Bootstrap touch slider</h1>
-                                                    <p data-animation="animated lightSpeedIn">Make Bootstrap Better together.</p>
-                                                </div>-->
-                </div>
-                <!-- End of Slide -->
-
-                <!-- Third Slide -->
-                <div class="item">
-
-                    <!-- Slide Background -->
-                    <img src="<?= Yii::$app->homeUrl ?>images/banner/banner1.jpg" alt="Bootstrap Touch Slider"  class="slide-image"/>
-                    <!--<div class="bs-slider-overlay"></div>-->
-                    <!-- Slide Text Layer -->
-                    <!--                            <div class="slide-text slide_style_right">
-                                                    <h1 data-animation="animated zoomInLeft">Beautiful Animations</h1>
-                                                    <p data-animation="animated fadeInRight">Lots of css3 Animations to make slide beautiful .</p>
-                                                </div>-->
-                </div>
-                <!-- End of Slide -->
+                    <?php
+                    $k++;
+                }
+                ?>
 
 
             </div><!-- End of Wrapper For Slides -->

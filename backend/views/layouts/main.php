@@ -501,6 +501,7 @@ AppAsset::register($this);
                                 </ul>
                             </li>
                         <?php } ?>
+
                         <?php if (Yii::$app->session['post']['order'] == 1) { ?>
                             <li>
                                 <a href="">
@@ -555,6 +556,19 @@ AppAsset::register($this);
                                 <ul>
                                     <li>
                                         <?= Html::a('Promotions', ['/promotions/promotions/index'], ['class' => 'title']) ?>
+                                    </li>
+                                </ul>
+                            </li>
+                        <?php } ?>
+                        <?php if (Yii::$app->session['post']['admin'] == 1) { ?>
+                            <li>
+                                <a href="">
+                                    <i class="fa-pie-chart"></i>
+                                    <span class="title">CMS</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <?= Html::a('Slider', ['/cms/slider/index'], ['class' => 'title']) ?>
                                     </li>
                                 </ul>
                             </li>

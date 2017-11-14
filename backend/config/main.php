@@ -52,6 +52,9 @@ return [
         'reports' => [
             'class' => 'backend\modules\reports\Module',
         ],
+        'cms' => [
+            'class' => 'backend\modules\cms\Module',
+        ],
     ],
     'components' => [
         'request' => [
