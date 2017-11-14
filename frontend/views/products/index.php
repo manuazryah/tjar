@@ -97,7 +97,7 @@ if (!empty($categ)) {
 											<h3><?= $product_details->product_name ?></h3>
 
 											<div class="col-md-3">
-												<img src="<?= Yii::$app->homeUrl . 'uploads/products/' . $split_folder . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '.' . $product_details->gallery_images ?>" style="width: 150px;height:150px" alt="1" />
+												<img src="<?= Yii::$app->homeUrl . 'uploads/products/' . $split_folder . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '.' . $product_details->gallery_images ?>?<?= rand() ?>" style="width: 150px;height:150px" alt="1" />
 											</div>
 											<div class="col-md-9">
 												<span>Price:<?= $model->price; ?></span>
