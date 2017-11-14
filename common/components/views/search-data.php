@@ -22,7 +22,7 @@ use yii\helpers\Html;
         ?>
         <?= Html::beginForm(['/products/product-search'], 'get', ['id' => 'serach-formm']) ?>
         <div class="col-md-8 col-sm-8 col-xs-8 search" id="header_search">
-                <input type="search" name="serch" placeholder="Search for Products, Brands & More" class="search-keyword"/>
+                <input type="search" name="keyword" placeholder="Search for Products, Brands & More" class="search-keyword" autocomplete="off"/>
                 <div class="search-keyword-dropdown"></div>
                 <button class="search-submit"><i class="fa fa-search" aria-hidden="true"></i></button>
         </div>
@@ -48,7 +48,6 @@ use yii\helpers\Html;
                         var type = '<?= $type ?>';
                         if ($(this).val()[0] === " ") {
 
-
                         } else {
                                 if (type == 1) {
                                         var urlval = 'product/product/search-keyword';
@@ -73,8 +72,6 @@ use yii\helpers\Html;
                 $(document).on('mouseover', '.search-dropdown li', function () {
                         $(this).addClass('search-selected').siblings().removeClass('search-selected');
                 });
-
-
 
                 /* * ******************li navigation keys ************** */
                 $('.search-keyword').on('keydown', function (e) {
