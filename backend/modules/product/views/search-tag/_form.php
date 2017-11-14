@@ -13,7 +13,7 @@ use yii\helpers\Url;
 
 <div class="search-tag-form form-inline">
 
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(['id' => 'add-search-tag']); ?>
 
         <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
                 <?= $form->field($model, 'category')->dropDownList(ArrayHelper::map(common\models\ProductCategory::find()->all(), 'id', 'category_name'), ['prompt' => 'select category', 'class' => 'form-control change_category']) ?>
@@ -44,7 +44,7 @@ use yii\helpers\Url;
         </div>
         <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
                 <div class="form-group">
-                        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary', 'style' => 'margin-top: 18px; height: 36px; width:100px;float:right;']) ?>
+                        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success btn-search-tag' : 'btn btn-primary btn-search-tag', 'style' => 'margin-top: 18px; height: 36px; width:100px;float:right;']) ?>
                 </div>
         </div>
 
