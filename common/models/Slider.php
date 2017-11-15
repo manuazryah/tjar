@@ -34,10 +34,10 @@ class Slider extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['status', 'CB', 'UB'], 'integer'],
-            [['slider_image', 'slider_image_arabic'], 'required', 'on' => 'create'],
-            [['DOC', 'DOU'], 'safe'],
+            [['slider_image', 'slider_image_arabic', 'main_tittle', 'canonical_name'], 'required', 'on' => 'create'],
+            [['DOC', 'DOU', 'canonical_name'], 'safe'],
             [['slider_image'], 'string', 'max' => 50],
-            [['main_tittle', 'sub_tittle', 'slider_link'], 'string', 'max' => 500],
+            [['main_tittle', 'slider_link'], 'string', 'max' => 500],
             [['slider_image', 'slider_image_arabic'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
@@ -50,8 +50,8 @@ class Slider extends \yii\db\ActiveRecord {
             'id' => 'ID',
             'slider_image' => 'Slider Image',
             'slider_image_arabic' => 'Slider Image Arabic',
-            'main_tittle' => 'Main Tittle',
-            'sub_tittle' => 'Sub Tittle',
+            'main_tittle' => 'Tittle',
+            'canonical_name' => 'Canonical Name',
             'slider_link' => 'Slider Link',
             'status' => 'Status',
             'CB' => 'Cb',

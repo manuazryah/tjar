@@ -2,142 +2,120 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\bootstrap\Modal;
+use yii\widgets\Pjax;
 use yii\helpers\Url;
-use common\models\Gender;
 use yii\helpers\ArrayHelper;
+use common\models\ProductMainCategory;
+use common\models\ProductSubCategory;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\DemoSearch */
+/* @var $searchModel common\models\ProductMainCategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Sliders';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="demo-index">
+<div class="product-main-category-index">
 
     <div class="row">
         <div class="col-md-12">
-            <div class="page-title">
 
-                <div class="title-env">
-                    <h1 class="title"><?= Html::encode($this->title) ?></h1>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
             <div class="panel panel-default">
-                <div class="panel-body"><div class="demo-create">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
 
-                        <?=
-                        $this->render('_form', [
-                            'model' => $model,
-                        ])
-                        ?>
-                    </div>
+
                 </div>
-            </div>
+                <div class="panel-body">
 
-        </div>
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-body table-responsive">
-                    <button class="btn btn-white" id="search-option" style="float: right;">
-                        <i class="linecons-search"></i>
-                        <span>Search</span>
-                    </button>
 
                     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-                    <?=
-                    GridView::widget([
-                        'dataProvider' => $dataProvider,
-                        'filterModel' => $searchModel,
-                        'pager' => [
-                            'firstPageLabel' => 'first',
-                            'lastPageLabel' => 'last',
-                            'prevPageLabel' => '<',
-                            'nextPageLabel' => '>',
-                            'maxButtonCount' => 5,
-                        ],
-                        'columns' => [
-                            ['class' => 'yii\grid\SerialColumn'],
-//                            'id',
-//                            [
-//                                'attribute' => 'slider_image',
-//                                'format' => 'raw',
-//                                'value' => function ($data) {
-//                                    if (isset($data->img)) {
-//                                        $img = '<img width="120px" src="' . Yii::$app->homeUrl . '../uploads/cms/slider/' . $data->id . '/small.' . $data->slider_image . '?' . rand() . '"/>';
-//                                    } else {
-//                                        $img = '';
-//                                    }
-//                                    return $img;
-//                                },
-//                            ],
-                            [
-                                'attribute' => 'slider_link',
-                                'format' => 'raw',
-                                'value' => function ($data) {
-                                    if (isset($data->slider_link)) {
-                                        return $data->slider_link;
-                                    } else {
-                                        return '';
-                                    }
-                                },
-                            ],
-                            [
-                                'attribute' => 'status',
-                                'filter' => ['1' => 'Enable', '0' => 'Disable'],
-                                'value' => function($data) {
-                                    return $data->status == 1 ? 'Enable' : 'Disable';
-                                }
-                            ],
-//                            'CB',
-//                            'UB',
-//                            'DOC',
-                            // 'DOU',
-                            [
-                                'class' => 'yii\grid\ActionColumn',
-//                                    'contentOptions' => ['style' => 'width:100px;'],
-                                'header' => 'Actions',
-                                'template' => '{update}{delete}',
-                                'buttons' => [
-                                    'update' => function ($url, $model) {
-                                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
-                                                    'title' => Yii::t('app', 'update'),
-                                                    'class' => '',
-                                        ]);
-                                    },
-                                    'delete' => function ($url, $model) {
-                                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
-                                                    'title' => Yii::t('app', 'Delete'),
-                                                    'class' => '',
-                                                    'data-confirm' => 'Are you sure you want to delete this item?',
-                                        ]);
+
+
+                    <?= Html::button('<i class="fa-th-list"></i><span> Create New</span>', ['value' => Url::to('create'), 'class' => 'btn btn-warning  btn-icon btn-icon-standalone modalButton']) ?>
+                    <?php
+                    Modal::begin([
+                        'header' => '',
+                        'id' => 'modal',
+                        'size' => 'modal-lg',
+                    ]);
+                    echo "<div id = 'modalContent'></div>";
+                    Modal::end();
+                    ?>
+                    <div class="table-responsive" style="border: none">
+                        <button class="btn btn-white" id="search-option" style="float: right;">
+                            <i class="linecons-search"></i>
+                            <span>Search</span>
+                        </button>
+                        <?php Pjax::begin(); ?>
+                        <?=
+                        GridView::widget([
+                            'dataProvider' => $dataProvider,
+                            'filterModel' => $searchModel,
+                            'columns' => [
+                                ['class' => 'yii\grid\SerialColumn'],
+//                                'id',
+                                [
+                                    'attribute' => 'slider_image',
+                                    'format' => 'raw',
+                                    'value' => function ($data) {
+                                        if (isset($data->slider_image)) {
+                                            $img = '<img width="250px" height: 115px; src="' . Yii::$app->homeUrl . '../uploads/cms/slider/' . $data->canonical_name . '.' . $data->slider_image . '?' . rand() . '"/>';
+                                        } else {
+                                            $img = '';
+                                        }
+                                        return $img;
                                     },
                                 ],
-                                'urlCreator' => function ($action, $model) {
-                                    if ($action === 'update') {
-                                        $url = Url::to(['index', 'id' => $model->id]);
-                                        return $url;
+                                [
+                                    'attribute' => 'slider_image_arabic',
+                                    'format' => 'raw',
+                                    'value' => function ($data) {
+                                        if (isset($data->slider_image_arabic)) {
+                                            $img = '<img width="250px" height: 115px; src="' . Yii::$app->homeUrl . '../uploads/cms/slider/' . $data->canonical_name . '_arabic.' . $data->slider_image_arabic . '?' . rand() . '"/>';
+                                        } else {
+                                            $img = '';
+                                        }
+                                        return $img;
+                                    },
+                                ],
+                                [
+                                    'attribute' => 'slider_link',
+                                    'format' => 'raw',
+                                    'value' => function ($data) {
+                                        if (isset($data->slider_link)) {
+                                            return $data->slider_link;
+                                        } else {
+                                            return '';
+                                        }
+                                    },
+                                ],
+                                [
+                                    'attribute' => 'status',
+                                    'filter' => ['1' => 'Enable', '0' => 'Disable'],
+                                    'value' => function($data) {
+                                        return $data->status == 1 ? 'Enable' : 'Disable';
                                     }
-                                    if ($action === 'delete') {
-                                        $url = Url::to(['del', 'id' => $model->id]);
-                                        return $url;
-                                    }
-                                }
+                                ],
+                                [
+                                    'class' => 'yii\grid\ActionColumn',
+//                                    'contentOptions' => ['style' => 'width:100px;'],
+                                    'header' => 'Actions',
+                                    'template' => '{delete}',
+                                ],
                             ],
-                        ],
-                    ]);
-                    ?>
+                        ]);
+                        ?>
+                        <?php Pjax::end(); ?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function () {
         $(".filters").slideToggle();
@@ -146,5 +124,4 @@ $this->params['breadcrumbs'][] = $this->title;
         });
     });
 </script>
-
 

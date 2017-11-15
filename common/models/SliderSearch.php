@@ -10,24 +10,22 @@ use common\models\Slider;
 /**
  * SliderSearch represents the model behind the search form about `common\models\Slider`.
  */
-class SliderSearch extends Slider
-{
+class SliderSearch extends Slider {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'status', 'CB', 'UB'], 'integer'],
-            [['slider_image', 'main_tittle', 'sub_tittle', 'slider_link', 'DOC', 'DOU'], 'safe'],
+            [['slider_image', 'main_tittle', 'canonical_name', 'slider_link', 'DOC', 'DOU'], 'safe'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,8 +37,7 @@ class SliderSearch extends Slider
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Slider::find();
 
         // add conditions that should always apply here
@@ -68,10 +65,11 @@ class SliderSearch extends Slider
         ]);
 
         $query->andFilterWhere(['like', 'slider_image', $this->slider_image])
-            ->andFilterWhere(['like', 'main_tittle', $this->main_tittle])
-            ->andFilterWhere(['like', 'sub_tittle', $this->sub_tittle])
-            ->andFilterWhere(['like', 'slider_link', $this->slider_link]);
+                ->andFilterWhere(['like', 'main_tittle', $this->main_tittle])
+                ->andFilterWhere(['like', 'canonical_name', $this->canonical_name])
+                ->andFilterWhere(['like', 'slider_link', $this->slider_link]);
 
         return $dataProvider;
     }
+
 }

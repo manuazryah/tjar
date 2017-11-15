@@ -3,10 +3,10 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Slider */
+/* @var $model common\models\HomeManagement */
 
-$this->title = 'Update Slider: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Sliders', 'url' => ['index']];
+$this->title = 'Update Home Management';
+$this->params['breadcrumbs'][] = ['label' => 'Home Managements', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
@@ -20,7 +20,8 @@ $this->params['breadcrumbs'][] = 'Update';
 
             </div>
             <div class="panel-body">
-                <div class="panel-body"><div class="slider-create">
+                <?= Html::a('<i class="fa-th-list"></i><span> Manage Home Management</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+                <div class="panel-body"><div class="home-management-create">
                         <?=
                         $this->render('_form', [
                             'model' => $model,

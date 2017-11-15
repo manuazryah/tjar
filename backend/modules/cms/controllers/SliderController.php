@@ -34,29 +34,13 @@ class SliderController extends Controller {
      * Lists all Slider models.
      * @return mixed
      */
-    public function actionIndex($id = NULL) {
-        if (!empty($id)) {
-            $model = $this->findModel($id);
-        } else {
-            $model = new Slider();
-            $model->setScenario('create');
-        }
-        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $this->SetExtension($model, $id) && $model->validate() && $model->save() && $this->SaveUpload($model)) {
-            if (!empty($id)) {
-                Yii::$app->getSession()->setFlash('success', 'Updated Successfully');
-            } else {
-                Yii::$app->getSession()->setFlash('success', "Create Successfully");
-            }
-            return $this->redirect(['index']);
-        }
+    public function actionIndex() {
         $searchModel = new SliderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->pagination->pageSize = 5;
 
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
-                    'model' => $model,
         ]);
     }
 
@@ -95,15 +79,15 @@ class SliderController extends Controller {
     public function SaveUpload($model) {
         $image = UploadedFile::getInstance($model, 'slider_image');
         $image_arabic = UploadedFile::getInstance($model, 'slider_image_arabic');
-        $path = Yii::$app->basePath . '/../uploads/cms/slider/' . $model->id;
+        $path = Yii::$app->basePath . '/../uploads/cms/slider/';
         if (!file_exists($path)) {
             FileHelper::createDirectory($path, $mode = 0775, $recursive = true);
         }
         if (!empty($image)) {
-            $image->saveAs($path . '/' . 'large.' . $image->extension);
+            $image->saveAs($path . $model->canonical_name . '.' . $image->extension);
         }
         if (!empty($image_arabic)) {
-            $image_arabic->saveAs($path . '/' . 'large_arabic.' . $image->extension);
+            $image_arabic->saveAs($path . $model->canonical_name . '_arabic.' . $image->extension);
         }
         return TRUE;
     }
@@ -126,11 +110,11 @@ class SliderController extends Controller {
      */
     public function actionCreate() {
         $model = new Slider();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model->setScenario('create');
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $this->SetExtension($model, $id) && $model->validate() && $model->save() && $this->SaveUpload($model)) {
+            return $this->redirect(['index']);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                         'model' => $model,
             ]);
         }
@@ -145,8 +129,8 @@ class SliderController extends Controller {
     public function actionUpdate($id) {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $this->SetExtension($model, $id) && $model->validate() && $model->save() && $this->SaveUpload($model)) {
+            return $this->renderAjax(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                         'model' => $model,
@@ -161,8 +145,13 @@ class SliderController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        $path = Yii::$app->basePath . '/../uploads/cms/slider/' . $model->canonical_name . '.' . $model->slider_image;
+        $path1 = Yii::$app->basePath . '/../uploads/cms/slider/' . $model->canonical_name . '_arabic.' . $model->slider_image;
+        if ($model->delete()) {
+            unlink($path);
+            unlink($path1);
+        }
         return $this->redirect(['index']);
     }
 
