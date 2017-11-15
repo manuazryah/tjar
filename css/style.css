@@ -3434,3 +3434,6 @@ button.green2 {
         border-bottom: 1px solid #ebebeb;
         margin-bottom: 10px;
 }
+.error{
+    color: red;
+}

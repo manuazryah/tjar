@@ -12,6 +12,13 @@ if (isset($product_details->meta_title) && $product_details->meta_title != '')
 else
     $this->title = $product_details->canonical_name;
 ?>
+<style>
+    .out_of_stock{
+        font-size: 26px;
+        color: white;
+        padding-left: 87px;
+    }
+</style>
 <div id="product-detail">
     <div class="container">
         <div class="row">
@@ -82,9 +89,13 @@ else
 
                         </div>
                         <div class="function-btn">
-                            <?= Html::a('<button class="start-shopping">' . Yii::$app->session['words']->add_to_cart . '</button>', '#', ['class' => 'add_to_cart', 'id' => yii::$app->EncryptDecrypt->Encrypt('encrypt', $vendor_product->id)]) ?>
-                            <!--<a href="cart.php"><button class="start-shopping">add to cart</button></a>-->
-                            <a href="#"><button class="start-shopping"><?= Yii::$app->session['words']->buy_now ?></button></a>
+                            <?php if ($vendor_product->qty > 0) { ?>
+                                <?= Html::a('<button class="start-shopping">' . Yii::$app->session['words']->add_to_cart . '</button>', '#', ['class' => 'add_to_cart', 'id' => yii::$app->EncryptDecrypt->Encrypt('encrypt', $vendor_product->id)]) ?>
+                                <!--<a href="cart.php"><button class="start-shopping">add to cart</button></a>-->
+                                <a href="#"><button class="start-shopping"><?= Yii::$app->session['words']->buy_now ?></button></a>
+                            <?php } else { ?>
+                                <label class="out_of_stock">Out Of Stock</label>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -255,7 +266,7 @@ else
                           $specification_model = \common\models\Features::findOne($product_features->specification);
                           $value = $specification_model->tablevalue__name; */
                         ?>
-                                                                                                                                <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                       ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                       ?></td></tr>
+                                                                                                                                <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                         ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                         ?></td></tr>
                         <?php
                         /*  }
                           } */
