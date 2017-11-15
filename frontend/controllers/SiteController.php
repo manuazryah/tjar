@@ -72,8 +72,12 @@ class SiteController extends Controller {
      */
     public function actionIndex() {
         $sliders = Slider::find()->where(['status' => 1])->all();
+        $deals = HomeManagement::find()->where(['id' => 1])->one();
+        $home_datas = HomeManagement::find()->where(['<>', 'id', 1])->andWhere(['status' => 1])->orderBy(['sort_order' => SORT_ASC])->all();
         return $this->render('index', [
                     'sliders' => $sliders,
+                    'deals' => $deals,
+                    'home_datas' => $home_datas,
         ]);
     }
 
