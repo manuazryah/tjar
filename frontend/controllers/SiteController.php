@@ -14,6 +14,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\ContactForm;
 use common\models\User;
 use common\models\Slider;
+use common\models\HomeManagement;
 
 /**
  * Site controller

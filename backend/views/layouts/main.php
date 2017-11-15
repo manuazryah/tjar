@@ -570,6 +570,9 @@ AppAsset::register($this);
                                     <li>
                                         <?= Html::a('Slider', ['/cms/slider/index'], ['class' => 'title']) ?>
                                     </li>
+                                    <li>
+                                        <?= Html::a('Home Management', ['/cms/home-management/index'], ['class' => 'title']) ?>
+                                    </li>
                                 </ul>
                             </li>
                         <?php } ?>
