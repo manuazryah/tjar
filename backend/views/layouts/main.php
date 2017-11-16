@@ -706,15 +706,7 @@ AppAsset::register($this);
 
 					<!-- Right links for user info navbar -->
 					<ul class="user-info-menu right-links list-inline list-unstyled">
-						<?php
-						Modal::begin([
-						    'header' => '',
-						    'id' => 'modal',
-						    'size' => 'modal-lg',
-						]);
-						echo "<div id = 'modalContent'></div>";
-						Modal::end();
-						?>
+
 						<?php
 						Modal::begin([
 						    'header' => '',

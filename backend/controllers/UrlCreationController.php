@@ -117,4 +117,30 @@ class UrlCreationController extends \yii\web\Controller {
 		}
 	}
 
+	public function actionSearchTags() {
+		if (yii::$app->request->isAjax) {
+			if (yii::$app->request->isAjax) {
+				$categ_id = $_POST['categ_id'];
+				$type = $_POST['type'];
+				if (!empty($categ_id) && $type == 1) {
+					$tags = \common\models\SearchTag::find()->where(['category' => $categ_id, 'status' => 1])->all();
+					$val .= "<option value=''>Select Tag</option>";
+					if ($tags) {
+						foreach ($tags as $catgry) {
+							$val .= "<option value='" . $catgry->canonical_name . "'>" . $catgry->tag_name . "</option>";
+						}
+						echo json_encode(array("con" => "1", 'val' => $val)); //Success
+						exit;
+					} else {
+						echo json_encode(array("con" => "1", 'val' => $val)); //No Return
+						exit;
+					}
+				} else {
+					echo 1; //Value Not Setted
+					exit;
+				}
+			}
+		}
+	}
+
 }
