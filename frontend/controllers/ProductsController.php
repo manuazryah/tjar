@@ -298,7 +298,7 @@ class ProductsController extends \yii\web\Controller {
                 }
         }
 
-        public function actionProductSearch($categ = null, $query_search = null) {
+        public function actionProductSearch($main_categ = null, $categ = null, $query_search = null) {
                 $query = explode('&', $_SERVER['QUERY_STRING']);
                 $params = array();
                 foreach ($query as $param) {

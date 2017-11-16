@@ -7,11 +7,13 @@
                 if (isset($value->category)) {
                         $category_detail = common\models\ProductCategory::findOne($value->category);
                         $category_name = $category_detail->category_name;
+                        $main_category_detail = common\models\ProductMainCategory::findOne($category_detail->category_id);
+                        $main_category_name = $main_category_detail->canonical_name;
                 }
                 ?>
 
                 <li class="<?= $p == 1 ? 'search-selected' : '' ?>" id="<?= $value->tag_name ?>">
-                        <a id="<?= $value->id ?>" href="<?= Yii::$app->homeUrl ?>products/product-search?categ=<?= $category_detail->canonical_name ?>&&query_search=<?= $value->canonical_name ?>">  <div style="height: 25px"><span class="search-li-value"><?= $value->tag_name ?> </span> in  <span class="search-category"> <?= $category_name ?> </span></div> </a>
+                        <a id="<?= $value->id ?>" href="<?= Yii::$app->homeUrl ?>products/product-search?main_categ=<?= $main_category_name ?>&&categ=<?= $category_detail->canonical_name ?>&&query_search=<?= $value->canonical_name ?>">  <div style="height: 25px"><span class="search-li-value"><?= $value->tag_name ?> </span> in  <span class="search-category"> <?= $category_name ?> </span></div> </a>
 
                 </li>
 
