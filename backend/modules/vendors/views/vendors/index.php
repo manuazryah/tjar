@@ -24,43 +24,43 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="panel-body">
 
 
-                                        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+					<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 
 
-                                        <?= Html::a('<i class="fa-th-list"></i><span> Add Vendors</span>', ['create'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+					<?= Html::a('<i class="fa-th-list"></i><span> Add Vendors</span>', ['create'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
                                         <button class="btn btn-white" id="search-option" style="float: right;">
                                                 <i class="linecons-search"></i>
                                                 <span>Search</span>
                                         </button>
                                         <div class="table-responsive" style="border: none">
-                                                <?=
-                                                GridView::widget([
-                                                    'dataProvider' => $dataProvider,
-                                                    'filterModel' => $searchModel,
-                                                    'columns' => [
-                                                            ['class' => 'yii\grid\SerialColumn'],
-                                                        'first_name',
-                                                        'last_name',
-                                                        'username',
-                                                        'phone_number',
-                                                        'mobile_number',
-                                                        'email:email',
-                                                            [
-                                                            'attribute' => 'status',
-                                                            'value' => function($model, $key, $index, $column) {
-                                                                    return $model->status == 0 ? 'Disabled' : 'Enabled';
-                                                            },
-                                                            'filter' => [1 => 'Enabled', 0 => 'Disabled'],
-                                                        ],
-                                                        // 'CB',
-                                                        // 'UB',
-                                                        // 'DOC',
-                                                        // 'DOU',
-                                                        ['class' => 'yii\grid\ActionColumn'],
-                                                    ],
-                                                ]);
-                                                ?>
+						<?=
+						GridView::widget([
+						    'dataProvider' => $dataProvider,
+						    'filterModel' => $searchModel,
+						    'columns' => [
+							    ['class' => 'yii\grid\SerialColumn'],
+							'first_name',
+							'last_name',
+							'username',
+							'phone_number',
+							'mobile_number',
+							'email:email',
+							    [
+							    'attribute' => 'status',
+							    'value' => function($model, $key, $index, $column) {
+								    return $model->status == 0 ? 'Disabled' : 'Enabled';
+							    },
+							    'filter' => [1 => 'Enabled', 0 => 'Disabled'],
+							],
+							// 'CB',
+							// 'UB',
+							// 'DOC',
+							// 'DOU',
+							['class' => 'yii\grid\ActionColumn'],
+						    ],
+						]);
+						?>
                                         </div>
                                 </div>
                         </div>
@@ -69,11 +69,11 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <script>
-        $(document).ready(function () {
-                $(".filters").slideToggle();
-                $("#search-option").click(function () {
-                        $(".filters").slideToggle();
-                });
-        });
+	$(document).ready(function () {
+		$(".filters").slideToggle();
+		$("#search-option").click(function () {
+			$(".filters").slideToggle();
+		});
+	});
 </script>
 

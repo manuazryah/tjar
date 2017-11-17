@@ -10,6 +10,7 @@ use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
+use common\components\ModalViewWidget;
 
 AppAsset::register($this);
 ?>
@@ -538,6 +539,9 @@ AppAsset::register($this);
 									<li>
 										<?= Html::a('Vendors', ['/vendors/vendors/index'], ['class' => 'title']) ?>
 									</li>
+									<li>
+										<?= Html::a('Products', ['/vendors/product-vendor/index'], ['class' => 'title']) ?>
+									</li>
 
 
 
@@ -707,15 +711,7 @@ AppAsset::register($this);
 					<!-- Right links for user info navbar -->
 					<ul class="user-info-menu right-links list-inline list-unstyled">
 
-						<?php
-						Modal::begin([
-						    'header' => '',
-						    'id' => 'modal',
-						    'size' => 'modal-lg',
-						]);
-						echo "<div id = 'modalContent'></div>";
-						Modal::end();
-						?>
+						<?= ModalViewWidget::widget() ?>
 
 						<li>
 							<a href="<?= Yii::$app->homeUrl; ?>site/home"><i class="fa-home"></i> Home</a>

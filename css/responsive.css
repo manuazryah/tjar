@@ -2,6 +2,20 @@
     .form {
         width: 55.333333%;
     }
+    .container2{
+        width: 1000px;
+    }
+}
+@media (min-width: 992px){
+    .container2 {
+        width: 970px;
+    }
+}
+
+@media (min-width: 768px){
+    .container2{
+        width: 750px;
+    }
 }
 @media (min-width:1400px){
     #product-slider .container:after{
@@ -240,6 +254,12 @@
     .MyAccount-content .order-table td{
         border-right: 1px solid #f1f1f1;
     }
+    #product-page .left-menu{
+        width: 100%;
+    }
+    #product-page .breadcrumb{
+        padding: 15px 30px;
+    }
 }
 @media(max-width:458px){
     .xs-align-center{
@@ -280,6 +300,12 @@
     }
     .MyAccount-content .order-table td{
         border-right: 1px solid #f1f1f1;
+    }
+    #product-page .left-menu{
+        width: 100%;
+    }
+    #product-page .breadcrumb{
+        padding: 15px 30px;
     }
 }
 @media(max-width:550px){

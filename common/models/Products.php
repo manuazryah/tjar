@@ -23,6 +23,8 @@ use Yii;
  * @property string $meta_title
  * @property string $meta_description
  * @property string $meta_keyword
+ * @property string $reward_points
+ * @property string $commisson
  * @property string $field1
  * @property string $field2
  * @property string $field3
@@ -52,6 +54,7 @@ class Products extends \yii\db\ActiveRecord {
 			[['DOC', 'DOU'], 'safe'],
 			[['product_name', 'canonical_name', 'item_ean', 'gallery_images', 'meta_title', 'field1', 'field2', 'field3', 'product_name_arabic', 'short_description', 'short_description_arabic'], 'string', 'max' => 500],
 			[['search_tags', 'related_products'], 'safe'],
+			[['reward_points', 'commisson'], 'string', 'max' => 100],
 		];
 	}
 
@@ -83,6 +86,8 @@ class Products extends \yii\db\ActiveRecord {
 		    'meta_title' => 'Meta Title',
 		    'meta_description' => 'Meta Description',
 		    'meta_keyword' => 'Meta Keyword',
+		    'reward_points' => 'Reward Points',
+		    'commisson' => 'Commisson',
 		    'field1' => 'Field1',
 		    'field2' => 'Field2',
 		    'field3' => 'Field3',

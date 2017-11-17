@@ -12,8 +12,8 @@ class AppAsset extends AssetBundle {
 	public $basePath = '@webroot';
 	public $baseUrl = '@web';
 	public $css = [
-	    'css/pricefilterbar.css',
-	    'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
+	    'css/bootstrap.min.css',
+	    'css/fontawsome.css',
 	    'css/menu-style.css',
 	    'css/ionicons.min.css',
 	    'css/flag-icon.min.css',
@@ -21,9 +21,13 @@ class AppAsset extends AssetBundle {
 	    'css/msdropdown/skin2.css',
 	    'css/msdropdown/flags.css',
 	    'css/magiczoom.css',
+	    'css/product-toggle.css',
+	    'css/pricefilterbar.css',
+	    'css/list&grid-view.css',
+	    'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css',
+	    'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
 	    'css/style.css',
 	    'css/responsive.css',
-	    'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css',
 	];
 	public $js = [
 //        'js/jquary_slim_min.js',
@@ -36,9 +40,11 @@ class AppAsset extends AssetBundle {
 	    'js/msdropdown/jquery.dd.min.js',
 	    'js/msdropdown/jquery.dd.js',
 	    'js/magiczoom.js',
+	    'js/pricefilterbar.js',
+	    'js/list&grid-view.js',
+	    'js/pagenation.js',
 	    'js/custom.js',
 	    'js/main.js',
-	    'js/pricefilterbar.js',
 	    'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js',
 	];
 	public $depends = [

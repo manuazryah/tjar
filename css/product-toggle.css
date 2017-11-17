@@ -1,0 +1,102 @@
+.panel-group .panel-heading + .panel-collapse > .panel-body {
+    border: none;
+}
+.panel-group,
+.panel-group .panel,
+.panel-group .panel-heading,
+.panel-group .panel-heading a,
+.panel-group .panel-title,
+.panel-group .panel-title a,
+.panel-group .panel-body,
+.panel-group .panel-group .panel-heading + .panel-collapse > .panel-body {
+    border-radius: 2px;
+    border: 0;
+}
+.panel-group .panel-heading {
+    padding: 0;
+}
+.panel-group .panel-heading a {
+    display: block;
+    background: #668bb1;
+    color: #ffffff;
+    padding: 15px;
+    text-decoration: none;
+    position: relative;
+}
+.panel-group .panel-heading a.collapsed {
+    background: #eeeeee;
+    color: inherit;
+}
+.panel-group .panel-heading a:after {
+    content: '-';
+    position: absolute;
+    right: 10px;
+    top:13px;
+    font-size:18px;
+}
+.panel-group .panel-heading a.collapsed:after {
+    content: '+';
+}
+.panel-group .panel-collapse {
+    margin-top: 5px !important;
+}
+.panel-group .panel-body {
+    background: #ffffff;
+    padding: 15px;
+}
+.panel-group .panel {
+    background-color: transparent;
+}
+.panel-group .panel-body p:last-child,
+.panel-group .panel-body ul:last-child,
+.panel-group .panel-body ol:last-child {
+    margin-bottom: 0;
+}
+.after-none:after{
+    display: none;   
+}
+.left-menu .panel-title a{
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #252525;
+}
+.left-menu{
+    display: inline-block;
+    background: white;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+}
+.left-menu .panel-group .panel-heading a{
+    background: transparent;
+    border-bottom: 1px solid #f4f5f6;
+}
+.left-menu .panel-group .panel-heading a:hover{
+    background: #f4f5f6;
+}
+.left-menu .panel-default>.panel-heading{
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+.left-menu .panel-group{
+    margin-bottom: 0px;
+}
+.left-menu .panel-group .panel+.panel {
+    margin-top: 0px; 
+    box-shadow: none;
+}
+.filter-by .panel-group .panel-heading a.collapsed:after {
+    content: "\f078";
+    display: inline-block;
+    font-family: FontAwesome;
+    font-size: 9px;
+}
+.filter-by .panel-group .panel-heading a:after {
+    content: "\f077";
+    display: inline-block;
+    font-family: FontAwesome;
+    font-size: 9px;
+}

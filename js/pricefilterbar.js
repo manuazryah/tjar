@@ -1,17 +1,18 @@
 //$(function () {
 //      $('#slider-container').slider({
 //          range: true,
-//          min: 299,
-//          max: 1099,
-//          values: [299, 1099],
+//          min: 200,
+//          max: 10000,
+//          values: [200, 10000],
 //          create: function() {
-//              $("#amount").val("$299 - $1099");
+////              $("#amount").val("$299 - $1099");
+//              $('#min').text('$200');
+//              $('#max').text('$10000');
 //          },
 //          slide: function (event, ui) {
-//              $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-//              var mi = ui.values[0];
-//              var mx = ui.values[1];
-//              filterSystem(mi, mx);
+//              $('#min').text("$" + ui.values[0]);
+//              $('#max').text("$" + ui.values[1]);
+//
 //          }
 //      })
 //});
