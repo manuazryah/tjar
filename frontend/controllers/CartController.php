@@ -187,6 +187,7 @@ class CartController extends \yii\web\Controller {
             $model_prod = new OrderDetails;
             $model_prod->master_id = $orders['master_id'];
             $model_prod->order_id = $orders['order_id'];
+            $model_prod->user_id = Yii::$app->user->identity->id;
             $model_prod->product_id = $cart->product_id;
             $model_prod->vendor_id = $prod_details->vendor_id;
             $model_prod->quantity = $cart->quantity;
@@ -198,6 +199,7 @@ class CartController extends \yii\web\Controller {
             $model_prod->amount = $price;
             $model_prod->sub_total = ($cart->quantity) * ($price);
             $model_prod->status = '0';
+            $model_prod->DOC = date('Y-m-d');
             if ($model_prod->save()) {
                 
             }
@@ -217,6 +219,7 @@ class CartController extends \yii\web\Controller {
         $model->DOC = date('Y-m-d');
         $model->ship_address_id = $ship_address;
         $model->bill_address_id = $bill_address;
+        $model->status = '1';
         if ($model->save()) {
             return ['master_id' => $model->id, 'order_id' => $model->order_id];
         }

@@ -32,7 +32,7 @@ class OrderDetails extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['master_id', 'order_id', 'product_id', 'quantity', 'amount', 'sub_total'], 'required'],
+            [['master_id', 'order_id', 'product_id', 'quantity', 'amount', 'sub_total', 'user_id'], 'required'],
             [['master_id', 'product_id', 'quantity', 'status', 'vendor_id'], 'integer'],
             [['amount', 'sub_total'], 'number'],
             [['delivered_date', 'DOC'], 'safe'],
@@ -48,6 +48,7 @@ class OrderDetails extends \yii\db\ActiveRecord {
             'id' => 'ID',
             'master_id' => 'Master ID',
             'order_id' => 'Order ID',
+            'user_id' => 'User',
             'product_id' => 'Product Name',
             'quantity' => 'Quantity',
             'amount' => 'Amount',

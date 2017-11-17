@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use common\models\User;
 use common\models\Products;
+use common\models\ProductVendor;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
@@ -49,7 +50,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'attribute' => 'product_id',
 //                                    'filter' => ArrayHelper::map(Product::find()->all(), 'id', 'product_name'),
                                     'value' => function($data) {
-                                        $name = Products::findOne($data->product_id)->product_name;
+                                        $prdctvendor = ProductVendor::findOne($data->product_id);
+                                        $name = Products::findOne($prdctvendor->product_id)->product_name;
 //                                        $image = '<img src="' . Yii::$app->homeUrl . 'uploads/product/' . $product_details->id . '/profile/' . $product_details->canonical_name . '_thumb.' . $product_details->profile . '" width="94px" height="93px"/>';
                                         return $name;
 //                                        return Product::findOne($data->product_id)->product_name;

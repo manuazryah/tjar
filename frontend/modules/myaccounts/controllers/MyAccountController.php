@@ -5,6 +5,7 @@ namespace frontend\modules\myaccounts\controllers;
 use yii;
 use common\models\UserAddress;
 use common\models\User;
+use common\models\OrderDetails;
 
 class MyAccountController extends \yii\web\Controller {
 
@@ -69,7 +70,12 @@ class MyAccountController extends \yii\web\Controller {
     }
 
     public function actionMyOrders() {
-        return $this->render('my_order');
+        if (isset(Yii::$app->user->identity->id)) {
+            $orders = OrderDetails::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
+            return $this->render('my_order', ['orders' => $orders]);
+        } else {
+            $this->redirect(array('tjar'));
+        }
     }
 
     public function actionWishList() {

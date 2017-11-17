@@ -29,44 +29,37 @@ use common\components\LeftMenuWidget;
                         </thead>
 
                         <tbody>
+                            <?php foreach ($orders as $order){?>
                             <tr class="">
                                 <td class="" data-title="Order">
+                                    <?php 
+                                    $productvendor = \common\models\ProductVendor::findOne($order->product_id);
+                                    $product= common\models\Products::findOne($productvendor->product_id);
+                                    ?>
                                     <div class="media">
-                                        <a style="margin: 0 auto; float: none;" class="thumbnail col-lg-5 col-md-6 col-sm-6 col-xs-6" href="#"> <img class="media-object" src="<?= yii::$app->homeUrl; ?>images/products/1.png"> </a>
+                                        <a style="margin: 0 auto; float: none;" class="thumbnail col-lg-5 col-md-6 col-sm-6 col-xs-6" href="#"> <img class="media-object" 
+                                         src="<?= Yii::$app->homeUrl . '/uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product->id) . '/' . $product->id . '/profile/' . $product->canonical_name . '_thumb.' . $product->gallery_images ?>"> </a>
                                     </div>
                                 </td>
                                 <td class="" data-title="Date">
-                                    <time datetime="2017-10-24T09:25:49+00:00">October 24, 2017</time>
+                                    <time datetime="2017-10-24T09:25:49+00:00"><?= date("M d, Y", strtotime($order->DOC) );?></time>
                                 </td>
                                 <td class="" data-title="Status">
-                                    Processing
+                                    <?php 
+                                    if($order->status =='0') echo 'Processing';
+                                    if($order->status =='1') echo 'Order Placed';
+                                    if($order->status =='2') echo 'Order Dispatched';
+                                    
+                                    ?>
                                 </td>
                                 <td class="" data-title="Total">
-                                    <span class=""><span class="">AED </span>200.00</span> for 1 item
+                                    <span class=""><span class="">AED </span><?= sprintf("%0.2f", $order->sub_total);?></span> for <?= $order->quantity?> item
                                 </td>
                                 <td class="" data-title="Actions">
                                     <a href="" class="track">Track</a>
                                 </td>
                             </tr>
-                            <tr class="">
-                                <td class="" data-title="Order">
-                                    <div class="media">
-                                        <a style="margin: 0 auto; float: none;" class="thumbnail col-lg-5 col-md-6 col-sm-6 col-xs-6" href="#"> <img class="media-object" src="<?= yii::$app->homeUrl; ?>images/products/1.png"> </a>
-                                    </div>
-                                </td>
-                                <td class="" data-title="Date">
-                                    <time datetime="2017-10-24T09:25:49+00:00">October 24, 2017</time>
-                                </td>
-                                <td class="" data-title="Status">
-                                    Processing
-                                </td>
-                                <td class="" data-title="Total">
-                                    <span class=""><span class="">AED </span>200.00</span> for 1 item
-                                </td>
-                                <td class="" data-title="Actions">
-                                    <a href="" class="track">Track</a>
-                                </td>
-                            </tr>
+                            <?php }?>
                         </tbody>
                     </table>
                 </div>

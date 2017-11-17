@@ -252,7 +252,7 @@ class OrderMasterController extends Controller {
         $products = \common\models\ProductVendor::find()->where(['full_fill' => 1])->all();
         if (!empty($products)) {
             foreach ($products as $val) {
-                $product_array[] = $val->product_id;
+                $product_array[] = $val->id;
             }
         }
         $order_details = OrderDetails::find()->where(['order_id' => $id])->andWhere(['in', 'product_id', $product_array])->all();

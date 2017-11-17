@@ -94,13 +94,14 @@
                     $qty_total = 0;
                     $amount_total = 0;
                     foreach ($order_details as $value) {
-                        $product = common\models\ProductVendor::find()->where(['id' => $value->product_id])->one();
+                        $product_vendor = common\models\ProductVendor::find()->where(['id' => $value->product_id])->one();
+                        $product= common\models\Products::findOne($product_vendor->product_id);
                         ?>
                         <tr>
-                            <td style="width:50%"><?= $product->product_id; ?></td>
-                            <td style="width:15%"><span style="float: right;padding-right: 20px;"><?= $value->quantity ?></span></td>
-                            <td style="width:15%"><span style="float: right;padding-right: 20px;"><?= sprintf('%0.2f', $value->amount); ?></span></td>
-                            <td style="width:20%"><span style="float: right;padding-right: 20px;"><?= sprintf('%0.2f', ($value->quantity * $value->amount)); ?></span></td>
+                            <td style="width:50%"><?= $product->product_name?></td>
+                            <td style="width:15%"><span style="float: right;padding-right: 20px;">aaaa</span></td>
+                            <td style="width:15%"><span style="float: right;padding-right: 20px;">50</span></td>
+                            <td style="width:20%"><span style="float: right;padding-right: 20px;">100</span></td>
                         </tr>
                         <?php
                         $qty_total += $value->quantity;

@@ -150,7 +150,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                 return $url;
                                                             }
                                                             if ($action === 'print') {
-                                                                $url = Url::to(['print', 'id' => $model->order_id]);
+                                                                $url = Url::to(['print-all', 'id' => $model->order_id]);
                                                                 return $url;
                                                             }
                                                         }

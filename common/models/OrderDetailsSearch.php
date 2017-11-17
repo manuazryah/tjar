@@ -20,7 +20,7 @@ class OrderDetailsSearch extends OrderDetails {
      */
     public function rules() {
         return [
-            [['id', 'master_id', 'product_id', 'quantity', 'status'], 'integer'],
+            [['id', 'master_id', 'product_id', 'quantity', 'status', 'user_id'], 'integer'],
             [['order_id', 'delivered_date', 'DOC'], 'safe'],
             [['amount', 'sub_total'], 'number'],
         ];
@@ -70,6 +70,7 @@ class OrderDetailsSearch extends OrderDetails {
             'id' => $this->id,
             'master_id' => $this->master_id,
             'product_id' => $this->product_id,
+            'user_id' => $this->user_id,
             'quantity' => $this->quantity,
             'amount' => $this->amount,
             'sub_total' => $this->sub_total,
