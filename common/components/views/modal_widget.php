@@ -12,10 +12,14 @@ echo "<div id = 'modalContent'></div>";
 Modal::end();
 ?>
 <script>
-	$(document).ready(function () {
-		$(".user-profile").click(function () {
+        $(document).ready(function () {
+                $(".user-profile").click(function () {
 
-			$(".user-profile").toggleClass("open");
-		});
-	});
+                        $(".user-profile").toggleClass("open");
+                });
+                $(".hover-line").click(function () {
+
+                        $(".hover-line").toggleClass("open");
+                });
+        });
 </script>
