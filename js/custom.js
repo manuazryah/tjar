@@ -137,6 +137,7 @@ $(document).ready(function () {
 //                        $('.cart_table').prepend($data.content);
 //                    }
                                         $('.cart_subtotal').html($data.subtotal + '<span class="woocommerce-Price-currencySymbol"> AED</span>');
+                                        $('.shipping-cost').html($data.shipping + '<span class="woocommerce-Price-currencySymbol"> AED</span>');
                                         $('.grand_total').html($data.grandtotal + '<span class="woocommerce-Price-currencySymbol"> AED</span>');
                                         hideLoader();
                                 }
@@ -258,6 +259,7 @@ function updatecart(id, quantity, count) {
 //                }
 //                $('.cart_content').html($data.content);
                                 $('.cart_subtotal').html($data.subtotal + '<span class="woocommerce-Price-currencySymbol"> AED</span>');
+                                $('.shipping-cost').html($data.shipping + '<span class="woocommerce-Price-currencySymbol"> AED</span>');
                                 $('.grand_total').html($data.grandtotal + '<span class="woocommerce-Price-currencySymbol"> AED</span>');
                                 hideLoader();
                         }

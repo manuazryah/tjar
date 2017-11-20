@@ -128,6 +128,10 @@ $this->title = 'Shopping Cart';
                                                         <th>Subtotal</th>
                                                         <td data-title="Subtotal"><span class="woocommerce-Price-amount amount cart_subtotal"><?= sprintf("%0.2f", $subtotal); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
                                                     </tr>
+                                                    <tr class="cart-subtotal">
+                                                        <th>Shipping charge</th>
+                                                        <td data-title="Subtotal"><span class="woocommerce-Price-amount amount shipping-cost"><?= sprintf("%0.2f", $shipping); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                                    </tr>
 
                                                     <tr class="cart-promotion" style="display: none">
                                                         <th>Coupon Code</th>
@@ -136,7 +140,7 @@ $this->title = 'Shopping Cart';
 
                                                     <tr class="order-total">
                                                         <th>Grand Total</th>
-                                                        <td data-title="Total"><strong><span class="woocommerce-Price-amount amount grand_total"><?= sprintf("%0.2f", $subtotal); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></strong> </td>
+                                                        <td data-title="Total"><strong><span class="woocommerce-Price-amount amount grand_total"><?= sprintf("%0.2f", $grand_total); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></strong> </td>
                                                     </tr>
 
                                                 </tbody></table>

@@ -72,7 +72,11 @@ class CartController extends \yii\web\Controller {
         if (!empty($cart_items)) {
             \common\models\TempSession::deleteAll(['user_id' => Yii::$app->user->identity->id]);
             $subtotal = $this->total($cart_items);
-            return $this->render('cart', ['cart_items' => $cart_items, 'subtotal' => $subtotal, 'model' => $model, 'order' => $order]);
+            $shippinng_limit = Settings::findOne(2)->value;
+            $shipping = $shippinng_limit > $subtotal ? $this->shipping_charge($cart_items) : '0';
+            $grand_total = $shipping + $subtotal;
+//            $grand_total = $this->net_amount($subtotal, $cart_items);
+            return $this->render('cart', ['cart_items' => $cart_items, 'subtotal' => $subtotal, 'model' => $model, 'order' => $order, 'shipping' => $shipping, 'grand_total' => $grand_total]);
         } else {
             return $this->render('emptycart');
         }
@@ -214,7 +218,7 @@ class CartController extends \yii\web\Controller {
         $model->order_id = $this->generateProductEan($prefix, $serial_no);
         $model->user_id = Yii::$app->user->identity->id;
         $model->total_amount = $this->total($cart);
-        $model->net_amount = $this->net_amount($model->total_amount);
+        $model->net_amount = $this->net_amount($model->total_amount, $cart);
         $model->order_date = date('Y-m-d H:i:s');
         $model->DOC = date('Y-m-d');
         $model->ship_address_id = $ship_address;
@@ -296,8 +300,11 @@ class CartController extends \yii\web\Controller {
                     $this->redirect(array('cart/mycart'));
                 } else {
                     $subtotal = $this->total($contents);
-                    $grandtotal = $this->net_amount($subtotal);
-                    echo json_encode(array('msg' => 'success', 'subtotal' => sprintf('%0.2f', $subtotal), 'grandtotal' => sprintf('%0.2f', $grandtotal)));
+                    $shippinng_limit = Settings::findOne(2)->value;
+                    $shipping = $shippinng_limit > $subtotal ? $this->shipping_charge($contents) : '0';
+                    $grandtotal = $shipping + $subtotal;
+//                    $grandtotal = $this->net_amount($subtotal, $contents);
+                    echo json_encode(array('msg' => 'success', 'subtotal' => sprintf('%0.2f', $subtotal), 'grandtotal' => sprintf('%0.2f', $grandtotal), 'shipping' => sprintf('%0.2f', $shipping)));
                     exit;
                 }
             } else {
@@ -347,9 +354,12 @@ class CartController extends \yii\web\Controller {
                             $this->redirect(array('cart/mycart'));
                         }
                         $subtotal = $this->total($cart_items);
-                        $grandtotal = $this->net_amount($subtotal);
+                        $shippinng_limit = Settings::findOne(2)->value;
+                        $shipping = $shippinng_limit > $subtotal ? $this->shipping_charge($cart_items) : '0';
+                        $grandtotal = $shipping + $subtotal;
+//                        $grandtotal = $this->net_amount($subtotal, $cart_items);
                     }
-                    echo json_encode(array('msg' => 'success', 'subtotal' => sprintf('%0.2f', $subtotal), 'grandtotal' => sprintf('%0.2f', $grandtotal)));
+                    echo json_encode(array('msg' => 'success', 'subtotal' => sprintf('%0.2f', $subtotal), 'grandtotal' => sprintf('%0.2f', $grandtotal), 'shipping' => sprintf('%0.2f', $shipping)));
                 } else {
                     echo json_encode(array('msg' => 'error', 'content' => 'Cannot be Changed'));
                 }
@@ -384,7 +394,7 @@ class CartController extends \yii\web\Controller {
 
     function check_product($cart_items) {
         foreach ($cart_items as $cart) {
-            $check_product_vendor = ProductVendor::find()->where(['id' => $cart->product_id, 'status' => '1'])->one();
+            $check_product_vendor = ProductVendor::find()->where(['id' => $cart->product_id, 'vendor_status' => '1'])->one();
             $check_product = Products::find()->where(['id' => $check_product_vendor->product_id, 'status' => '1'])->one();
             if (empty($check_product) || empty($check_product_vendor)) {
                 $cart->delete();
@@ -422,17 +432,30 @@ class CartController extends \yii\web\Controller {
         return $subtotal;
     }
 
-    function net_amount($subtotal) {
+    function net_amount($subtotal, $cart) {
         $grandtotal = $subtotal > '0' ? $subtotal : '0';
         if ($grandtotal > 0) {
             $shippinng_limit = Settings::findOne(2)->value;
             if ($shippinng_limit > $subtotal) {
-                $extra = Settings::findOne(3)->value;
-                $grandtotal = $extra + $subtotal;
+                $shipping_charge = $this->shipping_charge($cart);
+//                $extra = Settings::findOne(3)->value;
+                $grandtotal = $shipping_charge + $subtotal;
             }
         }
 
         return $grandtotal;
+    }
+
+    function shipping_charge($cart) {
+        $shipping_charge = '0';
+        foreach ($cart as $cart_item) {
+            $product = ProductVendor::find()->where(['id' => $cart_item->product_id])->andWhere(['<>', 'free_shipping', '1'])->one();
+            if ($product) {
+                $shipping_charge = Settings::findOne(3)->value;
+                return $shipping_charge;
+            }
+        }
+        return $shipping_charge;
     }
 
     public function actionUseraddress() {
@@ -622,7 +645,7 @@ class CartController extends \yii\web\Controller {
                                             $promotion_discount = $code_exists->price;
                                         }
                                         $promotion_total_amount = $promotion_total_amount + $promotion_discount;
-                                        $grand_total = $this->net_amount($cart_amount);
+                                        $grand_total = $this->net_amount($cart_amount, $cart_products);
                                         $overall_grand_total = $grand_total - $promotion_total_amount;
                                         $temp_promotion = $this->SaveTemp(3, $code_exists->id);
                                         $arr_variable = array('msg' => '7', 'discount_id' => $code_exists->id, 'code' => $code, 'amount' => sprintf("%0.2f", $promotion_discount), 'total_promotion_amount' => sprintf("%0.2f", $promotion_total_amount), 'overall_grand_total' => sprintf("%0.2f", $overall_grand_total), 'temp_session' => $temp_promotion->id);
@@ -796,7 +819,7 @@ class CartController extends \yii\web\Controller {
                 }
             }
 
-            $grand_total = $this->net_amount($cart_amount);
+            $grand_total = $this->net_amount($cart_amount, $cart_products);
             $overall_grand_total = $grand_total - $promotion_total_discount;
             $data = array('promotion' => $applied_codes, 'code' => $promocodes, 'total_promotion_amount' => sprintf("%0.2f", $promotion_discount), 'overall_grand_total' => sprintf("%0.2f", $overall_grand_total), 'promotion_total_discount' => sprintf("%0.2f", $promotion_total_discount));
             echo json_encode($data);
@@ -835,7 +858,7 @@ class CartController extends \yii\web\Controller {
             }
             $temp_session = \common\models\TempSession::findOne($temp_id);
             $temp_session->delete();
-            $grand_total = $this->net_amount($cart_amount);
+            $grand_total = $this->net_amount($cart_amount, $cart_products);
             $overall_grand_total = $grand_total - $promotion_total_discount;
 
             $data = array('code' => $promocodes, 'total_promotion_amount' => sprintf("%0.2f", $promotion_discount), 'overall_grand_total' => sprintf("%0.2f", $overall_grand_total));
