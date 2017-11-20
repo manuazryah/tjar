@@ -82,13 +82,13 @@ $this->params['breadcrumbs'][] = $this->title;
 										<?= Html::a('<span class="visible-xs"><i class="fa-ban"></i></span><i class="fa fa-ban" aria-hidden="true"></i><span class="hidden-xs">Rejected</span>', ['index', 'admin_status' => 3], ['class' => '']) ?>
 									</li>
 									<li class="<?= $expiry == 1 ? 'active' : '' ?>">
-										<?= Html::a('<span class="visible-xs"><i class="fa-ban"></i></span><i class="fa fa-ban" aria-hidden="true"></i><span class="hidden-xs">Expired</span>', ['index', 'expiry' => 1], ['class' => '']) ?>
+										<?= Html::a('<span class="visible-xs"><i class=" fa-calendar"></i></span><i class="fa  fa-calendar" aria-hidden="true"></i><span class="hidden-xs">Expired</span>', ['index', 'expiry' => 1], ['class' => '']) ?>
 									</li>
 									<li class="<?= $soldout == 1 ? 'active' : '' ?>">
-										<?= Html::a('<span class="visible-xs"><i class="fa-ban"></i></span><i class="fa fa-ban" aria-hidden="true"></i><span class="hidden-xs">SoldOut</span>', ['index', 'soldout' => 1], ['class' => '']) ?>
+										<?= Html::a('<span class="visible-xs"><i class="fa-ban"></i></span><i class="fa fa-list" aria-hidden="true"></i><span class="hidden-xs">SoldOut</span>', ['index', 'soldout' => 1], ['class' => '']) ?>
 									</li>
 									<li class="<?= $vendor_status == 2 ? 'active' : '' ?>">
-										<?= Html::a('<span class="visible-xs"><i class="fa-ban"></i></span><i class="fa fa-ban" aria-hidden="true"></i><span class="hidden-xs">Paused</span>', ['index', 'vendor_status' => 2], ['class' => '']) ?>
+										<?= Html::a('<span class="visible-xs"><i class="fa-pause"></i></span><i class="fa fa-pause" aria-hidden="true"></i><span class="hidden-xs">Paused</span>', ['index', 'vendor_status' => 2], ['class' => '']) ?>
 									</li>
 								</ul>
 								<div class="tab-content">
@@ -102,6 +102,9 @@ $this->params['breadcrumbs'][] = $this->title;
 											GridView::widget([
 											    'dataProvider' => $dataProvider,
 											    'filterModel' => $searchModel,
+											    'rowOptions' => function ($model, $key, $index, $grid) {
+												    return ['data-id' => $model->id];
+											    },
 											    'columns' => [
 												    ['class' => 'yii\grid\SerialColumn'],
 //
@@ -111,7 +114,9 @@ $this->params['breadcrumbs'][] = $this->title;
 												    'format' => 'raw',
 												    'filter' => ArrayHelper::map(Products::find()->all(), 'id', 'product_name'),
 												    'value' => function ($model) {
-													    return Html::button($model->product->product_name, ['value' => Url::to(['product-view', 'id' => $model->product_id]), 'class' => 'modalButton edit-btn']);
+													    $img = '<img  src="' . Yii::$app->homeUrl . '../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $model->product_id) . '/' . $model->product_id . '/profile/' . $model->product->canonical_name . '_thumb.' . $model->product->gallery_images . '"/>';
+
+													    return $img . Html::button($model->product->product_name, ['value' => Url::to(['product-view', 'id' => $model->product_id]), 'class' => 'modalButton edit-btn']);
 												    },
 												],
 												    [
@@ -167,11 +172,35 @@ $this->params['breadcrumbs'][] = $this->title;
 		</div>
 	</div>
 </div>
+<?php
+$this->registerJs("
 
+    $('td').click(function (e) {
+        var id = $(this).closest('tr').data('id');
+        if(e.target == this)
+            location.href = '" . Url::to(['product-vendor/view']) . "?id=' + id;
+    });
+
+");
+?>
 <script>
 
 
+
 	$(document).ready(function () {
+//		$('td').click(function (e) {
+//			var id = $(this).closest('tr').data('id');
+//
+//			$.ajax({
+//				url: homeUrl + 'vendors/product-vendor/test',
+//				type: "post",
+//				data: {id: id},
+//				success: function (data) {
+//					$.pjax.reload({container: '#vendor_product_manage'});
+//				}, error: function () {
+//				}
+//			});
+//		});
 		$(".filters").slideToggle();
 		$("#search-option").click(function () {
 			$(".filters").slideToggle();

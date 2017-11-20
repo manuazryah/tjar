@@ -174,11 +174,15 @@ function subcategory_brand(category, id) {
 
 
 $(function () {
-	$('.modalButton').click(function () {
+	$(document).on('click', '.modalButton', function () {
+
 		$('#modal').modal('show')
 			.find('#modalContent')
 			.load($(this).attr("value"));
+
 	});
+
+
 	/****seacrchtag**/
 	$('.searchtag').click(function () {
 		$('#modal_searchtag').modal('show')

@@ -68,6 +68,13 @@ class ProductVendorController extends Controller {
 		]);
 	}
 
+	public function actionView($id) {
+		$product_model = $this->findModel($id);
+		return $this->render('view', [
+			    'model' => $product_model,
+		]);
+	}
+
 	public function actionVendorView($id) {
 
 		$product_model = vendors::findOne(['id' => $id]);
@@ -82,11 +89,11 @@ class ProductVendorController extends Controller {
 	 * @param integer $id
 	 * @return mixed
 	 */
-	public function actionView($id) {
-		return $this->render('view', [
-			    'model' => $this->findModel($id),
-		]);
-	}
+//	public function actionView($id) {
+//		return $this->render('view', [
+//			    'model' => $this->findModel($id),
+//		]);
+//	}
 
 	/**
 	 * Creates a new ProductVendor model.
