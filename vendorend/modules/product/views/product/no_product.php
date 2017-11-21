@@ -7,3 +7,6 @@ use yii\widgets\ActiveForm;
 /* @var $model common\models\ProductVendor */
 /* @var $form yii\widgets\ActiveForm */
 ?>
+
+
+<img src="<?= Yii::$app->homeUrl ?>images/no-result.jpg">

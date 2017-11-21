@@ -15,134 +15,194 @@ use yii\helpers\Url;
 $this->title = 'Products';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<style>
+        .tab-content{
+                background: #f9f9f9 !important;
+        }
+        .nav.nav-tabs>li>a {
+                background-color: #f9f9f9;
+        }
+        .nav.nav-tabs>li {
+                background: #f9f9f9;
+        }
+        .nav.nav-tabs>li.active>a {
+                background-color: #f9f9f9 !important;
+        }
+        .nav.nav-tabs.nav-tabs-justified, .nav-tabs-justified .nav.nav-tabs {
+                background: #f9f9f9;
+        }
+        .nav.nav-tabs>li>a:hover {
+                background-color: #f9f9f9;
+        }
+        .nav-tabs {
+                border-bottom: 1px solid #f9f9f9 !important;
+        }
+        .hidden-xs{
+                padding-left: 5px;
+        }
+</style>
+
 <div class="products-index">
 
-    <div class="row">
-        <div class="col-md-12">
+        <div class="row">
+                <div class="col-md-12">
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
+                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                        <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
 
 
+                                </div>
+                                <div class="panel-body">
+                                        <div class="" style="border: none">
+
+                                                <div class="row">
+
+                                                        <div class="col-md-12">
+
+                                                                <ul class="nav nav-tabs">
+                                                                        <li class="<?= ( $vendor_status == '' && $admin_status == '' && $soldout == '' && $expiry == '') ? 'active' : '' ?>">
+                                                                                <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">All</span>', ['index'], ['class' => '']) ?>
+                                                                        </li>
+                                                                        <li class="<?= $vendor_status == 1 ? 'active' : '' ?>">
+                                                                                <?= Html::a('<span class="visible-xs"><i class="fa-desktop"></i></span><i class="fa fa-desktop" aria-hidden="true"></i><span class="hidden-xs">Live</span>', ['index', 'vendor_status' => 1], ['class' => '']) ?>
+                                                                        </li>
+                                                                        <li class="<?= $admin_status == 1 ? 'active' : '' ?>">
+                                                                                <?= Html::a('<span class="visible-xs"><i class="fa-clock-o"></i></span><i class="fa fa-clock-o" aria-hidden="true"></i><span class="hidden-xs">Pending</span>', ['index', 'admin_status' => 1], ['class' => '']) ?>
+                                                                        </li>
+                                                                        <li class="<?= $admin_status == 3 ? 'active' : '' ?>">
+                                                                                <?= Html::a('<span class="visible-xs"><i class="fa-ban"></i></span><i class="fa fa-ban" aria-hidden="true"></i><span class="hidden-xs">Rejected</span>', ['index', 'admin_status' => 3], ['class' => '']) ?>
+                                                                        </li>
+                                                                        <li class="<?= $expiry == 1 ? 'active' : '' ?>">
+                                                                                <?= Html::a('<span class="visible-xs"><i class="fa-calendar"></i></span><i class="fa  fa-calendar" aria-hidden="true"></i><span class="hidden-xs">Expired</span>', ['index', 'expiry' => 1], ['class' => '']) ?>
+                                                                        </li>
+                                                                        <li class="<?= $soldout == 1 ? 'active' : '' ?>">
+                                                                                <?= Html::a('<span class="visible-xs"><i class="fa-ban"></i></span><i class="fa fa-list" aria-hidden="true"></i><span class="hidden-xs">SoldOut</span>', ['index', 'soldout' => 1], ['class' => '']) ?>
+                                                                        </li>
+                                                                        <li class="<?= $vendor_status == 2 ? 'active' : '' ?>">
+                                                                                <?= Html::a('<span class="visible-xs"><i class="fa-pause"></i></span><i class="fa fa-pause" aria-hidden="true"></i><span class="hidden-xs">Paused</span>', ['index', 'vendor_status' => 2], ['class' => '']) ?>
+                                                                        </li>
+                                                                </ul>
+
+                                                                <?= ModalViewWidget::widget() ?>
+                                                                <div class="tab-content">
+                                                                        <div class="tab-pane active" id="">
+                                                                                <div class="table-responsive" style="border: none">
+
+                                                                                        <button class="btn btn-white" id="search-option" style="float: right;">
+                                                                                                <i class="linecons-search"></i>
+                                                                                                <span>Search</span>
+                                                                                        </button>
+                                                                                        <?php Pjax::begin(); ?>
+                                                                                        <?=
+                                                                                        GridView::widget([
+                                                                                            'dataProvider' => $dataProvider,
+                                                                                            'filterModel' => $searchModel,
+                                                                                            'columns' => [
+                                                                                                    ['class' => 'yii\grid\SerialColumn'],
+                                                                                                    [
+                                                                                                    'attribute' => 'product_id',
+                                                                                                    'label' => 'Product Name',
+                                                                                                    'format' => 'raw',
+                                                                                                    'filter' => ArrayHelper::map(Products::find()->all(), 'id', 'product_name'),
+                                                                                                    'value' => function ($model) {
+                                                                                                            $img = '<img  src="' . Yii::$app->homeUrl . '../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $model->product_id) . '/' . $model->product_id . '/profile/' . $model->product->canonical_name . '_thumb.' . $model->product->gallery_images . '"/>';
+
+                                                                                                            return $img . Html::button($model->product->product_name, ['value' => Url::to(['product-view', 'id' => $model->product_id]), 'class' => 'modalButton edit-btn']);
+                                                                                                    },
+                                                                                                ],
+                                                                                                    [
+                                                                                                    'attribute' => 'qty',
+                                                                                                    'format' => 'raw',
+                                                                                                    'value' => function ($data) {
+                                                                                                            return \yii\helpers\Html::textInput('qty', $data->qty, ['class' => 'form-control product_form', 'id' => 'product_qty_' . $data->id, 'type' => 'number']);
+                                                                                                    },
+                                                                                                ],
+                                                                                                    [
+                                                                                                    'attribute' => 'price',
+                                                                                                    'format' => 'raw',
+                                                                                                    'value' => function ($data) {
+                                                                                                            return \yii\helpers\Html::textInput('price', $data->price, ['class' => 'form-control product_form', 'id' => 'product_price_' . $data->id]);
+                                                                                                    },
+                                                                                                ],
+                                                                                                //  'sku',
+                                                                                                [
+                                                                                                    'attribute' => 'offer_price',
+                                                                                                    'format' => 'raw',
+                                                                                                    'value' => function ($data) {
+                                                                                                            return \yii\helpers\Html::textInput('offer_price', $data->offer_price, ['class' => 'form-control product_form', 'id' => 'product_offer_price_' . $data->id]);
+                                                                                                    },
+                                                                                                ],
+                                                                                                    [
+                                                                                                    'attribute' => 'vendor_status',
+                                                                                                    'format' => 'raw',
+                                                                                                    'filter' => ['1' => 'Enabled', '0' => 'Disabled'],
+                                                                                                    'value' => function ($data) {
+                                                                                                            return \yii\helpers\Html::dropDownList('vendor_status', null, ['1' => 'Enabled', '0' => 'Disabled'], ['options' => [$data->vendor_status => ['Selected' => 'selected']], 'class' => 'form-control product_form', 'id' => 'product_status_' . $data->id,]);
+                                                                                                    },
+                                                                                                ],
+                                                                                                    [
+                                                                                                    'class' => 'yii\grid\ActionColumn',
+                                                                                                    'header' => 'Actions',
+                                                                                                    'template' => '{view}',
+                                                                                                    'buttons' => [
+                                                                                                        'view' => function ($url, $model) {
+                                                                                                                return Html::button('<i class="fa fa-eye"></i>', ['value' => Url::to(['view', 'id' => $model->id]), 'class' => 'modalButton edit-btn']);
+                                                                                                        },
+                                                                                                    ],
+                                                                                                    'urlCreator' => function ($action, $model) {
+                                                                                                            if ($action === 'delete') {
+                                                                                                                    $url = Url::to(['del', 'id' => $model->id]);
+                                                                                                                    return $url;
+                                                                                                            }
+                                                                                                    }
+                                                                                                ],
+                                                                                            ],
+                                                                                        ]);
+                                                                                        ?>
+                                                                                        <?php Pjax::end(); ?>
+                                                                                </div>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
                 </div>
-                <div class="panel-body">
-                    <?= ModalViewWidget::widget() ?>
-                    <div class="table-responsive" style="border: none">
-
-                        <button class="btn btn-white" id="search-option" style="float: right;">
-                            <i class="linecons-search"></i>
-                            <span>Search</span>
-                        </button>
-                        <?php Pjax::begin(); ?>
-                        <?=
-                        GridView::widget([
-                            'dataProvider' => $dataProvider,
-                            'filterModel' => $searchModel,
-                            'columns' => [
-                                ['class' => 'yii\grid\SerialColumn'],
-                                [
-                                    'attribute' => 'product_id',
-                                    'filter' => ArrayHelper::map(Products::find()->all(), 'id', 'product_name'),
-                                    'value' => 'product.product_name'
-                                ],
-                                [
-                                    'attribute' => 'qty',
-                                    'format' => 'raw',
-                                    'value' => function ($data) {
-                                        return \yii\helpers\Html::textInput('qty', $data->qty, ['class' => 'form-control product_form', 'id' => 'product_qty_' . $data->id, 'type' => 'number']);
-                                    },
-                                ],
-                                [
-                                    'attribute' => 'price',
-                                    'format' => 'raw',
-                                    'value' => function ($data) {
-                                        return \yii\helpers\Html::textInput('price', $data->price, ['class' => 'form-control product_form', 'id' => 'product_price_' . $data->id]);
-                                    },
-                                ],
-                                'sku',
-                                [
-                                    'attribute' => 'offer_price',
-                                    'format' => 'raw',
-                                    'value' => function ($data) {
-                                        return \yii\helpers\Html::textInput('offer_price', $data->offer_price, ['class' => 'form-control product_form', 'id' => 'product_offer_price_' . $data->id]);
-                                    },
-                                ],
-                                [
-                                    'attribute' => 'admin_status',
-                                    'format' => 'raw',
-                                    'filter' => ['1' => 'Pending', '2' => 'Approved', '3' => 'Rejected'],
-                                    'value' => function ($data) {
-                                        return \yii\helpers\Html::dropDownList('admin_status', null, ['1' => 'Pending', '2' => 'Approved', '3' => 'Rejected'], ['options' => [$data->admin_status => ['Selected' => 'selected']], 'class' => 'form-control product_form', 'id' => 'product_status_' . $data->id,]);
-                                    },
-                                ],
-                                [
-                                    'class' => 'yii\grid\ActionColumn',
-//                                    'contentOptions' => ['style' => 'width:100px;'],
-                                    'header' => 'Actions',
-                                    'template' => '{view}{delete}',
-                                    'buttons' => [
-                                        'view' => function ($url, $model) {
-                                            return Html::button('<i class="fa fa-eye"></i>', ['value' => Url::to(['view', 'id' => $model->id]), 'class' => 'modalButton edit-btn']);
-                                        },
-                                        'delete' => function ($url, $model) {
-                                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
-                                                        'title' => Yii::t('app', 'delete'),
-                                                        'class' => '',
-                                                        'data' => [
-                                                            'confirm' => 'Are you sure you want to delete this item?',
-                                                        ],
-                                            ]);
-                                        },
-                                    ],
-                                    'urlCreator' => function ($action, $model) {
-                                        if ($action === 'delete') {
-                                            $url = Url::to(['del', 'id' => $model->id]);
-                                            return $url;
-                                        }
-                                    }
-                                ],
-                            ],
-                        ]);
-                        ?>
-                        <?php Pjax::end(); ?>
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
 </div>
 
 <script>
-    $(document).ready(function () {
-        $(".filters").slideToggle();
-        $("#search-option").click(function () {
-            $(".filters").slideToggle();
+        $(document).ready(function () {
+                $(".filters").slideToggle();
+                $("#search-option").click(function () {
+                        $(".filters").slideToggle();
+                });
+
+                $('.product_form').on('change', function () {
+                        var res = $(this).attr('id').match(/\d+/);
+                        var qty = $('#product_qty_' + res).val();
+                        var price = $('#product_price_' + res).val();
+                        var offerprice = $('#product_offer_price_' + res).val();
+                        var status = $('#product_status_' + res).val();
+
+                        $.ajax({
+                                url: homeUrl + 'product/product/ajaxchange-product',
+                                type: "post",
+                                data: {qty: qty, price: price, offerprice: offerprice, status: status, id: res},
+                                success: function (data) {
+                                        var $data = JSON.parse(data);
+                                        if ($data.msg === "success") {
+                                                alert($data.title);
+                                        } else {
+                                                alert($data.title);
+                                        }
+                                }, error: function () {
+                                }
+                        });
+                });
         });
-
-        $('.product_form').on('change', function () {
-
-            var res = $(this).attr('id').match(/\d+/);
-            var qty = $('#product_qty_' + res).val();
-            var price = $('#product_price_' + res).val();
-            var offerprice = $('#product_offer_price_' + res).val();
-            var status = $('#product_status_' + res).val();
-
-            $.ajax({
-                url: homeUrl + 'product/product/ajaxchange-product',
-                type: "post",
-                data: {qty: qty, price: price, offerprice: offerprice, status: status, id: res},
-                success: function (data) {
-                    var $data = JSON.parse(data);
-                    if ($data.msg === "success") {
-                        alert($data.title);
-                    } else {
-                        alert($data.title);
-                    }
-                }, error: function () {
-                }
-            });
-        });
-    });
 </script>
 
