@@ -16,7 +16,6 @@ use common\models\Filter;
 use common\models\ProductCategory;
 use common\models\Features;
 use common\models\ProductFeatures;
-use common\models\ProductVendorSearch;
 
 class ProductsController extends \yii\web\Controller {
 
@@ -26,73 +25,12 @@ class ProductsController extends \yii\web\Controller {
      * @return mixed
      */
     public function actionIndex($main_categ, $categ = null, $sub_categ = null) {
-        $searchModel = new ProductVendorSearch();
+        $searchModel = new ProductsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->pagination->pageSize = 2;
-        $query = explode('&', $_SERVER['QUERY_STRING']);
-
-        $params = array();
-        foreach ($query as $param) {
-            list($name, $value) = explode('=', $param, 2);
-            $params[urldecode($name)][] = urldecode($value);
-        }
-
-
-        $main_category = ProductMainCategory::findOne(['canonical_name' => $params['main_categ'][0]]);
-        if (!empty($params['categ'][0])) {
-            $category = ProductCategory::findOne(['canonical_name' => $params['categ'][0]]);
-        } elseif (!empty($params['sub_categ'][0])) {
-            $sub_category = ProductSubCategory::findOne(['canonical_name' => $params['sub_categ'][0]]);
-        }
-        if (!empty($category)) {
-            $products = Products::find()->where(['main_category' => $main_category->id, 'category' => $category->id])->select('id')->asArray()->all();
-            $filters = Filter::find()->where(['category' => $category])->select(['features'])->distinct()->all();
-        } elseif (!empty($sub_category)) {
-
-            $filters = Filter::find()->where(['subcategory' => $sub_category->id])->select(['features'])->distinct()->all();
-            $category = ProductCategory::findOne(['id' => $sub_category->category_id]);
-            $products = Products::find()->where(['main_category' => $main_category->id, 'subcategory' => $sub_category->id])->select('id')->asArray()->all();
-        }
-
-        $result = $this->Filters($params);
-        if ($result[0] == null && $result[1] == 0) {
-            foreach ($products as $product) {
-
-                $productids[] = $product['id'];
-            }
-        } else {
-            $productids = $result[0];
-//			$vendor_products = \common\models\ProductVendor::find()->where(['IN', 'product_id', $productids])->all();
-        }
-        foreach ($params as $key => $value) {
-            $price = array('min-range', 'max-range');
-            if (in_array($key, $price)) {
-                if ($key == 'min-range') {
-                    $min_value = $value[0];
-                } elseif ($key == 'max-range') {
-                    $max_value = $value[0];
-                }
-            }
-        }
-        if (!empty($min_value) && !empty($max_value) && $productids != null)
-            $vendor_products = \common\models\ProductVendor::find()->where(['IN', 'product_id', $productids])->andWhere(['between', 'price', $min_value, $max_value])->all();
-        elseif ($productids != null) {
-            $vendor_products = \common\models\ProductVendor::find()->where(['IN', 'product_id', $productids])->all();
-        } else {
-
-            $vendor_products = \common\models\ProductVendor::find()->where(['IN', 'product_id', $productids])->all();
-        }
-
-
-
+        $dataProvider->pagination->pageSize = 4;
         return $this->render('index', [
-//                    'dataProvider' => $vendor_products,
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
-                    'filters' => $filters,
-                    'categ' => $category->id,
-                    'sub_categ' => $sub_category->id,
-                    'main_categ' => $main_category->id,
         ]);
     }
 

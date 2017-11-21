@@ -155,7 +155,7 @@ button:focus{
     float: left;
     padding: 0 15px;
     border-right: 2px solid #a7a9ab;
-    line-height: 10px; 
+    line-height: 10px;
     font-size: 11px;
     color: #98999a;
 }
@@ -184,7 +184,7 @@ button:focus{
     padding: 0px 30px 0px 0px;
     margin: 15px 0px;
     border-right: 1px solid #a7a9ab;
-    line-height: 10px; 
+    line-height: 10px;
     width: 70%;
 }
 .top-header-2 .search input{
@@ -479,12 +479,12 @@ input[type="checkbox"]:before {
     max-width: 180px;
 }
 .breadcrumb .path li a{
-    max-width: 100px; 
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-    display: inline-block; 
-    vertical-align: middle; 
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: middle;
 }
 .breadcrumb .path li:not(:last-child):after{
     content: "\f101";
@@ -864,7 +864,7 @@ input[type="checkbox"]:before {
         line-height: 18px;
         margin-bottom: 10px;
     }
-    .slide-text > a.btn-default, 
+    .slide-text > a.btn-default,
     .slide-text > a.btn-primary {
         font-size: 10px;
         line-height: 10px;
@@ -882,13 +882,13 @@ input[type="checkbox"]:before {
 /***************************************************************Bootstrap-Top-product-slider-End*****************************/
 
 /* carousel */
-.media-carousel 
+.media-carousel
 {
     margin-bottom: 0;
     /*padding: 0 40px 30px 40px;*/
 }
 /* Previous button  */
-.media-carousel .carousel-control.left 
+.media-carousel .carousel-control.left
 {
     left: -7%;
     background-image: none;
@@ -918,7 +918,7 @@ input[type="checkbox"]:before {
 }
 
 /* Next button  */
-.media-carousel .carousel-control.right 
+.media-carousel .carousel-control.right
 {
     right: -7% !important;
     background-image: none;
@@ -947,7 +947,7 @@ input[type="checkbox"]:before {
     transition: opacity ease-in-out 1s;
 }
 /* Changes the position of the indicators */
-.media-carousel .carousel-indicators 
+.media-carousel .carousel-indicators
 {
     right: 50%;
     top: auto;
@@ -955,11 +955,11 @@ input[type="checkbox"]:before {
     margin-right: -19px;
 }
 /* Changes the colour of the indicators */
-.media-carousel .carousel-indicators li 
+.media-carousel .carousel-indicators li
 {
     background: #c0c0c0;
 }
-.media-carousel .carousel-indicators .active 
+.media-carousel .carousel-indicators .active
 {
     background: #333333;
 }
@@ -972,7 +972,7 @@ input[type="checkbox"]:before {
 #top-product-slider{
     width: 20%;
     padding-right: 0px;
-    max-height: 465px; 
+    max-height: 465px;
     overflow: hidden;
 }
 #top-product-slider .hot-deals-heading{
@@ -980,17 +980,17 @@ input[type="checkbox"]:before {
 }
 #top-product-slider .hot-deals-heading img{
     width: auto;
-    z-index: 1; 
-    position: relative; 
+    z-index: 1;
+    position: relative;
     left: -7px;
 }
 #top-product-slider .hot-deals-heading h3{
-    font-size: 14px; 
-    font-weight: bold;   
-    position: relative; 
+    font-size: 14px;
+    font-weight: bold;
+    position: relative;
     top: -50px;
     left: 10px;
-    color: white; 
+    color: white;
     letter-spacing: 1px;
     z-index: 2;
 }
@@ -999,8 +999,8 @@ input[type="checkbox"]:before {
 }
 #top-product-slider #media .product{
     width: 100%;
-    height: 310px; 
-    margin: 0 auto; 
+    height: 310px;
+    margin: 0 auto;
     padding: 0px
 }
 #top-product-slider a{
@@ -1017,7 +1017,7 @@ input[type="checkbox"]:before {
 }
 #top-product-slider .thumbnail img{
     padding-top: 40px;
-    width: auto; 
+    width: auto;
     margin-bottom: 55px;
 }
 #top-product-slider .hot-deals-details{
@@ -1211,8 +1211,8 @@ input[type="checkbox"]:before {
     width: 115%;
     top: 1px;
     color: black;
-    margin-top: 0px; 
-    margin-bottom: 0px; 
+    margin-top: 0px;
+    margin-bottom: 0px;
     border: 0;
     display: block;
     width: 100%;
@@ -1244,7 +1244,7 @@ input[type="checkbox"]:before {
 }
 #bottom-footer{
     width: 100%;
-    max-width: 100%; 
+    max-width: 100%;
     padding-bottom: 30px;
     color: #0d0f20;
 }
@@ -1507,12 +1507,12 @@ div.message{
 }
 .product-details-right{
     max-height: 555px;
-    overflow-y: scroll; 
+    overflow-y: scroll;
     background: #fff;
     margin-bottom: 70px;
 }
-.product-details-right::-webkit-scrollbar { 
-    display: none; 
+.product-details-right::-webkit-scrollbar {
+    display: none;
 }
 .fixed{
     position: fixed;
@@ -2097,7 +2097,7 @@ div.message{
     box-shadow: 0px 0px 6px #d0d0d0;
 }
 #cart .woocommerce table.shop_table thead{
-    background: #f4f5f6; 
+    background: #f4f5f6;
 }
 #cart .actions{
     padding: 10px 10px !important;
@@ -2651,7 +2651,7 @@ input[type=checkbox], input[type=radio]{
     border-bottom: 1px solid rgba(136,136,136,.12);
 }
 .MyAccount-content .order-table td{
-    width: 20%;   
+    width: 20%;
     text-align: center;
     padding: 10px 0;
     /*border-right: 1px solid #f1f1f1;*/
@@ -2925,7 +2925,7 @@ input[type=checkbox], input[type=radio]{
 .wishlist_table tr td.product-stock-status .wishlist-in-stock, .wishlist_table tr td.product-stock-status .wishlist-out-of-stock {
     display: inline-block;
     padding: 5px 10px;
-    /*border: 2px solid #297E29;*/  
+    /*border: 2px solid #297E29;*/
     text-transform: uppercase;
     font-size: 12px;
     letter-spacing: .3px;
@@ -3068,8 +3068,8 @@ input[type=checkbox], input[type=radio]{
     content: "\f0f6";
     font-family: FontAwesome;
     display: inline-block;
-    margin-left: -1.3em; 
-    width: 1.3em; 
+    margin-left: -1.3em;
+    width: 1.3em;
 }
 #common-page h2{
     font-size: 15px;
@@ -3091,7 +3091,7 @@ input[type=checkbox], input[type=radio]{
     margin-bottom: 8px;
 }
 #common-page .question li{
-    font-weight: 700; 
+    font-weight: 700;
     font-size: 15px;
 }
 .container2 .page{
@@ -3144,33 +3144,33 @@ input[type=checkbox], input[type=radio]{
     min-width: 215px !important;
 }
 #LanguageMenu tr{
-    display: none;  
+    display: none;
 }
 #LanguageMenu tr:nth-child(2){
-    display: block;  
+    display: block;
 }
 #LanguageMenu tr td{
     width: 100%;
     text-align: center;
 }
 #LanguageMenu tr:nth-child(2) td{
-    display: none;  
+    display: none;
 }
 #LanguageMenu tr:nth-child(2) td:nth-child(1){
-    display: block;  
+    display: block;
     width: 100%;
     text-align: center;
     margin: 0px;
     padding: 0px
 }
 #LanguageMenu tr:nth-child(14){
-    display: block;  
+    display: block;
 }
 #LanguageMenu tr:nth-child(14) td{
-    display: none;  
+    display: none;
 }
 #LanguageMenu tr:nth-child(14) td:nth-child(1){
-    display: block;  
+    display: block;
     width: 100%;
     text-align: center;
     margin: 0px;
@@ -3206,17 +3206,17 @@ input[type=checkbox], input[type=radio]{
 
 #divC{
     font-size: 14px;
-    background-color:#FFF; 
-    position:relative; 
-    width:100%; 
-    height:auto; 
-    padding:5px; 
-    border:solid 1px #F1F1F1; 
-    border-radius:2px; 
+    background-color:#FFF;
+    position:relative;
+    width:100%;
+    height:auto;
+    padding:5px;
+    border:solid 1px #F1F1F1;
+    border-radius:2px;
     -moz-border-radius:2px; -webkit-border-radius:2px;
 }
 #divC {
-    display:none; 
+    display:none;
     padding:20px 10px;
 }
 #divAnim #btAnimate{
@@ -3394,10 +3394,10 @@ ol.pagenation li.active a {
 }
 #product-page .right-section .listOfassignment .item{
     background: #fff;
-    overflow: hidden; 
-    border-radius: 0px; 
+    overflow: hidden;
+    border-radius: 0px;
     border: 0px;
-    box-shadow: none; 
+    box-shadow: none;
     margin-bottom: 20px;
 }
 #product-page .breadcrumb{
@@ -3412,7 +3412,7 @@ ol.pagenation li.active a {
 #product-page .breadcrumb .current-page{
     text-align: left;
     font-size: 16px;
-    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; 
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
     letter-spacing: .8px;
     text-transform: uppercase;
     color: #515452;
@@ -3475,4 +3475,15 @@ ol.pagenation li.active a {
 /**********************************************Product-page-End*********************************/
 .error{
     color: red;
+}
+.pagination{
+    display: block;
+    padding-left: 0;
+    border-radius: 4px;
+    margin: 0 auto;
+    text-align: center;
+    left: 0px;
+    right: 0px;
+    clear: both;
+    padding-left: 32px;
 }
