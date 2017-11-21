@@ -128,20 +128,33 @@ $this->params['breadcrumbs'][] = $this->title;
 													    return Html::button($model->vendor->first_name . ' ' . $model->vendor->last_name, ['value' => Url::to(['vendor-view', 'id' => $model->vendor_id]), 'class' => 'modalButton edit-btn']);
 												    },
 												],
-												'qty',
+//												'qty',
 //												'price',
 												[
+												    'attribute' => 'qty',
+												    'format' => 'raw',
+												    'header' => 'Qty',
+												    'value' => function ($data) {
+													    return Html::textInput('price', $data->qty, ['class' => 'form-control change_data', 'id' => 'product_qty_' . $data->id, 'type' => 'number']);
+												    },
+												],
+												    [
 												    'attribute' => 'price',
+												    'format' => 'raw',
 												    'header' => 'Price',
 												    'filter' => Html::dropDownList('ProductVendor[compareOp]', $model->compareOp, array('>' => '>', '<' => '<', '>=' => '>=', '<=' => '<=', '=' => '='), array('style' => 'width:35px;height: 25px;', 'id' => 'grid-id')) .
-												    Html::textInput('ProductVendor[compare]', $model->compare, array('style' => 'width:100px;margin-left: 10px;height: 25px;'))
+												    Html::textInput('ProductVendor[compare]', $model->compare, array('style' => 'width:100px;margin-left: 10px;height: 25px;')),
+												    'value' => function ($data) {
+													    return Html::textInput('price', $data->price, ['class' => 'form-control change_data', 'id' => 'product_price_' . $data->id, 'type' => 'number']);
+												    },
 												],
 												    [
 												    'attribute' => 'vendor_status',
 												    'format' => 'raw',
 												    'filter' => ['1' => 'Live', '2' => 'Paused'],
 												    'value' => function ($data) {
-													    return $data->vendor_status == 1 ? 'Live' : 'Paused';
+//													    return $data->vendor_status == 1 ? 'Live' : 'Paused';
+													    return \yii\helpers\Html::dropDownList('admin_status', null, ['1' => 'Live', '2' => 'Paused'], ['options' => [$data->vendor_status => ['Selected' => 'selected']], 'class' => 'form-control vendor_status_field', 'id' => 'vendor_pdt_vendor-' . $data->id,]);
 												    },
 												],
 												    [
@@ -187,19 +200,7 @@ $(document).on('click', 'td', function (e) {
 
 
 	$(document).ready(function () {
-//		$('td').click(function (e) {
-//			var id = $(this).closest('tr').data('id');
-//
-//			$.ajax({
-//				url: homeUrl + 'vendors/product-vendor/test',
-//				type: "post",
-//				data: {id: id},
-//				success: function (data) {
-//					$.pjax.reload({container: '#vendor_product_manage'});
-//				}, error: function () {
-//				}
-//			});
-//		});
+
 		$(".filters").slideToggle();
 		$("#search-option").click(function () {
 			$(".filters").slideToggle();
@@ -208,12 +209,47 @@ $(document).on('click', 'td', function (e) {
 			e.preventDefault();
 			return false;
 		});
+		$('.change_data').on('change', function () {
+			var res = $(this).attr('id').match(/\d+/);
+			var qty = $('#product_qty_' + res).val();
+			var price = $('#product_price_' + res).val();
+			$.ajax({
+				url: homeUrl + 'vendors/product-vendor/ajax-change-data',
+				type: "post",
+				data: {qty: qty, price: price, id: res},
+				success: function (data) {
+					var $data = JSON.parse(data);
+					if ($data.msg === "success") {
+						alert($data.title);
+					} else {
+						alert($data.title);
+					}
+				}, error: function () {
+				}
+			});
+
+
+		});
 		$(document).on('change', '.admin_status_field', function (e) {
 			var change_id = $(this).attr('id').match(/\d+/);
 
 			var admin_status = $(this).val();
 			$.ajax({
 				url: homeUrl + 'vendors/product-vendor/change-admin-status',
+				type: "post",
+				data: {status: admin_status, id: change_id},
+				success: function (data) {
+					alert('Status Changed Sucessfully');
+					$.pjax.reload({container: '#vendor_product_manage'});
+				}, error: function () {
+				}
+			});
+		});
+		$(document).on('change', '.vendor_status_field', function (e) {
+			var change_id = $(this).attr('id').match(/\d+/);
+			var admin_status = $(this).val();
+			$.ajax({
+				url: homeUrl + 'vendors/product-vendor/change-vendor-status',
 				type: "post",
 				data: {status: admin_status, id: change_id},
 				success: function (data) {

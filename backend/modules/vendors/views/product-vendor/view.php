@@ -67,6 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		z-index: 1;
 	}
 </style>
+<?php yii\widgets\Pjax::begin(['id' => 'vendor_product_view']); ?>
 <div class="row">
 
 	<div class="panel panel-default">
@@ -78,10 +79,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 			<div style="float:left;padding-top: 13px;">
-				<?= Html::a('<i class="fa-th-list manage"><span class="tooltiptext">List All</span></i>', ['index'], ['class' => 'btn btn-icon product_venode_view_btns']) ?>
+				<?= Html::a('<i class="fa-th-list manage"><span class="tooltiptext">List All</span></i>', ['index', 'vendor_status' => 1], ['class' => 'btn btn-icon product_venode_view_btns']) ?>
 				<?php // Html::a('<i class="fa-trash-o manage"><span class="tooltiptext">Delete</span></i>', ['delete', 'id' => $model->id], ['class' => 'btn btn-icon product_venode_view_btns']) ?>
-				<?= Html::a('<i class="manage">pause</i>', ['index'], ['class' => 'btn btn-icon btn-success']) ?>
-
+				<?php if ($model->vendor_status == 1) { ?>
+					<?= Html::a('<i class="manage">pause</i>', [], ['class' => 'btn btn-icon btn-success status_pause', 'id' => $model->id . '_2']) ?>
+				<?php } else { ?>
+					<?= Html::a('<i class="manage">Live</i>', [], ['class' => 'btn btn-icon btn-success status_pause', 'id' => $model->id . '_1']) ?>
+				<?php } ?>
 			</div>
 			<div style="float:right">
 
@@ -168,9 +172,31 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 		</div>
+
 	</div>
 
 </div>
+<?php yii\widgets\Pjax::end(); ?>
+<script>
+	$(document).ready(function () {
+		$('.status_pause').click(function (e) {
+			e.preventDefault();
+			var data = this.id;
+			var dat = data.split('_');
+			$.ajax({
+				url: homeUrl + 'vendors/product-vendor/change-vendor-status',
+				type: "post",
+				data: {status: dat[1], id: dat[0]},
+				success: function (data) {
+					alert('Status Changed Sucessfully');
+					$.pjax.reload({container: '#vendor_product_view'});
+				}, error: function () {
+				}
+			});
+
+		});
+	});
+</script>
 
 
 
