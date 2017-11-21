@@ -63,7 +63,7 @@ $this->title = 'Shopping Cart';
 
                                         <td class="product-quantity" data-title="Quantity">
                                             <div class="quantity">
-                                                <?php if ($prod_details->qty > 0) { ?>
+                                                <?php if ($prod_details->qty > 0 && $prod_details->vendor_status == '1' && $product->status == "1") { ?>
                                                     <input type="number" step="1" min="1" max="<?= $prod_details->qty; ?>" name="" value="<?= $cart_item->quantity ?>" title="Qty" class="input-text qty text cart_qty" id="<?= yii::$app->EncryptDecrypt->Encrypt('encrypt', $cart_item->id); ?>" size="4" pattern="[0-9]*" inputmode="numeric">
                                                 <?php } else { ?>
                                                     <span class="error"> Out Of Stock</span>
@@ -72,17 +72,20 @@ $this->title = 'Shopping Cart';
                                         </td>
 
                                         <td class="product-subtotal" data-title="Total">
-                                            <?php $total = $price * $cart_item->quantity; ?>
-                                            <span class="woocommerce-Price-amount amount total_<?= yii::$app->EncryptDecrypt->Encrypt('encrypt', $cart_item->id) ?>"><?= sprintf("%0.2f", $total); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
-
+                                            <?php if ($prod_details->qty > 0 && $prod_details->vendor_status == '1' && $product->status == "1") { ?>
+                                                <?php $total = $price * $cart_item->quantity; ?>
+                                                <span class="woocommerce-Price-amount amount total_<?= yii::$app->EncryptDecrypt->Encrypt('encrypt', $cart_item->id) ?>"><?= sprintf("%0.2f", $total); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                        <?php } else {
+                                            echo '-';
+                                        } ?>
                                         <td class="product-remove">
-                                            <?php // Html::a('<i class="fa fa-trash-o"></i>', ['cart/cart_remove?id=' . $cart_item->id], ['class' => 'remove', 'title' => 'Remove this item']) ?>
+    <?php // Html::a('<i class="fa fa-trash-o"></i>', ['cart/cart_remove?id=' . $cart_item->id], ['class' => 'remove', 'title' => 'Remove this item'])  ?>
                                             <a  class="remove remove_cart" title="Remove this item" data-product_id="<?= $cart_item->id ?>" data-product_sku=""><i class="fa fa-trash-o"></i></a>
                                             <span class="error_<?= $cart_item->id ?>" style="color:red"></span>
                                         </td>
 
                                     </tr>
-                                <?php } ?>
+<?php } ?>
 
                                 <tr>
                                     <td colspan="6" class="actions">
@@ -152,7 +155,7 @@ $this->title = 'Shopping Cart';
                                                 <a data-toggle="modal" data-target="#aaa" href="" class="checkout-button button alt wc-forward login_checkout">
                                                     Login to Checkout</a>
                                             </div>
-                                        <?php } else { ?>
+<?php } else { ?>
                                             <div class="wc-proceed-to-checkout proceed-to-checkout">
                                                 <a data-toggle="modal" data-target="#checkoutaaa" href="" class="checkout-button button alt wc-forward checkout_check">
                                                     Proceed to Checkout</a>
@@ -160,11 +163,11 @@ $this->title = 'Shopping Cart';
                                             <?php
                                         }
                                         ?>
-                                        <?= $form1->field($order, 'ship_address_id')->hiddenInput(['maxlength' => true, 'class' => 'field__input input-width'])->label(FALSE) ?>
-                                        <?= $form1->field($order, 'bill_address_id')->hiddenInput(['maxlength' => true, 'class' => 'field__input input-width'])->label(FALSE) ?>
+                                            <?= $form1->field($order, 'ship_address_id')->hiddenInput(['maxlength' => true, 'class' => 'field__input input-width'])->label(FALSE) ?>
+                                            <?= $form1->field($order, 'bill_address_id')->hiddenInput(['maxlength' => true, 'class' => 'field__input input-width'])->label(FALSE) ?>
                                         <div class="wc-proceed-to-checkout confirm-checkout hide">
-                                            <?= Html::submitButton('Confirm Order', ['class' => 'checkout-button button alt wc-forward']) ?>
-                                            <?php // Html::a('Confirm Order', ['cart/checkout'], ['class' => 'checkout-button button alt wc-forward', 'title' => 'Confirm Order']) ?>
+<?= Html::submitButton('Confirm Order', ['class' => 'checkout-button button alt wc-forward']) ?>
+<?php // Html::a('Confirm Order', ['cart/checkout'], ['class' => 'checkout-button button alt wc-forward', 'title' => 'Confirm Order'])  ?>
 
                                         </div>
 
@@ -174,7 +177,7 @@ $this->title = 'Shopping Cart';
                                 </div>
                             </div>
                         </div>
-                        <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
                         <!--</form>-->
                         <div class="modal fade" role="dialog"  id="checkout">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 modal-dialog bg-white checkout-lft-box">
@@ -190,13 +193,13 @@ $this->title = 'Shopping Cart';
                                                                     </a>
                                                                 </p>-->
                                             </div>
-                                            <?php $form = ActiveForm::begin(['id' => 'shipping_id']); ?>
+<?php $form = ActiveForm::begin(['id' => 'shipping_id']); ?>
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <select class="field__input input-width" id="billing" name="UserAddress[billing]" required="required">
                                                     <option value=''>Select</option>
                                                     <?php // foreach ($addresses as $address) {   ?>
                                                         <!--<option value="<?= $address->id ?>" ><?= $address->first_name . ', ' . $address->address . ', ' . $address->landmark ?></option>-->
-                                                    <?php // }     ?>
+<?php // }      ?>
                                                 </select>
                                             </div>
                                             <div class="clearfix"></div>
@@ -223,22 +226,22 @@ $this->title = 'Shopping Cart';
                                                         <?= $form->field($model, 'landmark')->textInput(['maxlength' => true, 'class' => 'field__input input-width billing', 'placeholder' => 'Apt, suite, etc. (optional)', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padlft0 padright0 city">
-                                                        <?= $form->field($model, 'country_id')->dropDownList(ArrayHelper::map(common\models\Country::find()->all(), 'id', 'country_name'), ['class' => 'country-select input-width billing', 'disabled' => 'disabled'])->label(FALSE) ?>
+<?= $form->field($model, 'country_id')->dropDownList(ArrayHelper::map(common\models\Country::find()->all(), 'id', 'country_name'), ['class' => 'country-select input-width billing', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padlft0 padright0">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0">
                                                             <?= $form->field($model, 'city_id')->dropDownList(ArrayHelper::map(common\models\City::find()->all(), 'id', 'city_name'), ['prompt' => 'City', 'class' => 'country-select input-width billing', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 padright0">
-                                                            <?php $street = []; ?>
-                                                            <?= $form->field($model, 'street_id')->dropDownList($street, ['prompt' => 'Street', 'class' => 'country-select input-width billing', 'disabled' => 'disabled'])->label(FALSE) ?>
+<?php $street = []; ?>
+<?= $form->field($model, 'street_id')->dropDownList($street, ['prompt' => 'Street', 'class' => 'country-select input-width billing', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0">
                                                         <?= $form->field($model, 'phone')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width billing', 'placeholder' => 'Phone number', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 padright0">
-                                                        <?= $form->field($model, 'pincode')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width billing', 'placeholder' => 'Pincode', 'disabled' => 'disabled'])->label(FALSE) ?>
+<?= $form->field($model, 'pincode')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width billing', 'placeholder' => 'Pincode', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                     </div>
                                                     <!--                                    <div class="clearfix"></div>
                                                                                         <input class="input-checkbox" data-backup="" type="checkbox" value="1" name="" id="save-info"><label class="checkbox__label" for="save-info">Save this information for next time</label>-->
@@ -254,7 +257,7 @@ $this->title = 'Shopping Cart';
                                                         <input style="float: right;" type="submit" class="start-shopping continue_shipping" id="proceed_to_checkout" placeholder="Continue Checkout" >
                                                     </div>
                                                 </div>
-                                                <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
                                             </div>
                                         </div>
                                     </div>

@@ -1,7 +1,11 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\ListView;
 use common\components\LeftMenuWidget;
+
+
+$this->title = 'My Orders';
 
 /* @var $this yii\web\View */
 ?>
@@ -27,40 +31,38 @@ use common\components\LeftMenuWidget;
                                 <th class=""><span class="">Actions</span></th>
                             </tr>
                         </thead>
-
                         <tbody>
-                            <?php foreach ($orders as $order){?>
-                            <tr class="">
-                                <td class="" data-title="Order">
-                                    <?php 
-                                    $productvendor = \common\models\ProductVendor::findOne($order->product_id);
-                                    $product= common\models\Products::findOne($productvendor->product_id);
-                                    ?>
-                                    <div class="media">
-                                        <a style="margin: 0 auto; float: none;" class="thumbnail col-lg-5 col-md-6 col-sm-6 col-xs-6" href="#"> <img class="media-object" 
-                                         src="<?= Yii::$app->homeUrl . '/uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product->id) . '/' . $product->id . '/profile/' . $product->canonical_name . '_thumb.' . $product->gallery_images ?>"> </a>
-                                    </div>
-                                </td>
-                                <td class="" data-title="Date">
-                                    <time datetime="2017-10-24T09:25:49+00:00"><?= date("M d, Y", strtotime($order->DOC) );?></time>
-                                </td>
-                                <td class="" data-title="Status">
-                                    <?php 
-                                    if($order->status =='0') echo 'Processing';
-                                    if($order->status =='1') echo 'Order Placed';
-                                    if($order->status =='2') echo 'Order Dispatched';
-                                    
-                                    ?>
-                                </td>
-                                <td class="" data-title="Total">
-                                    <span class=""><span class="">AED </span><?= sprintf("%0.2f", $order->sub_total);?></span> for <?= $order->quantity?> item
-                                </td>
-                                <td class="" data-title="Actions">
-                                    <a href="" class="track">Track</a>
-                                </td>
-                            </tr>
-                            <?php }?>
-                        </tbody>
+                        <?php
+            if ($dataProvider->totalCount > 0) {
+                            ?>
+                <?=
+                ListView::widget([
+                    'dataProvider' => $dataProvider,
+                    'itemView' => 'orders',
+                    'pager' => [
+                        'firstPageLabel' => 'first',
+                        'lastPageLabel' => 'last',
+                        'prevPageLabel' => '<',
+                        'nextPageLabel' => '>',
+                        'maxButtonCount' => 3,
+                    ],
+                ]);
+                ?>
+                <?php
+            } else {
+                ?>
+                <div class="settings">
+                    <div class="col-lg-8 col-md-8 col-sm-12 hidden-xs my-account-cntnt empty-data right-box" style="width: 98%;">
+                        <?= EmptyDataWidget::widget(['path' => Yii::$app->homeUrl . 'images/empty-cart.png', 'msg' => 'Your Orders is Empty']) ?>
+                    </div>
+                    <div class="hidden-lg hidden-md hidden-sm col-xs-12 my-account-cntnt empty-data right-box" style="width: 98%;">
+                        <?= EmptyDataWidget::widget(['path' => Yii::$app->homeUrl . 'images/empty-cart.png', 'msg' => 'Your Orders is Empty']) ?>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+                    </tbody>
                     </table>
                 </div>
             </div>

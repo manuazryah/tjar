@@ -21,66 +21,66 @@ $(document).ready(function () {
                 subcategory_brand(category, id);
         });
         /*** canonical name check*****/
-        $('body').on('click', '.prdct_main_category', function (e) {
-                e.preventDefault();
-                var canonical = $('#productmaincategory-canonical_name').val();
-                $.ajax({
-                        url: homeUrl + 'product/product-main-category/canonical',
-                        type: "post",
-                        data: {canonical: canonical},
-                        success: function (data) {
-                                var $data = JSON.parse(data);
-                                if ($data.con === "2") {
-                                        $('.field-productmaincategory-canonical_name').addClass('has-error');
-                                        $('.field-productmaincategory-canonical_name .help-block').html('').append($data.error);
-                                } else {
-                                        $('#prdct_main_category').submit();
-                                }
-                        }, error: function () {
-
-                        }
-                });
-        });
-        $('body').on('click', '.prdct_category', function (e) {
-                e.preventDefault();
-                var canonical = $('#productcategory-canonical_name').val();
-                $.ajax({
-                        url: homeUrl + 'product/product-category/canonical',
-                        type: "post",
-                        data: {canonical: canonical},
-                        success: function (data) {
-                                var $data = JSON.parse(data);
-                                if ($data.con === "2") {
-                                        $('.field-productcategory-canonical_name').addClass('has-error');
-                                        $('.field-productcategory-canonical_name .help-block').html('').append($data.error);
-                                } else {
-                                        $('#prdct_category').submit();
-                                }
-                        }, error: function () {
-
-                        }
-                });
-        });
-        $('body').on('click', '.prdct_subcategory', function (e) {
-                e.preventDefault();
-                var canonical = $('#productsubcategory-canonical_name').val();
-                $.ajax({
-                        url: homeUrl + 'product/product-sub-category/canonical',
-                        type: "post",
-                        data: {canonical: canonical},
-                        success: function (data) {
-                                var $data = JSON.parse(data);
-                                if ($data.con === "2") {
-                                        $('.field-productsubcategory-canonical_name').addClass('has-error');
-                                        $('.field-productsubcategory-canonical_name .help-block').html('').append($data.error);
-                                } else {
-                                        $('#prdct_subcategory').submit();
-                                }
-                        }, error: function () {
-
-                        }
-                });
-        });
+//        $('body').on('click', '.prdct_main_category', function (e) {
+//                e.preventDefault();
+//                var canonical = $('#productmaincategory-canonical_name').val();
+//                $.ajax({
+//                        url: homeUrl + 'product/product-main-category/canonical',
+//                        type: "post",
+//                        data: {canonical: canonical},
+//                        success: function (data) {
+//                                var $data = JSON.parse(data);
+//                                if ($data.con === "2") {
+//                                        $('.field-productmaincategory-canonical_name').addClass('has-error');
+//                                        $('.field-productmaincategory-canonical_name .help-block').html('').append($data.error);
+//                                } else {
+//                                        $('#prdct_main_category').submit();
+//                                }
+//                        }, error: function () {
+//
+//                        }
+//                });
+//        });
+//        $('body').on('click', '.prdct_category', function (e) {
+//                e.preventDefault();
+//                var canonical = $('#productcategory-canonical_name').val();
+//                $.ajax({
+//                        url: homeUrl + 'product/product-category/canonical',
+//                        type: "post",
+//                        data: {canonical: canonical},
+//                        success: function (data) {
+//                                var $data = JSON.parse(data);
+//                                if ($data.con === "2") {
+//                                        $('.field-productcategory-canonical_name').addClass('has-error');
+//                                        $('.field-productcategory-canonical_name .help-block').html('').append($data.error);
+//                                } else {
+//                                        $('#prdct_category').submit();
+//                                }
+//                        }, error: function () {
+//
+//                        }
+//                });
+//        });
+//        $('body').on('click', '.prdct_subcategory', function (e) {
+//                e.preventDefault();
+//                var canonical = $('#productsubcategory-canonical_name').val();
+//                $.ajax({
+//                        url: homeUrl + 'product/product-sub-category/canonical',
+//                        type: "post",
+//                        data: {canonical: canonical},
+//                        success: function (data) {
+//                                var $data = JSON.parse(data);
+//                                if ($data.con === "2") {
+//                                        $('.field-productsubcategory-canonical_name').addClass('has-error');
+//                                        $('.field-productsubcategory-canonical_name .help-block').html('').append($data.error);
+//                                } else {
+//                                        $('#prdct_subcategory').submit();
+//                                }
+//                        }, error: function () {
+//
+//                        }
+//                });
+//        });
 
 
 });

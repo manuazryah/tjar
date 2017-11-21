@@ -57,9 +57,12 @@ class CartController extends \yii\web\Controller {
                 $this->changecart(Yii::$app->session['temp_user']);
             }
         }
+        $condition = $this->usercheck();
+        $cart_items = Cart::find()->where($condition)->all();
         $model = new UserAddress();
         $order = new OrderMaster();
         if ($order->load(Yii::$app->request->post())) {
+//            $this->check_product($cart_items);
             $ship_address = Yii::$app->request->post()['OrderMaster']['ship_address_id'];
             $bill_address = Yii::$app->request->post()['OrderMaster']['bill_address_id'];
             $check = $this->CheckTempsession(Yii::$app->request->post());
@@ -67,10 +70,10 @@ class CartController extends \yii\web\Controller {
                 $this->checkout($ship_address, $bill_address);
         }
 
-        $condition = $this->usercheck();
-        $cart_items = Cart::find()->where($condition)->all();
+
         if (!empty($cart_items)) {
             \common\models\TempSession::deleteAll(['user_id' => Yii::$app->user->identity->id]);
+//            $this->check_product($cart_items);
             $subtotal = $this->total($cart_items);
             $shippinng_limit = Settings::findOne(2)->value;
             $shipping = $shippinng_limit > $subtotal ? $this->shipping_charge($cart_items) : '0';
@@ -114,13 +117,14 @@ class CartController extends \yii\web\Controller {
 
     public function Checkout($ship_address, $bill_address) {
         if (isset(Yii::$app->user->identity->id)) {
+            $this->check_product();
             $cart = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
             $orders = $this->addOrder($cart, $ship_address, $bill_address);
             if ($this->orderProducts($orders, $cart)) {
                 $this->Addpromotions($orders);
                 $this->clearcart($cart);
                 $this->stock_clear($orders);
-                $this->redirect(array('checkout/payment'));
+                $this->redirect(['checkout/payment', 'id' => $orders['order_id']]);
             } else {
                 $this->redirect('mycart');
             }
@@ -322,15 +326,21 @@ class CartController extends \yii\web\Controller {
                 if ($qty == 0 || $qty == "") {
                     $qty = 1;
                 }
-                $product = ProductVendor::findOne($cart->product_id);
-                $quantity = $qty > $product->qty ? $product->qty : $qty;
-                if ($product->offer_price == '0' || $product->offer_price == '') {
-                    $price = $product->price;
-                } else {
-                    $price = $product->offer_price;
+                $product = ProductVendor::find()->where(['id' => $cart->product_id, 'vendor_status' => '1'])->one();
+//                $product = ProductVendor::findOne($cart->product_id);
+                $check_product = Products::find()->where(['id' => $product->product_id, 'status' => '1'])->one();
+                if (!empty($product) && !empty($check_product)) {
+                    $quantity = $qty > $product->qty ? $product->qty : $qty;
+                    if ($product->offer_price == '0' || $product->offer_price == '') {
+                        $price = $product->price;
+                    } else {
+                        $price = $product->offer_price;
+                    }
+                    $total = $price * $quantity;
+                    echo json_encode(array('msg' => 'success', 'quantity' => $quantity, 'total' => sprintf('%0.2f', $total)));
+                }else{
+                    echo json_encode(array('msg' => 'error', 'quantity' => '', 'total' => sprintf('%0.2f', '0')));
                 }
-                $total = $price * $quantity;
-                echo json_encode(array('msg' => 'success', 'quantity' => $quantity, 'total' => sprintf('%0.2f', $total)));
             }
         }
     }
@@ -342,11 +352,13 @@ class CartController extends \yii\web\Controller {
             if (isset($cart_id)) {
                 $cart = Cart::findone(yii::$app->EncryptDecrypt->Encrypt('decrypt', $cart_id));
                 $product = ProductVendor::findOne($cart->product_id);
+//                $check_product = Products::find()->where(['id' => $product->product_id, 'status' => '1'])->one();
                 if ($qty == 0 || $qty == "") {
                     $qty = 1;
                 }
                 $cart->quantity = $qty > $product->qty ? $product->qty : $qty;
                 if ($cart->save()) {
+                    $this->check_cart();
                     $condition = $this->usercheck();
                     $cart_items = Cart::find()->where($condition)->all();
                     if (!empty($cart_items)) {
@@ -381,7 +393,7 @@ class CartController extends \yii\web\Controller {
             $condition = $this->usercheck();
             $cart_items = Cart::find()->where($condition)->all();
             if (!empty($cart_items)) {
-                $this->check_product($cart_items);
+//                $this->check_product($cart_items);
                 $cart_items = Cart::find()->where($condition)->all();
                 echo count($cart_items);
                 exit;
@@ -392,12 +404,25 @@ class CartController extends \yii\web\Controller {
         }
     }
 
-    function check_product($cart_items) {
+    function check_product() {
+        $cart_items = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
         foreach ($cart_items as $cart) {
             $check_product_vendor = ProductVendor::find()->where(['id' => $cart->product_id, 'vendor_status' => '1'])->one();
             $check_product = Products::find()->where(['id' => $check_product_vendor->product_id, 'status' => '1'])->one();
             if (empty($check_product) || empty($check_product_vendor)) {
                 $cart->delete();
+//                $this->redirect('mycart');
+            }
+        }
+    }
+    function check_cart() {
+        $cart_items = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
+        foreach ($cart_items as $cart) {
+            $check_product_vendor = ProductVendor::find()->where(['id' => $cart->product_id, 'vendor_status' => '1'])->one();
+            $check_product = Products::find()->where(['id' => $check_product_vendor->product_id, 'status' => '1'])->one();
+            if (empty($check_product) || empty($check_product_vendor)) {
+//                $cart->delete();
+                $this->redirect('mycart');
             }
         }
     }
@@ -421,7 +446,8 @@ class CartController extends \yii\web\Controller {
     public function total($cart) {
         $subtotal = '0';
         foreach ($cart as $cart_item) {
-            $product = ProductVendor::findOne($cart_item->product_id);
+            $product = ProductVendor::find()->where(['id' => $cart_item->product_id, 'vendor_status' => '1'])->one();
+//            $product = ProductVendor::findOne($cart_item->product_id);
             if ($product->offer_price == '0' || $product->offer_price == '') {
                 $price = $product->price;
             } else {

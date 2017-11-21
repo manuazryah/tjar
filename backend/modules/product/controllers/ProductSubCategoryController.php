@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
+use yii\widgets\ActiveForm;
+use yii\web\Response;
 
 /**
  * ProductSubCategoryController implements the CRUD actions for ProductSubCategory model.
@@ -242,17 +244,11 @@ class ProductSubCategoryController extends Controller {
         ]);
     }
 
-    public function actionCanonical() {
-        if (yii::$app->request->isAjax) {
-            $canonical = Yii::$app->request->post()['canonical'];
-            $model = ProductSubCategory::find()->where(['canonical_name' => $canonical])->one();
-            if ($model) {
-                echo json_encode(array("con" => "2", 'error' => 'Canonical Name "' . $canonical . '" has already been taken.')); //Failed
-                exit;
-            } else {
-                echo json_encode(array("con" => "1", 'error' => 'Success')); //Success
-                exit;
-            }
+    public function actionValidate() {
+        $model = new ProductSubCategory();
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
         }
     }
 

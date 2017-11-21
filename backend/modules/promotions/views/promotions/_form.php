@@ -27,7 +27,7 @@ use yii\helpers\ArrayHelper;
                 }
                 ?>
 
-                <?php $products = common\models\ProductVendor::find()->where(['status' => 1])->all(); ?>   <?= $form->field($model, 'product_id')->dropDownList(ArrayHelper::map($products, 'id', 'productname'), ['prompt' => '--Select--', 'multiple' => true]) ?>
+                <?php $products = common\models\ProductVendor::find()->where(['vendor_status' => 1])->all(); ?>   <?= $form->field($model, 'product_id')->dropDownList(ArrayHelper::map($products, 'id', 'productname'), ['prompt' => '--Select--', 'multiple' => true]) ?>
 
         </div><div class='col-md-4 col-sm-6 col-xs-12 left_padd promption-userid'>
 

@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
 
 <div class="product-category-form form-inline">
 
-    <?php $form = ActiveForm::begin(['id' => 'prdct_category']); ?>
+    <?php $form = ActiveForm::begin(['id' => 'prdct_category', 'enableAjaxValidation' => true, 'validationUrl' => 'validate']); ?>
 
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(common\models\ProductMainCategory::find()->all(), 'id', 'name'), ['prompt' => 'select category']) ?>

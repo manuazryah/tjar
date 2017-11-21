@@ -6,6 +6,7 @@ use yii;
 use common\models\UserAddress;
 use common\models\User;
 use common\models\OrderDetails;
+use common\models\OrderDetailsSearch;
 
 class MyAccountController extends \yii\web\Controller {
 
@@ -71,8 +72,17 @@ class MyAccountController extends \yii\web\Controller {
 
     public function actionMyOrders() {
         if (isset(Yii::$app->user->identity->id)) {
-            $orders = OrderDetails::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
-            return $this->render('my_order', ['orders' => $orders]);
+            $searchModel = new OrderDetailsSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $dataProvider->query->andWhere(['user_id' => Yii::$app->user->identity->id]);
+            $dataProvider->query->andWhere(['payment_status' => '1']);
+            $dataProvider->pagination->pageSize = 10;
+            return $this->render('my_order', [
+                        'searchModel' => $searchModel,
+                        'dataProvider' => $dataProvider,
+            ]);
+//            $orders = OrderDetails::find()->where(['user_id' => Yii::$app->user->identity->id, 'payment_status' => '1'])->all();
+//            return $this->render('my_order', ['orders' => $orders]);
         } else {
             $this->redirect(array('tjar'));
         }

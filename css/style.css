@@ -3471,4 +3471,8 @@ ol.pagenation li.active a {
     vertical-align: middle;
     margin-top: -18px;
 }
+
 /**********************************************Product-page-End*********************************/
+.error{
+    color: red;
+}
