@@ -153,7 +153,7 @@ $this->params['breadcrumbs'][] = $this->title;
 												    },
 												],
 //												,
-												['class' => 'yii\grid\ActionColumn'],
+//												['class' => 'yii\grid\ActionColumn'],
 											    ],
 											]);
 											?>
@@ -174,8 +174,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <?php
 $this->registerJs("
-
-    $('td').click(function (e) {
+$(document).on('click', 'td', function (e) {
         var id = $(this).closest('tr').data('id');
         if(e.target == this)
             location.href = '" . Url::to(['product-vendor/view']) . "?id=' + id;

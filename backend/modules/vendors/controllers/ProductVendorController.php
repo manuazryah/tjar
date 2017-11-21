@@ -48,7 +48,9 @@ class ProductVendorController extends Controller {
 		} elseif ($soldout == 1) {
 			$dataProvider->query->andWhere(['and', 'qty<= 0']);
 		}
-
+		$query = explode('&', $_SERVER['QUERY_STRING']);
+		unset(Yii::$app->session['urls']);
+		Yii::$app->session->set('urls', $query[1]);
 		return $this->render('index', [
 			    'searchModel' => $searchModel,
 			    'dataProvider' => $dataProvider,
@@ -69,9 +71,14 @@ class ProductVendorController extends Controller {
 	}
 
 	public function actionView($id) {
+
 		$product_model = $this->findModel($id);
+		$vendor_address = \common\models\Locations::find()->where(['vendor_id' => $product_model->vendor_id])->orderBy(['(dafault_address)' => SORT_DESC])->all();
+		$product_specifications = \common\models\ProductSpecifications::find()->where(['product_id' => $product_model->product_id])->all();
 		return $this->render('view', [
 			    'model' => $product_model,
+			    'product_specifications' => $product_specifications,
+			    'vendor_address' => $vendor_address,
 		]);
 	}
 
