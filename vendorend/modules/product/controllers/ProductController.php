@@ -85,13 +85,17 @@ class ProductController extends \yii\web\Controller {
          * @return mixed
          */
         public function actionView($id) {
-                $model = ProductVendor::find()->where(['id' => $id])->one();
-                $product = Products::find()->where(['id' => $model->product_id])->one();
-                $product_specifications = \common\models\ProductSpecifications::find()->where(['product_id' => $model->product_id])->all();
-                return $this->renderAjax('view', [
-                            'model' => $model,
-                            'product' => $product,
+
+                $product_model = ProductVendor::findOne($id);
+                $vendor_address = \common\models\Locations::find()->where(['vendor_id' => \Yii::$app->user->identity->id])->orderBy(['(dafault_address)' => SORT_DESC])->all();
+                $product_specifications = \common\models\ProductSpecifications::find()->where(['product_id' => $product_model->product_id])->all();
+                if ($product_model->load(Yii::$app->request->post())) {
+                        //  $product_model->update();
+                }
+                return $this->render('view', [
+                            'model' => $product_model,
                             'product_specifications' => $product_specifications,
+                            'vendor_address' => $vendor_address,
                 ]);
         }
 
@@ -190,6 +194,21 @@ class ProductController extends \yii\web\Controller {
                             'searchModel' => $searchModel,
                             'dataProvider' => $dataProvider,
                 ]);
+        }
+
+        public function actionChangeVendorStatus() {
+                if (yii::$app->request->isAjax) {
+
+                        $id = Yii::$app->request->post()['id'];
+                        $vendor_status = Yii::$app->request->post()['status'];
+                        $model = ProductVendor::findOne($id);
+                        $model->vendor_status = $vendor_status;
+                        if ($model->save()) {
+                                echo 1;
+                        } else {
+                                echo 0;
+                        }
+                }
         }
 
 }

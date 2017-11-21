@@ -142,6 +142,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                                                                                 <p>The lowest price offered by a seller on Souq right now is  180.00 Offering the lowest price gives you a higher chance of selling.</p>
                                                                                                                                                         </div>
                                                                                                                                                 </a>-->
+
+
                                                                 </ul>
 
                                                                 <?= ModalViewWidget::widget() ?>
@@ -158,6 +160,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                         GridView::widget([
                                                                                             'dataProvider' => $dataProvider,
                                                                                             'filterModel' => $searchModel,
+                                                                                            'rowOptions' => function ($model, $key, $index, $grid) {
+                                                                                                    return ['data-id' => $model->id];
+                                                                                            },
                                                                                             'columns' => [
                                                                                                     ['class' => 'yii\grid\SerialColumn'],
                                                                                                     [
@@ -244,6 +249,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
         </div>
 </div>
+
+<?php
+$this->registerJs("
+$(document).on('click', 'td', function (e) {
+        var id = $(this).closest('tr').data('id');
+        if(e.target == this)
+            location.href = '" . Url::to(['product/view']) . "?id=' + id;
+    });
+
+");
+?>
 
 <script>
         $(document).ready(function () {

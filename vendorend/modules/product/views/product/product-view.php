@@ -101,7 +101,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                             'value' => $model->brandName->brand_name,
                                                                                                         ],
                                                                                                         'item_ean',
-                                                                                                        'gender',
+                                                                                                            [
+                                                                                                            'attribute' => 'gender',
+                                                                                                            'value' => function($model) {
+                                                                                                                    if ($model->gender == 1) {
+                                                                                                                            return 'Male';
+                                                                                                                    } else if ($model->gender == 2) {
+                                                                                                                            return 'Female';
+                                                                                                                    }
+                                                                                                            }
+                                                                                                        ],
 //                                                                                                        'main_description:ntext',
 //                                                                                                        'main_description_arabic:ntext',
 //                                                                                                        'highlights:ntext',
