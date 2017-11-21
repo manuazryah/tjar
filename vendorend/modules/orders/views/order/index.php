@@ -6,6 +6,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use common\models\User;
 use common\models\Products;
+use common\models\ProductVendor;
 
 /* @var $this yii\web\View */
 
@@ -60,6 +61,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <li class="<?= $order_status == '' ? 'active' : '' ?>">
                                         <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">All Orders</span>', ['index'], ['class' => '']) ?>
                                     </li>
+                                    <li class="<?= $order_status == 4 ? 'active' : '' ?>">
+                                        <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Awaiting Action</span>', ['index', 'order_status' => 4], ['class' => '']) ?>
+                                    </li>
                                     <li class="<?= $order_status == 1 ? 'active' : '' ?>">
                                         <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Confirmed</span>', ['index', 'order_status' => 1], ['class' => '']) ?>
                                     </li>
@@ -77,7 +81,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <span>Search</span>
                                     </button>
                                     <div class="tab-pane active" id="">
-
+                                        <?php
+                                        echo $order_status . 'kkkk';
+                                        ?>
                                         <?=
                                         GridView::widget([
                                             'dataProvider' => $dataProvider,
@@ -98,7 +104,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 [
                                                     'attribute' => 'product_id',
                                                     'value' => function($data) {
-                                                        $name = Products::findOne($data->product_id)->product_name;
+                                                        $prod_details = ProductVendor::findOne($data->product_id);
+                                                        $name = Products::findOne($prod_details->product_id)->product_name;
                                                         return $name;
                                                     }
                                                 ],
@@ -109,9 +116,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 [
                                                     'attribute' => 'status',
                                                     'format' => 'raw',
-                                                    'filter' => ['0' => 'Pending', '1' => 'Confirm', '1' => 'Canceled'],
-                                                    'value' => function ($data) {
-                                                        return \yii\helpers\Html::dropDownList('status', null, ['0' => 'Pending', '1' => 'Confirm', '2' => 'Canceled'], ['options' => [$data->status => ['Selected' => 'selected']], 'class' => 'form-control admin_status_field', 'id' => 'order_admin_status-' . $data->id,]);
+                                                    'filter' => $filter,
+                                                    'value' => function ($data)use ($order_status) {
+                                                        if ($order_status == '1') {
+                                                            $filter = ['1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
+                                                        } else {
+                                                            $filter = ['0' => 'Pending', '1' => 'Confirm'];
+                                                        }
+                                                        return \yii\helpers\Html::dropDownList('status', null, $filter, ['options' => [$data->status => ['Selected' => 'selected']], 'class' => 'form-control admin_status_field', 'id' => 'order_admin_status-' . $data->id,]);
                                                     },
                                                 ],
                                                 'delivered_date',

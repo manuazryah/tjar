@@ -203,6 +203,11 @@ class OrderMasterController extends Controller {
             $admin_status = Yii::$app->request->post()['status'];
             $model = OrderMaster::find()->where(['id' => $id])->one();
             $model->admin_status = $admin_status;
+            $details = OrderDetails::find()->where(['order_id' => $model->order_id])->all();
+            foreach ($details as $detail) {
+                $detail->admin_status = $admin_status;
+                $detail->save();
+            }
             if ($model->save()) {
                 echo 1;
             } else {

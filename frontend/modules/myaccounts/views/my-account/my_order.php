@@ -51,14 +51,7 @@ $this->title = 'My Orders';
                 <?php
             } else {
                 ?>
-                <div class="settings">
-                    <div class="col-lg-8 col-md-8 col-sm-12 hidden-xs my-account-cntnt empty-data right-box" style="width: 98%;">
-                        <?= EmptyDataWidget::widget(['path' => Yii::$app->homeUrl . 'images/empty-cart.png', 'msg' => 'Your Orders is Empty']) ?>
-                    </div>
-                    <div class="hidden-lg hidden-md hidden-sm col-xs-12 my-account-cntnt empty-data right-box" style="width: 98%;">
-                        <?= EmptyDataWidget::widget(['path' => Yii::$app->homeUrl . 'images/empty-cart.png', 'msg' => 'Your Orders is Empty']) ?>
-                    </div>
-                </div>
+                
                 <?php
             }
             ?>

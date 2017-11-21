@@ -25,7 +25,7 @@ class OrderController extends \yii\web\Controller {
         $products = \common\models\ProductVendor::find()->where(['full_fill' => 0])->all();
         if (!empty($products)) {
             foreach ($products as $val) {
-                $product_array[] = $val->product_id;
+                $product_array[] = $val->id;
             }
         }
         $searchModel = new OrderDetailsSearch();
@@ -37,6 +37,8 @@ class OrderController extends \yii\web\Controller {
             $dataProvider->query->andWhere(['status' => 0]);
         } elseif ($order_status == 3) {
             $dataProvider->query->andWhere(['status' => 2]);
+        } elseif ($order_status == 4) {
+            $dataProvider->query->andWhere(['admin_status' => 1]);
         }
         return $this->render('index', [
                     'searchModel' => $searchModel,
@@ -55,6 +57,13 @@ class OrderController extends \yii\web\Controller {
             $status = Yii::$app->request->post()['status'];
             $model = OrderDetails::find()->where(['id' => $id])->one();
             $model->status = $status;
+            if ($status == '1') {
+                $model1 = new \common\models\OrderHistory();
+                $model1->order_id = $model->order_id;
+                $model1->product_id = $model->product_id;
+                $model1->status = '1';
+                $model1->save();
+            }
             if ($model->save()) {
                 echo 1;
             } else {
