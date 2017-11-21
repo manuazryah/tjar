@@ -41,10 +41,64 @@ $this->params['breadcrumbs'][] = $this->title;
         .hidden-xs{
                 padding-left: 5px;
         }
+        /*        .url_gen {
+                        position: relative;
+                        display: inline-block;
+                }*/
+        /*        .url_gen:hover .tooltiptext {
+                        visibility: visible;
+                }*/
+
+        /*        .url_gen .tooltiptext {
+                        visibility: hidden;
+                        width: 55px;
+                        background-color: black;
+                        color: #fff;
+                        text-align: center;
+                        border-radius: 6px;
+                        padding: 5px 0;
+                        position: absolute;
+                        z-index: 1;
+                        font-size: 14px;
+
+                         Position the tooltip
+                        position: absolute;
+                        z-index: 1;
+                }*/
+        #copy_url{
+                position: relative;
+        }
+        .tooltiptext{
+                position: absolute;
+                opacity: 0;
+                word-break: break-all;
+                background: black;
+                width: 100px;
+                transition: 400ms;
+        }
+        #copy_url:hover .tooltiptext{
+                opacity: 1;
+        }
+        .hover{
+                position: relative;
+        }
+        .hover-box{
+                position: absolute;
+                opacity: 0;
+                word-break: break-all;
+                background: black;
+                width: 100px;
+                transition: 400ms;
+                left: 0px;
+        }
+        .hover:hover .hover-box{
+                opacity: 2;
+        }
+
+
 </style>
 
 <div class="products-index">
-
         <div class="row">
                 <div class="col-md-12">
 
@@ -83,6 +137,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                         <li class="<?= $vendor_status == 2 ? 'active' : '' ?>">
                                                                                 <?= Html::a('<span class="visible-xs"><i class="fa-pause"></i></span><i class="fa fa-pause" aria-hidden="true"></i><span class="hidden-xs">Paused</span>', ['index', 'vendor_status' => 2], ['class' => '']) ?>
                                                                         </li>
+                                                                        <!--                                                                        <a href="" class="hover">fhdgb
+                                                                                                                                                        <div class="hover-box">
+                                                                                                                                                                <p>The lowest price offered by a seller on Souq right now is  180.00 Offering the lowest price gives you a higher chance of selling.</p>
+                                                                                                                                                        </div>
+                                                                                                                                                </a>-->
                                                                 </ul>
 
                                                                 <?= ModalViewWidget::widget() ?>
@@ -123,14 +182,26 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                     'attribute' => 'price',
                                                                                                     'format' => 'raw',
                                                                                                     'value' => function ($data) {
-                                                                                                            return \yii\helpers\Html::textInput('price', $data->price, ['class' => 'form-control product_form', 'id' => 'product_price_' . $data->id]);
+                                                                                                            $product_price = $data->CheckProductPrice($data->product_id, $data->price, 1);
+                                                                                                            if ($product_price == 1) {
+                                                                                                                    $productprice = $data->CheckProductPrice($data->product_id, $data->price, 2);
+                                                                                                                    return \yii\helpers\Html::textInput('price', $data->price, ['class' => 'form-control product_form', 'id' => 'product_price_' . $data->id]) .
+                                                                                                                            '<button id="copy_url" class="url_gen" style="background-color: white; position: relative;padding-top: 10px;font-size: 12px;border:none;float: right;"><i class="fa fa-exclamation-triangle" aria-hidden="true" style="color:#e5bd00"></i>
+                                                                                                                                      <div class="tooltiptext">
+                                                                                                                                          <p class="">The lowest price offered by a seller on Tjar right now is  ' . $productprice . ' Offering the lowest price gives you a higher chance of selling.</p>
+                                                                                                                                       </div>
+                                                                                                                               </button>'
+                                                                                                                    ;
+                                                                                                            } else {
+                                                                                                                    return \yii\helpers\Html::textInput('price', $data->price, ['class' => 'form-control product_form', 'id' => 'product_price_' . $data->id]);
+                                                                                                            }
                                                                                                     },
                                                                                                 ],
                                                                                                 //  'sku',
                                                                                                 [
                                                                                                     'attribute' => 'offer_price',
                                                                                                     'format' => 'raw',
-                                                                                                    'value' => function ($data) {
+                                                                                                    'value' => function ( $data) {
                                                                                                             return \yii\helpers\Html::textInput('offer_price', $data->offer_price, ['class' => 'form-control product_form', 'id' => 'product_offer_price_' . $data->id]);
                                                                                                     },
                                                                                                 ],
@@ -142,22 +213,22 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                             return \yii\helpers\Html::dropDownList('vendor_status', null, ['1' => 'Enabled', '0' => 'Disabled'], ['options' => [$data->vendor_status => ['Selected' => 'selected']], 'class' => 'form-control product_form', 'id' => 'product_status_' . $data->id,]);
                                                                                                     },
                                                                                                 ],
-                                                                                                    [
-                                                                                                    'class' => 'yii\grid\ActionColumn',
-                                                                                                    'header' => 'Actions',
-                                                                                                    'template' => '{view}',
-                                                                                                    'buttons' => [
-                                                                                                        'view' => function ($url, $model) {
-                                                                                                                return Html::button('<i class="fa fa-eye"></i>', ['value' => Url::to(['view', 'id' => $model->id]), 'class' => 'modalButton edit-btn']);
-                                                                                                        },
-                                                                                                    ],
-                                                                                                    'urlCreator' => function ($action, $model) {
-                                                                                                            if ($action === 'delete') {
-                                                                                                                    $url = Url::to(['del', 'id' => $model->id]);
-                                                                                                                    return $url;
-                                                                                                            }
-                                                                                                    }
-                                                                                                ],
+//                                                                                                    [
+//                                                                                                    'class' => 'yii\grid\ActionColumn',
+//                                                                                                    'header' => 'Actions',
+//                                                                                                    'template' => '{view}',
+//                                                                                                    'buttons' => [
+//                                                                                                        'view' => function ($url, $model) {
+//                                                                                                                return Html::button('<i class="fa fa-eye"></i>', ['value' => Url::to(['view', 'id' => $model->id]), 'class' => 'modalButton edit-btn']);
+//                                                                                                        },
+//                                                                                                    ],
+//                                                                                                    'urlCreator' => function ($action, $model) {
+//                                                                                                            if ($action === 'delete') {
+//                                                                                                                    $url = Url::to(['del', 'id' => $model->id]);
+//                                                                                                                    return $url;
+//                                                                                                            }
+//                                                                                                    }
+//                                                                                                ],
                                                                                             ],
                                                                                         ]);
                                                                                         ?>

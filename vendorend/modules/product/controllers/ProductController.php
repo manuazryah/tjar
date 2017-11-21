@@ -26,6 +26,7 @@ class ProductController extends \yii\web\Controller {
                 }
 
                 $dataProvider->query->andWhere(['<>', 'full_fill', 1]);
+                $dataProvider->query->andWhere(['vendor_id' => \Yii::$app->user->identity->id]);
                 return $this->render('index', [
                             'searchModel' => $searchModel,
                             'dataProvider' => $dataProvider,

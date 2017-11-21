@@ -117,4 +117,19 @@ class ProductVendor extends \yii\db\ActiveRecord {
                 return $this->product->product_name;
         }
 
+        public static function CheckProductPrice($product, $price, $type) {
+
+                $product_id = ProductVendor::find()->where(['product_id' => $product])->andWhere(['<', 'price', $price])->exists();
+                if ($type == 1) {
+                        if ($product_id)
+                                return 1;
+                        else
+                                return 0;
+                } else {
+
+                        $product = ProductVendor::find()->where(['product_id' => $product])->andWhere(['<', 'price', $price])->one();
+                        return $product->price;
+                }
+        }
+
 }
