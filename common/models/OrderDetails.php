@@ -71,6 +71,9 @@ class OrderDetails extends \yii\db\ActiveRecord {
 
     public static function getTotalAmount($from_date, $to, $product_id, $field_name) {
         if ($from_date != '' && $to != '') {
+            echo $product_id;
+            echo $field_name;
+            exit;
             $from_date = $from_date;
             $to = $to;
             if ($product_id != '') {
@@ -99,7 +102,7 @@ class OrderDetails extends \yii\db\ActiveRecord {
         }
     }
 
-    public static function getSalecount($from_date, $to) {
+    public static function getSalecount($from_date, $to, $product_id) {
         if ($from_date != '' && $to != '') {
             $from_date = $from_date;
             $to = $to;
