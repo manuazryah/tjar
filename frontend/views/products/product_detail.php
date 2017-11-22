@@ -266,7 +266,7 @@ else
                                                   $specification_model = \common\models\Features::findOne($product_features->specification);
                                                   $value = $specification_model->tablevalue__name; */
                                                 ?>
-                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                                                                                                                                         ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                                                                                                                                         ?></td></tr>
+                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                                                                                                                                            ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                                                                                                                                            ?></td></tr>
                                                 <?php
                                                 /*  }
                                                   } */
@@ -343,15 +343,6 @@ else
                                                                                         } else if ($i == 1) {
                                                                                                 $color = 'progress-bar-danger';
                                                                                         }
-
-
-                                                                                        $rating = common\models\CustomerReviews::find()->where(['product_id' => $vendor_product->id])->count();
-                                                                                        $total_rating = common\models\CustomerReviews::find()->where(['rating' => $i, 'product_id' => $vendor_product->id])->sum('rating');
-                                                                                        $total_sum_count = $rating * 5;
-                                                                                        if ($rating > 0)
-                                                                                                $rating_percentage = ($total_rating / $total_sum_count) * 100;
-                                                                                        else
-                                                                                                $rating_percentage = 0;
                                                                                         ?>
 
                                                                                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-left ratings">
