@@ -90,7 +90,7 @@ class ProductController extends \yii\web\Controller {
                 $vendor_address = \common\models\Locations::find()->where(['vendor_id' => \Yii::$app->user->identity->id])->orderBy(['(dafault_address)' => SORT_DESC])->all();
                 $product_specifications = \common\models\ProductSpecifications::find()->where(['product_id' => $product_model->product_id])->all();
                 if ($product_model->load(Yii::$app->request->post())) {
-                        //  $product_model->update();
+                        $product_model->update();
                 }
                 return $this->render('view', [
                             'model' => $product_model,
