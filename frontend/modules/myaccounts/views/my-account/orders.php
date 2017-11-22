@@ -44,7 +44,7 @@ use yii\helpers\Html;
         </td>
         <td class="" data-title="Actions">
                 <a href="" class="track">Track</a>
-                <input type="hidden" id="product-id" value="<?= $model->product_id ?>">
-                <a href="" class="track add-product-review" style="margin-top:10px;">Add Review</a>
+                <input type="hidden" id="<?= $model->product_id ?>" class="product-id-val" value="<?= $model->product_id ?>">
+                <a href="" class="track add-product-review" id="<?= $model->product_id ?>" style="margin-top:10px;">Add Review</a>
         </td>
 </tr>

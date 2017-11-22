@@ -72,7 +72,7 @@ $this->title = 'My Orders';
 
                 $(document).on('click', '.add-product-review', function (e) {
                         e.preventDefault();
-                        var product = $("#product-id").val();
+                        var product = $(this).attr('id');
                         $.ajax({
                                 type: 'POST',
                                 cache: false,
@@ -175,5 +175,7 @@ $this->title = 'My Orders';
                 color: #000;
                 font-style: italic;
                 font-weight: bold;
+        }.summary{
+                display: none;
         }
 </style>

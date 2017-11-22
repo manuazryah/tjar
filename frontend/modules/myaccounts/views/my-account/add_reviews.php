@@ -29,7 +29,7 @@ $form = ActiveForm::begin(['id' => 'submit-reviews']);
 
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6"><h5 class="review-h5"><?= $product_master_details->product_name ?></h5>
                                 <fieldset class="rating">
-                                        <input type="radio" id="star5" name="rating" value="5" onclick="postToController();"/><label for="star5" title="I love it">5 stars</label>
+                                        <input type="radio" id="star5" name="rating" value="5" onclick="postToController();" /><label for="star5" title="I love it">5 stars</label>
                                         <input type="radio" id="star4" name="rating" value="4" onclick="postToController();"/><label for="star4" title="I like it">4 stars</label>
                                         <input type="radio" id="star3" name="rating" value="3" onclick="postToController();"/><label for="star3" title="It's okay">3 stars</label>
                                         <input type="radio" id="star2" name="rating" value="2" onclick="postToController();"/><label for="star2" title="I don't like it">2 stars</label>

@@ -93,7 +93,14 @@ class MyAccountController extends \yii\web\Controller {
         }
 
         public function actionReviews() {
-                return $this->render('reviews');
+                $searchModel = new \common\models\CustomerReviewsSearch();
+                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+                $dataProvider->query->andWhere(['user_id' => \Yii::$app->user->identity->id]);
+                $dataProvider->query->andWhere(['status' => 1]);
+                return $this->render('reviews', [
+                            'searchModel' => $searchModel,
+                            'dataProvider' => $dataProvider,
+                ]);
         }
 
         public function actionAccountDetails() {
@@ -158,7 +165,12 @@ class MyAccountController extends \yii\web\Controller {
 
                 if (Yii::$app->request->isAjax) {
                         $product_id = $_POST['product_id'];
-                        $model_review = new \common\models\CustomerReviews();
+                        $exists = \common\models\CustomerReviews::find()->where(['user_id' => \Yii::$app->user->identity->id, 'product_id' => $product_id])->exists();
+                        if ($exists) {
+                                $model_review = \common\models\CustomerReviews::find()->where(['user_id' => \Yii::$app->user->identity->id, 'product_id' => $product_id])->one();
+                        } else {
+                                $model_review = new \common\models\CustomerReviews();
+                        }
                         $product_details = \common\models\ProductVendor::findOne($product_id);
                         $product_master_details = \common\models\Products::findOne($product_details->product_id);
                         $data = $this->renderPartial('add_reviews', [
@@ -174,7 +186,13 @@ class MyAccountController extends \yii\web\Controller {
         public function actionSaveReview() {
 
                 if (Yii::$app->request->isAjax) {
-                        $model_review = new \common\models\CustomerReviews();
+
+                        $exists = \common\models\CustomerReviews::find()->where(['user_id' => \Yii::$app->user->identity->id, 'product_id' => $_POST['CustomerReviews']['product_id']])->exists();
+                        if ($exists) {
+                                $model_review = \common\models\CustomerReviews::find()->where(['user_id' => \Yii::$app->user->identity->id, 'product_id' => $_POST['CustomerReviews']['product_id']])->one();
+                        } else {
+                                $model_review = new \common\models\CustomerReviews();
+                        }
                         if ($model_review->load(Yii::$app->request->post())) {
                                 $model_review->user_id = Yii::$app->user->identity->id;
                                 $model_review->review_date = date('Y-m-d');

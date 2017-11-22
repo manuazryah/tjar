@@ -266,7 +266,7 @@ else
                                                   $specification_model = \common\models\Features::findOne($product_features->specification);
                                                   $value = $specification_model->tablevalue__name; */
                                                 ?>
-                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                                                                                                                                            ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                                                                                                                                            ?></td></tr>
+                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                                                                                                                                                 ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                                                                                                                                                 ?></td></tr>
                                                 <?php
                                                 /*  }
                                                   } */
@@ -325,13 +325,16 @@ else
                                                                                 }
                                                                                 ?>
 
-
                                                                                 <?php
                                                                                 for ($i = 5; $i > 0; $i -= 1) {
-                                                                                        $var = "star$i";
-                                                                                        $count = $$var;
-                                                                                        $percent = $count * 100 / $tot_stars;
-                                                                                        $percent = round($percent, 2);
+                                                                                        $percent = 0;
+                                                                                        $rating_count_of_nxt = common\models\CustomerReviews::find()->where(['product_id' => $vendor_product->id, 'rating' => $i])->count();
+                                                                                        if ($rating_count_of_nxt > 0) {
+                                                                                                $var = "star$i";
+                                                                                                $count = $$var;
+                                                                                                $percent = $count * 100 / $tot_stars;
+                                                                                                $percent = round($percent, 2);
+                                                                                        }
                                                                                         if ($i == 5) {
                                                                                                 $color = 'progress-bar-success';
                                                                                         } else if ($i == 4) {
