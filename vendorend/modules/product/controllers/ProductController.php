@@ -63,6 +63,9 @@ class ProductController extends \yii\web\Controller {
                 $product_specifications = \common\models\ProductSpecifications::find()->where(['product_id' => $id])->all();
                 if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
                         $model->vendor_id = Yii::$app->user->identity->id;
+                        if (isset($model->offer_price)) {
+                                $model->offer = ($model->offer_price * 100) / $model->price;
+                        }
                         if ($model->save()) {
                                 $history_id = Yii::$app->SetValues->History($model->id, 1, $model->id, 2, Yii::$app->user->identity->id); //params : reference id, history type, product id, user type, user id
                                 if (isset($history_id))

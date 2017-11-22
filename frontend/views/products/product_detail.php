@@ -266,7 +266,7 @@ else
                                                   $specification_model = \common\models\Features::findOne($product_features->specification);
                                                   $value = $specification_model->tablevalue__name; */
                                                 ?>
-                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                                                                                  ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                                                                                  ?></td></tr>
+                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                                                                                                                                         ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                                                                                                                                         ?></td></tr>
                                                 <?php
                                                 /*  }
                                                   } */
@@ -319,6 +319,19 @@ else
 
                                                                                 <?php
                                                                                 for ($i = 5; $i > 0; $i -= 1) {
+                                                                                        $var = 'star' . + $i;
+                                                                                        $$var = common\models\CustomerReviews::find()->where(['product_id' => $vendor_product->id, 'rating' => $i])->count();
+                                                                                        $tot_stars += $$var;
+                                                                                }
+                                                                                ?>
+
+
+                                                                                <?php
+                                                                                for ($i = 5; $i > 0; $i -= 1) {
+                                                                                        $var = "star$i";
+                                                                                        $count = $$var;
+                                                                                        $percent = $count * 100 / $tot_stars;
+                                                                                        $percent = round($percent, 2);
                                                                                         if ($i == 5) {
                                                                                                 $color = 'progress-bar-success';
                                                                                         } else if ($i == 4) {
@@ -330,6 +343,8 @@ else
                                                                                         } else if ($i == 1) {
                                                                                                 $color = 'progress-bar-danger';
                                                                                         }
+
+
                                                                                         $rating = common\models\CustomerReviews::find()->where(['product_id' => $vendor_product->id])->count();
                                                                                         $total_rating = common\models\CustomerReviews::find()->where(['rating' => $i, 'product_id' => $vendor_product->id])->sum('rating');
                                                                                         $total_sum_count = $rating * 5;
@@ -345,12 +360,14 @@ else
                                                                                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 progressbar">
                                                                                                 <div class="progress  <?= $i == 5 ? 'progress-striped' : '' ?> ">
                                                                                                         <div class="progress-bar <?= $color ?>" role="progressbar" aria-valuenow="20"
-                                                                                                             aria-valuemin="0" aria-valuemax="100" style="width: <?= $rating_percentage ?>%">
-                                                                                                                <span class="sr-only"><?= $rating_percentage ?>%</span>
+                                                                                                             aria-valuemin="0" aria-valuemax="100" style="width: <?= $percent ?>%">
+                                                                                                                <span class="sr-only"><?= $percent ?>%</span>
                                                                                                         </div>
                                                                                                 </div>
                                                                                         </div>
-                                                                                <?php } ?>
+                                                                                        <?php
+                                                                                }
+                                                                                ?>
 
 
 
