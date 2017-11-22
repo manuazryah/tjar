@@ -164,7 +164,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="col-md-12 col-lg-12 col-sm-12 product-vew-pop">
                 <div class="col-md-12 col-lg-12 col-sm-12 product-vew-pop"  style="padding-top: 25px;color: #403e3e;">
-                    <h5 style="font-size: 14px;font-weight: bold;text-decoration: underline;">The same product is also sell following vendors</h5>
+                    <h5 style="font-size: 14px;font-weight: bold;text-decoration: underline;">The same product is also sell by following vendors</h5>
                 </div>
                 <?php
                 if (!empty($other_vendors)) {
