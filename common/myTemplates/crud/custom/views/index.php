@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="panel-body">
 
-                    
+
                     <?php if (!empty($generator->searchModelClass)): ?>
                         <?= "    <?php " . ($generator->indexWidgetType === 'grid' ? "// " : "") ?>echo $this->render('_search', ['model' => $searchModel]); ?>
                     <?php endif; ?>
@@ -44,11 +44,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
                     <?= "<?= " ?> Html::a('<i class="fa-th-list"></i><span> Create <?= Inflector::camel2words(StringHelper::basename($generator->modelClass)); ?></span>', ['create'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
-                    <button class="btn btn-white" id="search-option" style="float: right;">
-                        <i class="linecons-search"></i>
-                        <span>Search</span>
-                    </button>
+
                     <div class="table-responsive" style="border: none">
+                        <button class="btn btn-white" id="search-option" style="float: right;">
+                            <i class="linecons-search"></i>
+                            <span>Search</span>
+                        </button>
                         <?= $generator->enablePjax ? '<?php Pjax::begin(); ?>' : '' ?>
                         <?php if ($generator->indexWidgetType === 'grid'): ?>
                             <?= "<?= " ?>GridView::widget([

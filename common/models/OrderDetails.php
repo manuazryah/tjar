@@ -69,33 +69,64 @@ class OrderDetails extends \yii\db\ActiveRecord {
         return $tot;
     }
 
-//    public static function getTotal($from_date, $to, $product_id, $field_name) {
-//        if ($from_date != '' && $to != '') {
-//            $from_date = $from_date . ' 00:00:00';
-//            $to = $to . ' 60:60:60';
-//            if ($product_id != '') {
-//                return OrderDetails::find()->where(['>=', 'DOC', $from_date])->andWhere(['<=', 'DOC', $to])->andWhere(['product_id' => $product_id])->sum($field_name);
-//            } else {
-//                return OrderDetails::find()->where(['>=', 'DOC', $from_date])->andWhere(['<=', 'DOC', $to])->sum($field_name);
-//            }
-//        } elseif ($from_date != '' && $to == '') {
-//            if ($product_id != '') {
-//                return OrderDetails::find()->where(['>=', 'DOC', $from_date])->andWhere(['product_id' => $product_id])->sum($field_name);
-//            } else {
-//                return OrderDetails::find()->where(['>=', 'DOC', $from_date])->sum($field_name);
-//            }
-//        } elseif ($from_date == '' && $to != '') {
-//            if ($product_id != '') {
-//                return OrderDetails::find()->where(['<=', 'DOC', $to])->andWhere(['product_id' => $product_id])->sum($field_name);
-//            } else {
-//                return OrderDetails::find()->where(['<=', 'DOC', $to])->sum($field_name);
-//            }
-//        } else {
-//            if ($product_id != '') {
-//                return OrderDetails::find()->where(['product_id' => $product_id])->sum($field_name);
-//            } else {
-//                return OrderDetails::find()->sum($field_name);
-//            }
-//        }
-//    }
+    public static function getTotalAmount($from_date, $to, $product_id, $field_name) {
+        if ($from_date != '' && $to != '') {
+            $from_date = $from_date;
+            $to = $to;
+            if ($product_id != '') {
+                return OrderDetails::find()->where(['>=', 'DOC', $from_date])->andWhere(['<=', 'DOC', $to])->andWhere(['product_id' => $product_id])->sum($field_name);
+            } else {
+                return OrderDetails::find()->where(['>=', 'DOC', $from_date])->andWhere(['<=', 'DOC', $to])->sum($field_name);
+            }
+        } elseif ($from_date != '' && $to == '') {
+            if ($product_id != '') {
+                return OrderDetails::find()->where(['>=', 'DOC', $from_date])->andWhere(['product_id' => $product_id])->sum($field_name);
+            } else {
+                return OrderDetails::find()->where(['>=', 'DOC', $from_date])->sum($field_name);
+            }
+        } elseif ($from_date == '' && $to != '') {
+            if ($product_id != '') {
+                return OrderDetails::find()->where(['<=', 'DOC', $to])->andWhere(['product_id' => $product_id])->sum($field_name);
+            } else {
+                return OrderDetails::find()->where(['<=', 'DOC', $to])->sum($field_name);
+            }
+        } else {
+            if ($product_id != '') {
+                return OrderDetails::find()->where(['product_id' => $product_id])->sum($field_name);
+            } else {
+                return OrderDetails::find()->sum($field_name);
+            }
+        }
+    }
+
+    public static function getSalecount($from_date, $to) {
+        if ($from_date != '' && $to != '') {
+            $from_date = $from_date;
+            $to = $to;
+            if ($product_id != '') {
+                return OrderDetails::find()->where(['>=', 'DOC', $from_date])->andWhere(['<=', 'DOC', $to])->andWhere(['product_id' => $product_id])->count();
+            } else {
+                return OrderDetails::find()->where(['>=', 'DOC', $from_date])->andWhere(['<=', 'DOC', $to])->count();
+            }
+        } elseif ($from_date != '' && $to == '') {
+            if ($product_id != '') {
+                return OrderDetails::find()->where(['>=', 'DOC', $from_date])->andWhere(['product_id' => $product_id])->count();
+            } else {
+                return OrderDetails::find()->where(['>=', 'DOC', $from_date])->count();
+            }
+        } elseif ($from_date == '' && $to != '') {
+            if ($product_id != '') {
+                return OrderDetails::find()->where(['<=', 'DOC', $to])->andWhere(['product_id' => $product_id])->count();
+            } else {
+                return OrderDetails::find()->where(['<=', 'DOC', $to])->count();
+            }
+        } else {
+            if ($product_id != '') {
+                return OrderDetails::find()->where(['product_id' => $product_id])->count();
+            } else {
+                return OrderDetails::find()->count();
+            }
+        }
+    }
+
 }

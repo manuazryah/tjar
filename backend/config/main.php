@@ -55,6 +55,9 @@ return [
         'cms' => [
             'class' => 'backend\modules\cms\Module',
         ],
+        'menumanagement' => [
+            'class' => 'backend\modules\menumanagement\Module',
+        ],
     ],
     'components' => [
         'request' => [
