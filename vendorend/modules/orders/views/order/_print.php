@@ -111,6 +111,12 @@
 //                        $delivary_charge = \common\models\Settings::findOne('2')->value;
 //                    }
                     $delivary_charge = 0;
+                    $shippinng_limit = \common\models\Settings::findOne(2)->value;
+                    if ($shippinng_limit > $amount_total) {
+
+                        $delivary_charge = common\models\Cart::shipping_charge($order_details);
+                    }
+//                    $delivary_charge = 0;
                     ?>
                 </table>
                 <table style="width: 100%;padding-bottom: 10px;border-bottom: 2px solid #5a5959;">

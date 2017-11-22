@@ -61,17 +61,17 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <li class="<?= $order_status == '' ? 'active' : '' ?>">
                                         <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">All Orders</span>', ['index'], ['class' => '']) ?>
                                     </li>
-                                    <li class="<?= $order_status == 4 ? 'active' : '' ?>">
-                                        <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Awaiting Action</span>', ['index', 'order_status' => 4], ['class' => '']) ?>
-                                    </li>
                                     <li class="<?= $order_status == 1 ? 'active' : '' ?>">
-                                        <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Confirmed</span>', ['index', 'order_status' => 1], ['class' => '']) ?>
+                                        <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Awaiting Action</span>', ['index', 'order_status' => 1], ['class' => '']) ?>
                                     </li>
                                     <li class="<?= $order_status == 2 ? 'active' : '' ?>">
-                                        <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Pending</span>', ['index', 'order_status' => 2], ['class' => '']) ?>
+                                        <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Placed</span>', ['index', 'order_status' => 2], ['class' => '']) ?>
                                     </li>
                                     <li class="<?= $order_status == 3 ? 'active' : '' ?>">
-                                        <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Canceled</span>', ['index', 'order_status' => 3], ['class' => '']) ?>
+                                        <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Dispatched</span>', ['index', 'order_status' => 3], ['class' => '']) ?>
+                                    </li>
+                                    <li class="<?= $order_status == 4 ? 'active' : '' ?>">
+                                        <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Delivered</span>', ['index', 'order_status' => 4], ['class' => '']) ?>
                                     </li>
                                 </ul>
 
@@ -81,9 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <span>Search</span>
                                     </button>
                                     <div class="tab-pane active" id="">
-                                        <?php
-                                        echo $order_status . 'kkkk';
-                                        ?>
+
                                         <?=
                                         GridView::widget([
                                             'dataProvider' => $dataProvider,
@@ -118,10 +116,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     'format' => 'raw',
                                                     'filter' => $filter,
                                                     'value' => function ($data)use ($order_status) {
-                                                        if ($order_status == '1') {
-                                                            $filter = ['1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
+                                                        if (($order_status == '1') || ($order_status == '' && $data->status == '0')) {
+                                                            $filter = ['0' => 'Pending', '1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
                                                         } else {
-                                                            $filter = ['0' => 'Pending', '1' => 'Confirm'];
+                                                            $filter = ['1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
                                                         }
                                                         return \yii\helpers\Html::dropDownList('status', null, $filter, ['options' => [$data->status => ['Selected' => 'selected']], 'class' => 'form-control admin_status_field', 'id' => 'order_admin_status-' . $data->id,]);
                                                     },
@@ -130,7 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 [
                                                     'class' => 'yii\grid\ActionColumn',
                                                     'header' => 'Actions',
-                                                    'template' => '{print}',
+                                                    'template' => '{print}{comment}',
                                                     'buttons' => [
                                                         'print' => function ($url, $model) {
                                                             return Html::a('<span><i class="fa fa-print" aria-hidden="true"></i></span>', $url, [
@@ -139,9 +137,22 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                         'target' => '_blank',
                                                             ]);
                                                         },
+                                                        'comment' => function ($url, $model) {
+                                                            if ($model->status != '0' && $model->status != '3') {
+                                                            return Html::a('<span><i class="fa-file-text-o"></i></span>', '', [
+                                                                        'title' => 'Comment',
+                                                                        'class' => 'order_comment',
+                                                                        'id' => $model->id,
+                                                            ]);
+//                                                                return '<span title="comment" class="order_comment" id="' . $model->id . '"><i class="fa-file-text-o" aria-hidden="true"></i></span>';
+                                                            }
+                                                        },
                                                     ],
                                                     'urlCreator' => function ($action, $model) {
                                                         if ($action === 'print') {
+                                                            $url = Url::to(['print', 'id' => $model->order_id]);
+                                                            return $url;
+                                                        } else {
                                                             $url = Url::to(['print', 'id' => $model->order_id]);
                                                             return $url;
                                                         }
@@ -157,6 +168,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?php yii\widgets\Pjax::end(); ?>
 
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -164,6 +176,27 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+<div class="modal fade" id="modal-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="padding: 25px 30px;">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <textarea rows="3" cols="70" placeholder="Add Your Comment" class="comment_box"></textarea>
+            </div>
+            <span class="error"></span>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info comment_submit">Add Comment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
         $(".filters").slideToggle();
@@ -176,13 +209,48 @@ $this->params['breadcrumbs'][] = $this->title;
             $.ajax({
                 url: homeUrl + 'orders/order/change-order-status',
                 type: "post",
-                data: {status: order_status, id: change_id},
+                data: {status: order_status, ids: change_id},
                 success: function (data) {
                     alert('Status Changed Sucessfully');
                     $.pjax.reload({container: '#order-manage'});
                 }, error: function () {
                 }
             });
+        });
+        $('body').on('click', '.order_comment', function () {
+            $('.comment_box').val('');
+            $('.error').html('');
+            var id = $(this).attr('id');
+            $('#modal-1').modal('show');
+            $('.comment_box').attr("id", id);
+        });
+        $('body').on('click', '.comment_submit', function () {
+            $('.error').html('');
+            var comment = $('.comment_box').val();
+            var id = $('.comment_box').attr('id');
+            if (comment !== '') {
+                $.ajax({
+                    url: homeUrl + 'orders/order/order-history-comment',
+                    type: "post",
+                    data: {comment: comment, id: id},
+                    success: function (data) {
+                        var $data = JSON.parse(data);
+                        if ($data.msg === "success") {
+                            alert('Comment Successfully Added');
+                            $('#modal-1').modal('hide');
+//                            
+                        } else {
+                            alert('Sorry, Internal error');
+//                            $('#prdct_main_category').submit();
+                        }
+                    }, error: function () {
+
+                    }
+                });
+
+            } else {
+                $('.error').html('Cannot be Null');
+            }
         });
     });
 </script>

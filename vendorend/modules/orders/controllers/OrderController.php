@@ -9,8 +9,13 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\OrderDetailsSearch;
 use common\models\OrderDetails;
+use common\models\OrderHistory;
 
 class OrderController extends \yii\web\Controller {
+
+    public function init() {
+        date_default_timezone_set('Asia/Kolkata');
+    }
 
     public function actionIndex($order_status = NULL) {
         $order_array = [];
@@ -30,15 +35,15 @@ class OrderController extends \yii\web\Controller {
         }
         $searchModel = new OrderDetailsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->andWhere(['vendor_id' => $vendor_id])->andWhere(['in', 'order_id', $order_array])->andWhere(['in', 'product_id', $product_array]);
+        $dataProvider->query->andWhere(['vendor_id' => $vendor_id, 'admin_status' => '1'])->andWhere(['in', 'order_id', $order_array])->andWhere(['in', 'product_id', $product_array]);
         if ($order_status == 1) {
-            $dataProvider->query->andWhere(['status' => 1]);
-        } elseif ($order_status == 2) {
             $dataProvider->query->andWhere(['status' => 0]);
+        } elseif ($order_status == 2) {
+            $dataProvider->query->andWhere(['status' => 1]);
         } elseif ($order_status == 3) {
             $dataProvider->query->andWhere(['status' => 2]);
         } elseif ($order_status == 4) {
-            $dataProvider->query->andWhere(['admin_status' => 1]);
+            $dataProvider->query->andWhere(['status' => 3]);
         }
         return $this->render('index', [
                     'searchModel' => $searchModel,
@@ -53,21 +58,48 @@ class OrderController extends \yii\web\Controller {
      */
     public function actionChangeOrderStatus() {
         if (yii::$app->request->isAjax) {
-            $id = Yii::$app->request->post()['id'];
+            $id = Yii::$app->request->post()['ids'];
+//             echo $id.'id';exit;
             $status = Yii::$app->request->post()['status'];
             $model = OrderDetails::find()->where(['id' => $id])->one();
             $model->status = $status;
-            if ($status == '1') {
-                $model1 = new \common\models\OrderHistory();
+            if ($status != '0') {
+                $model1 = new OrderHistory();
+                $model1->detail_id = $model->id;
                 $model1->order_id = $model->order_id;
                 $model1->product_id = $model->product_id;
-                $model1->status = '1';
-                $model1->save();
+                $model1->status = $status;
+                $model1->date = date('Y-m-d H:i:s');
+                if ($model1->save()) {
+                    
+                }
             }
             if ($model->save()) {
                 echo 1;
             } else {
                 echo 0;
+            }
+        }
+    }
+
+    public function actionOrderHistoryComment() {
+        if (yii::$app->request->isAjax) {
+            $comment = Yii::$app->request->post()['comment'];
+            $id = Yii::$app->request->post()['id'];
+            $details = OrderDetails::find()->where(['id' => $id])->one();
+            $model = new OrderHistory();
+            $model->detail_id = $id;
+            $model->order_id = $details->order_id;
+            $model->product_id = $details->product_id;
+            $model->status = $details->status;
+            $model->date = date('Y-m-d H:i:s');
+            $model->comment = $comment;
+            if ($model->save()) {
+                echo json_encode(array('msg' => 'success'));
+                exit;
+            } else {
+                echo json_encode(array('msg' => 'failed'));
+                exit;
             }
         }
     }
@@ -104,7 +136,7 @@ class OrderController extends \yii\web\Controller {
         $products = \common\models\ProductVendor::find()->where(['full_fill' => 0])->all();
         if (!empty($products)) {
             foreach ($products as $val) {
-                $product_array[] = $val->product_id;
+                $product_array[] = $val->id;
             }
         }
         $order_details = OrderDetails::find()->where(['order_id' => $id])->andWhere(['in', 'product_id', $product_array])->andWhere(['vendor_id' => $vendor_id])->all();
