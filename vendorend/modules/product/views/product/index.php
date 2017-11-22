@@ -191,10 +191,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                             if ($product_price == 1) {
                                                                                                                     $productprice = $data->CheckProductPrice($data->product_id, $data->price, 2);
                                                                                                                     return \yii\helpers\Html::textInput('price', $data->price, ['class' => 'form-control product_form', 'id' => 'product_price_' . $data->id]) .
-                                                                                                                            '<button id="copy_url" class="url_gen" style="background-color: white; position: relative;padding-top: 10px;font-size: 12px;border:none;float: right;"><i class="fa fa-exclamation-triangle" aria-hidden="true" style="color:#e5bd00"></i>
-                                                                                                                                      <div class="tooltiptext">
-                                                                                                                                          <p class="">The lowest price offered by a seller on Tjar right now is  ' . $productprice . ' Offering the lowest price gives you a higher chance of selling.</p>
-                                                                                                                                       </div>
+                                                                                                                            '<button id="copy_url" class="url_gen" style="background-color: white; position: relative;padding-top: 10px;font-size: 12px;border:none;float: right;" title="The lowest price offered by a seller on Tjar right now is  ' . $productprice . ' Offering the lowest price gives you a higher chance of selling."><i class="fa fa-exclamation-triangle" aria-hidden="true" style="color:#e5bd00"></i>
+
                                                                                                                                </button>'
                                                                                                                     ;
                                                                                                             } else {
