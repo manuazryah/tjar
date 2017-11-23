@@ -266,7 +266,7 @@ else
                                                   $specification_model = \common\models\Features::findOne($product_features->specification);
                                                   $value = $specification_model->tablevalue__name; */
                                                 ?>
-                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                                                                                                                                                    ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                                                                                                                                                    ?></td></tr>
+                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                                                                                                                                                                    ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                                                                                                                                                                    ?></td></tr>
                                                 <?php
                                                 /*  }
                                                   } */
@@ -292,6 +292,7 @@ else
                                                                 if ($rating_entered > 0) {
                                                                         $rating_average = $rating_sum / $rating_entered;
                                                                         $rating_average = round($rating_average, 2);
+                                                                        $rating_average_dowm = floor($rating_average);
                                                                 }
                                                                 ?>
                                                                 <div class="review-success"><i class="fa fa-check" aria-hidden="true" style="color:#FFF;margin-right: 5px;"></i>Review Added Succesfully</div>
@@ -302,11 +303,21 @@ else
                                                                         <h1 class="rating-num"><?= $rating_average ?></h1>
                                                                         <div class="rating">
                                                                                 <div class="rating-input">
-                                                                                        <span class="glyphicon glyphicon-star" data-value="1"></span>
-                                                                                        <span class="glyphicon glyphicon-star" data-value="2"></span>
-                                                                                        <span class="glyphicon glyphicon-star" data-value="3"></span>
-                                                                                        <span class="glyphicon glyphicon-star-empty" data-value="4"></span>
-                                                                                        <span class="glyphicon glyphicon-star-empty" data-value="5"></span>
+
+                                                                                        <?php
+                                                                                        for ($i = 1; $i <= 5; $i += 1) {
+                                                                                                $star_class = '';
+                                                                                                if ($i > $rating_average_dowm) {
+                                                                                                        $star_class = '-empty';
+                                                                                                }
+                                                                                                ?>
+                                                                                                <span class="glyphicon glyphicon-star<?= $star_class ?>" data-value="<?= $i ?>"></span>
+                                                                                        <?php } ?>
+<!--                                                                                        <span class="glyphicon glyphicon-star" data-value="1"></span>
+<span class="glyphicon glyphicon-star" data-value="2"></span>
+<span class="glyphicon glyphicon-star" data-value="3"></span>
+<span class="glyphicon glyphicon-star-empty" data-value="4"></span>
+<span class="glyphicon glyphicon-star-empty" data-value="5"></span>-->
                                                                                         <input type="hidden" name="test" value="0" id="test">
                                                                                 </div>
                                                                         </div>
