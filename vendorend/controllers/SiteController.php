@@ -11,6 +11,7 @@ use common\models\Vendors;
 use common\models\ForgotPasswordTokens;
 use common\models\Products;
 use common\models\ProductsSearch;
+use common\models\NotificationViewStatus;
 
 /**
  * Site controller
@@ -26,7 +27,7 @@ class SiteController extends Controller {
                         'class' => AccessControl::className(),
                         'rules' => [
                                 [
-                                'actions' => ['login', 'error', 'index', 'home', 'forgot', 'new-password', 'search-item', 'search-keyword'],
+                                'actions' => ['login', 'error', 'index', 'home', 'forgot', 'new-password', 'search-item', 'search-keyword', 'notifications'],
                                 'allow' => true,
                             ],
                                 [
@@ -252,6 +253,25 @@ class SiteController extends Controller {
                                 $values = $this->renderPartial('_product_search', ['products' => $results, 'keyword' => $keyword]);
                                 echo $values;
                         }
+                }
+        }
+
+        public function actionNotifications($id = null) {
+                if (!empty($id)) {
+                        $new_notifications = NotificationViewStatus::find()->where(['id' => $id])->one();
+                        $history_model = \common\models\History::find()->where(['id' => $new_notifications->history_id])->one();
+                        $master_history = \common\models\MasterHistoryType::findOne($history_model->history_type);
+                        $new_notifications->view_status = 1;
+                        $new_notifications->update();
+
+                        if (isset($master_history->link)) {
+                                $this->redirect(\Yii::$app->homeUrl . $master_history->link);
+                        }
+                } else {
+                        $new_notifications = NotificationViewStatus::find()->where(['user_type' => 2, 'user_id' => Yii::$app->user->identity->id, 'view_status' => 0])->orderBy(['id' => SORT_DESC])->all();
+                        return $this->render('notifications', [
+                                    'new_notifications' => $new_notifications,
+                        ]);
                 }
         }
 

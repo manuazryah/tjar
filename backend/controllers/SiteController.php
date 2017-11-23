@@ -211,11 +211,12 @@ class SiteController extends Controller {
                 if (!empty($id)) {
                         $new_notifications = NotificationViewStatus::find()->where(['id' => $id])->one();
                         $history_model = \common\models\History::find()->where(['id' => $new_notifications->history_id])->one();
+                        $master_history = \common\models\MasterHistoryType::findOne($history_model->history_type);
                         $new_notifications->view_status = 1;
                         $new_notifications->update();
 
-                        if ($history_model->history_type == 4) {
-                                $this->redirect(\Yii::$app->homeUrl . 'orders/order-master/index');
+                        if (isset($master_history->link)) {
+                                $this->redirect(\Yii::$app->homeUrl . $master_history->link);
                         }
                 } else {
                         $new_notifications = NotificationViewStatus::find()->where(['user_type' => 1, 'user_id' => Yii::$app->user->identity->id, 'view_status' => 0])->orderBy(['id' => SORT_DESC])->all();

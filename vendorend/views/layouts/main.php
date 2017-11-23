@@ -133,7 +133,7 @@ $limit_notifications = NotificationViewStatus::find()->where(['user_type' => 2, 
                                                         <ul class="dropdown-menu notifications">
                                                                 <li class="top">
                                                                         <p class="small">
-                                                                                <a href="#" class="pull-right">Mark all Read</a>
+                                                                                <!--                                                                                <a href="#" class="pull-right">Mark all Read</a>-->
                                                                                 You have <strong><?= count($new_notifications) ?></strong> new notifications.
                                                                         </p>
                                                                 </li>
@@ -144,16 +144,17 @@ $limit_notifications = NotificationViewStatus::find()->where(['user_type' => 2, 
                                                                                 if (!empty($limit_notifications)) {
                                                                                         foreach ($limit_notifications as $new_notification) {
                                                                                                 ?>
-                                                                                                <li class="active notification-success">
-
-                                                                                                        <?= Html::a('<i class="fa-envelope"></i>
-														<span class="line small time limit-text">' . $new_notification->content . '</span>
-														<span class="line small time "><strong>Date:</strong> ' . $new_notification->date, ['/site/notifications?id=' . $new_notification->id], ['class' => '']) ?>
+                                                                                                <li class="active notification-secondary">
+                                                                                                        <?= Html::a('<i class="fa-lock"></i>
+											             <span class="line">' . $new_notification->content . '</span>
+                                                                                                     <span class="line small time"> ' . $new_notification->date . '</span>', ['/site/notifications?id=' . $new_notification->id], ['class' => '']) ?>
                                                                                                 </li>
                                                                                                 <?php
                                                                                         }
                                                                                 }
                                                                                 ?>
+
+
 
 
                                                                         </ul>
