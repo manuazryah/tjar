@@ -59,21 +59,33 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         // 'created_at',
                                                         // 'updated_at',
                                                         ['class' => 'yii\grid\ActionColumn',
-                                                            'template' => '{update}{status}',
+                                                            'template' => '{update}{view}{status}',
                                                             'buttons' => [
                                                                 'status' => function ($url, $model) {
                                                                         return Html::checkbox('status', $model->status == 1 ? true : false, ['class' => 'iswitch iswitch-secondary user-ststus', 'id' => $model->id, 'title' => $model->status == 1 ? " User is Active" : 'User is Deactive']);
                                                                 },
                                                                 'update' => function ($url, $model) {
-                                                                        return Html::a('<span class="glyphicon glyphicon-pencil" style="padding-top: 0px;font-size: 18px;"></span>', $url, [
+                                                                        return Html::a('<span class="fa fa-pencil" style="padding-top: 0px;font-size: 18px;"></span>', $url, [
                                                                                     'title' => Yii::t('app', 'print'),
                                                                                     'class' => 'actions',
+                                                                        ]);
+                                                                },
+                                                                'view' => function ($url, $model) {
+                                                                        return Html::a('<span class="fa fa-eye" style="padding-top: 0px;font-size: 18px;"></span>', $url, [
+                                                                                    'title' => Yii::t('app', 'View Details'),
+                                                                                    'class' => 'actions',
+                                                                                    'target' => '_blank',
                                                                         ]);
                                                                 },
                                                             ],
                                                             'urlCreator' => function ($action, $model) {
                                                                     if ($action === 'update') {
                                                                             $url = Url::to(['user/update', 'id' => $model->id]);
+                                                                            return $url;
+                                                                    }
+
+                                                                    if ($action === 'view') {
+                                                                            $url = Url::to(['user/view', 'id' => $model->id]);
                                                                             return $url;
                                                                     }
                                                             }

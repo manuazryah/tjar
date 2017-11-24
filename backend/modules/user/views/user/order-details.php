@@ -29,11 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="panel-body">
 
 
-                                        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-
-
-                                        <?= Html::a('<i class="fa-th-list"></i><span> Manage Order </span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
                                         <div class="table-responsive" style="border: none">
                                                 <button class="btn btn-white" id="search-option" style="float: right;">
                                                         <i class="linecons-search"></i>
@@ -48,13 +43,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         'order_id',
                                                             [
                                                             'attribute' => 'product_id',
-//                                    'filter' => ArrayHelper::map(Product::find()->all(), 'id', 'product_name'),
                                                             'value' => function($data) {
                                                                     $prdctvendor = ProductVendor::findOne($data->product_id);
                                                                     $name = Products::findOne($prdctvendor->product_id)->product_name;
-//                                        $image = '<img src="' . Yii::$app->homeUrl . 'uploads/product/' . $product_details->id . '/profile/' . $product_details->canonical_name . '_thumb.' . $product_details->profile . '" width="94px" height="93px"/>';
                                                                     return $name;
-//                                        return Product::findOne($data->product_id)->product_name;
                                                             }
                                                         ],
                                                         'quantity',
@@ -73,40 +65,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                     } elseif ($data->status == 2) {
                                                                             return 'Canceled';
                                                                     }
-//                                        $product = \common\models\ProductVendor::findOne($data->product_id);
-//                                        if ($product->full_fill == 1) {
-//                                            return \yii\helpers\Html::dropDownList('status', null, ['0' => 'Not Delivered', '1' => 'Delivered'], ['options' => [$data->status => ['Selected' => 'selected']], 'class' => 'form-control admin_status_field', 'id' => 'order_admin_status-' . $data->id,]);
-//                                        } else {
-//                                            if ($data->status == 0) {
-//                                                return 'Not Delivered';
-//                                            } else {
-//                                                return 'Delivered';
-//                                            }
-//                                        }
                                                             },
                                                         ],
                                                         'delivered_date',
-//                                [
-//                                    'class' => 'yii\grid\ActionColumn',
-////                                    'header' => 'Actions',
-//                                    'template' => '{view-more}',
-//                                    'buttons' => [
-//                                        'view-more' => function ($url, $model) {
-//                                            if ($model->item_type == 1) {
-//                                                return Html::a('<span><i class="fa fa-arrow-right" aria-hidden="true"></i></span>', $url, [
-//                                                            'title' => Yii::t('app', 'view more'),
-//                                                            'class' => '',
-//                                                ]);
-//                                            }
-//                                        },
-//                                    ],
-//                                    'urlCreator' => function ($action, $model) {
-//                                        if ($action === 'view-more') {
-//                                            $url = Url::to(['view-more', 'id' => $model->id]);
-//                                            return $url;
-//                                        }
-//                                    }
-//                                ],
                                                     ],
                                                 ]);
                                                 ?>

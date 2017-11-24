@@ -171,29 +171,7 @@ else
                                                         <span class="message"><?= $vendor_product->warranty ?></span>
                                                 </div>
                                         <?php } ?>
-                                        <div class="product-detailed-points">
-                                                <h5 class="model-clr">Color:</h5>
-                                                <span class="message">
-                                                        <div class="app-figure" id="zoom-fig">
-                                                                <div class="selectors">
-                                                                        <a
-                                                                                data-zoom-id="Zoom-1"
-                                                                                href="<?= Yii::$app->homeUrl ?>/images/products/1.png"
-                                                                                data-image="<?= Yii::$app->homeUrl ?>/images/products/1.png?scale.height=400"
-                                                                                >
-                                                                                <img srcset="<?= Yii::$app->homeUrl ?>/images/products/1.png?scale.width=112 2x" src="<?= Yii::$app->homeUrl ?>/images/products/1thumb.png?scale.width=56"/>
-                                                                        </a>
-                                                                        <a
-                                                                                data-zoom-id="Zoom-1"
-                                                                                href="<?= Yii::$app->homeUrl ?>/images/products/2.png"
-                                                                                data-image="<?= Yii::$app->homeUrl ?>/images/products/2.png?scale.height=400"
-                                                                                >
-                                                                                <img srcset="<?= Yii::$app->homeUrl ?>/images/products/2.png?scale.width=112 2x" src="<?= Yii::$app->homeUrl ?>/images/products/2thumb.png?scale.width=56"/>
-                                                                        </a>
-                                                                </div>
-                                                        </div>
-                                                </span>
-                                        </div>
+
                                         <div class="product-detailed-points">
                                                 <h5> <?= Yii::$app->session['words']->Notes ?>:</h5>
                                                 <p class="important-notes"> <?= Yii::$app->SetLanguage->ViewData($product_details, 'important_notes'); ?></p>
@@ -266,7 +244,7 @@ else
                                                   $specification_model = \common\models\Features::findOne($product_features->specification);
                                                   $value = $specification_model->tablevalue__name; */
                                                 ?>
-                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                                                                                                                                                                    ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                                                                                                                                                                    ?></td></tr>
+                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                                                                                                                                                                     ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                                                                                                                                                                     ?></td></tr>
                                                 <?php
                                                 /*  }
                                                   } */
