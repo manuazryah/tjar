@@ -53,11 +53,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                                 <div class="row">
 
-                                                        <div class="col-md-12">
-                                                                <label>Customer :</label>Manu K O<br>
-                                                                <label>Total Orders :</label>10<br>
-                                                                <label>Total Reward Points :</label>10<br>
-                                                        </div>
 
 
                                                         <div class="col-md-12">
