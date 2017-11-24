@@ -270,7 +270,7 @@ if (isset(Yii::$app->session['log-return'])) {
                                                                         <?php
                                                                         $modelregister = new User();
                                                                         ?>
-                                                                        <?php $form_signin = ActiveForm::begin(['action' => Yii::$app->homeUrl . 'site/register', 'id' => 'signup-form', 'options' => ['class' => 'form-horizontal']]); ?>
+                                                                        <?php $form_signin = ActiveForm::begin(['action' => Yii::$app->homeUrl . 'site/register?go=' . Yii::$app->request->hostInfo . Yii::$app->request->url, 'id' => 'signup-form', 'options' => ['class' => 'form-horizontal']]); ?>
                                                                         <!--<form class="form-horizontal" action=" " method="post"  id="signup_form">-->
                                                                         <fieldset>
                                                                                 <div class="form-group">

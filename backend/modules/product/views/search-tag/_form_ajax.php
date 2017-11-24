@@ -23,13 +23,17 @@ use yii\helpers\Url;
         <?= $form->field($model, 'subcategory')->dropDownList($cat, ['prompt' => 'Select Sub Category', 'class' => 'form-control']) ?>
 
     </div>
-    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
-        <?= $form->field($model, 'tag_name')->textarea(['rows' => '2']) ?>
+    <div class='col-md-6 col-sm-12 col-xs-12 left_padd'>
+        <?= $form->field($model, 'tag_name')->textInput() ?>
     </div>
-    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
-        <?= $form->field($model, 'tag_name_arabic')->textarea(['rows' => '2']) ?>
+    <div class='col-md-6 col-sm-12 col-xs-12 left_padd'>
+        <?= $form->field($model, 'tag_name_arabic')->textInput() ?>
     </div>
-    <div class='col-md-12 col-sm-12 col-xs-12 left_padd'>
+
+    <div class='col-md-6 col-sm-12 col-xs-12 left_padd'>
+        <?= $form->field($model, 'canonical_name')->textInput(['readOnly' => true]) ?>
+    </div>
+    <div class='col-md-6 col-sm-12 col-xs-12 left_padd'>
         <?= $form->field($model, 'status')->dropDownList(['1' => 'Enable', '0' => 'Disable']) ?>
 
     </div>
