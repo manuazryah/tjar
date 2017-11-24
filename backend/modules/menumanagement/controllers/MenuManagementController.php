@@ -142,4 +142,22 @@ class MenuManagementController extends Controller {
         }
     }
 
+    /*
+     * This function select sub menu based on main menu
+     * return result to the view
+     */
+
+    public function actionSelectSubMenu() {
+        if (Yii::$app->request->isAjax) {
+            $main = $_POST['main_cat'];
+            $submenus = MenuManagement::find()->where(['main_menu_id' => $main, 'type' => 2])->all();
+            $options = '<option value="">-Choose a Submenu-</option>';
+            foreach ($submenus as $submenu) {
+                $options .= "<option value='" . $submenu->id . "'>" . $submenu->sub_menu . "</option>";
+            }
+
+            echo $options;
+        }
+    }
+
 }

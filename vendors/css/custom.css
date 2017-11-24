@@ -456,3 +456,37 @@ nav.navbar {
 .product_venode_view_btns {
     border: 1px solid #3f3c3c82;
 }
+.user-footer .btn-white{
+    color: black !important;
+    background: white;
+    border: 1px solid #d0d0d0 !important;
+    padding: 10px 15px;
+}
+.user-footer .btn-white:hover {
+    background-color: #f9f9f9 !important;
+}
+.user-profile-menu .user-header{
+    height: 155px;
+    padding: 10px;
+    text-align: center;
+    background: #d0d0d0;
+}
+.user-profile-menu .user-header img{
+    z-index: 5;
+    height: 90px;
+    width: 90px;
+    border: 3px solid;
+    border-color: transparent;
+    border-color: rgba(255,255,255,0.2);
+}
+.user-profile-menu .user-header p{
+    z-index: 5;
+    color: #fff;
+    color: rgba(19, 18, 18, 0.8);
+    font-size: 13px;
+    margin-top: 10px;
+    font-weight: 600;
+}
+.user-info-navbar .user-info-menu>li .dropdown-menu.user-profile-menu, .navbar.horizontal-menu .navbar-inner>.nav>li .dropdown-menu.user-profile-menu {
+    width: 308px;
+}

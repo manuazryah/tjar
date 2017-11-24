@@ -46,7 +46,7 @@ $form = ActiveForm::begin(
 </div>
 
 <div class="login-footer">
-    <a href="<?= yii::$app->homeUrl; ?>forgot-password">Forgot your password?</a>
+    <?= Html::a('Forgot your password?', ['/site/forgot'], ['class' => 'title']) ?>
 
     <!--    <div class="info-links">
             <a href="#">ToS</a> -

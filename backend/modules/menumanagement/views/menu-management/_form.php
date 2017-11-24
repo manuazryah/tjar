@@ -79,6 +79,22 @@ use yii\helpers\ArrayHelper;
             var id = $(this).val();
             DisplayForm(id);
         });
+        $(document).on('change', '#menumanagement-main_menu_id', function () {
+            var main_id = $(this).val();
+            showLoader();
+            $.ajax({
+                url: homeUrl + 'menumanagement/menu-management/select-sub-menu',
+                type: "post",
+                data: {main_cat: main_id},
+                success: function (data) {
+                    $("#menumanagement-sub_menu_id").html(data);
+                    hideLoader();
+                }, error: function () {
+                    hideLoader();
+                }
+            }
+            );
+        });
         function DisplayForm(type_id) {
             if (type_id == 1) {
                 $(".type-main_id").hide();

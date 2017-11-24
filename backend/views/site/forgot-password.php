@@ -11,8 +11,11 @@ use yii\bootstrap\ActiveForm;
 
             <div class="row">
 
-                <div class="col-sm-6" style="margin-top: 62px;">
+                <div class="col-sm-6">
                     <div class="forgot-header">
+                        <a href="#" class="logo">
+                            <img src="<?= yii::$app->homeUrl; ?>images/Login-left-logo.png" alt="" width="80" />
+                        </a>
                         <h4>Forgot Your Password ?</h4>
                         <hr/>
                         <h5>Let us help you</h5>
@@ -45,20 +48,20 @@ use yii\bootstrap\ActiveForm;
                                font-weight: bold;">Email / Username
                         </label>
                         <div class="form-group">
-<!--<label class="control-label" for="adminusers-user_name">User Name / Email</label>-->
+                            <!--<label class="control-label" for="adminusers-user_name">User Name / Email</label>-->
                             <?= $form->field($model, 'user_name')->textInput(['class' => 'form-control input-dark'], ['autofocus' => true, 'placeholder' => "Username"])->label(false) ?>
                         </div>
-<!--                        <div class="form-group">
-                            <label class="control-label" for="adminusers-user_name">User Name / Email</label>
-                            <input type="text" id="adminusers-user_name" class="form-control" name="AdminUsers[user_name]" maxlength="30" aria-invalid="false">
+                        <!--                        <div class="form-group">
+                                                    <label class="control-label" for="adminusers-user_name">User Name / Email</label>
+                                                    <input type="text" id="adminusers-user_name" class="form-control" name="AdminUsers[user_name]" maxlength="30" aria-invalid="false">
 
-                            <div class="help-block"></div>
-                        </div>-->
+                                                    <div class="help-block"></div>
+                                                </div>-->
 
                         <div class="form-group">
-    <?= Html::submitButton('<i class="fa-lock"></i>Submit', ['class' => 'btn btn-dark  btn-block text-left']) ?>
-</div>
-                            <?php ActiveForm::end(); ?>
+                            <?= Html::submitButton('<i class="fa-lock"></i>Submit', ['class' => 'btn btn-dark  btn-block text-left']) ?>
+                        </div>
+                        <?php ActiveForm::end(); ?>
                     </div>
                 </div>
             </div>
