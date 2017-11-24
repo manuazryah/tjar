@@ -28,7 +28,7 @@ class ProductsController extends \yii\web\Controller {
         public function actionIndex($main_categ, $categ = null, $sub_categ = null) {
                 $searchModel = new ProductVendorSearch();
                 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-                $dataProvider->pagination->pageSize = 1;
+                // $dataProvider->pagination->pageSize = 1;
                 $query = explode('&', $_SERVER['QUERY_STRING']);
 
                 $params = array();
@@ -84,7 +84,7 @@ class ProductsController extends \yii\web\Controller {
                 }
 
 
-
+                $dataProvider->query->andWhere(['vendor_status' => 1, 'admin_status' => 2]);
                 return $this->render('index', [
 //                    'dataProvider' => $vendor_products,
                             'searchModel' => $searchModel,
