@@ -180,7 +180,7 @@ class OrderMasterController extends Controller {
                 $products = \common\models\ProductVendor::find()->where(['full_fill' => 1])->all();
                 if (!empty($products)) {
                         foreach ($products as $val) {
-                                $product_array[] = $val->product_id;
+                                $product_array[] = $val->id;
                         }
                 }
                 $searchModel = new OrderDetailsSearch();
