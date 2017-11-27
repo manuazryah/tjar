@@ -168,12 +168,12 @@ use common\models\SearchTag;
                 <div class='col-md-6 col-sm-12 col-xs-12 left_padd'>
                     <?= $form->field($model, 'highlights_arabic')->textarea(['rows' => 6]) ?>
                 </div>
-                <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
+                <div class='col-md-4 col-sm-6 col-xs-12 left_padd'>
                     <?= $form->field($model, 'gender')->textInput() ?>
 
                 </div>
 
-                <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
+                <div class='col-md-4 col-sm-6 col-xs-12 left_padd'>
                     <?php
                     if (isset($model->related_products) && $model->related_products != '') {
                         $model->related_products = explode(',', $model->related_products);
@@ -182,6 +182,11 @@ use common\models\SearchTag;
                     <?= $form->field($model, 'related_products')->dropDownList(ArrayHelper::map(common\models\Products::find()->all(), 'id', 'product_name'), ['prompt' => 'Select', 'multiple' => true]) ?>
 
 
+
+                </div>
+
+                <div class='col-md-4 col-sm-6 col-xs-12 left_padd'>
+                    <?= $form->field($model, 'reward_points')->textInput() ?>
 
                 </div>
                 <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>

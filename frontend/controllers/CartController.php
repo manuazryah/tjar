@@ -38,15 +38,22 @@ class CartController extends \yii\web\Controller {
                 $cart->save();
                 Cart::cart_content();
             } else {
-                $model = new cart;
-                $model->user_id = $user_id;
-                $model->session_id = Yii::$app->session['temp_user'];
-                $model->product_id = $prdct_vendor->id;
-                $model->quantity = $qty;
-                $model->date = date('Y-m-d H:i:s');
-                if ($model->save()) {
-                    Cart::cart_content();
-                }
+                Cart::add_to_cart($user_id, Yii::$app->session['temp_user'], $prdct_vendor->id, $qty);
+                Cart::cart_content();
+            }
+        }
+    }
+
+    public function actionBuycart() {
+        if (yii::$app->request->isAjax) {
+            $vendor_prdct = Yii::$app->request->post()['vendor_prdct'];
+            $qty = Yii::$app->request->post()['qty'];
+            $prdct_vendor = ProductVendor::findOne(yii::$app->EncryptDecrypt->Encrypt('decrypt', $vendor_prdct));
+            $user_id = isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id : '';
+
+            if (Cart::add_to_cart($user_id, Yii::$app->session['temp_user'], $prdct_vendor->id, $qty)) {
+                echo json_encode(array('msg' => 'success'));
+                exit;
             }
         }
     }
@@ -114,7 +121,6 @@ class CartController extends \yii\web\Controller {
 //        }
 //        return $check;
 //    }
-
 //    public function Checkout($ship_address, $bill_address) {
 //        if (isset(Yii::$app->user->identity->id)) {
 //            $this->check_product();
@@ -187,7 +193,6 @@ class CartController extends \yii\web\Controller {
 //            return $model->id;
 //        }
 //    }
-
 //    public function orderProducts($orders, $carts) {
 //        foreach ($carts as $cart) {
 //            $prod_details = ProductVendor::findOne($cart->product_id);
@@ -214,7 +219,6 @@ class CartController extends \yii\web\Controller {
 //        }
 //        return TRUE;
 //    }
-
 //    function addOrder($cart, $ship_address, $bill_address) {
 //        $serial_no = Settings::findOne(1)->value;
 //        $prefix = Settings::findOne(1)->prefix;
@@ -232,7 +236,6 @@ class CartController extends \yii\web\Controller {
 //            return ['master_id' => $model->id, 'order_id' => $model->order_id];
 //        }
 //    }
-
 //    function stock_clear($orders) {
 //        $order_details = OrderDetails::find()->where(['order_id' => $orders['order_id']])->all();
 //        foreach ($order_details as $order) {
@@ -268,7 +271,6 @@ class CartController extends \yii\web\Controller {
 //            }
 //        }
 //    }
-
 //    public function generateProductEan($prefix, $serial_no) {
 //        $orderid_exist = OrderMaster::find()->where(['order_id' => $prefix . $serial_no])->one();
 //        if (!empty($orderid_exist)) {
@@ -459,7 +461,6 @@ class CartController extends \yii\web\Controller {
 //        }
 //        return $subtotal;
 //    }
-
 //    function net_amount($subtotal, $cart) {
 //        $grandtotal = $subtotal > '0' ? $subtotal : '0';
 //        if ($grandtotal > 0) {
@@ -473,7 +474,6 @@ class CartController extends \yii\web\Controller {
 //
 //        return $grandtotal;
 //    }
-
 //    function shipping_charge($cart) {
 //        $shipping_charge = '0';
 //        foreach ($cart as $cart_item) {
@@ -543,7 +543,6 @@ class CartController extends \yii\web\Controller {
 //        }
 //        return $content;
 //    }
-
 //    function usercheck() {
 //        if (isset(Yii::$app->user->identity->id)) {
 //            $user_id = Yii::$app->user->identity->id;
@@ -558,7 +557,6 @@ class CartController extends \yii\web\Controller {
 //        }
 //        return $condition;
 //    }
-
 //    function changecart($tempuser) {
 //        if (isset($tempuser)) {
 //            $models = Cart::find()->where(['session_id' => Yii::$app->session['temp_user']])->all();
@@ -581,7 +579,6 @@ class CartController extends \yii\web\Controller {
 //            unset(Yii::$app->session['temp_user']);
 //        }
 //    }
-
 //    function clearcart($models) {
 //        foreach ($models as $model) {
 //            $model->delete();
