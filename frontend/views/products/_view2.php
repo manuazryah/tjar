@@ -19,11 +19,8 @@ $split_folder = Yii::$app->UploadFile->folderName(0, 1000, $product_details->id)
                                         <?php echo Html::img(Yii::$app->homeUrl . "uploads/products/" . $split_folder . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '.' . $product_details->gallery_images, ['class' => 'img-responsive hovrimg']); ?>
                                 </div>
                                 <h3 class="product-name"><?= $model->product->product_name ?></h3>
-                                <?php
-                                if (isset($model->offer_price) && $model->offer_price != "0") {
-                                        $percentage = round(100 - (($model->offer_price / $model->price) * 100));
-                                        ?>
-                                        <h5 class="product-discount">Upto <?= $percentage ?>% off</h5>
+                                <?php if (!empty($model->offer)) { ?>
+                                        <h5 class="product-discount">Upto <?= $model->offer ?>% off</h5>
                                 <?php } ?>
 
                                 <?php if (isset($model->offer_price) && $model->offer_price != "0") { ?>
