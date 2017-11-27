@@ -225,4 +225,23 @@ class SetValues extends Component {
                 }
         }
 
+        public function Rating($product_id) {
+
+                $rating_average_dowm = 0;
+                $product_detail = \common\models\ProductVendor::findOne($product_id);
+                $rating_entered = \common\models\CustomerReviews::find()->where(['product_id' => $product_id])->count();
+                $rating_sum = \common\models\CustomerReviews::find()->where(['product_id' => $product_id])->sum('rating');
+                if (isset($rating_entered)) {
+                        $rating_entered = number_format($rating_entered);
+                }
+                if ($rating_entered > 0) {
+                        $rating_average = $rating_sum / $rating_entered;
+                        $rating_average = round($rating_average, 2);
+                        $rating_average_dowm = round($rating_average);
+                }
+
+                $product_detail->rating = $rating_average_dowm;
+                $product_detail->save();
+        }
+
 }

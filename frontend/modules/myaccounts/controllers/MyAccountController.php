@@ -197,6 +197,7 @@ class MyAccountController extends \yii\web\Controller {
                                 $model_review->user_id = Yii::$app->user->identity->id;
                                 $model_review->review_date = date('Y-m-d');
                                 $model_review->save();
+                                \Yii::$app->SetValues->Rating($model_review->product_id);
                         }
                 }
         }
