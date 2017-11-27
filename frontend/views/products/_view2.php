@@ -25,11 +25,16 @@ $split_folder = Yii::$app->UploadFile->folderName(0, 1000, $product_details->id)
                                         ?>
                                         <h5 class="product-discount">Upto <?= $percentage ?>% off</h5>
                                 <?php } ?>
-                                <h6 class="actual-price"><?php if (!empty($model->offer_price)) { ?>$&nbsp;<?= $model->offer_price ?><?php } ?>
 
-                                        <span class="old-price">/ <strike>$&nbsp;<?= $model->price ?></strike></span>
-
-                                </h6>
+                                <?php if (isset($model->offer_price) && $model->offer_price != "0") { ?>
+                                        <h6 class="actual-price">$&nbsp;<?= $model->offer_price ?>
+                                                <span class="old-price">/ <strike>$&nbsp;<?= $model->price ?></strike></span>
+                                        </h6>
+                                <?php } else { ?>
+                                        <h6 class="actual-price">$&nbsp;<?= $model->price ?>
+                                                <span class="old-price"></span>
+                                        </h6>
+                                <?php } ?>
                         </a>
                 </div>
         </div>

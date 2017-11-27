@@ -341,10 +341,15 @@ class ProductsController extends \yii\web\Controller {
                 foreach ($search_products as $value) {
                         $products[] = $value->id;
                 }
-                $vendor_products = \common\models\ProductVendor::find()->where(['IN', 'product_id', $products])->all();
+                $searchModel = new ProductVendorSearch();
+                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+                $dataProvider->query->andWhere(['IN', 'product_id', $products]);
+                $dataProvider->query->andWhere(['vendor_status' => 1, 'admin_status' => 2]);
+                //$vendor_products = \common\models\ProductVendor::find()->where(['IN', 'product_id', $products])->all();
 
                 return $this->render('index', [
-                            'dataProvider' => $vendor_products,
+                            'searchModel' => $searchModel,
+                            'dataProvider' => $dataProvider,
                             'filters' => $filters,
                             'categ' => $category->id,
                 ]);

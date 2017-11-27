@@ -121,9 +121,9 @@ class SiteController extends Controller {
 
         public function actionForgot() {
                 $this->layout = 'adminlogin';
-                $model = new AdminUsers();
+                $model = new Vendors();
                 if ($model->load(Yii::$app->request->post())) {
-                        $check_exists = AdminUsers::find()->where("user_name = '" . $model->user_name . "' OR email = '" . $model->user_name . "'")->one();
+                        $check_exists = Vendors::find()->where("username = '" . $model->username . "' OR email = '" . $model->username . "'")->one();
 
                         if (!empty($check_exists)) {
                                 $token_value = $this->tokenGenerator();
@@ -158,24 +158,24 @@ class SiteController extends Controller {
         }
 
         public function sendMail($val, $model) {
-
                 $to = $model->email;
                 $subject = 'Change password';
                 $message = $this->renderPartial('forgot_mail', ['model' => $model, 'val' => $val]);
-// To send HTML mail, the Content-type header must be set
                 $headers = 'MIME-Version: 1.0' . "\r\n";
                 $headers .= "Content-type: text/html; charset=iso-8859-1" . "\r\n" .
                         "From: 'info@perfumedunia.com";
+
                 mail($to, $subject, $message, $headers);
         }
 
         public function actionNewPassword($token) {
+
                 $this->layout = 'adminlogin';
                 $data = base64_decode($token);
                 $values = explode('_', $data);
                 $token_exist = ForgotPasswordTokens::find()->where("user_id = " . $values[0] . " AND token = " . $values[1])->one();
                 if (!empty($token_exist)) {
-                        $model = AdminUsers::find()->where("id = " . $token_exist->user_id)->one();
+                        $model = Vendors::find()->where("id = " . $token_exist->user_id)->one();
                         if (Yii::$app->request->post()) {
                                 if (Yii::$app->request->post('new-password') == Yii::$app->request->post('confirm-password')) {
                                         Yii::$app->getSession()->setFlash('success', 'password changed successfully');
@@ -184,7 +184,7 @@ class SiteController extends Controller {
                                         $token_exist->delete();
                                         $this->redirect('index');
                                 } else {
-                                        Yii::$app->getSession()->setFlash('error', 'password mismatch  ');
+                                        Yii::$app->getSession()->setFlash('error', 'Password mismatch  ');
                                 }
                         }
                         return $this->render('new-password', [
