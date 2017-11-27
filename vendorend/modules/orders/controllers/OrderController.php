@@ -74,6 +74,10 @@ class OrderController extends \yii\web\Controller {
                     
                 }
             }
+
+            if ($status == '3') {
+                $model->delivered_date = date('Y-m-d H:i:s');
+            }
             if ($model->save()) {
                 echo 1;
             } else {

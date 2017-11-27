@@ -28,6 +28,9 @@ return [
         'orders' => [
             'class' => 'vendorend\modules\orders\Module',
         ],
+        'stock' => [
+            'class' => 'vendorend\modules\stock\Module',
+        ],
     ],
     'components' => [
         'request' => [

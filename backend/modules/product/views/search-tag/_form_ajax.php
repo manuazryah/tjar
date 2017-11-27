@@ -47,6 +47,10 @@ use yii\helpers\Url;
 
 </div>
 <script>
+    $('#searchtag-tag_name').keyup(function () {
+        var name = slug($(this).val());
+        $('#searchtag-canonical_name').val(slug($(this).val()));
+    });
     $('#add_searchtag').click(function (event) {
         event.preventDefault();
         if (valid()) {
@@ -92,6 +96,14 @@ use yii\helpers\Url;
             return false;
         }
     }
+    var slug = function (str) {
+        var $slug = '';
+        var trimmed = $.trim(str);
+        $slug = trimmed.replace(/[^a-z0-9-]/gi, '-').
+                replace(/-+/g, '-').
+                replace(/^-|-$/g, '');
+        return $slug.toLowerCase();
+    };
     $("#searchtag-category").select2({
         placeholder: '- select Category',
         allowClear: true

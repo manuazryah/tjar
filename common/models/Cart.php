@@ -10,6 +10,7 @@ use common\models\UserAddress;
 use common\models\OrderMaster;
 use common\models\OrderDetails;
 use common\models\Settings;
+use common\models\StockHistory;
 
 /**
  * This is the model class for table "cart".
@@ -324,6 +325,7 @@ class Cart extends \yii\db\ActiveRecord {
                         $product = ProductVendor::findOne($order->product_id);
                         $product->qty = $product->qty - $order->quantity;
                         $product->save();
+                        StockHistory::stockhistory($product->qty, '3', $product->id, '3');
                 }
         }
 
@@ -352,9 +354,9 @@ class Cart extends \yii\db\ActiveRecord {
                 $model->address = Yii::$app->request->post()['UserAddress']['address'];
                 if ($model->validate() && $model->save()) {
                         return $model->id;
+
                 }
         }
-
         public function generateProductEan($prefix, $serial_no) {
                 $orderid_exist = OrderMaster::find()->where(['order_id' => $prefix . $serial_no])->one();
                 if (!empty($orderid_exist)) {

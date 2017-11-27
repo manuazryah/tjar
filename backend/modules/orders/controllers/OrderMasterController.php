@@ -70,7 +70,6 @@ class OrderMasterController extends Controller {
          * @return mixed
          */
         public function actionView($id) {
-
                 $searchModel = new OrderDetailsSearch();
                 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
                 $dataProvider->query->andWhere(['order_id' => $id]);
