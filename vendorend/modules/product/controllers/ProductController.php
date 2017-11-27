@@ -64,12 +64,11 @@ class ProductController extends \yii\web\Controller {
                 $product_specifications = \common\models\ProductSpecifications::find()->where(['product_id' => $id])->all();
                 if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
                         $model->vendor_id = Yii::$app->user->identity->id;
-                        $model->vendor_status = '1';
                         if (isset($model->offer_price)) {
                                 $model->offer = ($model->offer_price * 100) / $model->price;
                         }
                         if ($model->save()) {
-                StockHistory::stockhistory($model->qty, '1', $model->id, '2'); //qty,purpose,product vendor id,vendor
+                                StockHistory::stockhistory($model->qty, '1', $model->id, '2'); //qty,purpose,product vendor id,vendor
                                 $history_id = Yii::$app->SetValues->History($model->id, 1, $model->id, 2, Yii::$app->user->identity->id); //params : reference id, history type, product id, user type, user id
                                 if (isset($history_id))
                                         Yii::$app->SetValues->Notifications($model->id, $history_id, Yii::$app->user->identity->id); //params : reference id, history id, user id
@@ -130,15 +129,15 @@ class ProductController extends \yii\web\Controller {
                         $id = Yii::$app->request->post()['id'];
                         if ($id) {
                                 $model = ProductVendor::find()->where(['id' => $id])->one();
-                $old_qty = $model->qty;
+                                $old_qty = $model->qty;
                                 $model->qty = $qty;
                                 $model->price = $price;
                                 $model->offer_price = $offerprice;
                                 $model->vendor_status = $status;
                                 if ($model->save()) {
-                    if ($qty != $old_qty) {
-                        StockHistory::stockhistory($model->qty, '2', $model->id, '2');
-                    }
+                                        if ($qty != $old_qty) {
+                                                StockHistory::stockhistory($model->qty, '2', $model->id, '2');
+                                        }
                                         echo json_encode(array('msg' => 'success', 'title' => 'Updated Successfully'));
                                 } else {
                                         echo json_encode(array('msg' => 'error', 'title' => 'Internal error '));

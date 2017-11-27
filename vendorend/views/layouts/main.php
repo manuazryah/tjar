@@ -85,7 +85,7 @@ $limit_notifications = NotificationViewStatus::find()->where(['user_type' => 2, 
                                                         </a>
                                                         <ul>
                                                                 <li>
-                                                                        <?= Html::a('Inventory Management', ['/product/product/index'], ['class' => 'title']) ?>
+                                                                        <?= Html::a('Inventory Management', ['/product/product/index?vendor_status=1'], ['class' => 'title']) ?>
                                                                 </li>
 
                                                                 <li>
