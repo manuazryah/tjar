@@ -144,6 +144,7 @@ class ProductsController extends Controller {
 	function ProductImages($model, $id = null, $image_arr) {
 		if (isset(Yii::$app->session['tempfolder'])) {
 
+
 			if ($this->SaveGalleyImage($model)) {
 				$this->ChangeImageName($model);
 				$this->generateThumbImages($model, $image_arr);
@@ -677,9 +678,18 @@ class ProductsController extends Controller {
 
 						$model->gallery_images = $img_extnsn[1];
 						$model->update();
-
-						Image::thumbnail($prof_dir . $model->canonical_name . '.' . $img_extnsn[1], 70, 70)
-							->save($thumb_path . $model->canonical_name . '_thumb.' . $img_extnsn[1], ['quality' => 80]);
+						$image_arr = [
+							['width' => 440, 'height' => 440, 'name' => large],
+							['width' => 70, 'height' => 70, 'name' => thumb],
+							['width' => 175, 'height' => 125, 'name' => medium]
+						];
+						foreach ($image_arr as $data) {
+							Image::getImagine()->open($prof_dir . '/' . $model->canonical_name . '.' . $img_extnsn[1])->thumbnail(new Box($data[width], $data[height]))->save($thumb_path . $model->canonical_name . '_' . $data['name'] . '.' . $img_extnsn[1], ['quality' => 90]);
+//									Image::thumbnail($path . '/' . $image_name, 70, 70)
+//										->save($thumb_path . '/' . $model->canonical_name . '_' . $vall . '.' . $extnsn[1], ['quality' => 80]);
+						}
+//						Image::thumbnail($prof_dir . $model->canonical_name . '.' . $img_extnsn[1], 70, 70)
+//							->save($thumb_path . $model->canonical_name . '_thumb.' . $img_extnsn[1], ['quality' => 80]);
 						$result = 1;
 //						echo "copied $file into $newfile\n";
 					}

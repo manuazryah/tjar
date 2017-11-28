@@ -23,11 +23,11 @@ $words = json_decode($words);
 Yii::$app->session['words'] = $words;
 
 if (isset(Yii::$app->session['log-return'])) {
-        $log_error = 1;
-        $email = Yii::$app->session['log-return']['email'];
-        $pass = Yii::$app->session['log-return']['password'];
+	$log_error = 1;
+	$email = Yii::$app->session['log-return']['email'];
+	$pass = Yii::$app->session['log-return']['password'];
 } else {
-        $log_error = '';
+	$log_error = '';
 }
 ?>
 <?php $this->beginPage() ?>
@@ -37,25 +37,25 @@ if (isset(Yii::$app->session['log-return'])) {
                 <meta charset="<?= Yii::$app->charset ?>">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
-                <?= Html::csrfMetaTags() ?>
+		<?= Html::csrfMetaTags() ?>
                 <title><?= Html::encode($this->title) ?></title>
                 <script src="<?= yii::$app->homeUrl; ?>js/jquery-1.11.1.min.js"></script>
                 <script>
-                        var homeUrl = '<?= yii::$app->homeUrl; ?>';
-                        $(document).ready(function () {
-                                var log_error = '<?php echo $log_error ?>';
-                                var email = '<?php echo $email ?>';
-                                var pass = '<?php echo $pass ?>';
-                                if (log_error == 1) {
-                                        $('.log-popup-err').css('display', 'block');
-                                        $('#user-email').val(email);
-                                        $('#user-password').val(pass);
-                                        $('.login-modal ').css('display', 'block');
-                                        $('.login-modal ').addClass('in');
-                                }
-                        });
+			var homeUrl = '<?= yii::$app->homeUrl; ?>';
+			$(document).ready(function () {
+				var log_error = '<?php echo $log_error ?>';
+				var email = '<?php echo $email ?>';
+				var pass = '<?php echo $pass ?>';
+				if (log_error == 1) {
+					$('.log-popup-err').css('display', 'block');
+					$('#user-email').val(email);
+					$('#user-password').val(pass);
+					$('.login-modal ').css('display', 'block');
+					$('.login-modal ').addClass('in');
+				}
+			});
                 </script>
-                <?php $this->head() ?>
+		<?php $this->head() ?>
         </head>
         <style>
                 .error-block{
@@ -112,7 +112,7 @@ if (isset(Yii::$app->session['log-return'])) {
                 }
         </style>
         <body>
-                <?php $this->beginBody() ?>
+		<?php $this->beginBody() ?>
                 <header>
                         <div class="top-small-header">
                                 <div class="container">
@@ -151,48 +151,48 @@ if (isset(Yii::$app->session['log-return'])) {
                                                         <li><a href="#">Call us now +123 5678 890</a></li>
                                                         <li><a href="#">Sell with us</a></li>
                                                         <li><a href="#">Track order</a></li>
-                                                        <?php if (Yii::$app->user->identity->id == '') { ?>
-                                                                <li><a class="log-sign">Signup</a></li>
-                                                                <li><a class="log-sign">Log in</a></li>
-                                                        <?php } else {
-                                                                ?>
-                                                                <li class="dropdown user-profile">
-                                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                                                                <span>
-                                                                                        <?= Yii::$app->user->identity->first_name ?>
-                                                                                        <i class="fa fa-angle-down"></i>
-                                                                                </span>
-                                                                        </a>
+							<?php if (Yii::$app->user->identity->id == '') { ?>
+								<li><a class="log-sign">Signup</a></li>
+								<li><a class="log-sign">Log in</a></li>
+							<?php } else {
+								?>
+								<li class="dropdown user-profile">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+										<span>
+											<?= Yii::$app->user->identity->first_name ?>
+											<i class="fa fa-angle-down"></i>
+										</span>
+									</a>
 
-                                                                        <ul class="dropdown-menu user-profile-menu list-unstyled">
+									<ul class="dropdown-menu user-profile-menu list-unstyled">
 
-                                                                                <li>
-                                                                                        <?= Html::a('Account', ['/myaccounts/my-account/index'], ['class' => 'title']) ?>
-                                                                                </li>
-                                                                                <li>
-                                                                                        <?= Html::a('Order', ['/myaccounts/my-account/my-orders'], ['class' => 'title']) ?>
-                                                                                </li>
-                                                                                <li>
-                                                                                        <?= Html::a('Wishlist', ['/myaccounts/my-account/wish-list'], ['class' => 'title']) ?>
-                                                                                </li>
-                                                                                <li>
-                                                                                        <?= Html::a('Reviews & Ratings', ['/myaccounts/my-account/reviews'], ['class' => 'title']) ?>
-                                                                                </li>
-                                                                                <?php
-                                                                                echo '<li class="last">'
-                                                                                . Html::beginForm(['/site/logout'], 'post') . '<a>'
-                                                                                . Html::submitButton(
-                                                                                        'Logout', ['style' => 'background: white;padding-left: 19px;padding: 10px 20px;border: none;']
-                                                                                ) . '</a>'
-                                                                                . Html::endForm()
-                                                                                . '</li>';
-                                                                                ?>
+										<li>
+											<?= Html::a('Account', ['/myaccounts/my-account/index'], ['class' => 'title']) ?>
+										</li>
+										<li>
+											<?= Html::a('Order', ['/myaccounts/my-account/my-orders'], ['class' => 'title']) ?>
+										</li>
+										<li>
+											<?= Html::a('Wishlist', ['/myaccounts/my-account/wish-list'], ['class' => 'title']) ?>
+										</li>
+										<li>
+											<?= Html::a('Reviews & Ratings', ['/myaccounts/my-account/reviews'], ['class' => 'title']) ?>
+										</li>
+										<?php
+										echo '<li class="last">'
+										. Html::beginForm(['/site/logout'], 'post') . '<a>'
+										. Html::submitButton(
+											'Logout', ['style' => 'background: white;padding-left: 19px;padding: 10px 20px;border: none;']
+										) . '</a>'
+										. Html::endForm()
+										. '</li>';
+										?>
 
 
-                                                                        </ul>
-                                                                </li>
-                                                        <?php }
-                                                        ?>
+									</ul>
+								</li>
+							<?php }
+							?>
                                                 </ul>
                                         </div>
                                 </div>
@@ -218,10 +218,10 @@ if (isset(Yii::$app->session['log-return'])) {
                                                         </ul>
                                                         <div class="tab-content">
                                                                 <div id="log" class="tab-pane fade in active">
-                                                                        <?php
-                                                                        $modellogin = new LoginForm();
-                                                                        ?>
-                                                                        <?php $form_login = ActiveForm::begin(['action' => Yii::$app->homeUrl . 'site/login?go=' . Yii::$app->request->hostInfo . Yii::$app->request->url, 'id' => 'login-form', 'options' => ['class' => 'form-horizontal']]); ?>
+									<?php
+									$modellogin = new LoginForm();
+									?>
+									<?php $form_login = ActiveForm::begin(['action' => Yii::$app->homeUrl . 'site/login?go=' . Yii::$app->request->hostInfo . Yii::$app->request->url, 'id' => 'login-form', 'options' => ['class' => 'form-horizontal']]); ?>
                                                                         <!--<form class="form-horizontal" action=" " method="post"  id="login_form">-->
                                                                         <fieldset>
                                                                                 <div class="form-group">
@@ -254,7 +254,7 @@ if (isset(Yii::$app->session['log-return'])) {
                                                                                 </div>
                                                                                 <div class="form-group">
                                                                                         <div class="col-md-12">
-                                                                                                <?= Html::submitButton('Login', ['class' => 'btn btn-warning', 'name' => 'login-button']) ?>
+												<?= Html::submitButton('Login', ['class' => 'btn btn-warning', 'name' => 'login-button']) ?>
                                                                                                 <!--<button type="submit" class="btn btn-warning" >Login</button>-->
                                                                                         </div>
                                                                                 </div>
@@ -263,20 +263,20 @@ if (isset(Yii::$app->session['log-return'])) {
                                                                                         <li><a class="forgot-tab">Forgot <span>password?</span></a></li>
                                                                                 </ul>
                                                                         </fieldset>
-                                                                        <?php ActiveForm::end(); ?>
+									<?php ActiveForm::end(); ?>
                                                                         <!--</form>-->
                                                                 </div>
                                                                 <div id="signup" class="tab-pane fade">
-                                                                        <?php
-                                                                        $modelregister = new User();
-                                                                        ?>
-                                                                        <?php $form_signin = ActiveForm::begin(['action' => Yii::$app->homeUrl . 'site/register?go=' . Yii::$app->request->hostInfo . Yii::$app->request->url, 'id' => 'signup-form', 'options' => ['class' => 'form-horizontal']]); ?>
+									<?php
+									$modelregister = new User();
+									?>
+									<?php $form_signin = ActiveForm::begin(['action' => Yii::$app->homeUrl . 'site/register?go=' . Yii::$app->request->hostInfo . Yii::$app->request->url, 'id' => 'signup-form', 'options' => ['class' => 'form-horizontal']]); ?>
                                                                         <!--<form class="form-horizontal" action=" " method="post"  id="signup_form">-->
                                                                         <fieldset>
                                                                                 <div class="form-group">
                                                                                         <div class="col-md-6 inputGroupContainer">
                                                                                                 <div class="input-group">
-                                                                                                        <?php // $form_signin->field($modelregister, 'first_name')->textInput(['maxlength' => true])   ?>
+													<?php // $form_signin->field($modelregister, 'first_name')->textInput(['maxlength' => true])   ?>
                                                                                                         <input id="signup-first_name" name="User[first_name]" placeholder="First Name" class="form-control" type="text">
                                                                                                         <span class="input-group-addon"><i class="fa fa-user-o" aria-hidden="true"></i></span>
                                                                                                 </div>
@@ -319,7 +319,7 @@ if (isset(Yii::$app->session['log-return'])) {
                                                                                 <!-- Button -->
                                                                                 <div class="form-group">
                                                                                         <div class="col-md-12">
-                                                                                                <?= Html::submitButton('Register', ['class' => 'btn btn-warning']) ?>
+												<?= Html::submitButton('Register', ['class' => 'btn btn-warning']) ?>
                                                                                                 <!--<button type="submit" class="btn btn-warning" >Register</button>-->
                                                                                         </div>
                                                                                 </div>
@@ -328,7 +328,7 @@ if (isset(Yii::$app->session['log-return'])) {
                                                                                 </ul>
                                                                         </fieldset>
 
-                                                                        <?php ActiveForm::end(); ?>
+									<?php ActiveForm::end(); ?>
                                                                         <!--</form>-->
                                                                 </div>
                                                                 <div id="forgot" class="tab-pane fade">
@@ -366,18 +366,18 @@ if (isset(Yii::$app->session['log-return'])) {
 
                                 </div>
                         </div>
-                        <?php
-                        unset(Yii::$app->session['log-return']);
-                        ?>
+			<?php
+			unset(Yii::$app->session['log-return']);
+			?>
                         <div class="top-header-2">
                                 <div class="container">
                                         <div class="col-md-2 col-sm-2 col-xs-12">
                                                 <div class="logo">
-                                                        <a href="index.php"><img src="<?= Yii::$app->homeUrl ?>images/logo.png"/></a>
+                                                        <a href="<?= Yii::$app->homeUrl; ?>site/index"><img src="<?= Yii::$app->homeUrl ?>images/logo.png"/></a>
                                                 </div>
                                         </div>
 
-                                        <?= common\components\SearchWidget::widget(['type' => '2']); ?>
+					<?= common\components\SearchWidget::widget(['type' => '2']); ?>
 
                                         <div class="col-md-2 col-sm-2 col-xs-4 cart">
                                                 <button><i class="fa fa-shopping-cart" aria-hidden="true"></i><span>CART</span></button><label class="cart_count">0</label>
@@ -389,7 +389,7 @@ if (isset(Yii::$app->session['log-return'])) {
 
                                                         </ul><!--
                                                         -->                            <div class="col-md-12 checkout-btn-space">
-                                                                <?= Html::a('<button class="green2">check out</button>', ['/cart/mycart'], ['class' => '']) ?>
+								<?= Html::a('<button class="green2">check out</button>', ['/cart/mycart'], ['class' => '']) ?>
                                                                 <!--<button class="green2">check out</button>-->
                                                         </div>
                                                         <!--</div>-->
@@ -398,59 +398,59 @@ if (isset(Yii::$app->session['log-return'])) {
                                         </div>
                                 </div>
                         </div>
-                        <?php
-                        $main_menus = MenuManagement::find()->where(['type' => 1, 'status' => 1])->all();
-                        ?>
+			<?php
+			$main_menus = MenuManagement::find()->where(['type' => 1, 'status' => 1])->all();
+			?>
                         <div class="nav-header">
                                 <div class="menu-container">
                                         <div class="menu">
                                                 <ul>
-                                                        <?php
-                                                        if (!empty($main_menus)) {
-                                                                foreach ($main_menus as $main_menu) {
-                                                                        $submenus = MenuManagement::find()->where(['main_menu_id' => $main_menu->id, 'type' => 2])->all();
-                                                                        ?>
-                                                                        <li id="main-div"><a href="#"><?= $main_menu->main_menu ?><span class="dropdown-arrow hidden-xs"><i class="fa fa-chevron-down" aria-hidden="true"></i></span></a>
-                                                                                <?php if (!empty($submenus)) { ?>
-                                                                                        <ul class="list">
-                                                                                                <?php
-                                                                                                foreach ($submenus as $submenu) {
-                                                                                                        $child_menus = MenuManagement::find()->where(['sub_menu_id' => $submenu->id, 'type' => 3])->all();
-                                                                                                        ?>
+							<?php
+							if (!empty($main_menus)) {
+								foreach ($main_menus as $main_menu) {
+									$submenus = MenuManagement::find()->where(['main_menu_id' => $main_menu->id, 'type' => 2])->all();
+									?>
+									<li id="main-div"><a href="#"><?= $main_menu->main_menu ?><span class="dropdown-arrow hidden-xs"><i class="fa fa-chevron-down" aria-hidden="true"></i></span></a>
+										<?php if (!empty($submenus)) { ?>
+											<ul class="list">
+												<?php
+												foreach ($submenus as $submenu) {
+													$child_menus = MenuManagement::find()->where(['sub_menu_id' => $submenu->id, 'type' => 3])->all();
+													?>
 
-                                                                                                        <li><a href="<?= $submenu->sub_menu_link ?>"><?= $submenu->sub_menu ?></a>
-                                                                                                                <?php if (!empty($child_menus)) { ?>
-                                                                                                                        <ul>
-                                                                                                                                <?php
-                                                                                                                                foreach ($child_menus as $child_menu) {
-                                                                                                                                        ?>
-                                                                                                                                        <li><a href="<?= $child_menu->child_menu_link ?>"><?= $child_menu->child_menu ?></a></li>
-                                                                                                                                <?php }
-                                                                                                                                ?>
-                                                                                                                        </ul>
-                                                                                                                        <?php
-                                                                                                                }
-                                                                                                                ?>
-                                                                                                        </li>
+													<li><a href="<?= $submenu->sub_menu_link ?>"><?= $submenu->sub_menu ?></a>
+														<?php if (!empty($child_menus)) { ?>
+															<ul>
+																<?php
+																foreach ($child_menus as $child_menu) {
+																	?>
+																	<li><a href="<?= $child_menu->child_menu_link ?>"><?= $child_menu->child_menu ?></a></li>
+																<?php }
+																?>
+															</ul>
+															<?php
+														}
+														?>
+													</li>
 
-                                                                                                <?php }
-                                                                                                ?>
-                                                                                        </ul>
-                                                                                        <?php
-                                                                                }
-                                                                                ?>
-                                                                        </li>
-                                                                        <?php
-                                                                }
-                                                        }
-                                                        ?>
+												<?php }
+												?>
+											</ul>
+											<?php
+										}
+										?>
+									</li>
+									<?php
+								}
+							}
+							?>
                                                 </ul>
                                         </div>
                                 </div>
                         </div>
 
                 </header>
-                <?= $content ?>
+		<?= $content ?>
                 <div class="page-loading-overlay loaded">
                         <div class="loader-2"></div>
                 </div>
@@ -566,26 +566,26 @@ if (isset(Yii::$app->session['log-return'])) {
                             });
                         </script>-->
                 <script>
-                        /* When the user clicks on the button,
-                         toggle between hiding and showing the dropdown content */
-                        function myFunction() {
-                                document.getElementById("myDropdown").classList.toggle("show");
-                        }
+			/* When the user clicks on the button,
+			 toggle between hiding and showing the dropdown content */
+			function myFunction() {
+				document.getElementById("myDropdown").classList.toggle("show");
+			}
 
-                        // Close the dropdown if the user clicks outside of it
-                        window.onclick = function (event) {
-                                if (!event.target.matches('.dropbtn')) {
+			// Close the dropdown if the user clicks outside of it
+			window.onclick = function (event) {
+				if (!event.target.matches('.dropbtn')) {
 
-                                        var dropdowns = document.getElementsByClassName("dropdown-content");
-                                        var i;
-                                        for (i = 0; i < dropdowns.length; i++) {
-                                                var openDropdown = dropdowns[i];
-                                                if (openDropdown.classList.contains('show')) {
-                                                        openDropdown.classList.remove('show');
-                                                }
-                                        }
-                                }
-                        }
+					var dropdowns = document.getElementsByClassName("dropdown-content");
+					var i;
+					for (i = 0; i < dropdowns.length; i++) {
+						var openDropdown = dropdowns[i];
+						if (openDropdown.classList.contains('show')) {
+							openDropdown.classList.remove('show');
+						}
+					}
+				}
+			}
                 </script>
                 <!--<script>
                     $(window).on("scroll", function () {
@@ -597,407 +597,407 @@ if (isset(Yii::$app->session['log-return'])) {
                         }
                     });</script>-->
                 <script>
-                        jQuery.noConflict();
-                        jQuery(document).ready(function ($) {
-                                $('#buttonreview').on('click', function (e) {
-                                        $("#addreview").toggle();
-                                        $(this).toggleClass('class1')
-                                });
-                                $('#radio-toggle').change(function () {
-                                        $('#div').toggle(this.checked);
-                                });
-                        });
+			jQuery.noConflict();
+			jQuery(document).ready(function ($) {
+				$('#buttonreview').on('click', function (e) {
+					$("#addreview").toggle();
+					$(this).toggleClass('class1')
+				});
+				$('#radio-toggle').change(function () {
+					$('#div').toggle(this.checked);
+				});
+			});
                 </script>
                 <script>
 
-                        jQuery(document).ready(function ($) {
-                                $('#login-form').on('submit', function (e) {
-                                        if (validateLogin() == 0) {
-                                                return true;
-                                        } else {
-                                                e.preventDefault();
-                                                e.stopImmediatePropagation();
-                                        }
-                                });
-                                $('#signup-form').on('submit', function (e) {
-                                        if (validateSignup() == 0) {
-                                                return true;
-                                        } else {
-                                                e.preventDefault();
-                                                e.stopImmediatePropagation();
-                                        }
-                                });
+			jQuery(document).ready(function ($) {
+				$('#login-form').on('submit', function (e) {
+					if (validateLogin() == 0) {
+						return true;
+					} else {
+						e.preventDefault();
+						e.stopImmediatePropagation();
+					}
+				});
+				$('#signup-form').on('submit', function (e) {
+					if (validateSignup() == 0) {
+						return true;
+					} else {
+						e.preventDefault();
+						e.stopImmediatePropagation();
+					}
+				});
 
-                                $(document).on('submit', '#reset-password', function (e) {
-                                        if (validateResetPassword() == 0) {
-                                                return true;
-                                        } else {
-                                                e.preventDefault();
-                                                e.stopImmediatePropagation();
-                                        }
-                                });
-                                $(document).on('keyup', '#forgot-otp', function (e) {
-                                        validateOtp($(this).val());
-                                });
+				$(document).on('submit', '#reset-password', function (e) {
+					if (validateResetPassword() == 0) {
+						return true;
+					} else {
+						e.preventDefault();
+						e.stopImmediatePropagation();
+					}
+				});
+				$(document).on('keyup', '#forgot-otp', function (e) {
+					validateOtp($(this).val());
+				});
 
-                                $(document).on('click', '#resend-otp', function (e) {
-                                        var user_id = $(this).attr('data-val');
-                                        e.preventDefault();
-                                        $.ajax({
-                                                type: 'POST',
-                                                cache: false,
-                                                data: {data_val: user_id},
-                                                url: homeUrl + 'ajax/resend-otp',
-                                                success: function (data) {
-                                                }
-                                        });
-                                });
+				$(document).on('click', '#resend-otp', function (e) {
+					var user_id = $(this).attr('data-val');
+					e.preventDefault();
+					$.ajax({
+						type: 'POST',
+						cache: false,
+						data: {data_val: user_id},
+						url: homeUrl + 'ajax/resend-otp',
+						success: function (data) {
+						}
+					});
+				});
 
-                                $('#forgot-btn').on('click', function (e) {
-                                        e.preventDefault();
-                                        if (validateForgot() == 0) {
-                                                $.ajax({
-                                                        type: 'POST',
-                                                        cache: false,
-                                                        data: {email: $('#forgot-email').val()},
-                                                        url: homeUrl + 'ajax/forgot',
-                                                        success: function (data) {
-                                                                var res = $.parseJSON(data);
-                                                                if (res.result['err_code'] == 1) {
-                                                                        $("#reset-entry-div").html(res.result['html_data']);
-                                                                        $("#forgot-entry").hide();
-                                                                } else if (res.result['err_code'] == 0) {
-                                                                        $(".err-msg").html(res.result['msg']);
-                                                                }
-                                                        }
-                                                });
-                                                return true;
-                                        } else {
-                                                e.preventDefault();
-                                                e.stopImmediatePropagation();
-                                        }
-                                });
+				$('#forgot-btn').on('click', function (e) {
+					e.preventDefault();
+					if (validateForgot() == 0) {
+						$.ajax({
+							type: 'POST',
+							cache: false,
+							data: {email: $('#forgot-email').val()},
+							url: homeUrl + 'ajax/forgot',
+							success: function (data) {
+								var res = $.parseJSON(data);
+								if (res.result['err_code'] == 1) {
+									$("#reset-entry-div").html(res.result['html_data']);
+									$("#forgot-entry").hide();
+								} else if (res.result['err_code'] == 0) {
+									$(".err-msg").html(res.result['msg']);
+								}
+							}
+						});
+						return true;
+					} else {
+						e.preventDefault();
+						e.stopImmediatePropagation();
+					}
+				});
 
-                                $('#signup-email').on('blur', function (e) {
-                                        if ($('#signup-email').val()) {
-                                                if (!validateMail($(this).val())) {
-                                                        if ($("#signup-email").parent().next(".validation").length != 0) // only add if not added
-                                                        {
-                                                                $("#signup-email").parent().next(".validation").remove(); // remove it
-                                                        }
-                                                        $("#signup-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>This email is already used.</div>");
-                                                }
-                                        }
-                                });
-                                //                $('#signup-first_name').on('keyup', function (e) {
-                                //                    if (!validateLetter($(this).val())) {
-                                //                        $("#signup-first_name").parent().next(".validation").remove(); // remove it
-                                //                        $("#signup-first_name").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>First name contain letters only.</div>");
-                                //                    } else {
-                                //                        if ($("#signup-first_name").parent().next(".validation").length != 0) // only add if not added
-                                //                        {
-                                //                            $("#signup-first_name").parent().next(".validation").remove(); // remove it
-                                //                        }
-                                //                    }
-                                //                });
-                                function validateMail(email) {
-                                        $.ajax({
-                                                type: 'POST',
-                                                cache: false,
-                                                data: {email: email},
-                                                url: homeUrl + 'ajax/email-check',
-                                                success: function (data) {
-                                                        $("#email-check").val(data);
-                                                        if (data == 0) {
-                                                                return false
-                                                        } else {
-                                                                if ($("#signup-email").parent().next(".validation").length != 0) // only add if not added
-                                                                {
-                                                                        $("#signup-email").parent().next(".validation").remove(); // remove it
-                                                                }
-                                                        }
-                                                }
-                                        });
-                                }
-                                function validateOtp(otp) {
-                                        $.ajax({
-                                                type: 'POST',
-                                                cache: false,
-                                                data: {otp: otp},
-                                                url: homeUrl + 'ajax/otp-check',
-                                                success: function (data) {
-                                                        $("#otp-check").val(data);
-                                                }
-                                        });
-                                }
+				$('#signup-email').on('blur', function (e) {
+					if ($('#signup-email').val()) {
+						if (!validateMail($(this).val())) {
+							if ($("#signup-email").parent().next(".validation").length != 0) // only add if not added
+							{
+								$("#signup-email").parent().next(".validation").remove(); // remove it
+							}
+							$("#signup-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>This email is already used.</div>");
+						}
+					}
+				});
+				//                $('#signup-first_name').on('keyup', function (e) {
+				//                    if (!validateLetter($(this).val())) {
+				//                        $("#signup-first_name").parent().next(".validation").remove(); // remove it
+				//                        $("#signup-first_name").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>First name contain letters only.</div>");
+				//                    } else {
+				//                        if ($("#signup-first_name").parent().next(".validation").length != 0) // only add if not added
+				//                        {
+				//                            $("#signup-first_name").parent().next(".validation").remove(); // remove it
+				//                        }
+				//                    }
+				//                });
+				function validateMail(email) {
+					$.ajax({
+						type: 'POST',
+						cache: false,
+						data: {email: email},
+						url: homeUrl + 'ajax/email-check',
+						success: function (data) {
+							$("#email-check").val(data);
+							if (data == 0) {
+								return false
+							} else {
+								if ($("#signup-email").parent().next(".validation").length != 0) // only add if not added
+								{
+									$("#signup-email").parent().next(".validation").remove(); // remove it
+								}
+							}
+						}
+					});
+				}
+				function validateOtp(otp) {
+					$.ajax({
+						type: 'POST',
+						cache: false,
+						data: {otp: otp},
+						url: homeUrl + 'ajax/otp-check',
+						success: function (data) {
+							$("#otp-check").val(data);
+						}
+					});
+				}
 
-                                function validateResetPassword() {
-                                        var valid = 0;
-                                        if (!$('#forgot-otp').val()) {
-                                                if ($("#forgot-otp").parent().next(".validation").length == 0) // only add if not added
-                                                {
-                                                        $("#forgot-otp").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Email cannot be blank.</div>");
-                                                }
-                                                $('#forgot-otp').focus();
-                                                var valid = 1;
-                                        } else {
-                                                var otp = $('#otp-check').val();
-                                                if (otp == 1) {
-                                                        if ($("#forgot-otp").parent().next(".validation").length != 0) // only add if not added
-                                                        {
-                                                                $("#forgot-otp").parent().next(".validation").remove(); // remove it
-                                                        }
-                                                        $("#forgot-otp").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Please enter valid OTP.</div>");
-                                                        var valid = 1;
-                                                } else {
-                                                        $("#forgot-otp").parent().next(".validation").remove(); // remove it
-                                                }
-                                        }
-                                        if (!$('#reset-passwd').val()) {
-                                                if ($("#reset-passwd").parent().next(".validation").length == 0) // only add if not added
-                                                {
-                                                        $("#reset-passwd").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Password cannot be blank.</div>");
-                                                }
-                                                $('#reset-passwd').focus();
-                                                var valid = 1;
-                                        } else {
-                                                $("#reset-passwd").parent().next(".validation").remove(); // remove it
-                                        }
-                                        return valid;
-                                }
+				function validateResetPassword() {
+					var valid = 0;
+					if (!$('#forgot-otp').val()) {
+						if ($("#forgot-otp").parent().next(".validation").length == 0) // only add if not added
+						{
+							$("#forgot-otp").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Email cannot be blank.</div>");
+						}
+						$('#forgot-otp').focus();
+						var valid = 1;
+					} else {
+						var otp = $('#otp-check').val();
+						if (otp == 1) {
+							if ($("#forgot-otp").parent().next(".validation").length != 0) // only add if not added
+							{
+								$("#forgot-otp").parent().next(".validation").remove(); // remove it
+							}
+							$("#forgot-otp").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Please enter valid OTP.</div>");
+							var valid = 1;
+						} else {
+							$("#forgot-otp").parent().next(".validation").remove(); // remove it
+						}
+					}
+					if (!$('#reset-passwd').val()) {
+						if ($("#reset-passwd").parent().next(".validation").length == 0) // only add if not added
+						{
+							$("#reset-passwd").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Password cannot be blank.</div>");
+						}
+						$('#reset-passwd').focus();
+						var valid = 1;
+					} else {
+						$("#reset-passwd").parent().next(".validation").remove(); // remove it
+					}
+					return valid;
+				}
 
 
-                                function validateLetter(txt)
-                                {
-                                        var letters = /^[A-Za-z]+$/;
-                                        if (txt.match(letters))
-                                        {
-                                                return true;
-                                        } else
-                                        {
-                                                return false;
-                                        }
-                                }
-                                function validateSignup() {
-                                        var valid = 0;
-                                        if (!$('#signup-email').val()) {
-                                                if ($("#signup-email").parent().next(".validation").length == 0) // only add if not added
-                                                {
-                                                        $("#signup-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Email cannot be blank.</div>");
-                                                }
-                                                $('#signup-email').focus();
-                                                var valid = 1;
-                                        } else {
-                                                var emailaddress = $('#signup-email').val();
-                                                if (!isValidEmailAddress(emailaddress)) {
-                                                        if ($("#signup-email").parent().next(".validation").length != 0) // only add if not added
-                                                        {
-                                                                $("#signup-email").parent().next(".validation").remove(); // remove it
-                                                        }
-                                                        $("#signup-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Enter valid email.</div>");
-                                                        var valid = 1;
-                                                } else {
-                                                        if (!validateMail(emailaddress)) {
-                                                                var res = $("#email-check").val();
-                                                                if (res == 0) {
-                                                                        if ($("#signup-email").parent().next(".validation").length != 0) // only add if not added
-                                                                        {
-                                                                                $("#signup-email").parent().next(".validation").remove(); // remove it
-                                                                        }
-                                                                        $("#signup-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>This email is already used.</div>");
-                                                                        var valid = 1;
-                                                                }
-                                                        }
-                                                }
-                                        }
-                                        if (!$('#signup-password').val()) {
-                                                if ($("#signup-password").parent().next(".validation").length == 0) // only add if not added
-                                                {
-                                                        $("#signup-password").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Password cannot be blank.</div>");
-                                                }
-                                                $('#signup-password').focus();
-                                                var valid = 1;
-                                        } else {
-                                                $("#signup-password").parent().next(".validation").remove(); // remove it
-                                        }
-                                        if (!$('#signup-first_name').val()) {
-                                                if ($("#signup-first_name").parent().next(".validation").length == 0) // only add if not added
-                                                {
-                                                        $("#signup-first_name").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>First Name cannot be blank.</div>");
-                                                }
-                                                $('#signup-first_name').focus();
-                                                var valid = 1;
-                                        } else {
-                                                $("#signup-first_name").parent().next(".validation").remove(); // remove it
-                                        }
-                                        if (!$('#signup-last_name').val()) {
-                                                if ($("#signup-last_name").parent().next(".validation").length == 0) // only add if not added
-                                                {
-                                                        $("#signup-last_name").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Last Name cannot be blank.</div>");
-                                                }
-                                                $('#signup-last_name').focus();
-                                                var valid = 1;
-                                        } else {
-                                                $("#signup-last_name").parent().next(".validation").remove(); // remove it
-                                        }
-                                        if (!$('#signup-mobile_number').val()) {
-                                                if ($("#signup-mobile_number").parent().next(".validation").length == 0) // only add if not added
-                                                {
-                                                        $("#signup-mobile_number").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Mobile Number cannot be blank.</div>");
-                                                }
-                                                $('#signup-mobile_number').focus();
-                                                var valid = 1;
-                                        } else {
-                                                $("#signup-mobile_number").parent().next(".validation").remove(); // remove it
-                                        }
-                                        return valid;
-                                }
-                                function validateLogin() {
-                                        var valid = 0;
-                                        if (!$('#user-email').val()) {
-                                                if ($("#user-email").parent().next(".validation").length == 0) // only add if not added
-                                                {
-                                                        $("#user-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Email cannot be blank.</div>");
-                                                }
-                                                $('#user-email').focus();
-                                                var valid = 1;
-                                        } else {
-                                                $("#user-email").parent().next(".validation").remove(); // remove it
-                                                //                        var emailaddress = $('#user-email').val();
-                                                //                        if (!isValidEmailAddress(emailaddress)) {
-                                                //                            if ($("#user-email").parent().next(".validation").length != 0) // only add if not added
-                                                //                            {
-                                                //                                $("#user-email").parent().next(".validation").remove(); // remove it
-                                                //                            }
-                                                //                            $("#user-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Enter valid email.</div>");
-                                                //                            var valid = 1;
-                                                //                        } else {
-                                                //                            $("#user-email").parent().next(".validation").remove(); // remove it
-                                                //                        }
-                                        }
-                                        if (!$('#user-password').val()) {
-                                                if ($("#user-password").parent().next(".validation").length == 0) // only add if not added
-                                                {
-                                                        $("#user-password").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Password cannot be blank.</div>");
-                                                }
-                                                $('#user-password').focus();
-                                                var valid = 1;
-                                        } else {
-                                                $("#user-password").parent().next(".validation").remove(); // remove it
-                                        }
-                                        return valid;
-                                }
-                                function validateForgot() {
-                                        var valid = 0;
-                                        if (!$('#forgot-email').val()) {
-                                                if ($("#forgot-email").parent().next(".validation").length == 0) // only add if not added
-                                                {
-                                                        $("#forgot-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Email/Mobile cannot be blank.</div>");
-                                                }
-                                                $('#forgot-email').focus();
-                                                var valid = 1;
-                                        } else {
-                                                $("#forgot-email").parent().next(".validation").remove(); // remove it
-                                        }
-                                        return valid;
-                                }
-                                function isValidEmailAddress(emailAddress) {
-                                        var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
-                                        return pattern.test(emailAddress);
-                                }
-                                function allLetter(inputtxt)
-                                {
-                                        var letters = /^[A-Za-z]+$/;
-                                        if (inputtxt.value.match(letters))
-                                        {
-                                                return true;
-                                        } else
-                                        {
-                                                return false;
-                                        }
-                                }
-                        });
+				function validateLetter(txt)
+				{
+					var letters = /^[A-Za-z]+$/;
+					if (txt.match(letters))
+					{
+						return true;
+					} else
+					{
+						return false;
+					}
+				}
+				function validateSignup() {
+					var valid = 0;
+					if (!$('#signup-email').val()) {
+						if ($("#signup-email").parent().next(".validation").length == 0) // only add if not added
+						{
+							$("#signup-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Email cannot be blank.</div>");
+						}
+						$('#signup-email').focus();
+						var valid = 1;
+					} else {
+						var emailaddress = $('#signup-email').val();
+						if (!isValidEmailAddress(emailaddress)) {
+							if ($("#signup-email").parent().next(".validation").length != 0) // only add if not added
+							{
+								$("#signup-email").parent().next(".validation").remove(); // remove it
+							}
+							$("#signup-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Enter valid email.</div>");
+							var valid = 1;
+						} else {
+							if (!validateMail(emailaddress)) {
+								var res = $("#email-check").val();
+								if (res == 0) {
+									if ($("#signup-email").parent().next(".validation").length != 0) // only add if not added
+									{
+										$("#signup-email").parent().next(".validation").remove(); // remove it
+									}
+									$("#signup-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>This email is already used.</div>");
+									var valid = 1;
+								}
+							}
+						}
+					}
+					if (!$('#signup-password').val()) {
+						if ($("#signup-password").parent().next(".validation").length == 0) // only add if not added
+						{
+							$("#signup-password").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Password cannot be blank.</div>");
+						}
+						$('#signup-password').focus();
+						var valid = 1;
+					} else {
+						$("#signup-password").parent().next(".validation").remove(); // remove it
+					}
+					if (!$('#signup-first_name').val()) {
+						if ($("#signup-first_name").parent().next(".validation").length == 0) // only add if not added
+						{
+							$("#signup-first_name").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>First Name cannot be blank.</div>");
+						}
+						$('#signup-first_name').focus();
+						var valid = 1;
+					} else {
+						$("#signup-first_name").parent().next(".validation").remove(); // remove it
+					}
+					if (!$('#signup-last_name').val()) {
+						if ($("#signup-last_name").parent().next(".validation").length == 0) // only add if not added
+						{
+							$("#signup-last_name").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Last Name cannot be blank.</div>");
+						}
+						$('#signup-last_name').focus();
+						var valid = 1;
+					} else {
+						$("#signup-last_name").parent().next(".validation").remove(); // remove it
+					}
+					if (!$('#signup-mobile_number').val()) {
+						if ($("#signup-mobile_number").parent().next(".validation").length == 0) // only add if not added
+						{
+							$("#signup-mobile_number").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Mobile Number cannot be blank.</div>");
+						}
+						$('#signup-mobile_number').focus();
+						var valid = 1;
+					} else {
+						$("#signup-mobile_number").parent().next(".validation").remove(); // remove it
+					}
+					return valid;
+				}
+				function validateLogin() {
+					var valid = 0;
+					if (!$('#user-email').val()) {
+						if ($("#user-email").parent().next(".validation").length == 0) // only add if not added
+						{
+							$("#user-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Email cannot be blank.</div>");
+						}
+						$('#user-email').focus();
+						var valid = 1;
+					} else {
+						$("#user-email").parent().next(".validation").remove(); // remove it
+						//                        var emailaddress = $('#user-email').val();
+						//                        if (!isValidEmailAddress(emailaddress)) {
+						//                            if ($("#user-email").parent().next(".validation").length != 0) // only add if not added
+						//                            {
+						//                                $("#user-email").parent().next(".validation").remove(); // remove it
+						//                            }
+						//                            $("#user-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Enter valid email.</div>");
+						//                            var valid = 1;
+						//                        } else {
+						//                            $("#user-email").parent().next(".validation").remove(); // remove it
+						//                        }
+					}
+					if (!$('#user-password').val()) {
+						if ($("#user-password").parent().next(".validation").length == 0) // only add if not added
+						{
+							$("#user-password").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Password cannot be blank.</div>");
+						}
+						$('#user-password').focus();
+						var valid = 1;
+					} else {
+						$("#user-password").parent().next(".validation").remove(); // remove it
+					}
+					return valid;
+				}
+				function validateForgot() {
+					var valid = 0;
+					if (!$('#forgot-email').val()) {
+						if ($("#forgot-email").parent().next(".validation").length == 0) // only add if not added
+						{
+							$("#forgot-email").parent().after("<div class='validation' style='color:red;margin-left: 4px;font-size: 10px;'>Email/Mobile cannot be blank.</div>");
+						}
+						$('#forgot-email').focus();
+						var valid = 1;
+					} else {
+						$("#forgot-email").parent().next(".validation").remove(); // remove it
+					}
+					return valid;
+				}
+				function isValidEmailAddress(emailAddress) {
+					var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+					return pattern.test(emailAddress);
+				}
+				function allLetter(inputtxt)
+				{
+					var letters = /^[A-Za-z]+$/;
+					if (inputtxt.value.match(letters))
+					{
+						return true;
+					} else
+					{
+						return false;
+					}
+				}
+			});
                 </script>
                 <script>
-                        jQuery(document).ready(function ($) {
-                                $('#btAnimate').click(function () {
-                                        // ANIMATE THE CONTAINER. DURATION SET TO 500 MILLISECONDS.
-                                        $("#divAnim").animate(500);
-                                        $('#divC').show('slow');          // ALSO SHOW THE DIV.
-                                        $('#divC').css('display', 'inline-block');          // ALSO SHOW THE DIV.
-                                });
+			jQuery(document).ready(function ($) {
+				$('#btAnimate').click(function () {
+					// ANIMATE THE CONTAINER. DURATION SET TO 500 MILLISECONDS.
+					$("#divAnim").animate(500);
+					$('#divC').show('slow');          // ALSO SHOW THE DIV.
+					$('#divC').css('display', 'inline-block');          // ALSO SHOW THE DIV.
+				});
 
-                                // REVERSE ANIMATE.
-                                $('#btHide').click(function () {
-                                        $("#divAnim").animate(500);
-                                        $('#divC').hide('slow');          // HIDE THE DIV.
-                                });
-                                $('.option-btn').hover(function () {
-                                        $(this).find('.options').stop(true, true).delay(100).fadeIn(100);
-                                }, function () {
-                                        $(this).find('.options').stop(true, true).delay(100).fadeOut(100);
-                                });
-                                $('.log-sign').click(function () {
-                                        $('.login-modal').css('display', 'block');
-                                        $('.login-modal').addClass('in');
-                                });
-                                $('.clos').click(function () {
-                                        $('.login-modal').css('display', 'none');
-                                        $('.log-popup-err').css('display', 'none');
-                                        $('.login-modal').removeClass('in');
-                                        $('#user-email').val('');
-                                        $('#user-password').val('');
-                                        $('#signup-first_name').val('');
-                                        $('#signup-last_name').val('');
-                                        $('#signup-email').val('');
-                                        $('#signup-mobile_number').val('');
-                                        $('#signup-password').val('');
-                                        $('#forgot-email').val('');
-                                        $('#reset-entry').remove();
-                                        $('#forgot-entry').show();
+				// REVERSE ANIMATE.
+				$('#btHide').click(function () {
+					$("#divAnim").animate(500);
+					$('#divC').hide('slow');          // HIDE THE DIV.
+				});
+				$('.option-btn').hover(function () {
+					$(this).find('.options').stop(true, true).delay(100).fadeIn(100);
+				}, function () {
+					$(this).find('.options').stop(true, true).delay(100).fadeOut(100);
+				});
+				$('.log-sign').click(function () {
+					$('.login-modal').css('display', 'block');
+					$('.login-modal').addClass('in');
+				});
+				$('.clos').click(function () {
+					$('.login-modal').css('display', 'none');
+					$('.log-popup-err').css('display', 'none');
+					$('.login-modal').removeClass('in');
+					$('#user-email').val('');
+					$('#user-password').val('');
+					$('#signup-first_name').val('');
+					$('#signup-last_name').val('');
+					$('#signup-email').val('');
+					$('#signup-mobile_number').val('');
+					$('#signup-password').val('');
+					$('#forgot-email').val('');
+					$('#reset-entry').remove();
+					$('#forgot-entry').show();
 
-                                        $('#Login .validation').remove();
-                                        $.ajax({
-                                                type: 'POST',
-                                                cache: false,
-                                                url: homeUrl + 'ajax/remove-login-session',
-                                                success: function (data) {
-                                                        return true;
-                                                }
-                                        });
-                                });
+					$('#Login .validation').remove();
+					$.ajax({
+						type: 'POST',
+						cache: false,
+						url: homeUrl + 'ajax/remove-login-session',
+						success: function (data) {
+							return true;
+						}
+					});
+				});
 
-                                $('.log-tab').click(function () {
-                                        $('.log-tab').addClass('active');
-                                        $('.sign-tab').removeClass('active');
-                                        $('#signup').removeClass('in');
-                                        $('#signup').removeClass('active');
-                                        $('#log').addClass('in');
-                                        $('#log').addClass('active');
-                                        $('#forgot').removeClass('in');
-                                        $('#forgot').removeClass('active');
-                                });
-                                $('.sign-tab').click(function () {
-                                        $('.sign-tab').addClass('active');
-                                        $('.log-tab').removeClass('active');
-                                        $('#signup').addClass('in');
-                                        $('#signup').addClass('active');
-                                        $('#log').removeClass('in');
-                                        $('#log').removeClass('active');
-                                        $('#forgot').removeClass('in');
-                                        $('#forgot').removeClass('active');
-                                });
-                                $('.forgot-tab').click(function () {
-                                        $('#signup').removeClass('in');
-                                        $('#signup').removeClass('active');
-                                        $('#log').removeClass('in');
-                                        $('#log').removeClass('active');
-                                        $('#forgot').addClass('in');
-                                        $('#forgot').addClass('active');
-                                });
-                        });
+				$('.log-tab').click(function () {
+					$('.log-tab').addClass('active');
+					$('.sign-tab').removeClass('active');
+					$('#signup').removeClass('in');
+					$('#signup').removeClass('active');
+					$('#log').addClass('in');
+					$('#log').addClass('active');
+					$('#forgot').removeClass('in');
+					$('#forgot').removeClass('active');
+				});
+				$('.sign-tab').click(function () {
+					$('.sign-tab').addClass('active');
+					$('.log-tab').removeClass('active');
+					$('#signup').addClass('in');
+					$('#signup').addClass('active');
+					$('#log').removeClass('in');
+					$('#log').removeClass('active');
+					$('#forgot').removeClass('in');
+					$('#forgot').removeClass('active');
+				});
+				$('.forgot-tab').click(function () {
+					$('#signup').removeClass('in');
+					$('#signup').removeClass('active');
+					$('#log').removeClass('in');
+					$('#log').removeClass('active');
+					$('#forgot').addClass('in');
+					$('#forgot').addClass('active');
+				});
+			});
                 </script>
-                <?php $this->endBody() ?>
+		<?php $this->endBody() ?>
         </body>
 </html>
 <?php $this->endPage() ?>

@@ -14,7 +14,7 @@ $this->title = 'My Orders';
                         <div class="my-account-sidebar">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                         <h3 class="MyAccount-title">Orders</h3>
-                                        <?= LeftMenuWidget::widget() ?>
+					<?= LeftMenuWidget::widget() ?>
                                 </div>
                         </div>
 
@@ -31,29 +31,29 @@ $this->title = 'My Orders';
                                                         </tr>
                                                 </thead>
                                                 <tbody>
-                                                        <?php
-                                                        if ($dataProvider->totalCount > 0) {
-                                                                ?>
-                                                                <?=
-                                                                ListView::widget([
-                                                                    'dataProvider' => $dataProvider,
-                                                                    'itemView' => 'orders',
-                                                                    'pager' => [
-                                                                        'firstPageLabel' => 'first',
-                                                                        'lastPageLabel' => 'last',
-                                                                        'prevPageLabel' => '<',
-                                                                        'nextPageLabel' => '>',
-                                                                        'maxButtonCount' => 3,
-                                                                    ],
-                                                                ]);
-                                                                ?>
-                                                                <?php
-                                                        } else {
-                                                                ?>
+							<?php
+							if ($dataProvider->totalCount > 0) {
+								?>
+								<?=
+								ListView::widget([
+								    'dataProvider' => $dataProvider,
+								    'itemView' => 'orders',
+								    'pager' => [
+									'firstPageLabel' => 'first',
+									'lastPageLabel' => 'last',
+									'prevPageLabel' => '<',
+									'nextPageLabel' => '>',
+									'maxButtonCount' => 3,
+								    ],
+								]);
+								?>
+								<?php
+							} else {
+								?>
 
-                                                                <?php
-                                                        }
-                                                        ?>
+								<?php
+							}
+							?>
                                                 </tbody>
                                         </table>
                                 </div>
@@ -63,48 +63,48 @@ $this->title = 'My Orders';
 </div>
 
 <script>
-        $(document).ready(function () {
+	$(document).ready(function () {
 
-                /*
-                 * on click of the Add new review link
-                 * return pop up form for add new review
-                 */
+		/*
+		 * on click of the Add new review link
+		 * return pop up form for add new review
+		 */
 
-                $(document).on('click', '.add-product-review', function (e) {
-                        e.preventDefault();
-                        var product = $(this).attr('id');
-                        $.ajax({
-                                type: 'POST',
-                                cache: false,
-                                async: false,
-                                data: {product_id: product},
-                                url: '<?= Yii::$app->homeUrl; ?>myaccounts/my-account/add-review',
-                                success: function (data) {
-                                        $("#modal-pop-up").html(data);
-                                        $('#modal-6').modal('show', {backdrop: 'static'});
-                                        e.preventDefault();
-                                }
-                        });
-                });
-                /*
-                 * on submit of the form add new Principals
-                 * return new principal added into Debtor
-                 */
+		$(document).on('click', '.add-product-review', function (e) {
+			e.preventDefault();
+			var product = $(this).attr('id');
+			$.ajax({
+				type: 'POST',
+				cache: false,
+				async: false,
+				data: {product_id: product},
+				url: '<?= Yii::$app->homeUrl; ?>myaccounts/my-account/add-review',
+				success: function (data) {
+					$("#modal-pop-up").html(data);
+					$('#modal-6').modal('show', {backdrop: 'static'});
+					e.preventDefault();
+				}
+			});
+		});
+		/*
+		 * on submit of the form add new Principals
+		 * return new principal added into Debtor
+		 */
 
-                $(document).on('submit', '#submit-reviews', function (e) {
-                        var str = $(this).serialize();
-                        $.ajax({
-                                url: '<?= Yii::$app->homeUrl; ?>myaccounts/my-account/save-review',
-                                type: "POST",
-                                data: str,
-                                success: function (data) {
-                                        $('#modal-6').modal('hide');
-                                }
-                        });
-                        return false;
+		$(document).on('submit', '#submit-reviews', function (e) {
+			var str = $(this).serialize();
+			$.ajax({
+				url: '<?= Yii::$app->homeUrl; ?>myaccounts/my-account/save-review',
+				type: "POST",
+				data: str,
+				success: function (data) {
+					$('#modal-6').modal('hide');
+				}
+			});
+			return false;
 
-                });
-        });
+		});
+	});
 
 
 </script>

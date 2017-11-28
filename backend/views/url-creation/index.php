@@ -13,6 +13,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <style>
 	.url_gen {
 		position: relative;
+		/*color: #27292a;*/
+		/*font-size: 23px;*/
 		/*display: inline-block;*/
 	}
 	.url_gen:hover .tooltiptext {
@@ -98,9 +100,11 @@ $this->params['breadcrumbs'][] = $this->title;
 						</div>
 						<div class="clearfix"></div>
 						<div class="col-md-12">
+
 							<div class="form-group">
 								<label class="control-label">Generated Url</label>
-								<textarea style="width:100%;" id="created_url" readonly="true"></textarea>
+								<textarea style="float: left;
+									  width: 96%;" id="created_url" readonly="true"></textarea>
 								<button id="copy_url" class="url_gen" style="background-color: white;
 									padding-top: 10px;
 									font-size: 24px;

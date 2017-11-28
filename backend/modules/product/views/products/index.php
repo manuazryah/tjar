@@ -19,6 +19,24 @@ $this->params['breadcrumbs'][] = $this->title;
 	.fa{
 		font-size: 17px;
 	}
+	/*	.can_name {
+			width: 100px;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+
+		.can_name:hover{
+			overflow: visible;
+			white-space: normal;
+			width: auto;
+			position: absolute;
+			background-color:#FFF;
+		}
+		.can_name:hover+div {
+			margin-top:20px;
+		}*/
+
 </style>
 <div class="products-index">
 
@@ -55,7 +73,18 @@ $this->params['breadcrumbs'][] = $this->title;
 						    'columns' => [
 							    ['class' => 'yii\grid\SerialColumn'],
 //							'product_name',
-							'canonical_name',
+							[
+							    'attribute' => 'canonical_name',
+							    'contentOptions' => ['class' => 'can_name'],
+							    'value' => function ($data) {
+								    if (strlen($data->canonical_name) > 20) {
+									    $str = substr($data->canonical_name, 0, 20) . '...';
+								    } else {
+									    $str = $data->canonical_name;
+								    }
+								    return $str;
+							    },
+							],
 							    [
 							    'attribute' => 'main_category',
 							    'filter' => ArrayHelper::map(ProductMainCategory::find()->all(), 'id', 'name'),

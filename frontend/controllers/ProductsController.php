@@ -17,6 +17,7 @@ use common\models\ProductCategory;
 use common\models\Features;
 use common\models\ProductFeatures;
 use common\models\ProductVendorSearch;
+use common\models\UserComplaints;
 
 class ProductsController extends \yii\web\Controller {
 
@@ -374,6 +375,28 @@ class ProductsController extends \yii\web\Controller {
 			    'filters' => $filters,
 			    'categ' => $category->id,
 		]);
+	}
+
+	public function actionComplaints() {
+		if (Yii::$app->request->isAjax) {
+			$model = new UserComplaints();
+			$data = $this->renderPartial('complaints', [
+			    'model' => $model
+			]);
+			echo $data;
+		}
+	}
+
+	public function actionSaveComplaint() {
+		if (Yii::$app->request->isAjax) {
+
+			$model = new UserComplaints();
+			if ($model->load(Yii::$app->request->post())) {
+				$model->DOC = date('Y-m-d');
+//				Yii::$app->SetValues->Attributes($model);
+				$model->save();
+			}
+		}
 	}
 
 }

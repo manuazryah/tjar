@@ -3,7 +3,7 @@ $(document).ready(function () {
 	$('#filter_options').hide();
 	$('#search_tags').hide();
 	$('#sub_categg').hide();
-	var host = window.location.host + '/' + 'tjar/';
+	var host = 'http://' + window.location.host + '/' + 'tjar/';
 	var url_type = '';
 	$('#refresh').click(function () {
 		$(':input').val('');

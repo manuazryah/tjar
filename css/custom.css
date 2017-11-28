@@ -2,3 +2,27 @@
         min-height: 153px;
         max-height: 153px;
 }
+.edit-btn-new{
+	background-color: #005e9d;
+	color: #fff;
+}
+.edit-btn-new:hover{
+	color: #fff !important;
+	text-decoration: none;
+}
+.cancel-btn-new{
+	background-color: #005e9d;
+	color: #fff;
+}
+.cancel-btn-new:hover{
+	color: #fff !important;
+	text-decoration: none;
+}
+.report_pblm{
+	color: #c50c0c;
+	font-style: italic;
+	cursor: pointer;
+}
+.report_pblm:hover{
+	color: #c50c0c;
+}
