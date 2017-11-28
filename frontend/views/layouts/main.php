@@ -173,7 +173,7 @@ if (isset(Yii::$app->session['log-return'])) {
 											<?= Html::a('Order', ['/myaccounts/my-account/my-orders'], ['class' => 'title']) ?>
 										</li>
 										<li>
-											<?= Html::a('Wishlist', ['/myaccounts/my-account/wish-list'], ['class' => 'title']) ?>
+											<!--<? Html::a('Wishlist', ['/myaccounts/my-account/wish-list'], ['class' => 'title']) ?>-->
 										</li>
 										<li>
 											<?= Html::a('Reviews & Ratings', ['/myaccounts/my-account/reviews'], ['class' => 'title']) ?>

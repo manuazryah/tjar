@@ -133,6 +133,21 @@ class OrderController extends \yii\web\Controller {
         ]);
     }
 
+    public function actionTrack($id) {
+        return $this->renderAjax('track', [
+                    'model' => $this->findModel($id),
+                    'history' => OrderHistory::find()->where(['detail_id' => $id])->all(),
+        ]);
+    }
+
+    protected function findModel($id) {
+        if (($model = OrderDetails::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
     public function actionPrint($id) {
         $vendor_id = Yii::$app->user->identity->id;
         $order_master = OrderMaster::find()->where(['order_id' => $id])->one();

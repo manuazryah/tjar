@@ -179,13 +179,13 @@ $(document).on('submit', '#add_fragrance', function (event) {
 });
 
 /****price>offerprice*****/
-$('#product-offer_price').keyup(function () {
+$('#productvendor-offer_price').keyup(function () {
     $('#offer_price').addClass('hide');
     var offer = parseInt($(this).val());
-    var price = parseInt($('#product-price').val());
+    var price = parseInt($('#productvendor-price').val());
     if (price != '') {
         if (offer >= price) {
-            $('#product-offer_price').val('0.00');
+            $('#productvendor-offer_price').val('0.00');
             $('#offer_price').removeClass('hide');
         }
     }

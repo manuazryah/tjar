@@ -497,7 +497,8 @@ class CartController extends \yii\web\Controller {
                 $addresses = UserAddress::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
                 $addres_field .= "<option value=''>Select</option>";
                 foreach ($addresses as $address) {
-                    $addres_field .= "<option value = '$address->id'>$address->first_name, $address->address , $address->landmark</option>";
+                    $selected = $address->default_address=='1'? 'selected=selected':'';
+                    $addres_field .= "<option value = '$address->id' $selected>$address->first_name, $address->address , $address->landmark</option>";
                 }
                 echo json_encode(array('msg' => 'success', 'addres_field' => $addres_field));
             } else {

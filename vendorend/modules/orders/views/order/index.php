@@ -38,8 +38,21 @@ $this->params['breadcrumbs'][] = $this->title;
     .hidden-xs{
         padding-left: 5px;
     }
+    .color{
+        color: #373e4a;
+    }
 </style>
 <div class="products-index">
+    <?php
+    yii\bootstrap\Modal::begin([
+        'headerOptions' => ['id' => 'modalHeader'],
+        'id' => 'modal',
+        'size' => 'modal-lg',
+        'clientOptions' => ['backdrop' => 'static', 'keyboard' => FALSE]
+    ]);
+    ?>
+    <div id='modalContent'></div>;
+    <?php yii\bootstrap\Modal::end(); ?>
 
     <div class="row">
         <div class="col-md-12">
@@ -101,11 +114,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 ],
                                                 [
                                                     'attribute' => 'product_id',
+                                                    'format' => 'raw',
                                                     'value' => function($data) {
                                                         $prod_details = ProductVendor::findOne($data->product_id);
                                                         $name = Products::findOne($prod_details->product_id)->product_name;
-                                                        return $name;
-                                                    }
+                                                        return \yii\helpers\Html::tag('p', Html::encode(substr($name, 0, 29)), ['title' => $name, 'class' => 'username color']);
+//                                                        return \yii\helpers\Html::a($data->order_id, ['/orders/order/view', 'id' => $data->order_id], ['target' => '_blank']);
+//                                                        return substr($name, 0, 29);
+//                                                        return $name;substr($name, 0, 29) ;
+                                                    },
+//                                                            'title'=>'thangamatte',
                                                 ],
                                                 'quantity',
                                                 'amount',
@@ -128,7 +146,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 [
                                                     'class' => 'yii\grid\ActionColumn',
                                                     'header' => 'Actions',
-                                                    'template' => '{print}{comment}',
+                                                    'template' => '{print}{comment}{track}',
                                                     'buttons' => [
                                                         'print' => function ($url, $model) {
                                                             return Html::a('<span><i class="fa fa-print" aria-hidden="true"></i></span>', $url, [
@@ -139,13 +157,17 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         },
                                                         'comment' => function ($url, $model) {
                                                             if ($model->status != '0' && $model->status != '3') {
-                                                            return Html::a('<span><i class="fa-file-text-o"></i></span>', '', [
-                                                                        'title' => 'Comment',
-                                                                        'class' => 'order_comment',
-                                                                        'id' => $model->id,
-                                                            ]);
+                                                                return Html::a('<span><i class="fa-file-text-o"></i></span>', '', [
+                                                                            'title' => 'Comment',
+                                                                            'class' => 'order_comment',
+                                                                            'id' => $model->id,
+                                                                ]);
 //                                                                return '<span title="comment" class="order_comment" id="' . $model->id . '"><i class="fa-file-text-o" aria-hidden="true"></i></span>';
                                                             }
+                                                        },
+                                                        'track' => function ($url, $model) {
+
+                                                            return Html::button('<i class="fa fa-truck"></i>', ['value' => Url::to(['track', 'id' => $model->id]), 'class' => 'modalButton edit-btn']);
                                                         },
                                                     ],
                                                     'urlCreator' => function ($action, $model) {

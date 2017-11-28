@@ -65,7 +65,7 @@ class ProductController extends \yii\web\Controller {
                 if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
                         $model->vendor_id = Yii::$app->user->identity->id;
                         if (isset($model->offer_price)) {
-                                $model->offer = ($model->offer_price * 100) / $model->price;
+                                $model->offer = 100-(($model->offer_price * 100) / $model->price);
                         }
                         if ($model->save()) {
                                 StockHistory::stockhistory($model->qty, '1', $model->id, '2'); //qty,purpose,product vendor id,vendor

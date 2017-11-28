@@ -85,6 +85,7 @@ use kartik\date\DatePicker;
         <?= $form->field($model, 'warranty')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'offer_price')->textInput(['maxlength' => true]) ?>
+        <label id="offer_price" style="color:#cc3f44"class="hide">Offer price must be less than price</label>
 
         <?php
         echo DatePicker::widget([

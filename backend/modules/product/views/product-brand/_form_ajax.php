@@ -84,7 +84,7 @@ use yii\helpers\Url;
 //                        $('#products-subcategory').val(subcategory);
                          $('#products-brand').html($data.field);
                         $('#s2id_products-brand').select2('data', {id: $data.id, text: $data.name});
-//                         $('#products-brand').append($('<option value="' + $data.id + '" selected="selected">' + $data.name + '</option>'));
+                         $('#products-brand').append($('<option value="' + $data.id + '" selected="selected">' + $data.name + '</option>'));
 ////               
                         $('#modal_brand').modal('toggle');
                         $('#products-category').removeAttr('disabled');
