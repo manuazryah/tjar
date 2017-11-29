@@ -59,10 +59,11 @@ use yii\helpers\Url;
             var tag_name = $('#searchtag-tag_name').val();
             var tag_name_arabic = $('#searchtag-tag_name_arabic').val();
             var status = $('#searchtag-status').val();
+            var canonical_name = $('#searchtag-canonical_name').val();
             $.ajax({
                 url: homeUrl + 'product/search-tag/ajaxcreate',
                 type: "post",
-                data: {category: category, subcat: subcategory, tag_name: tag_name, tag_name_arabic: tag_name_arabic, status: status},
+                data: {category: category, subcat: subcategory, tag_name: tag_name, tag_name_arabic: tag_name_arabic, status: status, canonical_name: canonical_name},
                 success: function (data) {
                     var $data = JSON.parse(data);
                     if ($data.con === "1") {
