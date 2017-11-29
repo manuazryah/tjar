@@ -5,6 +5,7 @@ use yii\helpers\Html;
 //use yii\widgets\ActiveForm;
 //use yii\grid\GridView;
 use yii\widgets\ListView;
+use yii\bootstrap\Modal;
 ?>
 <style>
         .summary{
@@ -71,6 +72,16 @@ use yii\widgets\ListView;
                 background: rgba(0,0,0,.44);
         }
 </style>
+
+<?php
+Modal::begin([
+    'header' => '',
+    'id' => 'modal',
+    'size' => 'modal-lg',
+]);
+echo "<div id = 'modalContent'></div>";
+Modal::end();
+?>
 <section class="gallery-env">
 
         <div class="row">

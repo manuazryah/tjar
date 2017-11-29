@@ -47,8 +47,8 @@ class CustomerReviews extends \yii\db\ActiveRecord {
         public function attributeLabels() {
                 return [
                     'id' => 'ID',
-                    'user_id' => 'User ID',
-                    'product_id' => 'Product ID',
+                    'user_id' => 'User',
+                    'product_id' => 'Product',
                     'title' => 'Title',
                     'description' => 'Description',
                     'review_date' => 'Review Date',

@@ -1600,23 +1600,23 @@ div.message{
         font-size: 14px;
         line-height: 27px;
 }
-#product-detail #spec .label{
+#product-detail #info .label{
         color: #515452;
         font-weight: 500;
         font-size: 13px;
         text-transform: capitalize;
 }
-#product-detail .product-info-tab #spec{
+#product-detail .product-info-tab #info{
         padding: 0 15px;
 }
-#product-detail .product-info-tab #spec tbody{
+#product-detail .product-info-tab #info tbody{
         background: whitesmoke;
         border: 1px solid #ddd;
 }
-#product-detail .product-info-tab #spec tbody tr{
+#product-detail .product-info-tab #info tbody tr{
         border-bottom: 1px solid #ddd;
 }
-#product-detail .product-info-tab #spec tbody .value{
+#product-detail .product-info-tab #info tbody .value{
         background: white;
         padding: 0 5px;
 }
