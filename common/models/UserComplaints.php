@@ -59,4 +59,16 @@ class UserComplaints extends \yii\db\ActiveRecord {
 		];
 	}
 
+	public function getUser() {
+		return $this->hasOne(User::className(), ['id' => 'user_id']);
+	}
+
+	public function getVendor() {
+		return $this->hasOne(Vendors::className(), ['id' => 'vendor_id']);
+	}
+
+	public function getProduct() {
+		return $this->hasOne(ProductVendor::className(), ['id' => 'product_id']);
+	}
+
 }

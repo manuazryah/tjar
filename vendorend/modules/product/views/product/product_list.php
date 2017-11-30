@@ -29,9 +29,16 @@ use yii\bootstrap\Modal;
                 right: 0px;
                 text-align: center;
         }
+	.sell-btn-div a{
+		border: 2px solid grey;
+		padding: 0px 40px 4px 5px;
+	}
+	.sell-btn-div a span{
+		padding-left: 36px;
+	}
         .sell-btn{
                 background: #2196F3;
-                padding: 10px 60px;
+		padding: 0px 40px;
                 font-weight: 600;
                 color: white;
         }
@@ -65,9 +72,9 @@ use yii\bootstrap\Modal;
                 opacity: 2;
                 color: white;
         }
-        .album-image{
-                min-height: 437px;
-        }
+	/*        .album-image{
+			min-height: 437px;
+		}*/
         .album-image:hover .thumb{
                 background: rgba(0,0,0,.44);
         }
@@ -109,69 +116,69 @@ Modal::end();
 
                         <!-- Album Images -->
                         <div class="album-images row">
-                                <?=
-                                $dataProvider->totalcount > 0 ? ListView::widget([
-                                            'dataProvider' => $dataProvider,
-                                            'itemView' => '_view2',
-                                            'pager' => [
-                                                'firstPageLabel' => 'first',
-                                                'lastPageLabel' => 'last',
-                                                'prevPageLabel' => '<',
-                                                'nextPageLabel' => '>',
-                                                'maxButtonCount' => 5,
-                                            ],
-                                        ]) : $this->render('no_product');
-                                ?>
+				<?=
+				$dataProvider->totalcount > 0 ? ListView::widget([
+					    'dataProvider' => $dataProvider,
+					    'itemView' => '_view2',
+					    'pager' => [
+						'firstPageLabel' => 'first',
+						'lastPageLabel' => 'last',
+						'prevPageLabel' => '<',
+						'nextPageLabel' => '>',
+						'maxButtonCount' => 5,
+					    ],
+					]) : $this->render('no_product');
+				?>
                                 <!-- Album Image -->
                         </div>
                 </div>
 
                 <!-- Gallery Sidebar -->
-                <div class="col-sm-3 gallery-left">
+		<div class="col-sm-3 gallery-left">
 
-                        <div class="gallery-sidebar">
+			<div class="gallery-sidebar">
 
-                                <a href="#" class="btn btn-block btn-secondary btn-icon btn-icon-standalone btn-icon-standalone-right">
-                                        <i class="fa fa-filter"></i>
-                                        <span>Filter By</span>
-                                </a>
+				<a href="#" class="btn btn-block btn-secondary btn-icon btn-icon-standalone btn-icon-standalone-right">
+					<i class="fa fa-filter"></i>
+					<span>Filter By</span>
+				</a>
 
-                                <ul class="list-unstyled">
-                                        <li class="active">
-                                                <a href="#">
-                                                        <i class="fa-folder-open-o"></i>
-                                                        <span>General</span>
-                                                </a>
-                                        </li>
-                                        <li>
-                                                <a href="#">
-                                                        <i class="fa-folder-o"></i>
-                                                        <span>Office</span>
-                                                </a>
-                                        </li>
-                                        <li>
-                                                <a href="#">
-                                                        <i class="fa-folder-o"></i>
-                                                        <span>Las Vegas</span>
-                                                </a>
-                                        </li>
-                                        <li>
-                                                <a href="#">
-                                                        <i class="fa-folder-o"></i>
-                                                        <span>Thailand</span>
-                                                </a>
-                                        </li>
-                                        <li>
-                                                <a href="#">
-                                                        <i class="fa-folder-o"></i>
-                                                        <span>Nature</span>
-                                                </a>
-                                        </li>
-                                </ul>
+				<ul class="list-unstyled">
+					<li class="active">
+						<a href="#">
+							<i class="fa-folder-open-o"></i>
+							<span>General</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="fa-folder-o"></i>
+							<span>Office</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="fa-folder-o"></i>
+							<span>Las Vegas</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="fa-folder-o"></i>
+							<span>Thailand</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="fa-folder-o"></i>
+							<span>Nature</span>
+						</a>
+					</li>
+				</ul>
 
-                        </div>
+			</div>
 
-                </div>
+		</div>
 
         </div>
 

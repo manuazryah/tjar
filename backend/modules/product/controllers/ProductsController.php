@@ -112,6 +112,8 @@ class ProductsController extends Controller {
 				}
 			}
 		}
+//		var_dump($model->getErrors());
+//		exit;
 		return $this->render('create', [
 			    'model' => $model,
 			    'id' => $id,
@@ -137,7 +139,7 @@ class ProductsController extends Controller {
 			}
 			return true;
 		} else {
-			return false;
+			return true;
 		}
 	}
 
@@ -273,6 +275,7 @@ class ProductsController extends Controller {
 	}
 
 	function NewFolder($id, $new_prod_path, $split_folder) {
+
 		if (!is_dir($new_prod_path)) {
 			mkdir(\Yii::$app->basePath . '/../uploads/products/' . $split_folder);
 			chmod(\Yii::$app->basePath . '/../uploads/products/' . $split_folder, 0777);
@@ -491,12 +494,15 @@ class ProductsController extends Controller {
 
 	public function actionProductImage() {
 		if (Yii::$app->request->isAjax) {
+
 			if (isset(Yii::$app->session['tempfolder'])) {
+
 				$dir = \Yii::$app->basePath . '/../uploads/temp/' . Yii::$app->session['tempfolder'] . '/';
 				$result = $this->ImageUpload($_FILES, $dir);
 			} else {
 				$uniqueId = time() . '-' . mt_rand();
 				Yii::$app->session['tempfolder'] = $uniqueId;
+
 				if (!is_dir(\Yii::$app->basePath . '/../uploads/temp/' . $uniqueId)) {
 					mkdir(\Yii::$app->basePath . '/../uploads/temp/' . $uniqueId);
 					chmod(\Yii::$app->basePath . '/../uploads/temp/' . $uniqueId, 0777);
@@ -577,6 +583,7 @@ class ProductsController extends Controller {
 //
 			} elseif (!empty($_POST['sub_category_id']) && !empty($_POST['category_id'])) {
 
+
 				$features = \common\models\ProductFeatures::find()->where(['category' => $_POST['category_id'], 'subcategory' => $_POST['sub_category_id']])->all();
 
 				if (empty($features)) {
@@ -586,6 +593,8 @@ class ProductsController extends Controller {
 
 			$value = $this->renderPartial('product-specifications', [
 			    'features' => $features,
+			    'category' => $_POST['category_id'],
+			    'sub_category' => $_POST['sub_category_id'],
 			]);
 
 			echo $value;

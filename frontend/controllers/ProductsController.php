@@ -394,7 +394,12 @@ class ProductsController extends \yii\web\Controller {
 			if ($model->load(Yii::$app->request->post())) {
 				$model->DOC = date('Y-m-d');
 //				Yii::$app->SetValues->Attributes($model);
-				$model->save();
+
+				if ($model->save()) {
+					echo json_encode(array('msg' => 'Successfully submitted your complaint', 'dat' => 1));
+				} else {
+					echo json_encode(array('msg' => 'Sorry an error occured', 'dat' => 2));
+				}
 			}
 		}
 	}

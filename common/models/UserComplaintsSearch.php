@@ -10,68 +10,67 @@ use common\models\UserComplaints;
 /**
  * UserComplaintsSearch represents the model behind the search form about `common\models\UserComplaints`.
  */
-class UserComplaintsSearch extends UserComplaints
-{
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['id', 'user_id', 'product_id', 'vendor_id', 'status', 'CB', 'UB'], 'integer'],
-            [['product_name', 'DOC', 'DOU'], 'safe'],
-        ];
-    }
+class UserComplaintsSearch extends UserComplaints {
 
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function rules() {
+		return [
+			[['id', 'user_id', 'product_id', 'vendor_id', 'status', 'CB', 'UB'], 'integer'],
+			[['product_name', 'DOC', 'DOU'], 'safe'],
+		];
+	}
 
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
-    public function search($params)
-    {
-        $query = UserComplaints::find();
+	/**
+	 * @inheritdoc
+	 */
+	public function scenarios() {
+		// bypass scenarios() implementation in the parent class
+		return Model::scenarios();
+	}
 
-        // add conditions that should always apply here
+	/**
+	 * Creates data provider instance with search query applied
+	 *
+	 * @param array $params
+	 *
+	 * @return ActiveDataProvider
+	 */
+	public function search($params) {
+		$query = UserComplaints::find();
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
+		// add conditions that should always apply here
 
-        $this->load($params);
+		$dataProvider = new ActiveDataProvider([
+		    'query' => $query,
+		    'sort' => ['defaultOrder' => ['DOC' => SORT_DESC]]
+		]);
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
-        }
+		$this->load($params);
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'user_id' => $this->user_id,
-            'product_id' => $this->product_id,
-            'vendor_id' => $this->vendor_id,
-            'status' => $this->status,
-            'CB' => $this->CB,
-            'UB' => $this->UB,
-            'DOC' => $this->DOC,
-            'DOU' => $this->DOU,
-        ]);
+		if (!$this->validate()) {
+			// uncomment the following line if you do not want to return any records when validation fails
+			// $query->where('0=1');
+			return $dataProvider;
+		}
 
-        $query->andFilterWhere(['like', 'product_name', $this->product_name]);
+		// grid filtering conditions
+		$query->andFilterWhere([
+		    'id' => $this->id,
+		    'user_id' => $this->user_id,
+		    'product_id' => $this->product_id,
+		    'vendor_id' => $this->vendor_id,
+		    'status' => $this->status,
+		    'CB' => $this->CB,
+		    'UB' => $this->UB,
+		    'DOC' => $this->DOC,
+		    'DOU' => $this->DOU,
+		]);
 
-        return $dataProvider;
-    }
+		$query->andFilterWhere(['like', 'product_name', $this->product_name]);
+
+		return $dataProvider;
+	}
+
 }

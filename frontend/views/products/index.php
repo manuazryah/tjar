@@ -11,6 +11,10 @@ if (!empty($categ)) {
 	$min_amount = $category->min_amount;
 	$max_amount = $category->max_amount;
 }
+if (empty($min_amount) || empty($max_amount)) {
+	$min_amount = 10;
+	$max_amount = 100000;
+}
 ?>
 <style>
         .summary{
@@ -49,12 +53,13 @@ if (!empty($categ)) {
 
 									$model_name = $feature_detail->model_name;
 
-									if (!empty($categ))
-										$filter_values = $model_name::find()->where(['category' => $categ])->all();
+									if (!empty($categ) && !empty($sub_categ))
+										$filter_values = $model_name::find()->where(['category' => $categ, 'subcategory' => $sub_categ])->distinct('value')->all();
+
 									elseif (!empty($sub_categ))
 										$filter_values = $model_name::find()->where(['subcategory' => $sub_categ])->all();
-									elseif (!empty($categ) && !empty($sub_categ))
-										$filter_values = $model_name::find()->where(['category' => $categ, 'subcategory' => $sub_categ])->all();
+									elseif (!empty($categ))
+										$filter_values = $model_name::find()->where(['category' => $categ])->select('DISTINCT `value`')->all();
 									?>
 									<div class="panel panel-default">
 										<div class="panel-heading">

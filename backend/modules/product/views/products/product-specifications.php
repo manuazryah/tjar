@@ -11,8 +11,11 @@ foreach ($features as $mod) {
 			<?php
 			if ($mod->specification_type == 0) {
 				$modelName = $specification_model->model_name;
-
-				$specifiction_dropdown = $modelName::find()->where(['category' => $mod->category])->all();
+				if (!empty($sub_category)) {
+					$specifiction_dropdown = $modelName::find()->where(['category' => $mod->category, 'subcategory' => $sub_category])->all();
+				} else {
+					$specifiction_dropdown = $modelName::find()->where(['category' => $mod->category])->all();
+				}
 //				var_dump($specifiction_dropdown);
 //				echo $specifiction_dropdown;
 //				exit;

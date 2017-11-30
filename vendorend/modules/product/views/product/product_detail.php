@@ -81,16 +81,56 @@ use yii\helpers\Html;
         }
 </style>
 <div class="row">
+	<div class="row">
+                <div class="col-md-10">
+                        <div class="panel panel-default">
+                                <div class="panel-body">
+                                        <div class="panel-body">
+                                                <div class="col-md-4">
+                                                        <div class="sell-pro-div-left">
+								<?php
+								$product_image = Yii::$app->basePath . '/../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_model->id) . '/' . $product_model->id . '/profile/' . $product_model->canonical_name . '.' . $product_model->gallery_images;
+								if (file_exists($product_image)) {
+									?>
+									<img src="<?= Yii::$app->homeUrl . '../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_model->id) . '/' . $product_model->id . '/profile/' . $product_model->canonical_name . '.' . $product_model->gallery_images ?>" class="img-responsive">
+								<?php } else { ?>
+									<img src="<?= yii::$app->homeUrl; ?>images/gallery_dummy.png" class="img-responsive">
+								<?php } ?>
+                                                        </div>
+                                                </div>
+                                                <div class="col-md-8 sell-pro-div-right">
+                                                        <h5 class="sell-pro-heading"><?= $product_model->product_name ?></h5>
+
+
+							<?php
+							foreach ($product_specifications as $specification) {
+								if (isset($specification->Product_feature_text) && $specification->Product_feature_text != '') {
+									$product_features = \common\models\ProductFeatures::findOne($specification->product_feature_id);
+									$specification_model = \common\models\Features::findOne($product_features->specification);
+									$value = $specification_model->tablevalue__name;
+									?>
+									<p><?= $specification_model->filter_tittle; ?>: <span><?= $specification->Product_feature_text ?></span></p>
+
+									<?php
+								}
+							}
+							?>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
         <div class="panel panel-default">
                 <div class="panel-body">
                         <div class="panel-body">
-                                <div class="small-22 medium-22 large-22 columns"><h5 class="ng-binding"><?= $product_model->product_name ?></h5><div class="offer-detailes-info"><span class="offerBy"><span class="light-gray ng-binding">EAN:</span><span class="ng-binding"><?= $product_model->item_ean ?></span></span></div></div>
+
                                 <div class="panel panel-default">
                                         <div class="panel-body">
                                                 <div class="small-24 columns sell-this-button">
-                                                        <?= Html::a('<button type="button" class="tiny ng-binding" >Sell This Product</button>', ['/product/product/sell-product', 'id' => $id]) ?>
-                                                        <?php $action = '../../product-detail/' . $product_model->canonical_name; ?>
-                                                        <?= Html::a('<button type="button" class="tiny ng-binding" >Product Preview</button>', [$action], ['target' => '_blank']) ?>
+							<?= Html::a('<button type="button" class="tiny ng-binding" >Sell This Product</button>', ['/product/product/sell-product', 'id' => $id]) ?>
+							<?php $action = '../../product-detail/' . $product_model->canonical_name; ?>
+							<?= Html::a('<button type="button" class="tiny ng-binding" >Product Preview</button>', [$action], ['target' => '_blank']) ?>
                                                         <!--<button type="button" class="tiny ng-binding" >Sell This Product</button></div>-->
                                                 </div>
                                         </div>
@@ -98,46 +138,7 @@ use yii\helpers\Html;
                         </div>
                 </div>
         </div>
-        <div class="row">
-                <div class="col-md-10">
-                        <div class="panel panel-default">
-                                <div class="panel-body">
-                                        <div class="panel-body">
-                                                <div class="col-md-4">
-                                                        <div class="sell-pro-div-left">
-                                                                <?php
-                                                                $product_image = Yii::$app->basePath . '/../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_model->id) . '/' . $product_model->id . '/profile/' . $product_model->canonical_name . '.' . $product_model->gallery_images;
-                                                                if (file_exists($product_image)) {
-                                                                        ?>
-                                                                        <img src="<?= Yii::$app->homeUrl . '../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product_model->id) . '/' . $product_model->id . '/profile/' . $product_model->canonical_name . '.' . $product_model->gallery_images ?>" class="img-responsive">
-                                                                <?php } else { ?>
-                                                                        <img src="<?= yii::$app->homeUrl; ?>images/gallery_dummy.png" class="img-responsive">
-                                                                <?php } ?>
-                                                        </div>
-                                                </div>
-                                                <div class="col-md-8 sell-pro-div-right">
-                                                        <h3 class="sell-pro-heading"><?= $product_model->product_name ?></h3>
 
-
-                                                        <?php
-                                                        foreach ($product_specifications as $specification) {
-                                                                if (isset($specification->Product_feature_text) && $specification->Product_feature_text != '') {
-                                                                        $product_features = \common\models\ProductFeatures::findOne($specification->product_feature_id);
-                                                                        $specification_model = \common\models\Features::findOne($product_features->specification);
-                                                                        $value = $specification_model->tablevalue__name;
-                                                                        ?>
-                                                                        <p><?= $specification_model->filter_tittle; ?>: <span><?= $specification->Product_feature_text ?></span></p>
-
-                                                                        <?php
-                                                                }
-                                                        }
-                                                        ?>
-                                                </div>
-                                        </div>
-                                </div>
-                        </div>
-                </div>
-        </div>
 </div>
 
 
