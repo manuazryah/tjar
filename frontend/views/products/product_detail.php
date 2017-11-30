@@ -157,29 +157,31 @@ else
                                 <p class="message"><?= Yii::$app->session['words']->free_shipping ?> 150.00 <?= Yii::$app->session['words']->AED ?></p>
                                 <?php
                                 $product_mappping = \common\models\ProductMapping::find()->where(new Expression('FIND_IN_SET(:product_id, product_id)'))->addParams([':product_id' => $product_details->id])->one();
-                                $variants = explode(",", $product_mappping->variants);
-                                foreach ($variants as $variant) {
-                                        ?>
-                                        <div class="product-detailed-points">
-                                                <h5 style="width: 100%;"><?= \common\models\Features::findOne($variant)->filter_tittle ?></h5>
-                                        </div>
-                                        <?php
-                                        $query_features = \common\models\ProductFeatures::find()->where(['category' => $product_details->category, 'subcategory' => $product_details->subcategory, 'specification' => $variant])->orderBy(['id' => SORT_DESC])->all();
-                                        $items = array();
-                                        foreach ($query_features as $query_feature) {
-                                                $items[] = $query_feature->id;
-                                        }
-                                        $query_specifications = \common\models\ProductSpecifications::find()->where(['IN', 'product_feature_id', $items])->orderBy(['id' => SORT_DESC])->all();
-                                        $count = count($query_specifications) - 1;
-                                        ?>
-                                        <select class="form-control variant-url" style="background: #e8e8e8;width: 50%;"><?php
-                                                foreach ($query_specifications as $query_specification) {
-                                                        ?>
-                                                        <option value="<?= Yii::$app->homeUrl ?>product-detail/<?= common\models\Products::findOne($query_specification->product_id)->canonical_name ?>" <?= $query_specification->product_id == $product_details->id ? 'selected' : '' ?>><?= $query_specification->Product_feature_text ?></option>>
-                                                <?php }
+                                if (isset($product_mappping)) {
+                                        $variants = explode(",", $product_mappping->variants);
+                                        foreach ($variants as $variant) {
                                                 ?>
-                                        </select>
-                                        <?php
+                                                <div class="product-detailed-points">
+                                                        <h5 style="width: 100%;"><?= \common\models\Features::findOne($variant)->filter_tittle ?></h5>
+                                                </div>
+                                                <?php
+                                                $query_features = \common\models\ProductFeatures::find()->where(['category' => $product_details->category, 'subcategory' => $product_details->subcategory, 'specification' => $variant])->orderBy(['id' => SORT_DESC])->all();
+                                                $items = array();
+                                                foreach ($query_features as $query_feature) {
+                                                        $items[] = $query_feature->id;
+                                                }
+                                                $query_specifications = \common\models\ProductSpecifications::find()->where(['IN', 'product_feature_id', $items])->orderBy(['id' => SORT_DESC])->all();
+                                                $count = count($query_specifications) - 1;
+                                                ?>
+                                                <select class="form-control variant-url" style="background: #e8e8e8;width: 50%;"><?php
+                                                        foreach ($query_specifications as $query_specification) {
+                                                                ?>
+                                                                <option value="<?= Yii::$app->homeUrl ?>product-detail/<?= common\models\Products::findOne($query_specification->product_id)->canonical_name ?>" <?= $query_specification->product_id == $product_details->id ? 'selected' : '' ?>><?= $query_specification->Product_feature_text ?></option>>
+                                                        <?php }
+                                                        ?>
+                                                </select>
+                                                <?php
+                                        }
                                 }
                                 ?>
                                 <div class="product-detailed-points">
@@ -268,7 +270,7 @@ else
                                                   $specification_model = \common\models\Features::findOne($product_features->specification);
                                                   $value = $specification_model->tablevalue__name; */
                                                 ?>
-                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                                                                                                                                                                                                                ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                                                                                                                                                                                                                ?></td></tr>
+                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                                                                                                                                                                                                                 ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                                                                                                                                                                                                                 ?></td></tr>
                                                 <?php
                                                 /*  }
                                                   } */

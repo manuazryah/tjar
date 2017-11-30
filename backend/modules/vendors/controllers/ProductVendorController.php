@@ -51,6 +51,7 @@ class ProductVendorController extends Controller {
                 $query = explode('&', $_SERVER['QUERY_STRING']);
                 unset(Yii::$app->session['urls']);
                 Yii::$app->session->set('urls', $query[1]);
+                $dataProvider->query->andWhere(['full_fill' => 0]);
                 return $this->render('index', [
                             'searchModel' => $searchModel,
                             'dataProvider' => $dataProvider,

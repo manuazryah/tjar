@@ -128,7 +128,6 @@ class SearchTagController extends Controller {
                         $model->tag_name = Yii::$app->request->post()['tag_name'];
                         $model->tag_name_arabic = Yii::$app->request->post()['tag_name_arabic'];
                         $model->status = Yii::$app->request->post()['status'];
-                        $model->canonical_name = Yii::$app->request->post()['canonical_name'];
                         if (Yii::$app->SetValues->Attributes($model) && $model->save()) {
                                 echo json_encode(array("con" => "1", 'id' => $model->id, 'tag' => $model->tag_name)); //Success
                                 exit;

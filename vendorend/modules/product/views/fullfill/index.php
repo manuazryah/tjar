@@ -212,9 +212,17 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                     [
                                                                                                     'attribute' => 'vendor_status',
                                                                                                     'format' => 'raw',
-                                                                                                    'filter' => ['1' => 'Enabled', '0' => 'Disabled'],
+                                                                                                    'filter' => ['1' => 'Live', '2' => 'Pause'],
                                                                                                     'value' => function ($data) {
-                                                                                                            return \yii\helpers\Html::dropDownList('vendor_status', null, ['1' => 'Enabled', '0' => 'Disabled'], ['options' => [$data->vendor_status => ['Selected' => 'selected']], 'class' => 'form-control product_form', 'id' => 'product_status_' . $data->id,]);
+                                                                                                            if ($data->vendor_status == 1) {
+                                                                                                                    return 'Live';
+                                                                                                            } else if ($data->vendor_status == 2) {
+                                                                                                                    return 'Pause';
+                                                                                                            } else if ($data->vendor_status == 0) {
+                                                                                                                    return 'Pending';
+                                                                                                            } else {
+                                                                                                                    return '';
+                                                                                                            }
                                                                                                     },
                                                                                                 ],
 //                                                                                                    [
