@@ -57,15 +57,28 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'order_id',
                                 [
                                     'attribute' => 'product_id',
+                                    'format' => 'raw',
 //                                    'filter' => ArrayHelper::map(Product::find()->all(), 'id', 'product_name'),
                                     'value' => function($data) {
                                         $prdctvendor = ProductVendor::findOne($data->product_id);
                                         $name = Products::findOne($prdctvendor->product_id)->product_name;
-//                                        $image = '<img src="' . Yii::$app->homeUrl . 'uploads/product/' . $product_details->id . '/profile/' . $product_details->canonical_name . '_thumb.' . $product_details->profile . '" width="94px" height="93px"/>';
-                                        return $name;
+                                        return Html::tag('p', Html::encode(substr($name, 0, 29)), ['title' => $name, 'class' => 'username color']);
 //                                        return Product::findOne($data->product_id)->product_name;
                                     }
                                 ],
+                                [
+                                    'attribute' => 'vendor_id',
+                                    'value' => function($data) {
+                                        $prdctvendor = ProductVendor::find()->where(['id' => $data->product_id, 'full_fill' => '0'])->one();
+                                        if ($prdctvendor) {
+                                            return \common\models\Vendors::findOne($prdctvendor->vendor_id)->first_name;
+                                        } else {
+                                            return "Tjar";
+                                        }
+//                                        return Product::findOne($data->product_id)->product_name;
+                                    }
+                                ],
+//                                'vendor_id',
                                 'quantity',
                                 'amount',
                                 'sub_total',

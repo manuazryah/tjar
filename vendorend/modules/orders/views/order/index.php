@@ -38,9 +38,9 @@ $this->params['breadcrumbs'][] = $this->title;
     .hidden-xs{
         padding-left: 5px;
     }
-    .color{
+/*    .color{
         color: #373e4a;
-    }
+    }*/
 </style>
 <div class="products-index">
     <?php

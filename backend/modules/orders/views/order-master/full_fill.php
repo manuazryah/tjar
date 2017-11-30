@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         'format' => 'raw',
                                         'value' => function ($data) {
                                             if (isset($data->order_id)) {
-                                                return \yii\helpers\Html::a($data->order_id, ['/orders/order-master/view', 'id' => $data->order_id], ['target' => '_blank']);
+                                                return \yii\helpers\Html::a($data->order_id, ['/orders/order-master/view-more', 'id' => $data->order_id], ['target' => '_blank']);
                                             } else {
                                                 return '';
                                             }

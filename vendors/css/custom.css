@@ -490,3 +490,6 @@ nav.navbar {
 .user-info-navbar .user-info-menu>li .dropdown-menu.user-profile-menu, .navbar.horizontal-menu .navbar-inner>.nav>li .dropdown-menu.user-profile-menu {
     width: 308px;
 }
+.color{
+    color: #373e4a;
+}

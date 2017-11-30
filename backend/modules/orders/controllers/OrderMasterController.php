@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\OrderDetailsSearch;
 use common\models\OrderDetails;
+use common\models\OrderHistory;
 
 /**
  * OrderMasterController implements the CRUD actions for OrderMaster model.
@@ -182,7 +183,7 @@ class OrderMasterController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionViewMore($id) {
+    public function actionViewMore($id, $order_status = NULL) {
         $product_array = [];
         $products = \common\models\ProductVendor::find()->where(['full_fill' => 1])->all();
         if (!empty($products)) {
@@ -192,11 +193,22 @@ class OrderMasterController extends Controller {
         }
         $searchModel = new OrderDetailsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->andWhere(['order_id' => $id])->andWhere(['in', 'product_id', $product_array]);
+        $dataProvider->query->andWhere(['order_id' => $id, 'admin_status' => '1'])->andWhere(['in', 'product_id', $product_array]);
+         if ($order_status == 1) {
+            $dataProvider->query->andWhere(['status' => 0]);
+        } elseif ($order_status == 2) {
+            $dataProvider->query->andWhere(['status' => 1]);
+        } elseif ($order_status == 3) {
+            $dataProvider->query->andWhere(['status' => 2]);
+        } elseif ($order_status == 4) {
+            $dataProvider->query->andWhere(['status' => 3]);
+        }
 
         return $this->render('view_more', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
+                    'id' => $id,
+                    'order_status' => $order_status,
         ]);
     }
 
@@ -233,6 +245,21 @@ class OrderMasterController extends Controller {
             $status = Yii::$app->request->post()['status'];
             $model = OrderDetails::find()->where(['id' => $id])->one();
             $model->status = $status;
+             if ($status != '0') {
+                $model1 = new OrderHistory();
+                $model1->detail_id = $model->id;
+                $model1->order_id = $model->order_id;
+                $model1->product_id = $model->product_id;
+                $model1->status = $status;
+                $model1->date = date('Y-m-d H:i:s');
+                if ($model1->save()) {
+                    
+                }
+            }
+
+            if ($status == '3') {
+                $model->delivered_date = date('Y-m-d H:i:s');
+            }
             if ($model->save()) {
                 echo 1;
             } else {
@@ -268,6 +295,7 @@ class OrderMasterController extends Controller {
             }
         }
         $order_details = OrderDetails::find()->where(['order_id' => $id])->andWhere(['in', 'product_id', $product_array])->all();
+//        echo '<pre>';print_r($order_details);exit;
 //        $promotions = \common\models\OrderPromotions::find()->where(['order_master_id' => $order_master->id])->sum('promotion_discount');
         echo $this->renderPartial('_print', [
             'order_master' => $order_master,
@@ -275,6 +303,27 @@ class OrderMasterController extends Controller {
 //            'promotions' => $promotions
         ]);
         exit;
+    }
+    public function actionOrderHistoryComment() {
+        if (yii::$app->request->isAjax) {
+            $comment = Yii::$app->request->post()['comment'];
+            $id = Yii::$app->request->post()['id'];
+            $details = OrderDetails::find()->where(['id' => $id])->one();
+            $model = new OrderHistory();
+            $model->detail_id = $id;
+            $model->order_id = $details->order_id;
+            $model->product_id = $details->product_id;
+            $model->status = $details->status;
+            $model->date = date('Y-m-d H:i:s');
+            $model->comment = $comment;
+            if ($model->save()) {
+                echo json_encode(array('msg' => 'success'));
+                exit;
+            } else {
+                echo json_encode(array('msg' => 'failed'));
+                exit;
+            }
+        }
     }
 
 }
