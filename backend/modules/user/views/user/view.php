@@ -11,7 +11,7 @@ use common\models\User;
 $this->title = 'Order History';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<style>
+<!--<style>
         .tab-content{
                 background: #f9f9f9 !important;
         }
@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
         .hidden-xs{
                 padding-left: 5px;
         }
-</style>
+</style>-->
 <div class="products-index">
 
         <div class="row">
@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         <div class="col-md-12">
                                                                 <?php yii\widgets\Pjax::begin(['id' => 'order-manage']); ?>
 
-                                                                <ul class="nav nav-tabs">
+<!--                                                                <ul class="nav nav-tabs">
                                                                         <li class="<?= $order_status == '' ? 'active' : '' ?>">
                                                                                 <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">All Orders</span>', ['view', 'id' => $id,], ['class' => '']) ?>
                                                                         </li>
@@ -68,7 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                         <li class="<?= $order_status == 2 ? 'active' : '' ?>">
                                                                                 <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Approved</span>', ['view', 'id' => $id, 'order_status' => 2], ['class' => '']) ?>
                                                                         </li>
-                                                                </ul>
+                                                                </ul>-->
 
                                                                 <div class="tab-content">
                                                                         <div class="tab-pane active" id="">
@@ -93,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                     'format' => 'raw',
                                                                                                     'value' => function ($data) {
                                                                                                             if (isset($data->order_id)) {
-                                                                                                                    return \yii\helpers\Html::a($data->order_id, ['/orders/order-master/order-details', 'id' => $data->id], ['target' => '_blank']);
+                                                                                                                    return \yii\helpers\Html::a($data->order_id, ['/user/user/order-details', 'id' => $data->id], ['target' => '_blank']);
                                                                                                             } else {
                                                                                                                     return '';
                                                                                                             }

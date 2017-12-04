@@ -2105,7 +2105,7 @@ div.message{
 #cart .update-cart{
     float: right !important;
     background-color: rgba(255, 221, 49, 0.5) !important;
-    cursor: no-drop !important ;
+    /*cursor: no-drop !important ;*/
 }
 #cart .update-cart:hover{
     background-color: #fed700 !important;

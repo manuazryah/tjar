@@ -56,7 +56,7 @@ $this->title = 'Shopping Cart';
 
                                         <td class="product-item" data-title="Product">
 
-                                            <a href="#"><img  height="60" src="<?= Yii::$app->homeUrl . '/uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product->id) . '/' . $product->id . '/profile/' . $product->canonical_name . '_thumb.' . $product->gallery_images ?>" class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" alt="product-women-01" srcset="" sizes="(max-width: 180px) 100vw, 180px"></a><a class="product-discrp" href=""><?= $product->product_name; ?></a></td>
+                                            <a href="<?= Yii::$app->homeUrl.'product-detail/'.yii::$app->EncryptDecrypt->Encrypt('encrypt', $cart_item->product_id)?>"><img  height="60" src="<?= Yii::$app->homeUrl . '/uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product->id) . '/' . $product->id . '/profile/' . $product->canonical_name . '_thumb.' . $product->gallery_images ?>" class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" alt="product-women-01" srcset="" sizes="(max-width: 180px) 100vw, 180px"></a><a class="product-discrp" href="<?= Yii::$app->homeUrl.'product-detail/'.yii::$app->EncryptDecrypt->Encrypt('encrypt', $cart_item->product_id)?>"><?= $product->product_name; ?></a></td>
 
                                         <td class="product-price" data-title="Price">
                                             <span class="woocommerce-Price-amount amount"><?= sprintf("%0.2f", $price); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
@@ -92,7 +92,8 @@ $this->title = 'Shopping Cart';
                                         <div class="coupon">
                                             <label for="coupon_code">Coupon:</label> <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="Coupon code"> <input type="submit" class="button apply-coupen" name="apply_coupon" value="Apply Coupon">
                                         </div>
-                                        <input type="submit" class="button update-cart" name="update_cart" value="Update Cart">
+                                        <?= Html::a('Update Cart', ['/site/index'],['class'=>'button update-cart'] );?>
+                                        <!--<input type="button" class="button update-cart" name="update_cart" value="Update Cart">-->
                                         <input type="hidden" id="_wpnonce" name="_wpnonce" value="6fa1d8e185"><input type="hidden" name="_wp_http_referer" value="/wordpress/lemonshop/cart/"></td>
                             <input type="hidden" id="promotion-codes" name="promotion_codes" value="">
                             <input type="hidden" id="promotion-code-amount" name="promotion-code-amount" value="">
