@@ -46,6 +46,7 @@ if (empty($min_amount) || empty($max_amount)) {
 							<?php
 							$j = 0;
 							if (!empty($filters)) {
+
 								foreach ($filters as $value) {
 
 
@@ -53,13 +54,21 @@ if (empty($min_amount) || empty($max_amount)) {
 
 									$model_name = $feature_detail->model_name;
 
-									if (!empty($categ) && !empty($sub_categ))
-										$filter_values = $model_name::find()->where(['category' => $categ, 'subcategory' => $sub_categ])->distinct('value')->all();
-
-									elseif (!empty($sub_categ))
+									if (!empty($categ) && !empty($sub_categ)) {
+										if ($feature_detail->canonical_name == 'brand') {
+											$filter_values = $model_name::find()->where(['category' => $categ, 'subcategory' => $sub_categ])->distinct('brand_name')->all();
+										} else {
+											$filter_values = $model_name::find()->where(['category' => $categ, 'subcategory' => $sub_categ])->distinct('value')->all();
+										}
+									} elseif (!empty($sub_categ))
 										$filter_values = $model_name::find()->where(['subcategory' => $sub_categ])->all();
-									elseif (!empty($categ))
-										$filter_values = $model_name::find()->where(['category' => $categ])->select('DISTINCT `value`')->all();
+									elseif (!empty($categ)) {
+										if ($feature_detail->canonical_name == 'brand') {
+											$filter_values = $model_name::find()->where(['category' => $categ])->select('DISTINCT `brand_name`')->all();
+										} else {
+											$filter_values = $model_name::find()->where(['category' => $categ])->select('DISTINCT `value`')->all();
+										}
+									}
 									?>
 									<div class="panel panel-default">
 										<div class="panel-heading">
@@ -210,6 +219,7 @@ if (empty($min_amount) || empty($max_amount)) {
 					$("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
 				},
 				change: function (event, ui) {
+
 					var url = window.location.href;
 					$("#min").text(ui.values[0]);
 					$("#max").text(ui.values[1]);
@@ -228,6 +238,7 @@ if (empty($min_amount) || empty($max_amount)) {
 						url = url + '&' + 'min-range' + '=' + ui.values[0] + '&max-range=' + ui.values[1];
 					}
 					$.pjax({container: '#product_view', url: url});
+					location.reload();
 
 
 

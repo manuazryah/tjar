@@ -128,7 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							    'class' => 'yii\grid\ActionColumn',
 //                                    'contentOptions' => ['style' => 'width:100px;'],
 							    'header' => 'Actions',
-							    'template' => '{view}{update}{delete}{copy}',
+							    'template' => '{view}{update}{copy}',
 							    'buttons' => [
 //								'view' => function ($url, $model) {
 //									return Html::a('<span class="fa fa-eye"></span>', $url, [

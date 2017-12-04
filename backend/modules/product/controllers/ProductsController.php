@@ -96,9 +96,9 @@ class ProductsController extends Controller {
 					$model->related_products = implode(',', $model->related_products);
 				$specfctns = Yii::$app->request->post()['specifications'];
 				$image_arr = [
-					['width' => 440, 'height' => 440, 'name' => large],
-					['width' => 70, 'height' => 70, 'name' => thumb],
-					['width' => 175, 'height' => 125, 'name' => medium]
+					['width' => 440, 'height' => 440, 'name' => 'large'],
+					['width' => 70, 'height' => 70, 'name' => 'thumb'],
+					['width' => 175, 'height' => 125, 'name' => 'medium']
 				];
 				$transaction = \Yii::$app->db->beginTransaction();
 				try {
@@ -121,8 +121,9 @@ class ProductsController extends Controller {
 	}
 
 	function Savespecifications($specfctns, $model) {
-
+		$val = '';
 		if (!empty($specfctns)) {
+
 			foreach ($specfctns as $key => $value) {
 
 //						if (!empty($value)) {
@@ -130,10 +131,12 @@ class ProductsController extends Controller {
 				$product_specfctn_model->product_id = $model->id;
 				$product_specfctn_model->product_feature_id = $key;
 				$product_feture = \common\models\ProductFeatures::findOne(['id' => $key]);
-				if ($product_feture->specification_type == 0) {
-					$val = explode('_', $value);
-					$product_specfctn_model->product_feature_value = $val[0];
-					$product_specfctn_model->Product_feature_text = $val[1];
+				if (!empty($value)) {
+					if ($product_feture->specification_type == 0) {
+						$val = explode('_', $value);
+						$product_specfctn_model->product_feature_value = $val[0];
+						$product_specfctn_model->Product_feature_text = $val[1];
+					}
 				}
 				$product_specfctn_model->save();
 			}
@@ -183,13 +186,13 @@ class ProductsController extends Controller {
 				foreach (glob("{$path}/*") as $file) {
 					$arry = explode('/', $file);
 					$extensn = explode('.', end($arry));
-					Image::getImagine()->open($path . '/' . end($arry))->thumbnail(new Box($data[width], $data[height]))->save($thumb_path . '/' . $extensn[0] . '.' . $extensn[1], ['quality' => 90]);
+					Image::getImagine()->open($path . '/' . end($arry))->thumbnail(new Box($data['width'], $data['height']))->save($thumb_path . '/' . $extensn[0] . '.' . $extensn[1], ['quality' => 90]);
 //					Image::thumbnail($path . '/' . end($arry), $data['width'], $data['height'])
 //						->save($thumb_path . '/' . $extensn[0] . '.' . $extensn[1], ['quality' => 80]);
 				}
 			}
 			if (file_exists($profile_path . '/' . $model->canonical_name . '.' . $model->gallery_images)) {
-				Image::getImagine()->open($profile_path . '/' . $model->canonical_name . '.' . $model->gallery_images)->thumbnail(new Box($data[width], $data[height]))->save($profile_path . '/' . $model->canonical_name . '_' . $data['name'] . '.' . $model->gallery_images, ['quality' => 90]);
+				Image::getImagine()->open($profile_path . '/' . $model->canonical_name . '.' . $model->gallery_images)->thumbnail(new Box($data['width'], $data['height']))->save($profile_path . '/' . $model->canonical_name . '_' . $data['name'] . '.' . $model->gallery_images, ['quality' => 90]);
 //				Image::thumbnail($profile_path . '/' . $model->canonical_name . '.' . $model->gallery_images, $data['width'], $data['height'])
 //					->save($profile_path . '/' . $model->canonical_name . '_' . $data['name'] . '.' . $model->gallery_images, ['quality' => 80]);
 			} else {
@@ -460,7 +463,7 @@ class ProductsController extends Controller {
 		} else {
 			return $this->render('update', [
 				    'model' => $model,
-				    'specifications_model' => $specifications,
+//				    'specifications_model' => $specifications,
 			]);
 		}
 	}
@@ -688,12 +691,12 @@ class ProductsController extends Controller {
 						$model->gallery_images = $img_extnsn[1];
 						$model->update();
 						$image_arr = [
-							['width' => 440, 'height' => 440, 'name' => large],
-							['width' => 70, 'height' => 70, 'name' => thumb],
-							['width' => 175, 'height' => 125, 'name' => medium]
+							['width' => 440, 'height' => 440, 'name' => 'large'],
+							['width' => 70, 'height' => 70, 'name' => 'thumb'],
+							['width' => 175, 'height' => 125, 'name' => 'medium']
 						];
 						foreach ($image_arr as $data) {
-							Image::getImagine()->open($prof_dir . '/' . $model->canonical_name . '.' . $img_extnsn[1])->thumbnail(new Box($data[width], $data[height]))->save($thumb_path . $model->canonical_name . '_' . $data['name'] . '.' . $img_extnsn[1], ['quality' => 90]);
+							Image::getImagine()->open($prof_dir . '/' . $model->canonical_name . '.' . $img_extnsn[1])->thumbnail(new Box($data['width'], $data['height']))->save($thumb_path . $model->canonical_name . '_' . $data['name'] . '.' . $img_extnsn[1], ['quality' => 90]);
 //									Image::thumbnail($path . '/' . $image_name, 70, 70)
 //										->save($thumb_path . '/' . $model->canonical_name . '_' . $vall . '.' . $extnsn[1], ['quality' => 80]);
 						}
@@ -800,15 +803,15 @@ class ProductsController extends Controller {
 							$vall = $prefix[0] + 1;
 							$image_name = $model->canonical_name . '_' . $vall . '.' . $extnsn[1];
 							$image_arr = [
-								['width' => 440, 'height' => 440, 'name' => large],
-								['width' => 70, 'height' => 70, 'name' => thumb],
-								['width' => 175, 'height' => 125, 'name' => medium]
+								['width' => 440, 'height' => 440, 'name' => 'large'],
+								['width' => 70, 'height' => 70, 'name' => 'thumb'],
+								['width' => 175, 'height' => 125, 'name' => 'medium']
 							];
 
 							if (move_uploaded_file($_FILES["files"]["tmp_name"][$i], $path . $image_name)) {
 								foreach ($image_arr as $data) {
 									$thumb_path = \Yii::$app->basePath . '/../uploads/products/' . $split_folder . '/' . $model->id . '/gallery_' . $data[name];
-									Image::getImagine()->open($path . '/' . $image_name)->thumbnail(new Box($data[width], $data[height]))->save($thumb_path . '/' . $model->canonical_name . '_' . $vall . '.' . $extnsn[1], ['quality' => 90]);
+									Image::getImagine()->open($path . '/' . $image_name)->thumbnail(new Box($data['width'], $data['height']))->save($thumb_path . '/' . $model->canonical_name . '_' . $vall . '.' . $extnsn[1], ['quality' => 90]);
 //									Image::thumbnail($path . '/' . $image_name, 70, 70)
 //										->save($thumb_path . '/' . $model->canonical_name . '_' . $vall . '.' . $extnsn[1], ['quality' => 80]);
 								}
