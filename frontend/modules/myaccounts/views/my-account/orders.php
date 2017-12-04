@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 ?>
@@ -13,7 +14,7 @@ use yii\helpers\Html;
             ?>
             <div class="media">
 
-                <a style="margin: 0 auto; float: none;" class="thumbnail col-lg-5 col-md-6 col-sm-6 col-xs-6" href="#">
+                <a style="margin: 0 auto; float: none;" class="thumbnail col-lg-5 col-md-6 col-sm-6 col-xs-6" href="<?= '/tjar/product-detail/'. yii::$app->EncryptDecrypt->Encrypt('encrypt', $model->product_id)?>">
                     <?php
                     $product_image = Yii::$app->basePath . '/../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product->id) . '/' . $product->id . '/profile/' . $product->canonical_name . '_thumb.' . $product->gallery_images;
                     if (file_exists($product_image)) {
@@ -47,8 +48,19 @@ use yii\helpers\Html;
         <span class=""><span class="">AED </span><?= sprintf("%0.2f", $model->sub_total); ?></span> for <?= $model->quantity ?> item
     </td>
     <td class="" data-title="Actions">
-        <a href="" class="track">Track</a>
+        <a href="" class="track" id="<?= $model->id?>" data-toggle="modal" data-target="#myModal">Track</a>
         <input type="hidden" id="<?= $model->product_id ?>" class="product-id-val" value="<?= $model->product_id ?>">
         <a href="" class="track add-product-review" id="<?= $model->product_id ?>" style="margin-top:10px;">Add Review</a>
     </td>
 </tr>
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      
+    </div>
+
+  </div>
+</div>

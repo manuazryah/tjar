@@ -156,6 +156,25 @@ $(document).ready(function () {
             });
         }
     });
+    $('.track').click(function () {
+         showLoader();
+        var id = $(this).attr('id');
+        $.ajax({
+            type: "POST",
+            url: homeUrl + 'myaccounts/my-account/track',
+            data: {id: id},
+            success: function (data) {
+                var $data = JSON.parse(data);
+                if ($data.msg === "success") {
+                    
+                    $('.modal-content').html($data.content);
+                    hideLoader();
+                    
+                }
+//
+            }
+        });
+    });
 
 });
 /******************************************************************/

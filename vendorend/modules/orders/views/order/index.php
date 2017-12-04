@@ -38,9 +38,9 @@ $this->params['breadcrumbs'][] = $this->title;
     .hidden-xs{
         padding-left: 5px;
     }
-/*    .color{
-        color: #373e4a;
-    }*/
+    /*    .color{
+            color: #373e4a;
+        }*/
 </style>
 <div class="products-index">
     <?php
@@ -126,6 +126,16 @@ $this->params['breadcrumbs'][] = $this->title;
 //                                                            'title'=>'thangamatte',
                                                 ],
                                                 'quantity',
+//                                                            'filter' => Html::dropDownList('ProductVendor[compareOp]', $model->compareOp, array('>' => '>', '<' => '<', '>=' => '>=', '<=' => '<=', '=' => '='), array('style' => 'width:35px;height: 25px;', 'id' => 'grid-id')) .
+//                                                [
+//                                                    'attribute' => 'amount',
+//                                                    'format' => 'raw',
+//                                                    'filter' => Html::dropDownList('ProductVendor[compareOp]', $model->compareOp, array('>' => '>', '<' => '<', '>=' => '>=', '<=' => '<=', '=' => '='), array('style' => 'width:35px;height: 25px;', 'id' => 'grid-id')) .
+//                                                    Html::textInput('ProductVendor[compare]', $model->compare, array('style' => 'width:100px;margin-left: 10px;height: 25px;')),
+//                                                    'value' => function ($data) {
+//                                                        return $data->amount;
+//                                                    },
+//                                                ],
                                                 'amount',
 //                                                'sub_total',
 //

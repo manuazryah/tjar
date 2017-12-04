@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             if (!empty($product_vendor)) {
                                                 $product_detail = common\models\Products::findOne($product_vendor->product_id);
                                                 if (isset($product_detail->product_name)) {
-                                                    $str= Html::tag('p', Html::encode(substr($product_detail->product_name, 0, 29)), ['title' => $product_detail->product_name, 'class' => 'username color']);
+                                                    $str = Html::tag('p', Html::encode(substr($product_detail->product_name, 0, 29)), ['title' => $product_detail->product_name, 'class' => 'username color']);
                                                     return $str;
                                                 } else {
                                                     return '';
