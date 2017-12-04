@@ -29,8 +29,8 @@ if (empty($min_amount) || empty($max_amount)) {
 
                                 <div class="breadcrumb bg-white hidden-lg hidden-md hidden-sm">
                                         <ol class="path">
-                                                <li><a href="index.php">Home</a></li>
-                                                <li><a href="#">About Us</a></li>
+                                                <li><a href="<?= Yii::$app->homeUrl; ?>site/index">Home</a></li>
+                                                <li><a href="<?= Yii::$app->homeUrl; ?>products/index?main_categ=<?= $main_categ ?>&categ=<?= $category->canonical_name ?>"><?= $category->canonical_name ?></a></li>
                                                 <li class="active">products</li>
                                         </ol>
                                         <p class="current-page">products</p>
@@ -56,12 +56,12 @@ if (empty($min_amount) || empty($max_amount)) {
 
 									if (!empty($categ) && !empty($sub_categ)) {
 										if ($feature_detail->canonical_name == 'brand') {
-											$filter_values = $model_name::find()->where(['category' => $categ, 'subcategory' => $sub_categ])->distinct('brand_name')->all();
+											$filter_values = $model_name::find()->where(['category' => $categ, 'subcategory' => $sub_categ->id])->distinct('brand_name')->all();
 										} else {
-											$filter_values = $model_name::find()->where(['category' => $categ, 'subcategory' => $sub_categ])->distinct('value')->all();
+											$filter_values = $model_name::find()->where(['category' => $categ, 'subcategory' => $sub_categ->id])->distinct('value')->all();
 										}
 									} elseif (!empty($sub_categ))
-										$filter_values = $model_name::find()->where(['subcategory' => $sub_categ])->all();
+										$filter_values = $model_name::find()->where(['subcategory' => $sub_categ->id])->all();
 									elseif (!empty($categ)) {
 										if ($feature_detail->canonical_name == 'brand') {
 											$filter_values = $model_name::find()->where(['category' => $categ])->select('DISTINCT `brand_name`')->all();
@@ -150,9 +150,14 @@ if (empty($min_amount) || empty($max_amount)) {
 
                                 <div class="breadcrumb bg-white hidden-xs">
                                         <ol class="path">
-                                                <li><a href="index.php">Home</a></li>
-                                                <li><a href="#">About Us</a></li>
-                                                <li class="active">products</li>
+                                                <li><a href="<?= Yii::$app->homeUrl; ?>site/index">Home</a></li>
+
+						<?php if (!empty($subcategory)) { ?>
+							<li><a href="<?= Yii::$app->homeUrl; ?>products/index?main_categ=<?= $main_categ ?>&categ=<?= $category->canonical_name ?>"><?= $category->canonical_name ?></a></li>
+							<li class="active"><?= $subcategory->canonical_name; ?></li>
+						<?php } else { ?>
+							<li class="active"><?= $category->canonical_name ?></li>
+						<?php } ?>
                                         </ol>
                                         <p class="current-page">products</p>
                                 </div>

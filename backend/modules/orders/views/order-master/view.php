@@ -12,91 +12,94 @@ use yii\helpers\Url;
 /* @var $searchModel common\models\OrderMasterSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Order Details';
+$this->title = 'Order Details of ' . $id;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="order-master-index">
-    <?php
-    yii\bootstrap\Modal::begin([
-        'headerOptions' => ['id' => 'modalHeader'],
-        'id' => 'modal',
-        'size' => 'modal-lg',
-        'clientOptions' => ['backdrop' => 'static', 'keyboard' => FALSE]
-    ]);
-    ?>
-    <div id='modalContent'></div>;
-    <?php yii\bootstrap\Modal::end(); ?>
-    <div class="row">
-        <div class="col-md-12">
+	<?php
+	yii\bootstrap\Modal::begin([
+	    'headerOptions' => ['id' => 'modalHeader'],
+	    'id' => 'modal',
+	    'size' => 'modal-lg',
+	    'clientOptions' => ['backdrop' => 'static', 'keyboard' => FALSE]
+	]);
+	?>
+	<div id='modalContent'></div>;
+	<?php yii\bootstrap\Modal::end(); ?>
+	<div class="row">
+		<div class="col-md-12">
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
-
-
-                </div>
-                <div class="panel-body">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
 
 
-                    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+				</div>
+				<div class="panel-body">
+
+
+					<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 
 
-                    <?= Html::a('<i class="fa-th-list"></i><span> Manage Order </span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
-                    <div class="table-responsive" style="border: none">
-                        <button class="btn btn-white" id="search-option" style="float: right;">
-                            <i class="linecons-search"></i>
-                            <span>Search</span>
-                        </button>
-                        <?=
-                        GridView::widget([
-                            'dataProvider' => $dataProvider,
-                            'filterModel' => $searchModel,
-                            'columns' => [
-                                ['class' => 'yii\grid\SerialColumn'],
-                                'order_id',
-                                [
-                                    'attribute' => 'product_id',
-                                    'format' => 'raw',
+					<?= Html::a('<i class="fa-th-list"></i><span> Manage Order </span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+					<div class="table-responsive" style="border: none">
+						<button class="btn btn-white" id="search-option" style="float: right;">
+							<i class="linecons-search"></i>
+							<span>Search</span>
+						</button>
+						<?=
+						GridView::widget([
+						    'dataProvider' => $dataProvider,
+						    'filterModel' => $searchModel,
+						    'columns' => [
+							    ['class' => 'yii\grid\SerialColumn'],
+							'order_id',
+							    [
+							    'attribute' => 'product_id',
+							    'format' => 'raw',
 //                                    'filter' => ArrayHelper::map(Product::find()->all(), 'id', 'product_name'),
-                                    'value' => function($data) {
-                                        $prdctvendor = ProductVendor::findOne($data->product_id);
-                                        $name = Products::findOne($prdctvendor->product_id)->product_name;
-                                        return Html::tag('p', Html::encode(substr($name, 0, 29)), ['title' => $name, 'class' => 'username color']);
+							    'value' => function($data) {
+								    $prdctvendor = ProductVendor::findOne($data->product_id);
+								    $name = Products::findOne($prdctvendor->product_id)->product_name;
+//								    return Html::button($data->user->first_name . ' ' . $data->user->last_name, ['value' => Url::to(['user-view', 'id' => $data->user_id]), 'class' => 'modalButton edit-btn']);
+								    return Html::tag('button', Html::encode(substr($name, 0, 29)), ['value' => Url::to(['product-view', 'id' => $data->product_id]), 'title' => $name, 'class' => 'username color modalButton edit-btn']);
 //                                        return Product::findOne($data->product_id)->product_name;
-                                    }
-                                ],
-                                [
-                                    'attribute' => 'vendor_id',
-                                    'value' => function($data) {
-                                        $prdctvendor = ProductVendor::find()->where(['id' => $data->product_id, 'full_fill' => '0'])->one();
-                                        if ($prdctvendor) {
-                                            return \common\models\Vendors::findOne($prdctvendor->vendor_id)->first_name;
-                                        } else {
-                                            return "Tjar";
-                                        }
+							    }
+							],
+							    [
+							    'attribute' => 'vendor_id',
+							    'format' => 'raw',
+							    'value' => function($data) {
+								    $prdctvendor = ProductVendor::find()->where(['id' => $data->product_id, 'full_fill' => '0'])->one();
+								    if ($prdctvendor) {
+									    return Html::button($data->vendor->first_name, ['value' => Url::to(['vendor-view', 'id' => $data->vendor_id]), 'class' => 'modalButton edit-btn']);
+//									    return \common\models\Vendors::findOne($prdctvendor->vendor_id)->first_name;
+								    } else {
+									    return "Tjar";
+								    }
 //                                        return Product::findOne($data->product_id)->product_name;
-                                    }
-                                ],
+							    }
+							],
 //                                'vendor_id',
-                                'quantity',
-                                'amount',
-                                'sub_total',
+							'quantity',
+							'amount',
+							'sub_total',
 //
-                                [
-                                    'attribute' => 'status',
-                                    'format' => 'raw',
-                                    'filter' => ['0' => 'Pending', '1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'],
-                                    'value' => function ($data) {
-                                        if ($data->status == 0) {
-                                            return 'Pending';
-                                        } if ($data->status == 1) {
-                                            return 'Placed';
-                                        } if ($data->status == 2) {
-                                            return 'Dispatched';
-                                        } if ($data->status == 3) {
-                                            return 'Delivered';
-                                        }
+							[
+							    'attribute' => 'status',
+							    'format' => 'raw',
+							    'filter' => ['0' => 'Pending', '1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'],
+							    'value' => function ($data) {
+								    if ($data->status == 0) {
+									    return 'Pending';
+								    } if ($data->status == 1) {
+									    return 'Placed';
+								    } if ($data->status == 2) {
+									    return 'Dispatched';
+								    } if ($data->status == 3) {
+									    return 'Delivered';
+								    }
 //                                        $product = \common\models\ProductVendor::findOne($data->product_id);
 //                                        if ($product->full_fill == 1) {
 //                                            return \yii\helpers\Html::dropDownList('status', null, ['0' => 'Not Delivered', '1' => 'Delivered'], ['options' => [$data->status => ['Selected' => 'selected']], 'class' => 'form-control admin_status_field', 'id' => 'order_admin_status-' . $data->id,]);
@@ -107,20 +110,20 @@ $this->params['breadcrumbs'][] = $this->title;
 //                                                return 'Delivered';
 //                                            }
 //                                        }
-                                    },
-                                ],
-                                'delivered_date',
-                                [
-                                    'class' => 'yii\grid\ActionColumn',
-                                    'header' => 'Actions',
-                                    'template' => '{track}',
-                                    'buttons' => [
-                                        'track' => function ($url, $model) {
+							    },
+							],
+							'delivered_date',
+							    [
+							    'class' => 'yii\grid\ActionColumn',
+							    'header' => 'Actions',
+							    'template' => '{track}',
+							    'buttons' => [
+								'track' => function ($url, $model) {
 
-                                            return Html::button('<i class="fa fa-truck"></i>', ['value' => Url::to(['track', 'id' => $model->id]), 'class' => 'modalButton edit-btn']);
-                                        },
-                                    ],
-                                ],
+									return Html::button('<i class="fa fa-truck"></i>', ['value' => Url::to(['track', 'id' => $model->id]), 'class' => 'modalButton edit-btn']);
+								},
+							    ],
+							],
 //                                [
 //                                    'class' => 'yii\grid\ActionColumn',
 ////                                    'header' => 'Actions',
@@ -142,35 +145,35 @@ $this->params['breadcrumbs'][] = $this->title;
 //                                        }
 //                                    }
 //                                ],
-                            ],
-                        ]);
-                        ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+						    ],
+						]);
+						?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script>
-    $(document).ready(function () {
-        $(".filters").slideToggle();
-        $("#search-option").click(function () {
-            $(".filters").slideToggle();
-        });
-        $('.admin_status_field').on('change', function () {
-            var change_id = $(this).attr('id').match(/\d+/);
-            var vendor_status = $(this).val();
-            $.ajax({
-                url: homeUrl + 'orders/order-master/change-vendor-status',
-                type: "post",
-                data: {status: vendor_status, id: change_id},
-                success: function (data) {
-                    alert('Status Changed Sucessfully');
-                }, error: function () {
-                }
-            });
-        });
-    });
+	$(document).ready(function () {
+		$(".filters").slideToggle();
+		$("#search-option").click(function () {
+			$(".filters").slideToggle();
+		});
+		$('.admin_status_field').on('change', function () {
+			var change_id = $(this).attr('id').match(/\d+/);
+			var vendor_status = $(this).val();
+			$.ajax({
+				url: homeUrl + 'orders/order-master/change-vendor-status',
+				type: "post",
+				data: {status: vendor_status, id: change_id},
+				success: function (data) {
+					alert('Status Changed Sucessfully');
+				}, error: function () {
+				}
+			});
+		});
+	});
 </script>
 

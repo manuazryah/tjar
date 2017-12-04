@@ -27,6 +27,8 @@ class ProductsController extends \yii\web\Controller {
 	 * @return mixed
 	 */
 	public function actionIndex($main_categ, $categ = null, $sub_categ = null) {
+		$sub_category = '';
+		$sub_category->id = '';
 		$searchModel = new ProductVendorSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		$dataProvider->pagination->pageSize = 10;
@@ -34,11 +36,11 @@ class ProductsController extends \yii\web\Controller {
 
 		$params = array();
 		foreach ($query as $param) {
-			list($name, $value) = explode('=', $param, 2);
-			$params[urldecode($name)][] = urldecode($value);
+			if (strpos($param, '=') !== false) {
+				list($name, $value) = explode('=', $param, 2);
+				$params[urldecode($name)][] = urldecode($value);
+			}
 		}
-
-
 		$main_category = ProductMainCategory::findOne(['canonical_name' => $params['main_categ'][0]]);
 		if (!empty($params['categ'][0])) {
 			$category = ProductCategory::findOne(['canonical_name' => $params['categ'][0]]);
@@ -104,11 +106,13 @@ class ProductsController extends \yii\web\Controller {
 			    'filters' => $filters,
 			    'categ' => $category->id,
 			    'sub_categ' => $sub_category->id,
-			    'main_categ' => $main_category->id,
+			    'main_categ' => $main_category->canonical_name,
+			    'subcategory' => $sub_category
 		]);
 	}
 
 	function Filters($data) {
+		$productids = '';
 		$flag = 2;
 		$main_category = ProductMainCategory::findOne(['canonical_name' => $data['main_categ'][0]]);
 		if (!empty($data['categ'][0])) {
