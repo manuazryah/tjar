@@ -16,23 +16,23 @@ $split_folder = Yii::$app->UploadFile->folderName(0, 1000, $product_details->id)
                         <a href="<?= Yii::$app->homeUrl ?>product-detail/<?= yii::$app->EncryptDecrypt->Encrypt('encrypt', $model->id) ?>">
                         <!--<a href="<?= Yii::$app->homeUrl ?>product-detail/<?= $model->id ?>">-->
                                 <div class="product-img min-height">
-                                        <?php echo Html::img(Yii::$app->homeUrl . "uploads/products/" . $split_folder . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '.' . $product_details->gallery_images, ['class' => 'img-responsive mainimg']); ?>
-                                        <?php echo Html::img(Yii::$app->homeUrl . "uploads/products/" . $split_folder . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '.' . $product_details->gallery_images, ['class' => 'img-responsive hovrimg']); ?>
+					<?php echo Html::img(Yii::$app->homeUrl . "uploads/products/" . $split_folder . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '_medium.' . $product_details->gallery_images, ['class' => 'img-responsive mainimg']); ?>
+					<?php echo Html::img(Yii::$app->homeUrl . "uploads/products/" . $split_folder . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '_medium.' . $product_details->gallery_images, ['class' => 'img-responsive hovrimg']); ?>
                                 </div>
                                 <h3 class="product-name"title="<?= $model->product->product_name ?>"><?= substr($model->product->product_name, 0, 29) ?></h3>
-                                <?php if (!empty($model->offer)) { ?>
-                                        <h5 class="product-discount">Upto <?= $model->offer ?>% off</h5>
-                                <?php } ?>
+				<?php if (!empty($model->offer)) { ?>
+					<h5 class="product-discount">Upto <?= $model->offer ?>% off</h5>
+				<?php } ?>
 
-                                <?php if (isset($model->offer_price) && $model->offer_price != "0") { ?>
-                                        <h6 class="actual-price">$&nbsp;<?= $model->offer_price ?>
-                                                <span class="old-price">/ <strike>$&nbsp;<?= $model->price ?></strike></span>
-                                        </h6>
-                                <?php } else { ?>
-                                        <h6 class="actual-price">$&nbsp;<?= $model->price ?>
-                                                <span class="old-price"></span>
-                                        </h6>
-                                <?php } ?>
+				<?php if (isset($model->offer_price) && $model->offer_price != "0") { ?>
+					<h6 class="actual-price">$&nbsp;<?= $model->offer_price ?>
+						<span class="old-price">/ <strike>$&nbsp;<?= $model->price ?></strike></span>
+					</h6>
+				<?php } else { ?>
+					<h6 class="actual-price">$&nbsp;<?= $model->price ?>
+						<span class="old-price"></span>
+					</h6>
+				<?php } ?>
                         </a>
                 </div>
         </div>

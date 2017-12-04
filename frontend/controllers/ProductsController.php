@@ -28,7 +28,7 @@ class ProductsController extends \yii\web\Controller {
 	 */
 	public function actionIndex($main_categ, $categ = null, $sub_categ = null) {
 		$sub_category = '';
-		$sub_category->id = '';
+//		$sub_category->id = '';
 		$searchModel = new ProductVendorSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		$dataProvider->pagination->pageSize = 10;
@@ -105,7 +105,7 @@ class ProductsController extends \yii\web\Controller {
 			    'dataProvider' => $dataProvider,
 			    'filters' => $filters,
 			    'categ' => $category->id,
-			    'sub_categ' => $sub_category->id,
+//			    'sub_categ' => $sub_category->id,
 			    'main_categ' => $main_category->canonical_name,
 			    'subcategory' => $sub_category
 		]);
