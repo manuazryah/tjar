@@ -83,46 +83,56 @@ use common\models\LoginForm;
     <div class="col-lg-2 col-md-2 hidden-sm hidden-xs" id="top-product-slider">
         <div class="container" style="min-width: 100%; max-width: 100%; padding: 0px;">
             <div>
-                <div class='col-md-12' style="padding: 0px">
-                    <div class="hot-deals-heading">
-                        <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/hot-deals-strip.png"/>
-                        <h3><?= $deals->tittle ?></h3>
-                    </div>
-                    <div class="carousel slide media-carousel" id="media">
-                        <div class="carousel-inner">
-                            <?php
-                            $prod_data_id = explode(',', $deals->product_id);
-                            $product_datas = common\models\ProductVendor::find()->where(['vendor_status' => 1])->andWhere(['admin_status' => 2])->andWhere(['in', 'product_id', $prod_data_id])->all();
-                            $i = 0;
-                            foreach ($product_datas as $product_data) {
-                                ?>
-                                <div class="item <?= $i == 0 ? 'active' : '' ?>"  >
-                                    <div class="" >
-                                        <div class="col-md-4 product">
-                                            <a href="#">
-                                                <div class="thumbnail">
-                                                    <img alt="" src="<?= Yii::$app->homeUrl ?>images/hot-deals/img-1.png">
-                                                    <div class="hot-deals-details">
-                                                        <h3 class="product-name"><?= common\models\Products::findOne($product_data->product_id)->product_name ?></h3>
-                                                        <!--                                                        <div class="rating">
-                                                                                                                    <input type="number" class="rating" id="test" name="test" data-min="1" data-max="5" value="0">
-                                                                                                                </div>-->
-                                                        <h6 class="actual-price">$<?= $product_data->price ?><span class="old-price">/ <strike>$130.00</strike></span></h6>
+                <?php
+                if (!empty($deals)) {
+                    ?>
+                    <div class='col-md-12' style="padding: 0px">
+                        <div class="hot-deals-heading">
+                            <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/hot-deals-strip.png"/>
+                            <h3><?= $deals->tittle ?></h3>
+                        </div>
+                        <div class="carousel slide media-carousel" id="media">
+                            <div class="carousel-inner">
+                                <?php
+                                $prod_data_id = explode(',', $deals->product_id);
+                                $product_datas = common\models\ProductVendor::find()->where(['vendor_status' => 1])->andWhere(['admin_status' => 2])->andWhere(['in', 'product_id', $prod_data_id])->all();
+                                $i = 0;
+                                foreach ($product_datas as $product_data) {
+                                    ?>
+                                    <div class="item <?= $i == 0 ? 'active' : '' ?>"  >
+                                        <div class="" >
+                                            <div class="col-md-4 product">
+                                                <a href="#">
+                                                    <div class="thumbnail">
+                                                        <?php
+                                                        $product_details_deals = \common\models\Products::findOne($product_data->product_id);
+                                                        $split_folder = Yii::$app->UploadFile->folderName(0, 1000, $product_details_deals->id);
+                                                        ?>
+                                                        <?php echo Html::img(Yii::$app->homeUrl . "uploads/products/" . $split_folder . '/' . $product_details_deals->id . '/profile/' . $product_details_deals->canonical_name . '_medium.' . $product_details_deals->gallery_images, ['class' => 'img-responsive mainimg']); ?>
+                                                        <div class="hot-deals-details">
+                                                            <h3 class="product-name"><?= common\models\Products::findOne($product_data->product_id)->product_name ?></h3>
+                                                            <!--                                                        <div class="rating">
+                                                                                                                        <input type="number" class="rating" id="test" name="test" data-min="1" data-max="5" value="0">
+                                                                                                                    </div>-->
+                                                            <h6 class="actual-price">$<?= $product_data->price ?><span class="old-price">/ <strike>$130.00</strike></span></h6>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </a>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <?php
-                                $i++;
-                            }
-                            ?>
+                                    <?php
+                                    $i++;
+                                }
+                                ?>
+                            </div>
+                            <a data-slide="prev" href="#media" class="left carousel-control">‹</a>
+                            <a data-slide="next" href="#media" class="right carousel-control">›</a>
                         </div>
-                        <a data-slide="prev" href="#media" class="left carousel-control">‹</a>
-                        <a data-slide="next" href="#media" class="right carousel-control">›</a>
                     </div>
-                </div>
+                    <?php
+                }
+                ?>
             </div>
         </div>
     </div>
@@ -136,17 +146,17 @@ foreach ($home_datas as $home_data) {
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                        <a href="#">
+                        <a href="<?= $home_data->link_1 ?>" arget="_blank">
                             <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>uploads/cms/home_management/<?= $home_data->id ?>/image1.<?= $home_data->image_1 ?>">
                         </a>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                        <a href="#">
+                        <a href="<?= $home_data->link_2 ?>" arget="_blank">
                             <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>uploads/cms/home_management/<?= $home_data->id ?>/image2.<?= $home_data->image_2 ?>">
                         </a>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                        <a href="#">
+                        <a href="<?= $home_data->link_3 ?>" arget="_blank">
                             <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>uploads/cms/home_management/<?= $home_data->id ?>/image3.<?= $home_data->image_3 ?>">
                         </a>
                     </div>
@@ -168,9 +178,13 @@ foreach ($home_datas as $home_data) {
                                 ?>
                                 <div class="item">
                                     <div class="pad25">
-                                        <a href="#">
+                                        <a href="<?= Yii::$app->homeUrl ?>product-detail/<?= $product1_data->id ?>">
                                             <div class="product-img">
-                                                <img class="img-responsive" src="<?= Yii::$app->homeUrl ?>images/products/featured/product1.png"/>
+                                                <?php
+                                                $product_details = \common\models\Products::findOne($product1_data->product_id);
+                                                $split_folder = Yii::$app->UploadFile->folderName(0, 1000, $product_details->id);
+                                                ?>
+                                                <?php echo Html::img(Yii::$app->homeUrl . "uploads/products/" . $split_folder . '/' . $product_details->id . '/profile/' . $product_details->canonical_name . '_medium.' . $product_details->gallery_images, ['class' => 'img-responsive mainimg']); ?>
                                             </div>
                                             <h3 class="product-name"><?= common\models\Products::findOne($product1_data->product_id)->canonical_name ?></h3>
                                             <h5 class="product-discount">Upto 50% off</h5>

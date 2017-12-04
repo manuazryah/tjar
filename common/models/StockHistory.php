@@ -54,7 +54,7 @@ class StockHistory extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function stockhistory($qty, $purpose, $prdct_vendor, $user_type) {//qty,purpose,product_vendor_id,usertype
+    public static function stockhistory($qty, $purpose, $prdct_vendor, $user_type) {//qty,purpose,product_vendor_id,usertype
         $model = new StockHistory();
         $product_vendor = ProductVendor::findone($prdct_vendor);
         $model->products_id = $product_vendor->product_id;
@@ -64,10 +64,11 @@ class StockHistory extends \yii\db\ActiveRecord {
         $model->qty = $qty;
         $model->purpose = $purpose;
         $model->DOC = date('Y-m-d H:i:s');
-        if($model->save()){
-            
-        }else{
-            var_dump($model->getErrors());exit;
+        if ($model->save()) {
+
+        } else {
+            var_dump($model->getErrors());
+            exit;
         }
     }
 

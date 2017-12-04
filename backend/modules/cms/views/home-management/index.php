@@ -30,12 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-                    <?= Html::a('<i class="fa-th-list"></i><span> Create Home Management</span>', ['create'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
-                    <button class="btn btn-white" id="search-option" style="float: right;">
-                        <i class="linecons-search"></i>
-                        <span>Search</span>
-                    </button>
+                    <?php // Html::a('<i class="fa-th-list"></i><span> Create Home Management</span>', ['create'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
                     <div class="table-responsive" style="border: none">
+                        <button class="btn btn-white" id="search-option" style="float: right;">
+                            <i class="linecons-search"></i>
+                            <span>Search</span>
+                        </button>
                         <?=
                         GridView::widget([
                             'dataProvider' => $dataProvider,
@@ -54,7 +54,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                 [
                                     'attribute' => 'product_id',
                                     'value' => function($model, $key, $index, $column) {
-                                        return $model->getProducts($model->product_id);
+                                        if (isset($model->product_id) && $model->product_id != '') {
+                                            return $model->getProducts($model->product_id);
+                                        }
                                     },
                                     'filter' => ArrayHelper::map(common\models\Products::find()->asArray()->all(), 'id', 'product_name'),
                                 ],
@@ -77,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'class' => 'yii\grid\ActionColumn',
 //                                    'contentOptions' => ['style' => 'width:100px;'],
                                     'header' => 'Actions',
-                                    'template' => '{update}{delete}',
+                                    'template' => '{update}',
                                     'buttons' => [
                                         'update' => function ($url, $model) {
                                             return Html::a('<span class="fa fa-pencil"></span>', $url, [
@@ -85,27 +87,27 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         'class' => '',
                                             ]);
                                         },
-                                        'delete' => function ($url, $model) {
-                                            if ($model->id != 1) {
-                                                return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
-                                                            'title' => Yii::t('app', 'delete'),
-                                                            'class' => '',
-                                                            'data' => [
-                                                                'confirm' => 'Are you sure you want to delete this item?',
-                                                            ],
-                                                ]);
-                                            }
-                                        },
+//                                        'delete' => function ($url, $model) {
+//                                            if ($model->id != 1) {
+//                                                return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+//                                                            'title' => Yii::t('app', 'delete'),
+//                                                            'class' => '',
+//                                                            'data' => [
+//                                                                'confirm' => 'Are you sure you want to delete this item?',
+//                                                            ],
+//                                                ]);
+//                                            }
+//                                        },
                                     ],
                                     'urlCreator' => function ($action, $model) {
                                         if ($action === 'update') {
                                             $url = Url::to(['update', 'id' => $model->id]);
                                             return $url;
                                         }
-                                        if ($action === 'delete') {
-                                            $url = Url::to(['del', 'id' => $model->id]);
-                                            return $url;
-                                        }
+//                                        if ($action === 'delete') {
+//                                            $url = Url::to(['del', 'id' => $model->id]);
+//                                            return $url;
+//                                        }
                                     }
                                 ],
                             ],

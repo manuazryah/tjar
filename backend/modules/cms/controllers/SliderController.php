@@ -111,7 +111,7 @@ class SliderController extends Controller {
     public function actionCreate() {
         $model = new Slider();
         $model->setScenario('create');
-        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $this->SetExtension($model, $id) && $model->validate() && $model->save() && $this->SaveUpload($model)) {
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $this->SetExtension($model, $model->id) && $model->validate() && $model->save() && $this->SaveUpload($model)) {
             return $this->redirect(['index']);
         } else {
             return $this->renderAjax('create', [
