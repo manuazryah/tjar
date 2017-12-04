@@ -178,7 +178,7 @@ foreach ($home_datas as $home_data) {
                                 ?>
                                 <div class="item">
                                     <div class="pad25">
-                                        <a href="<?= Yii::$app->homeUrl ?>product-detail/<?= $product1_data->id ?>">
+                                        <a href="<?= Yii::$app->homeUrl ?>product-detail/<?= yii::$app->EncryptDecrypt->Encrypt('encrypt', $product1_data->id) ?>">
                                             <div class="product-img">
                                                 <?php
                                                 $product_details = \common\models\Products::findOne($product1_data->product_id);

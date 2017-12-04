@@ -91,6 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
             <div style="float:left;padding-top: 13px;">
+                <?= Html::a('<i class="fa fa-backward manage"><span class="tooltiptext" style="width: 105px;">Back</span></i>', ['view', 'id' => $model->id], ['class' => 'btn btn-icon product_venode_view_btns']) ?>
                 <?= Html::a('<i class="fa-th-list manage"><span class="tooltiptext">List All</span></i>', ['index', 'vendor_status' => 1], ['class' => 'btn btn-icon product_venode_view_btns']) ?>
             </div>
             <div style="float:right">

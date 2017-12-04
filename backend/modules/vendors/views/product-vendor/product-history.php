@@ -91,6 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
             <div style="float:left;padding-top: 13px;">
+                <?= Html::a('<i class="fa fa-backward manage"><span class="tooltiptext" style="width: 105px;">Back</span></i>', ['view', 'id' => $model->id], ['class' => 'btn btn-icon product_venode_view_btns']) ?>
                 <?= Html::a('<i class="fa-th-list manage"><span class="tooltiptext">List All</span></i>', ['index', 'vendor_status' => 1], ['class' => 'btn btn-icon product_venode_view_btns']) ?>
             </div>
             <div style="float:right">
@@ -140,7 +141,8 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <?php
             $sale_count = \common\models\OrderDetails::getSalecount($from, $to, $model->id);
-            $amount_paid_total = \common\models\OrderDetails::getTotalAmount($from, $to, $model->id, 'amount');
+            $amount_paid_total = \common\models\OrderDetails::getTotalAmount($from, $to, $model->id, 'sub_total');
+            $view_count = \common\models\RecentlyViewed::find()->where(['product_id' => $model->id])->all();
             ?>
             <div class="col-md-12 col-lg-12 col-sm-12 product-vew-pop" style="padding-top: 20px;">
                 <div class="col-md-4 col-lg-4 col-sm-12 product-vew-pop">
@@ -158,7 +160,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-md-4 col-lg-4 col-sm-12 product-vew-pop">
                     <span class="sale-count-left">Total View:</span>
                     <span class="sale-count-right">
-                        1
+                        <?= count($view_count) ?>
                     </span>
                 </div>
             </div>
