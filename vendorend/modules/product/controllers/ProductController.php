@@ -65,7 +65,7 @@ class ProductController extends \yii\web\Controller {
         $product_specifications = \common\models\ProductSpecifications::find()->where(['product_id' => $id])->all();
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
             $model->vendor_id = Yii::$app->user->identity->id;
-            if (isset($model->offer_price)) {
+            if (isset($model->offer_price) && $model->offer_price != '') {
                 $model->offer = 100 - (($model->offer_price * 100) / $model->price);
             }
             if ($model->save()) {
