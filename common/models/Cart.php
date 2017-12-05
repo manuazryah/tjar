@@ -290,9 +290,27 @@ class Cart extends \yii\db\ActiveRecord {
             $model_prod->status = '0';
             $model_prod->DOC = date('Y-m-d');
             if ($model_prod->save()) {
-                
+                Cart::commissionManagement($model_prod, $prod_details);
             }
         }
+        return TRUE;
+    }
+
+    public function commissionManagement($order_details, $prod_details) {
+        $model_commission = new CommissionManagement();
+        $model_commission->product_id = $prod_details->id;
+        $model_commission->vendor_id = $prod_details->vendor_id;
+        $model_commission->order_id = $order_details->order_id;
+        $model_commission->product_price = $order_details->amount;
+        if ($prod_details->offer_price != '0' || $prod_details->offer_price != '') {
+            $model_commission->offer_price = $prod_details->offer_price;
+        }
+        $product = Products::findOne($prod_details->product_id);
+        if ($product->commisson != '0' || $product->commisson != '') {
+            $model_commission->commission = ($product->commisson / 100) * $order_details->amount;
+        }
+        $model_commission->DOC = date('Y-m-d');
+        $model_commission->save();
         return TRUE;
     }
 

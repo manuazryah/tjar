@@ -58,6 +58,9 @@ return [
         'menumanagement' => [
             'class' => 'backend\modules\menumanagement\Module',
         ],
+        'commissionmanagement' => [
+            'class' => 'backend\modules\commissionmanagement\Module',
+        ],
     ],
     'components' => [
         'request' => [
