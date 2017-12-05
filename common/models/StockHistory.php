@@ -54,21 +54,32 @@ class StockHistory extends \yii\db\ActiveRecord {
         ];
     }
 
-    public static function stockhistory($qty, $purpose, $prdct_vendor, $user_type) {//qty,purpose,product_vendor_id,usertype
+    public static function stockhistory($qty, $purpose, $prdct_vendor, $user_type, $old_qty) {//qty,purpose,product_vendor_id,usertype
         $model = new StockHistory();
         $product_vendor = ProductVendor::findone($prdct_vendor);
         $model->products_id = $product_vendor->product_id;
         $model->user_id = Yii::$app->user->identity->id;
         $model->productvendor_id = $prdct_vendor;
         $model->usertype = $user_type;
-        $model->qty = $qty;
+        $model->qty = StockHistory::qty($purpose, $qty, $prdct_vendor, $old_qty);
+        $model->total_stock = $qty;
         $model->purpose = $purpose;
         $model->DOC = date('Y-m-d H:i:s');
         if ($model->save()) {
-
+            
         } else {
-            var_dump($model->getErrors());
-            exit;
+//            var_dump($model->getErrors());
+//            exit;
+        }
+    }
+
+    public function qty($purpose, $qty, $prdct_vendor, $old_qty) {
+        if ($purpose == "1") {
+            return $qty;
+        }
+        if ($purpose == "2" || $purpose == "3") {
+            $qnty = $qty - $old_qty;
+            return $qnty;
         }
     }
 

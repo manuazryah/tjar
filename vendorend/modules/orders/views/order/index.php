@@ -101,27 +101,27 @@ $this->params['breadcrumbs'][] = $this->title;
 //                                            'filterModel' => $searchModel,
                                             'columns' => [
                                                 ['class' => 'yii\grid\SerialColumn'],
-                                                [
-                                                    'attribute' => 'order_id',
-                                                    'format' => 'raw',
-                                                    'value' => function ($data) {
-                                                        if (isset($data->order_id)) {
-                                                            return \yii\helpers\Html::a($data->order_id, ['/orders/order/view', 'id' => $data->order_id], ['target' => '_blank']);
-                                                        } else {
-                                                            return '';
-                                                        }
-                                                    },
-                                                ],
+                                                'order_id',
+//                                                [
+//                                                    'attribute' => 'order_id',
+//                                                    'format' => 'raw',
+//                                                    'value' => function ($data) {
+//                                                        if (isset($data->order_id)) {
+//                                                            return \yii\helpers\Html::a($data->order_id, ['/orders/order/view', 'id' => $data->order_id], ['target' => '_blank']);
+//                                                        } else {
+//                                                            return '';
+//                                                        }
+//                                                    },
+//                                                ],
                                                 [
                                                     'attribute' => 'product_id',
                                                     'format' => 'raw',
                                                     'value' => function($data) {
                                                         $prod_details = ProductVendor::findOne($data->product_id);
                                                         $name = Products::findOne($prod_details->product_id)->product_name;
-                                                        return \yii\helpers\Html::tag('p', Html::encode(substr($name, 0, 29)), ['title' => $name, 'class' => 'username color']);
-//                                                        return \yii\helpers\Html::a($data->order_id, ['/orders/order/view', 'id' => $data->order_id], ['target' => '_blank']);
-//                                                        return substr($name, 0, 29);
-//                                                        return $name;substr($name, 0, 29) ;
+                                                        return Html::tag('button', Html::encode(substr($name, 0, 29)), ['value' => Url::to(['/product/product-view', 'id' => $data->product_id]), 'title' => $name, 'class' => 'username color modalButton edit-btn']);
+//                                                        return \yii\helpers\Html::tag('p', Html::encode(substr($name, 0, 29)), ['title' => $name, 'class' => 'username color']);
+//                                                       
                                                     },
 //                                                            'title'=>'thangamatte',
                                                 ],

@@ -335,9 +335,10 @@ class Cart extends \yii\db\ActiveRecord {
         $order_details = OrderDetails::find()->where(['order_id' => $orders['order_id']])->all();
         foreach ($order_details as $order) {
             $product = ProductVendor::findOne($order->product_id);
+            $old_qty = $product->qty;
             $product->qty = $product->qty - $order->quantity;
             $product->save();
-            StockHistory::stockhistory($product->qty, '3', $product->id, '3');
+            StockHistory::stockhistory($product->qty, '3', $product->id, '3', $old_qty);
         }
     }
 

@@ -115,8 +115,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         'filter' => ArrayHelper::map(Products::find()->all(), 'id', 'product_name'),
                                                         'value' => function ($model) {
                                                             $img = '<img  src="' . Yii::$app->homeUrl . '../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $model->product_id) . '/' . $model->product_id . '/profile/' . $model->product->canonical_name . '_thumb.' . $model->product->gallery_images . '"/>';
-
-                                                            return $img . Html::button($model->product->product_name, ['value' => Url::to(['product-view', 'id' => $model->product_id]), 'class' => 'modalButton edit-btn']);
+                                                            return $img . Html::tag('button', Html::encode(substr($model->product->product_name, 0, 29)), ['value' => Url::to(['product-view', 'id' => $model->product_id]), 'title' => $model->product->product_name, 'class' => 'username color modalButton edit-btn']);
                                                         },
                                                     ],
                                                     [

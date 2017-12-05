@@ -47,8 +47,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                         $prdctvendor = ProductVendor::findOne($data->product_id);
                                         $name = Products::findOne($prdctvendor->product_id)->product_name;
 //                                        return $name;
-                                        return  Html::button(substr($name, 0, 29).'..', ['value' => Url::to(['/vendors/product-vendor/product-view', 'id' => $prdctvendor->product_id]), 'class' => 'modalButton edit-btn']);
-//                                        return Html::tag('p', Html::encode(substr($name, 0, 29)), ['title' => $name, 'class' => 'username color'],['value' => Url::to(['/vendors/product-vendor/product-view', 'id' => $prdctvendor->product_id]), 'class' => 'modalButton edit-btn']);
+                                        return Html::tag('button', Html::encode(substr($name, 0, 29)), ['value' => Url::to(['/vendors/product-vendor/product-view', 'id' => $prdctvendor->product_id]), 'title' => $name, 'class' => 'username color modalButton edit-btn']);
+//                                        return  Html::button(substr($name, 0, 29).'..', ['value' => Url::to(['/vendors/product-vendor/product-view', 'id' => $prdctvendor->product_id]), 'class' => 'modalButton edit-btn']);
                                     }
                                 ],
                                 'quantity',
