@@ -265,7 +265,7 @@ button:focus{
     transform: rotateX(180deg);
 }
 #Login .modal-content{
-    height: 342px;
+    height: 365px;
     border-radius: 0px;
 }
 #Login .left-img{
@@ -275,7 +275,7 @@ button:focus{
     background-image: url(../images/Login-left-bg.png);
     background-position: center 95%;
     background-repeat: no-repeat;
-    height: 340px;
+    height: 363px;
 }
 #Login .left-img .msg{
     font-size: 14px;
@@ -376,7 +376,7 @@ button:focus{
 #Login .login-group-checkbox{
     /* margin: 0px; */
     text-align: center;
-    margin-top: 65px;
+    /*margin-top: 65px;*/
 }
 input[type="checkbox"]:checked:before {
     content: "";
@@ -3538,4 +3538,9 @@ ol.pagenation li.active a {
     text-decoration: none;
     color: rgba(71,71,71,.8);
     cursor: pointer;
+}
+.log-popup-err{
+    color:red;
+    padding-left: 5px;
+    font-size: 10px;
 }

@@ -50,6 +50,7 @@ class UserController extends Controller {
     public function actionIndex() {
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->orderBy(['online_status' => SORT_DESC]);
 
         return $this->render('index', [
                     'searchModel' => $searchModel,

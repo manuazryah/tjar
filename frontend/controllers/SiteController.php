@@ -91,9 +91,11 @@ class SiteController extends Controller {
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
         $modellogin = new LoginForm();
         if ($modellogin->load(Yii::$app->request->post()) && $modellogin->login()) {
+            $user = User::findOne(Yii::$app->user->identity->id);
+            $user->online_status = 1;
+            $user->update();
             return $this->redirect($go);
         } else {
             Yii::$app->session['log-return'] = 1;
@@ -107,8 +109,12 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionLogout() {
-        Yii::$app->user->logout();
-
+        $user = User::findOne(Yii::$app->user->identity->id);
+        if (Yii::$app->user->logout()) {
+            unset(Yii::$app->session['log-return']);
+            $user->online_status = 0;
+            $user->update();
+        }
         return $this->goHome();
     }
 
@@ -153,6 +159,9 @@ class SiteController extends Controller {
         if ($modelregister->load(Yii::$app->request->post())) {
             if ($user = $modelregister->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
+                    $user = User::findOne(Yii::$app->user->identity->id);
+                    $user->online_status = 1;
+                    $user->update();
 //                    $this->sendResponseMail($user);
                     return $this->redirect($go);
 //                    return $this->goHome();
