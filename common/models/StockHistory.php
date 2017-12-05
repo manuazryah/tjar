@@ -9,9 +9,9 @@ use Yii;
  *
  * @property int $id
  * @property int $products_id
- * @property int $vendor_id
+ * @property int $user_id
  * @property int $productvendor_id
- * @property int $usertype
+ * @property int $usertype 1=Admin,2=Vendor,3=Customer
  * @property int $qty
  * @property int $total_stock
  * @property int $purpose 1=Stock Added,2=Stock Changed,3=Stock Saled,4=Stock Returned
@@ -31,8 +31,8 @@ class StockHistory extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['products_id', 'productvendor_id', 'qty', 'usertype'], 'required'],
-            [['products_id', 'user_id', 'productvendor_id', 'qty', 'total_stock', 'purpose'], 'integer'],
+            [['products_id', 'productvendor_id', 'usertype', 'qty'], 'required'],
+            [['products_id', 'user_id', 'productvendor_id', 'usertype', 'qty', 'total_stock', 'purpose'], 'integer'],
             [['DOC'], 'safe'],
         ];
     }
@@ -44,13 +44,13 @@ class StockHistory extends \yii\db\ActiveRecord {
         return [
             'id' => 'ID',
             'products_id' => 'Products ID',
-            'User_id' => 'User',
-            'productvendor_id' => 'Productvendor ID',
+            'user_id' => 'User ID',
+            'productvendor_id' => 'Product',
             'usertype' => 'Usertype',
             'qty' => 'Qty',
             'total_stock' => 'Total Stock',
             'purpose' => 'Purpose',
-            'DOC' => 'Doc',
+            'DOC' => 'Date',
         ];
     }
 

@@ -10,15 +10,16 @@ use common\models\StockHistory;
 /**
  * StockHistorySearch represents the model behind the search form about `common\models\StockHistory`.
  */
-class StockHistorySearch extends StockHistory
-{
+class StockHistorySearch extends StockHistory {
+    public $createdFrom;
+    public $createdTo;
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['id', 'products_id', 'vendor_id', 'productvendor_id', 'qty', 'total_stock', 'purpose'], 'integer'],
+            [['id', 'products_id', 'user_id', 'productvendor_id', 'usertype', 'qty', 'total_stock', 'purpose'], 'integer'],
             [['DOC'], 'safe'],
         ];
     }
@@ -26,8 +27,7 @@ class StockHistorySearch extends StockHistory
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,16 +39,21 @@ class StockHistorySearch extends StockHistory
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
+        if (isset($params["StockHistorySearch"]["createdFrom"]) && $params["StockHistorySearch"]["createdFrom"] != '') {
+            $params["StockHistorySearch"]["createdFrom"] = $params["StockHistorySearch"]["createdFrom"] . ' 00:00:00';
+        }
+        if (isset($params["StockHistorySearch"]["createdTo"]) && $params["StockHistorySearch"]["createdTo"] != '') {
+            $params["StockHistorySearch"]["createdTo"] = $params["StockHistorySearch"]["createdTo"] . ' 60:60:60';
+        }
         $query = StockHistory::find();
-
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
+    
         $this->load($params);
 
         if (!$this->validate()) {
@@ -61,14 +66,20 @@ class StockHistorySearch extends StockHistory
         $query->andFilterWhere([
             'id' => $this->id,
             'products_id' => $this->products_id,
-            'vendor_id' => $this->vendor_id,
-            'productvendor_id' => $this->productvendor_id,
+            'user_id' => $this->user_id,
+//            'productvendor_id' => $this->productvendor_id,
+            'usertype' => $this->usertype,
             'qty' => $this->qty,
             'total_stock' => $this->total_stock,
             'purpose' => $this->purpose,
             'DOC' => $this->DOC,
         ]);
+        $query
+//                ->andFilterWhere(['like', 'order_id', $this->order_id])
+                ->andFilterWhere(['>=', 'DOC', $params["StockHistorySearch"]["createdFrom"]])
+                ->andFilterWhere(['<=', 'DOC', $params["StockHistorySearch"]["createdTo"]]);
 
         return $dataProvider;
     }
+
 }

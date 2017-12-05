@@ -12,13 +12,12 @@ use yii\filters\VerbFilter;
 /**
  * StockHistoryController implements the CRUD actions for StockHistory model.
  */
-class StockHistoryController extends Controller
-{
+class StockHistoryController extends Controller {
+
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,65 +32,37 @@ class StockHistoryController extends Controller
      * Lists all StockHistory models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
+        $product_array = [];
         $searchModel = new StockHistorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        if (isset($_GET['StockHistorySearch']['productvendor_id']) && $_GET["StockHistorySearch"]["productvendor_id"] != '') {
+            $prdctvendor = \common\models\ProductVendor::find()->where(['product_id' => $_GET['StockHistorySearch']['productvendor_id']])->all();
+            if (!empty($prdctvendor)) {
+                foreach ($prdctvendor as $value) {
+                    $product_array[] = $value->id;
+    }
+    }
+                $dataProvider->query->andWhere(['in', 'productvendor_id', $product_array])->all();
+        }
+        if (isset($_GET['StockHistorySearch']['createdFrom'])) {
+            $from = $_GET['StockHistorySearch']['createdFrom'];
+        } else {
+            $from = '';
+        }
+        if (isset($_GET['StockHistorySearch']['createdTo'])) {
+            $to = $_GET['StockHistorySearch']['createdTo'];
+        } else {
+            $to = '';
+    }
+//        $item_data = $dataProvider->models;
+//        echo '<pre>';
+//        print_r($item_data);exit;
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single StockHistory model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new StockHistory model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new StockHistory();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
             ]);
         }
-    }
-
-    /**
-     * Updates an existing StockHistory model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
 
     /**
      * Deletes an existing StockHistory model.
@@ -113,12 +84,12 @@ class StockHistoryController extends Controller
      * @return StockHistory the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = StockHistory::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

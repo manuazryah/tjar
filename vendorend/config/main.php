@@ -31,6 +31,9 @@ return [
         'stock' => [
             'class' => 'vendorend\modules\stock\Module',
         ],
+        'report' => [
+            'class' => 'vendorend\modules\report\Module',
+        ],
     ],
     'components' => [
         'request' => [

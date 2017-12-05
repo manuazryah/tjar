@@ -14,9 +14,11 @@ use yii\widgets\ActiveForm;
 
         <div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'products_id')->textInput() ?>
 
-</div><div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'vendor_id')->textInput() ?>
+</div><div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'user_id')->textInput() ?>
 
 </div><div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'productvendor_id')->textInput() ?>
+
+</div><div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'usertype')->textInput() ?>
 
 </div><div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'qty')->textInput() ?>
 

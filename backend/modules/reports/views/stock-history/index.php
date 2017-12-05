@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="col-md-12" style="padding: 0px;">
 
                             <?= $this->render('_search', ['model' => $searchModel, 'from' => $from, 'to' => $to]) ?>
-                    
+
                         </div>
 
                     </div>
@@ -47,8 +47,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         GridView::widget([
                             'dataProvider' => $dataProvider,
                             'filterModel' => $searchModel,
-        'columns' => [
-                            ['class' => 'yii\grid\SerialColumn'],
+                            'columns' => [
+                                ['class' => 'yii\grid\SerialColumn'],
 //                                'products_id',
 //                                'productvendor_id',
                                 [
@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     },
                                 ],
 //                                'usertype',
-            'qty',
+                                'qty',
                                 'total_stock',
 //                                'purpose',
                                 [
@@ -98,7 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             $purpose = 'Stock Returned';
                                         return $purpose;
                                     },
-                            ],
+                                ],
                                  'DOC',
 //                                [
 //                                    'class' => 'yii\grid\ActionColumn',
@@ -114,7 +114,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                         ]);
                         ?>
-                                                                    </div>
+                    </div>
                 </div>
             </div>
         </div>
