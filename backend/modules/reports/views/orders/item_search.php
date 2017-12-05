@@ -26,9 +26,10 @@ use yii\helpers\ArrayHelper;
     </div>
     <div class="col-md-3" style="padding-left: 0px;">
         <?php
+        echo '<label class="control-label" for="orderdetailssearch-createdTo" style="color:black">Created From</label>';
         echo DatePicker::widget([
             'model' => $model,
-            'form' => $form,
+//            'form' => $form,
             'type' => DatePicker::TYPE_INPUT,
             'attribute' => 'createdFrom',
             'pluginOptions' => [
@@ -40,9 +41,10 @@ use yii\helpers\ArrayHelper;
     </div>
     <div class="col-md-3" style="padding-left: 0px;">
         <?php
+        echo '<label class="control-label" for="orderdetailssearch-createdTo" style="color:black">Created To</label>';
         echo DatePicker::widget([
             'model' => $model,
-            'form' => $form,
+//            'form' => $form,
             'type' => DatePicker::TYPE_INPUT,
             'attribute' => 'createdTo',
             'pluginOptions' => [

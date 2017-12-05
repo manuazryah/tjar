@@ -60,7 +60,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                         }
                                     },
                                 ],
-                                'first_name',
                                 'last_name',
                                 'email:email',
                                 // 'password_hash',

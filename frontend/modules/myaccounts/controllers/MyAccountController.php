@@ -125,6 +125,7 @@ class MyAccountController extends \yii\web\Controller {
             $user_details->last_name = $model->last_name;
             $user_details->gender = $model->gender;
             $user_details->dob = date('Y-m-d', strtotime($model->dob));
+            $user_details->mobile_number = $model->mobile_number;
             $user_details->save();
         }
         return $this->redirect('account-details');
@@ -209,8 +210,8 @@ class MyAccountController extends \yii\web\Controller {
             $history = OrderHistory::find()->where(['detail_id' => $id])->all();
             $model = OrderDetails::findOne($id);
             if ($history) {
-                $content= OrderHistory::track_content($history,$model);
-                
+                $content = OrderHistory::track_content($history, $model);
+
                 echo json_encode(array('msg' => 'success', 'content' => $content));
                 exit;
             }

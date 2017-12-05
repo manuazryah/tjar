@@ -44,9 +44,13 @@ class OrderDetailsSearch extends OrderDetails {
     public function search($params) {
         if (isset($params["OrderDetailsSearch"]["createdFrom"]) && $params["OrderDetailsSearch"]["createdFrom"] != '') {
             $params["OrderDetailsSearch"]["createdFrom"] = $params["OrderDetailsSearch"]["createdFrom"] . ' 00:00:00';
+        } else {
+            $params["OrderDetailsSearch"]["createdFrom"] = '';
         }
         if (isset($params["OrderDetailsSearch"]["createdTo"]) && $params["OrderDetailsSearch"]["createdTo"] != '') {
             $params["OrderDetailsSearch"]["createdTo"] = $params["OrderDetailsSearch"]["createdTo"] . ' 60:60:60';
+        } else {
+            $params["OrderDetailsSearch"]["createdTo"] = '';
         }
 
         $query = OrderDetails::find()->orderBy(['id' => SORT_DESC]);
