@@ -84,7 +84,7 @@ class ProductsController extends \yii\web\Controller {
 
 		if (!empty($min_value) && !empty($max_value) && $productids != null) {
 
-			$dataProvider->query->where(['IN', 'product_id', $productids])->andWhere(['between', 'offer_price', $min_value, $max_value])->andWhere(['between', 'price', $min_value, $max_value]);
+			$dataProvider->query->where(['IN', 'product_id', $productids])->andWhere(['between', 'price', $min_value, $max_value]);
 //			$vendor_products = \common\models\ProductVendor::find()->where(['IN', 'product_id', $productids])->andWhere(['between', 'price', $min_value, $max_value])->all();
 		} elseif ($productids != null) {
 			$dataProvider->query->where(['IN', 'product_id', $productids]);

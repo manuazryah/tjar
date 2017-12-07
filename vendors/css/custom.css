@@ -490,3 +490,17 @@ nav.navbar {
 .user-info-navbar .user-info-menu>li .dropdown-menu.user-profile-menu, .navbar.horizontal-menu .navbar-inner>.nav>li .dropdown-menu.user-profile-menu {
     width: 308px;
 }
+.color{
+    color: #373e4a;
+}
+
+.stock-heading{
+/*    position: relative;
+    padding: 0;
+    margin: 0;
+    background: 0 0;
+    */font-size: 17px;
+    margin: 8px 0px 0px 5px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid rgb(197, 195, 195);
+}
