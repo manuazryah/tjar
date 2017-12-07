@@ -39,6 +39,7 @@ $(document).ready(function () {
                         type: "POST",
                         data: {code: code, promotion_amount: promotion_amount},
                         success: function (data) {
+                                $('.help-block').remove();
                                 var res = $.parseJSON(data);
                                 if (res.result['msg'] == 6) {
                                         $("#coupon_code").after('<div class="help-block" style="color:red">In order to avail the benefits of this promotional code, please Login/Sign Up.</div>');
@@ -77,30 +78,31 @@ $(document).ready(function () {
 
         });
 
-        $('body').on('change keyup', '.cart_qty', function () {
-                var promo_codes = $('#promotion-codes').val();
-                $.ajax({
-                        url: homeUrl + 'cart/promotion-quantity-change',
-                        type: "POST",
-                        data: {promo_codes: promo_codes},
-                        success: function (data) {
-                                var obj = $.parseJSON(data);
-                                $('#promotions-listing').empty();
-                                $.each(obj.promotion, function (index, value) {
-                                        $('#promotions-listing').append('<p id="disc_' + value.discount_id + '">Coupon code  ' + value.code + ' is added with ' + value.amount + ' AED <a class="promotion-remove" title="Remove" id="' + value.discount_id + '"  type="' + value.temp_session + '">x</a></p>');
-                                });
-                                $('#promotion-codes').val(obj.code);
-                                $('#promotion-code-amount').val(obj.promotion_total_discount);
-                                if (obj.promotion_total_discount > 0) {
-                                        $('.cart-promotion').show();
-                                        $('.promotion_discount').text(obj.promotion_total_discount);
-                                } else {
-                                        $('.cart-promotion').hide();
-                                }
-                                $('.grand_total').html(obj.overall_grand_total + '<span class="woocommerce-Price-currencySymbol"> AED</span>');
-                        }
-                });
-        });
+//        $('body').on('change keyup', '.cart_qty', function () {
+//                var promo_codes = $('#promotion-codes').val();
+//                $.ajax({
+//                        url: homeUrl + 'cart/promotion-quantity-change',
+//                        type: "POST",
+//                        data: {promo_codes: promo_codes},
+//                        success: function (data) {
+//                                var obj = $.parseJSON(data);
+//                                $('#promotions-listing').html('');
+//                                alert(obj.promotion);
+//                                $.each(obj.promotion, function (index, value) {
+//                                        $('#promotions-listing').append('<p id="disc_' + value.discount_id + '">Coupon code  ' + value.code + ' is added with ' + value.amount + ' AED <a class="promotion-remove" title="Remove" id="' + value.discount_id + '"  type="' + value.temp_session + '">x</a></p>');
+//                                });
+//                                $('#promotion-codes').val(obj.code);
+//                                $('#promotion-code-amount').val(obj.promotion_total_discount);
+//                                if (obj.promotion_total_discount > 0) {
+//                                        $('.cart-promotion').show();
+//                                        $('.promotion_discount').text(obj.promotion_total_discount);
+//                                } else {
+//                                        $('.cart-promotion').hide();
+//                                }
+//                                $('.grand_total').html(obj.overall_grand_total + '<span class="woocommerce-Price-currencySymbol"> AED</span>');
+//                        }
+//                });
+//        });
 
 
         $('body').on('click', '.remove_cart', function () {
