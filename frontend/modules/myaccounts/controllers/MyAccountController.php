@@ -214,6 +214,10 @@ class MyAccountController extends \yii\web\Controller {
 
                 echo json_encode(array('msg' => 'success', 'content' => $content));
                 exit;
+            }else{
+                $content = OrderHistory::track_content($history, $model);
+                echo json_encode(array('msg' => 'failed', 'content' => $content));
+                exit;
             }
         }
 //        return $this->renderAjax('track', [

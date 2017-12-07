@@ -142,7 +142,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 [
                                                     'attribute' => 'status',
                                                     'format' => 'raw',
-                                                    'filter' => $filter,
+//                                                    'filter' => $filter,
                                                     'value' => function ($data)use ($order_status) {
                                                         if (($order_status == '1') || ($order_status == '' && $data->status == '0')) {
                                                             $filter = ['0' => 'Pending', '1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
@@ -151,6 +151,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         }
                                                         return \yii\helpers\Html::dropDownList('status', null, $filter, ['options' => [$data->status => ['Selected' => 'selected']], 'class' => 'form-control admin_status_field', 'id' => 'order_admin_status-' . $data->id,]);
                                                     },
+                                                    'filter' => $filter,
                                                 ],
                                                 'delivered_date',
                                                 [
