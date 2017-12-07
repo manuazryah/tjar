@@ -270,6 +270,58 @@ use common\models\OrderMaster;
 
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Default panel -->
+            <div class="panel panel-default" style="border-top: 3px solid #008BFF;padding-left: 0px;padding-top: 0px;padding-bottom: 30px;">
+                <div class="stock-heading">
+                    Stock Notification
+                </div>
+                <div  style="min-height: 210px; margin-left: 5px">
+                    <table class="table">
+                        <thead>
+                            <tr style="text-align: center;">
+                                <th width="">Product Name</th>
+                                <th width="">Available Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if (!empty($products)) {
+                                foreach ($products as $value) {
+                                    $name = common\models\Products::findOne($value->product_id)->product_name;
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <?php if (isset($name)) { ?>
+                                                <?= $name ?>
+                                                <?php
+                                            } else {
+                                                echo '';
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            if ($value->qty == 0) {
+                                                echo 'No stock';
+                                            } else {
+                                                echo $value->qty;
+                                            }
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
 
 

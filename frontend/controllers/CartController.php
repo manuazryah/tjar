@@ -79,7 +79,9 @@ class CartController extends \yii\web\Controller {
 
 
         if (!empty($cart_items)) {
-            \common\models\TempSession::deleteAll(['user_id' => Yii::$app->user->identity->id]);
+            if (isset(Yii::$app->user->identity->id)) {
+                \common\models\TempSession::deleteAll(['user_id' => Yii::$app->user->identity->id]);
+            }
 //            $this->check_product($cart_items);
             $subtotal = Cart::total($cart_items);
             $shippinng_limit = Settings::findOne(2)->value;
@@ -305,7 +307,7 @@ class CartController extends \yii\web\Controller {
                 if (count($cart_items) != Yii::$app->request->post()['count']) {
                     $this->redirect(array('cart/mycart'));
                 } else {
-                    $this->check_cart();
+                    Cart::check_cart($condition);
                     $subtotal = Cart::total($contents);
                     $shippinng_limit = Settings::findOne(2)->value;
                     $shipping = $shippinng_limit > $subtotal ? Cart::shipping_charge($contents) : '0';
@@ -361,8 +363,9 @@ class CartController extends \yii\web\Controller {
                 }
                 $cart->quantity = $qty > $product->qty ? $product->qty : $qty;
                 if ($cart->save()) {
-                    $this->check_cart();
                     $condition = Cart::usercheck();
+                    Cart::check_cart($condition);
+//                    $this->check_cart($condition);
                     $cart_items = Cart::find()->where($condition)->all();
                     if (!empty($cart_items)) {
                         if (count($cart_items) != Yii::$app->request->post()['count']) {
@@ -419,17 +422,7 @@ class CartController extends \yii\web\Controller {
 //        }
 //    }
 
-    function check_cart() {
-        $cart_items = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
-        foreach ($cart_items as $cart) {
-            $check_product_vendor = ProductVendor::find()->where(['id' => $cart->product_id, 'vendor_status' => '1'])->one();
-            $check_product = Products::find()->where(['id' => $check_product_vendor->product_id, 'status' => '1'])->one();
 
-            if (empty($check_product) || empty($check_product_vendor)) {
-                $this->redirect(array('cart/mycart'));
-            }
-        }
-    }
 
     public function actionGetcarttotal() {
         if (yii::$app->request->isAjax) {
@@ -495,9 +488,9 @@ class CartController extends \yii\web\Controller {
             }
             if (isset(Yii::$app->user->identity->id)) {
                 $addresses = UserAddress::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
-                $addres_field .= "<option value=''>Select</option>";
+                $addres_field = "<option value=''>Select</option>";
                 foreach ($addresses as $address) {
-                    $selected = $address->default_address=='1'? 'selected=selected':'';
+                    $selected = $address->default_address == '1' ? 'selected=selected' : '';
                     $addres_field .= "<option value = '$address->id' $selected>$address->first_name, $address->address , $address->landmark</option>";
                 }
                 echo json_encode(array('msg' => 'success', 'addres_field' => $addres_field));
@@ -813,42 +806,44 @@ class CartController extends \yii\web\Controller {
      */
 
     public function actionPromotionQuantityChange() {
-        if (Yii::$app->request->isAjax) {
+        if (Yii::$app->request->isAjax && isset(Yii::$app->user->identity->id)) {
             $promo_codes = $_POST['promo_codes'];
-            $cart_products = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
-            $cart_amount = Cart::total($cart_products);
-            $codes = explode(',', $promo_codes);
-            $applied_codes = array();
-            $promocodes = '';
-            $promotion_total_discount = 0;
-            \common\models\TempSession::deleteAll(['user_id' => Yii::$app->user->identity->id]);
-            $c = 0;
-            foreach ($codes as $codes) {
-                if (isset($codes) && $codes != '') {
-                    $c++;
-                    $code_exists = \common\models\Promotions::findOne($codes);
-                    $amount_range = Cart::AmountRange($code_exists, $cart_amount);
-                    if ($amount_range == 0) {
-                        if ($c != 1) {
-                            $promocodes .= ',';
+            if ($promo_codes) {
+                $cart_products = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
+                $cart_amount = Cart::total($cart_products);
+                $codes = explode(',', $promo_codes);
+                $applied_codes = array();
+                $promocodes = '';
+                $promotion_total_discount = 0;
+                \common\models\TempSession::deleteAll(['user_id' => Yii::$app->user->identity->id]);
+                $c = 0;
+                foreach ($codes as $codes) {
+                    if (isset($codes) && $codes != '') {
+                        $c++;
+                        $code_exists = \common\models\Promotions::findOne($codes);
+                        $amount_range = Cart::AmountRange($code_exists, $cart_amount);
+                        if ($amount_range == 0) {
+                            if ($c != 1) {
+                                $promocodes .= ',';
+                            }
+                            $promocodes .= $codes;
+                            if ($code_exists->type == 1) {
+                                $promotion_discount = ($cart_amount * $code_exists->price) / 100;
+                            } else {
+                                $promotion_discount = $code_exists->price;
+                            }
+                            $promotion_total_discount += $promotion_discount;
+                            $temp_promotion = Cart::SaveTemp(3, $codes);
+                            $applied_codes[] = ['discount_id' => $codes, 'code' => $code_exists->promotion_code, 'amount' => sprintf("%0.2f", $promotion_discount), 'temp_session' => $temp_promotion->id];
                         }
-                        $promocodes .= $codes;
-                        if ($code_exists->type == 1) {
-                            $promotion_discount = ($cart_amount * $code_exists->price) / 100;
-                        } else {
-                            $promotion_discount = $code_exists->price;
-                        }
-                        $promotion_total_discount += $promotion_discount;
-                        $temp_promotion = Cart::SaveTemp(3, $codes);
-                        $applied_codes[] = ['discount_id' => $codes, 'code' => $code_exists->promotion_code, 'amount' => sprintf("%0.2f", $promotion_discount), 'temp_session' => $temp_promotion->id];
                     }
                 }
-            }
 
-            $grand_total = Cart::net_amount($cart_amount, $cart_products);
-            $overall_grand_total = $grand_total - $promotion_total_discount;
-            $data = array('promotion' => $applied_codes, 'code' => $promocodes, 'total_promotion_amount' => sprintf("%0.2f", $promotion_discount), 'overall_grand_total' => sprintf("%0.2f", $overall_grand_total), 'promotion_total_discount' => sprintf("%0.2f", $promotion_total_discount));
-            echo json_encode($data);
+                $grand_total = Cart::net_amount($cart_amount, $cart_products);
+                $overall_grand_total = $grand_total - $promotion_total_discount;
+                $data = array('promotion' => $applied_codes, 'code' => $promocodes, 'total_promotion_amount' => sprintf("%0.2f", $promotion_discount), 'overall_grand_total' => sprintf("%0.2f", $overall_grand_total), 'promotion_total_discount' => sprintf("%0.2f", $promotion_total_discount));
+                echo json_encode($data);
+            }
         }
     }
 

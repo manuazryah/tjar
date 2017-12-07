@@ -2,6 +2,11 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use common\models\Products;
+use common\models\ProductVendor;
+use common\models\Vendors;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\StockHistorySearch */
@@ -21,10 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="panel-body">
 
+                    <div class="row" style="margin-left: 0px;margin-bottom: 20px;">
+                        <div class="col-md-12" style="padding: 0px;">
 
-                    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+                            <?= $this->render('_search', ['model' => $searchModel, 'from' => $from, 'to' => $to]) ?>
 
+                        </div>
 
+                    </div>
 
                     <?= Html::a('<i class="fa-th-list"></i><span> Create Stock History</span>', ['create'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
 

@@ -65,7 +65,7 @@ class Cart extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function add_to_cart($user_id, $temp_session, $product_id, $qty) {
+    public static function add_to_cart($user_id, $temp_session, $product_id, $qty) {
         $model = new cart;
         $model->user_id = $user_id;
         $model->session_id = $temp_session;
@@ -77,7 +77,7 @@ class Cart extends \yii\db\ActiveRecord {
         }
     }
 
-    public function shipping_charge($cart) {
+    public static function shipping_charge($cart) {
         $shipping_charge = '0';
         foreach ($cart as $cart_item) {
             $product = ProductVendor::find()->where(['id' => $cart_item->product_id])->andWhere(['<>', 'free_shipping', '1'])->one();
@@ -89,7 +89,7 @@ class Cart extends \yii\db\ActiveRecord {
         return $shipping_charge;
     }
 
-    public function usercheck() {
+    public static function usercheck() {
         if (isset(Yii::$app->user->identity->id)) {
             $user_id = Yii::$app->user->identity->id;
             $condition = ['user_id' => $user_id];
@@ -104,7 +104,7 @@ class Cart extends \yii\db\ActiveRecord {
         return $condition;
     }
 
-    public function cart_content() {
+    public static function cart_content() {
         $condition = Cart::usercheck();
         $cart_contents = Cart::find()->where($condition)->all();
         if (!empty($cart_contents)) {
@@ -143,7 +143,7 @@ class Cart extends \yii\db\ActiveRecord {
         }
     }
 
-    public function changecart($tempuser) {
+    public static function changecart($tempuser) {
         if (isset($tempuser)) {
             $models = Cart::find()->where(['session_id' => Yii::$app->session['temp_user']])->all();
             foreach ($models as $msd) {
@@ -166,7 +166,7 @@ class Cart extends \yii\db\ActiveRecord {
         }
     }
 
-    public function CheckTempsession($post) {
+    public static function CheckTempsession($post) {
         $check = 0;
         $temp = \common\models\TempSession::find()->where(['user_id' => Yii::$app->user->identity->id, 'type_id' => 3])->select('value')->all();
         $temp_coupons = '';
@@ -192,7 +192,7 @@ class Cart extends \yii\db\ActiveRecord {
         return $check;
     }
 
-    public function Checkout($ship_address, $bill_address) {
+    public static function Checkout($ship_address, $bill_address) {
         if (isset(Yii::$app->user->identity->id)) {
             Cart::check_product();
             $cart = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
@@ -201,16 +201,20 @@ class Cart extends \yii\db\ActiveRecord {
                 Cart::Addpromotions($orders);
                 Cart::clearcart($cart);
                 Cart::stock_clear($orders);
-                $this->redirect(['checkout/payment', 'id' => $orders['order_id']]);
+//                $this->redirect(['checkout/payment', 'id' => $orders['order_id']]);
+                Yii::$app->response->redirect(['checkout/payment', 'id' => $orders['order_id']])->send();
+                return;
             } else {
-                $this->redirect('mycart');
+                Yii::$app->response->redirect(['mycart'])->send();
+                return;
             }
         } else {
-            $this->redirect(array('site/login'));
+            Yii::$app->response->redirect(['site/login'])->send();
+            return;
         }
     }
 
-    public function total($cart) {
+    public static function total($cart) {
         $subtotal = '0';
         foreach ($cart as $cart_item) {
             $product = ProductVendor::find()->where(['id' => $cart_item->product_id, 'vendor_status' => '1'])->one();
@@ -225,7 +229,7 @@ class Cart extends \yii\db\ActiveRecord {
         return $subtotal;
     }
 
-    public function net_amount($subtotal, $cart) {
+    public static function net_amount($subtotal, $cart) {
         $grandtotal = $subtotal > '0' ? $subtotal : '0';
         if ($grandtotal > 0) {
             $shippinng_limit = Settings::findOne(2)->value;
@@ -239,7 +243,7 @@ class Cart extends \yii\db\ActiveRecord {
         return $grandtotal;
     }
 
-    public function check_product() {
+    public static function check_product() {
         $cart_items = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
         foreach ($cart_items as $cart) {
             $check_product_vendor = ProductVendor::find()->where(['id' => $cart->product_id, 'vendor_status' => '1'])->one();
@@ -251,7 +255,7 @@ class Cart extends \yii\db\ActiveRecord {
         }
     }
 
-    public function addOrder($cart, $ship_address, $bill_address) {
+    public static function addOrder($cart, $ship_address, $bill_address) {
         $serial_no = Settings::findOne(1)->value;
         $prefix = Settings::findOne(1)->prefix;
         $model = new OrderMaster;
@@ -269,7 +273,7 @@ class Cart extends \yii\db\ActiveRecord {
         }
     }
 
-    public function orderProducts($orders, $carts) {
+    public static function orderProducts($orders, $carts) {
         foreach ($carts as $cart) {
             $prod_details = ProductVendor::findOne($cart->product_id);
 
@@ -296,7 +300,7 @@ class Cart extends \yii\db\ActiveRecord {
         return TRUE;
     }
 
-    public function commissionManagement($order_details, $prod_details) {
+    public static function commissionManagement($order_details, $prod_details) {
         $model_commission = new CommissionManagement();
         $model_commission->product_id = $prod_details->id;
         $model_commission->vendor_id = $prod_details->vendor_id;
@@ -314,7 +318,7 @@ class Cart extends \yii\db\ActiveRecord {
         return TRUE;
     }
 
-    public function Addpromotions($orders) {
+    public static function Addpromotions($orders) {
 
         $coupons = \common\models\TempSession::find()->where(['user_id' => Yii::$app->user->identity->id, 'type_id' => 3])->all();
         $cart_products = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
@@ -337,19 +341,19 @@ class Cart extends \yii\db\ActiveRecord {
         }
     }
 
-    public function AddUsed($code_exists) {
+    public static function AddUsed($code_exists) {
 
         $code_exists->code_used = $code_exists->code_used . ',' . Yii::$app->user->identity->id;
         $code_exists->save();
     }
 
-    public function clearcart($models) {
+    public static function clearcart($models) {
         foreach ($models as $model) {
             $model->delete();
         }
     }
 
-    public function stock_clear($orders) {
+    public static function stock_clear($orders) {
         $order_details = OrderDetails::find()->where(['order_id' => $orders['order_id']])->all();
         foreach ($order_details as $order) {
             $product = ProductVendor::findOne($order->product_id);
@@ -360,7 +364,7 @@ class Cart extends \yii\db\ActiveRecord {
         }
     }
 
-    public function SaveTemp($type_id, $value) {
+    public static function SaveTemp($type_id, $value) {
 
         $temp_promotion = new \common\models\TempSession;
         $temp_promotion->user_id = Yii::$app->user->identity->id;
@@ -370,7 +374,7 @@ class Cart extends \yii\db\ActiveRecord {
         return $temp_promotion;
     }
 
-    public function adduseraddress() {
+    public static function adduseraddress() {
         $model = new UserAddress();
         $model->user_id = Yii::$app->user->identity->id;
         $model->first_name = Yii::$app->request->post()['UserAddress']['first_name'];
@@ -383,29 +387,29 @@ class Cart extends \yii\db\ActiveRecord {
         $model->phone = Yii::$app->request->post()['UserAddress']['phone'];
         $model->pincode = Yii::$app->request->post()['UserAddress']['pincode'];
         $model->address = Yii::$app->request->post()['UserAddress']['address'];
-        if ($model->validate() && $model->save()) {
+        if ($model->validate() && Yii::$app->SetValues->Attributes($model) && $model->save()) {
             return $model->id;
         }
     }
 
-    public function generateProductEan($prefix, $serial_no) {
+    public static function generateProductEan($prefix, $serial_no) {
         $orderid_exist = OrderMaster::find()->where(['order_id' => $prefix . $serial_no])->one();
         if (!empty($orderid_exist)) {
             return Cart::generateProductEan($prefix, $serial_no + 1);
         } else {
-            $this->Updateorderid($serial_no);
+            Cart::Updateorderid($serial_no);
             return $prefix . $serial_no;
         }
     }
 
-    public function Updateorderid($id) {
+    public static function Updateorderid($id) {
         $orderid = Settings::findOne(1);
         $orderid->value = $id;
         $orderid->save();
         return;
     }
 
-    public function AmountRange($code_exists, $cart_amount) {
+    public static function AmountRange($code_exists, $cart_amount) {
         $amount_range = 0;
         if (isset($code_exists->amount_range) && $code_exists->amount_range != '') {
             if ($cart_amount > $code_exists->amount_range)
@@ -416,7 +420,7 @@ class Cart extends \yii\db\ActiveRecord {
         return $amount_range;
     }
 
-    public function PromotionProduct($code_exists, $code) {
+    public static function PromotionProduct($code_exists, $code) {
         $products = explode(',', $code_exists->product_id);
         $users = explode(',', $code_exists->user_id);
         $oreder_setails = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
@@ -435,7 +439,7 @@ class Cart extends \yii\db\ActiveRecord {
         return $exist;
     }
 
-    public function CodeUsed($code_exists) {
+    public static function CodeUsed($code_exists) {
         $code_used_list = explode(',', $code_exists->code_used);
         if (($code_exists->code_usage == 1)) {
             if (!in_array(Yii::$app->user->identity->id, $code_used_list)) {
@@ -450,7 +454,7 @@ class Cart extends \yii\db\ActiveRecord {
         return $permision;
     }
 
-    public function CheckDate($code_exists) {
+    public static function CheckDate($code_exists) {
         $date_from_user = date('Y-m-d');
         $start_ts = strtotime($code_exists->starting_date);
         $end_ts = strtotime($code_exists->expiry_date);
@@ -458,7 +462,7 @@ class Cart extends \yii\db\ActiveRecord {
         return (($user_ts >= $start_ts) && ($user_ts <= $end_ts));
     }
 
-    public function UsedCode($code) {
+    public static function UsedCode($code) {
         $existss = 0;
         $code_details = \common\models\Promotions::find()->where(['promotion_code' => $code])->one();
         $temp_session = \common\models\TempSession::find()->where(['value' => $code_details->id])->exists();
@@ -466,6 +470,19 @@ class Cart extends \yii\db\ActiveRecord {
             $existss = 1;
         }
         return $existss;
+    }
+
+    public static function check_cart($condition) {
+        $cart_items = Cart::find()->where($condition)->all();
+        foreach ($cart_items as $cart) {
+            $check_product_vendor = ProductVendor::find()->where(['id' => $cart->product_id, 'vendor_status' => '1'])->one();
+            $check_product = Products::find()->where(['id' => $check_product_vendor->product_id, 'status' => '1'])->one();
+
+            if (empty($check_product) || empty($check_product_vendor)) {
+            Yii::$app->response->redirect(['cart/mycart'])->send();
+            return;
+            }
+        }
     }
 
 }

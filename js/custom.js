@@ -132,7 +132,7 @@ $(document).ready(function () {
             var $count = $('#cart_count').val();
             $('.error_' + $id).html('');
             $.ajax({
-//            url: homeUrl + 'cart/cart_remove',
+            url: homeUrl + 'cart/cart_remove',
                 type: "post",
                 data: {id: $id, count: $count},
                 success: function (data) {

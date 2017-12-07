@@ -98,7 +98,7 @@ class ProductsController extends Controller {
 				$image_arr = [
 					['width' => 440, 'height' => 440, 'name' => 'large'],
 					['width' => 70, 'height' => 70, 'name' => 'thumb'],
-					['width' => 175, 'height' => 125, 'name' => 'medium']
+					['width' => 175, 'height' => 175, 'name' => 'medium']
 				];
 				$transaction = \Yii::$app->db->beginTransaction();
 				try {
