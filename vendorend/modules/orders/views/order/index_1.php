@@ -87,10 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Delivered</span>', ['index', 'order_status' => 4], ['class' => '']) ?>
                                     </li>
                                 </ul>
-                                <?php
-                                    $filter = ['0' => 'Pending', '1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
-//                                
-                                ?>
+
                                 <div class="tab-content">
                                     <button class="btn btn-white" id="search-option" style="float: right;">
                                         <i class="linecons-search"></i>
@@ -101,10 +98,21 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <?=
                                         GridView::widget([
                                             'dataProvider' => $dataProvider,
-                                            'filterModel' => $searchModel,
+//                                            'filterModel' => $searchModel,
                                             'columns' => [
                                                 ['class' => 'yii\grid\SerialColumn'],
                                                 'order_id',
+//                                                [
+//                                                    'attribute' => 'order_id',
+//                                                    'format' => 'raw',
+//                                                    'value' => function ($data) {
+//                                                        if (isset($data->order_id)) {
+//                                                            return \yii\helpers\Html::a($data->order_id, ['/orders/order/view', 'id' => $data->order_id], ['target' => '_blank']);
+//                                                        } else {
+//                                                            return '';
+//                                                        }
+//                                                    },
+//                                                ],
                                                 [
                                                     'attribute' => 'product_id',
                                                     'format' => 'raw',
@@ -119,18 +127,31 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 ],
                                                 'quantity',
 //                                                            'filter' => Html::dropDownList('ProductVendor[compareOp]', $model->compareOp, array('>' => '>', '<' => '<', '>=' => '>=', '<=' => '<=', '=' => '='), array('style' => 'width:35px;height: 25px;', 'id' => 'grid-id')) .
-//                                                
+//                                                [
+//                                                    'attribute' => 'amount',
+//                                                    'format' => 'raw',
+//                                                    'filter' => Html::dropDownList('ProductVendor[compareOp]', $model->compareOp, array('>' => '>', '<' => '<', '>=' => '>=', '<=' => '<=', '=' => '='), array('style' => 'width:35px;height: 25px;', 'id' => 'grid-id')) .
+//                                                    Html::textInput('ProductVendor[compare]', $model->compare, array('style' => 'width:100px;margin-left: 10px;height: 25px;')),
+//                                                    'value' => function ($data) {
+//                                                        return $data->amount;
+//                                                    },
+//                                                ],
                                                 'amount',
 //                                                'sub_total',
 //
                                                 [
                                                     'attribute' => 'status',
                                                     'format' => 'raw',
-                                                    'filter' => $filter,
-                                                    'value' => function ($data)use ($filter) {
+//                                                    'filter' => $filter,
+                                                    'value' => function ($data)use ($order_status) {
+                                                        if (($order_status == '1') || ($order_status == '' && $data->status == '0')) {
+                                                            $filter = ['0' => 'Pending', '1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
+                                                        } else {
+                                                            $filter = ['1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
+                                                        }
                                                         return \yii\helpers\Html::dropDownList('status', null, $filter, ['options' => [$data->status => ['Selected' => 'selected']], 'class' => 'form-control admin_status_field', 'id' => 'order_admin_status-' . $data->id,]);
                                                     },
-//                                                    'filter' => $filter,
+                                                    'filter' => $filter,
                                                 ],
                                                 'delivered_date',
                                                 [

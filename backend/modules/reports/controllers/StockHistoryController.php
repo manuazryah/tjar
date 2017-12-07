@@ -41,9 +41,9 @@ class StockHistoryController extends Controller {
             if (!empty($prdctvendor)) {
                 foreach ($prdctvendor as $value) {
                     $product_array[] = $value->id;
-    }
-    }
-                $dataProvider->query->andWhere(['in', 'productvendor_id', $product_array])->all();
+                }
+            }
+            $dataProvider->query->andWhere(['in', 'productvendor_id', $product_array])->all();
         }
         if (isset($_GET['StockHistorySearch']['createdFrom'])) {
             $from = $_GET['StockHistorySearch']['createdFrom'];
@@ -54,15 +54,17 @@ class StockHistoryController extends Controller {
             $to = $_GET['StockHistorySearch']['createdTo'];
         } else {
             $to = '';
-    }
+        }
 //        $item_data = $dataProvider->models;
 //        echo '<pre>';
 //        print_r($item_data);exit;
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
-            ]);
-        }
+                    'from' => $from,
+                    'to' => $to,
+        ]);
+    }
 
     /**
      * Deletes an existing StockHistory model.
@@ -70,8 +72,7 @@ class StockHistoryController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

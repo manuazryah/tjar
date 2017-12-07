@@ -93,8 +93,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'product_id',
                                 'format' => 'raw',
                                 'value' => function($data) {
-                                    $product_data = Products::findOne($data->product_id);
-                                    return \yii\helpers\Html::button($product_data->product_name, ['value' => Url::to(['/product/products/view', 'id' => $product_data->id]), 'class' => 'modalButton', 'style' => 'border: none;background: #f9f9f9;']);
+                                    $productvendor = common\models\ProductVendor::findOne($data->product_id)->product_id;
+                                    $product_data = Products::findOne($productvendor);
+                                    return \yii\helpers\Html::tag('button', Html::encode(substr($product_data->product_name, 0, 29)), ['value' => Url::to(['/product/products/view', 'id' => $product_data->id]), 'title' => $product_data->product_name, 'class' => 'username color modalButton edit-btn']);
+//                                    return \yii\helpers\Html::button($product_data->product_name, ['value' => Url::to(['/product/products/view', 'id' => $product_data->id]), 'class' => 'modalButton', 'style' => 'border: none;background: #f9f9f9;']);
                                 }
                             ],
                             'quantity',

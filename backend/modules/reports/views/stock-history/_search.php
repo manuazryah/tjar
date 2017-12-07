@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 
 <div class="sales-invoice-master-search">
 
-   <?php
+    <?php
     $form = ActiveForm::begin([
                 'action' => ['index'],
                 'method' => 'get',
@@ -22,34 +22,56 @@ use yii\helpers\ArrayHelper;
     ?>
 
     <div class="col-md-3" style="padding-left: 0px;">
-        <?= $form->field($model, 'productvendor_id')->dropDownList(ArrayHelper::map(common\models\Products::find()->all(), 'id', 'product_name'), ['prompt' => 'select Product', 'class' => 'form-control'])->label('Product Name');?>
+        <?= $form->field($model, 'productvendor_id')->dropDownList(ArrayHelper::map(common\models\Products::find()->all(), 'id', 'product_name'), ['prompt' => 'select Product', 'class' => 'form-control'])->label('Product Name'); ?>
     </div>
     <div class="col-md-3" style="padding-left: 0px;">
         <?php
-        echo DatePicker::widget([
-            'model' => $model,
-            'form' => $form,
+        echo $form->field($model, 'createdFrom')->widget(DatePicker::className(), [
             'type' => DatePicker::TYPE_INPUT,
-            'attribute' => 'createdFrom',
+            'removeButton' => ['icon' => 'trash'],
+            'pickerButton' => false,
             'pluginOptions' => [
-                'autoclose' => true,
                 'format' => 'yyyy-mm-dd',
+                'autoclose' => true,
+                'todayHighlight' => true,
             ]
         ]);
+
+
+//        echo DatePicker::widget([
+//            'model' => $model,
+//            'form' => $form,
+//            'type' => DatePicker::TYPE_INPUT,
+//            'attribute' => 'createdFrom',
+//            'pluginOptions' => [
+//                'autoclose' => true,
+//                'format' => 'yyyy-mm-dd',
+//            ]
+//        ]);
         ?>
     </div>
     <div class="col-md-3" style="padding-left: 0px;">
         <?php
-        echo DatePicker::widget([
-            'model' => $model,
-            'form' => $form,
+        echo $form->field($model, 'createdTo')->widget(DatePicker::className(), [
             'type' => DatePicker::TYPE_INPUT,
-            'attribute' => 'createdTo',
+            'removeButton' => ['icon' => 'trash'],
+            'pickerButton' => false,
             'pluginOptions' => [
-                'autoclose' => true,
                 'format' => 'yyyy-mm-dd',
+                'autoclose' => true,
+                'todayHighlight' => true,
             ]
         ]);
+//        echo DatePicker::widget([
+//            'model' => $model,
+//            'form' => $form,
+//            'type' => DatePicker::TYPE_INPUT,
+//            'attribute' => 'createdTo',
+//            'pluginOptions' => [
+//                'autoclose' => true,
+//                'format' => 'yyyy-mm-dd',
+//            ]
+//        ]);
         ?>
     </div>
 

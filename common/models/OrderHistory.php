@@ -64,9 +64,10 @@ class OrderHistory extends \yii\db\ActiveRecord {
                 <h3 class="panel-title">' . html::encode($model->order_id . " - " . $products->product_name) . '</h3>
 
 
-            </div><div class="panel-body"><div class="products-view"><div class="product-vendor-view"><div class="panel panel-default"><div class="panel-body"><div class="panel-body"><div class="col-md-12 col-lg-12 col-sm-12 product-vew-pop"><div class="col-md-12" style="padding-top: 15px;">
-            <table class="table"><thead><tr><th>Date</th><th>Status</th><th>Comment</th></tr></thead><tbody>';
+            </div><div class="panel-body"><div class="products-view"><div class="product-vendor-view"><div class="panel panel-default"><div class="panel-body"><div class="panel-body"><div class="col-md-12 col-lg-12 col-sm-12 product-vew-pop"><div class="col-md-12" style="padding-top: 15px;">';
+
         if (!empty($history)) {
+            $content .= '<table class="table"><thead><tr><th>Date</th><th>Status</th><th>Comment</th></tr></thead><tbody>';
             foreach ($history as $hitry) {
                 if ($hitry->status == '0')
                     $status = 'Pending';
@@ -78,8 +79,8 @@ class OrderHistory extends \yii\db\ActiveRecord {
                     $status = 'Delivered';
                 $content .= '<tr><td>' . $hitry->date . '</td><td>' . $status . '</td><td>' . $hitry->comment . '</td></tr>';
             }
-        }else{
-            $content .= '<tr><td> ..../../.. </td><td> Pending </td><td> - </td></tr>';
+        }else {
+            $content .= '<h4>The Order is in Pending<h4>';
         }
         $content .= '</tbody></table></div></div></div></div></div></div></div></div></div>';
         return $content;

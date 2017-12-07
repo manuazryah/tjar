@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\ProductVendor */
 
-$this->title = $product->product_name;
+$this->title = $model->product_name;
 ?>
 <style>
     .product-vew-pop{
@@ -30,7 +30,7 @@ $this->title = $product->product_name;
 </style>
 <div class="product-vendor-view">
 
-    <h2><?= Html::encode($this->title) ?></h2>
+    <!--<h2><? Html::encode($this->title) ?></h2>-->
 
     <div class="panel panel-default">
         <div class="panel-body">

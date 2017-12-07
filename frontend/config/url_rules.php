@@ -2,5 +2,6 @@
 
 return [
     '' => 'site/index',
-    'product-detail/<product:\w+(-\w+)*>' => 'products/product-detail',
+    'product-detail/<canonical:\w+(-\w+)*>/<product:\w+(-\w+)*>' => 'products/product-detail',
+    'order-cancel/<orderdetail:\w+(-\w+)*>' => 'products/order-cancel',
 ];
