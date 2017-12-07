@@ -36,7 +36,7 @@ $form = ActiveForm::begin(['id' => 'submit-reviews']);
                                         <input type="radio" id="star2" name="rating" value="2" onclick="postToController();" <?php if ($model_review->rating == 2) { ?>checked=""<?php } ?>/><label for="star2" title="I don't like it">2 stars</label>
                                         <input type="radio" id="star1" name="rating" value="1" onclick="postToController();" <?php if ($model_review->rating == 1) { ?>checked=""<?php } ?>/><label for="star1" title="I hate it">1 star</label>
                                 </fieldset>
-                                <?php echo $form->field($model_review, 'rating')->hiddenInput(['value' => $type, 'id' => 'rating'])->label(false); ?>
+                                <?php echo $form->field($model_review, 'rating')->hiddenInput(['id' => 'rating'])->label(false); ?>
 
                         </div>
                 </div>

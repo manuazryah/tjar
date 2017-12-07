@@ -57,16 +57,18 @@ use yii\helpers\ArrayHelper;
                 } else {
                         $model->starting_date = date('d-m-Y');
                 }
-                echo DatePicker::widget([
-                    'model' => $model,
-                    'form' => $form,
+
+
+                echo $form->field($model, 'starting_date')->widget(DatePicker::className(), [
                     'type' => DatePicker::TYPE_INPUT,
-                    'attribute' => 'starting_date',
+                    'removeButton' => ['icon' => 'trash'],
+                    'pickerButton' => false,
                     'pluginOptions' => [
-                        'autoclose' => true,
                         'format' => 'dd-mm-yyyy',
+                        'autoclose' => true,
+                        'todayHighlight' => true,
                     ]
-                ]);
+                ])
                 ?>
 
 
@@ -79,16 +81,17 @@ use yii\helpers\ArrayHelper;
                 } else {
                         $model->expiry_date = date('d-m-Y');
                 }
-                echo DatePicker::widget([
-                    'model' => $model,
-                    'form' => $form,
+
+                echo $form->field($model, 'expiry_date')->widget(DatePicker::className(), [
                     'type' => DatePicker::TYPE_INPUT,
-                    'attribute' => 'expiry_date',
+                    'removeButton' => ['icon' => 'trash'],
+                    'pickerButton' => false,
                     'pluginOptions' => [
-                        'autoclose' => true,
                         'format' => 'dd-mm-yyyy',
+                        'autoclose' => true,
+                        'todayHighlight' => true,
                     ]
-                ]);
+                ])
                 ?>
 
 

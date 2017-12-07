@@ -33,16 +33,18 @@ use kartik\date\DatePicker;
                 } else {
                         $model->dob = date('d-m-Y');
                 }
-                echo DatePicker::widget([
-                    'model' => $model,
-                    'form' => $form,
+
+
+                echo $form->field($model, 'dob')->widget(DatePicker::className(), [
                     'type' => DatePicker::TYPE_INPUT,
-                    'attribute' => 'dob',
+                    'removeButton' => ['icon' => 'trash'],
+                    'pickerButton' => false,
                     'pluginOptions' => [
-                        'autoclose' => true,
                         'format' => 'dd-mm-yyyy',
+                        'autoclose' => true,
+                        'todayHighlight' => true,
                     ]
-                ]);
+                ])
                 ?>
 
         </div><div class='col-md-4 col-sm-6 col-xs-12 left_padd'>    <?= $form->field($model, 'mobile_number')->textInput(['maxlength' => true]) ?>

@@ -26,4 +26,5 @@ $array = [
     'add_to_cart' => 'إلكترونيا',
     'buy_now' => ' إلكترونيات',
     'free_shipping' => 'FREE Shipping on orders over',
+    'reviews' => 'التقييمات والمراجعات',
 ];

@@ -26,4 +26,5 @@ $array = [
     'add_to_cart' => 'ADD TO CART',
     'buy_now' => 'BUY NOW',
     'free_shipping' => 'FREE Shipping on orders over',
+    'reviews' => 'RATINGS AND REVIEWS',
 ];

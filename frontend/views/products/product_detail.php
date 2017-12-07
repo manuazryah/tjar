@@ -270,7 +270,7 @@ else
                                                   $specification_model = \common\models\Features::findOne($product_features->specification);
                                                   $value = $specification_model->tablevalue__name; */
                                                 ?>
-                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                                                                                                                                                                                                                    ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                                                                                                                                                                                                                    ?></td></tr>
+                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                                                                                                                                                                                                                       ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                                                                                                                                                                                                                       ?></td></tr>
                                                 <?php
                                                 /*  }
                                                   } */
@@ -288,8 +288,8 @@ else
                                                                 <?php
                                                                 $rating_entered = '0';
                                                                 $rating_average = '0.0';
-                                                                $rating_entered = common\models\CustomerReviews::find()->where(['product_id' => $vendor_product->id])->count();
-                                                                $rating_sum = common\models\CustomerReviews::find()->where(['product_id' => $vendor_product->id])->sum('rating');
+                                                                $rating_entered = common\models\CustomerReviews::find()->where(['product_id' => $vendor_product->id, 'status' => 1])->count();
+                                                                $rating_sum = common\models\CustomerReviews::find()->where(['product_id' => $vendor_product->id, 'status' => 1])->sum('rating');
                                                                 if (isset($rating_entered)) {
                                                                         $rating_entered = number_format($rating_entered);
                                                                 }
@@ -338,7 +338,7 @@ else
                                                                                 $tot_stars = 0;
                                                                                 for ($i = 5; $i > 0; $i -= 1) {
                                                                                         $var = 'star' . + $i;
-                                                                                        $$var = common\models\CustomerReviews::find()->where(['product_id' => $vendor_product->id, 'rating' => $i])->count();
+                                                                                        $$var = common\models\CustomerReviews::find()->where(['product_id' => $vendor_product->id, 'rating' => $i, 'status' => 1])->count();
                                                                                         $tot_stars += $$var;
                                                                                 }
                                                                                 ?>
@@ -346,7 +346,7 @@ else
                                                                                 <?php
                                                                                 for ($i = 5; $i > 0; $i -= 1) {
                                                                                         $percent = 0;
-                                                                                        $rating_count_of_nxt = common\models\CustomerReviews::find()->where(['product_id' => $vendor_product->id, 'rating' => $i])->count();
+                                                                                        $rating_count_of_nxt = common\models\CustomerReviews::find()->where(['product_id' => $vendor_product->id, 'rating' => $i, 'status' => 1])->count();
                                                                                         if ($rating_count_of_nxt > 0) {
                                                                                                 $var = "star$i";
                                                                                                 $count = $$var;
