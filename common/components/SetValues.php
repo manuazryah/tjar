@@ -110,9 +110,10 @@ class SetValues extends Component {
          */
 
         public function GetContent($type, $user_type, $user_id, $product_id) {
-                $user_name = $this->GetUser($user_type, $user_id);
+
                 $history_type = \common\models\MasterHistoryType::findOne($type);
                 if ($type == 1) {
+                        $user_name = $this->GetUser($user_type, $user_id);
                         $content = 'Seller ' . $user_name . ' ' . $history_type->content;
                 } else if ($type == 2) {
                         $product_details = \common\models\ProductVendor::findOne($product_id);
@@ -128,6 +129,14 @@ class SetValues extends Component {
                         $content = $history_type->content;
                 } else if ($type == 6) {
                         $content = $history_type->content;
+                } else if ($type == 8) {
+                        $product_details = \common\models\ProductVendor::findOne($product_id);
+                        $product_name = \common\models\Products::findOne($product_details->product_id)->product_name;
+                        $content = $history_type->content . ' ' . $product_name;
+                } else if ($type == 9) {
+                        $content = $product_details = \common\models\ProductVendor::findOne($product_id);
+                        $product_name = \common\models\Products::findOne($product_details->product_id)->product_name;
+                        $content = $history_type->content . ' ' . $product_name;
                 }
                 return $content;
         }
@@ -152,6 +161,7 @@ class SetValues extends Component {
          */
 
         public function Notifications($reference_id, $history_id, $user_id) {
+
                 $history_model = \common\models\History::findOne($history_id);
                 $master_history = \common\models\MasterHistoryType::findOne($history_model->history_type);
                 $super_admins = AdminUsers::find()->where(['status' => 1])->all();
@@ -159,11 +169,10 @@ class SetValues extends Component {
                 if (in_array(1, $sent_notification))
                         $this->NotificationSuperAdmins($super_admins, $history_model->reference_id, $history_id, $history_model, 1);
                 if (in_array(2, $sent_notification)) {
-
-                        if ($history_model->history_type == 4 || $history_model->history_type == 5)
-                                $this->OrderVendorNotifications($reference_id, $history_id, $user_id, $history_model, 2, $history_model->history_type);
-                        else
-                                $this->OtherNotifications($reference_id, $history_id, $user_id, $history_model, 2);
+                        // if ($history_model->history_type == 9)
+                        //       $this->OrderVendorNotifications($reference_id, $history_id, $user_id, $history_model, 2, $history_model->history_type);
+                        //  else
+                        $this->OtherNotifications($reference_id, $history_id, $user_id, $history_model, 2);
                 }
                 if (in_array(3, $sent_notification))
                         $this->OtherNotifications($reference_id, $history_id, $type, $user_id, $history_model, 3);
@@ -192,11 +201,18 @@ class SetValues extends Component {
          */
 
         public function OtherNotifications($reference_id, $history_id, $user_id, $history_model, $user_type) {
+
                 $model = new \common\models\NotificationViewStatus;
                 $model->reference_id = $reference_id;
                 $model->history_id = $history_id;
                 $model->user_type = $user_type;
-                $model->user_id = $user_id;
+                if ($history_model->history_type == 8 || $history_model->history_type == 9) {
+                        $value = \common\models\OrderDetails::findOne($reference_id);
+                        $model->user_id = $value->vendor_id;
+                } else {
+                        $model->user_id = $user_id;
+                }
+
                 $model->content = $history_model->content;
                 $model->date = date('Y-m-d');
                 $model->view_status = 0;
@@ -204,25 +220,23 @@ class SetValues extends Component {
         }
 
         public function OrderVendorNotifications($reference_id, $history_id, $user_id, $history_model, $user_type, $type) {
-                $order_master = \common\models\OrderMaster::findOne($history_model->reference_id);
-                $order_details = \common\models\OrderDetails::find()->where(['master_id' => $order_master->id])->all();
-                foreach ($order_details as $value) {
-                        $model = new \common\models\NotificationViewStatus;
-                        $model->reference_id = $value->id;
-                        $model->history_id = $history_id;
-                        $model->user_type = 2;
-                        $model->user_id = $value->vendor_id;
-                        $product_vendor_details = \common\models\ProductVendor::findOne($value->product_id);
-                        $product_detail = \common\models\Products::findOne($product_vendor_details->product_id);
-                        if ($type == 4)
-                                $model->content = 'Order received for ' . $product_detail->product_name;
-                        else
-                                $model->content = 'Order cancelled of ' . $product_detail->product_name;
+                $value = \common\models\OrderDetails::findOne($reference_id);
 
-                        $model->date = date('Y-m-d');
-                        $model->view_status = 0;
-                        $model->save();
-                }
+                $model = new \common\models\NotificationViewStatus;
+                $model->reference_id = $value->id;
+                $model->history_id = $history_id;
+                $model->user_type = 2;
+                $model->user_id = $value->vendor_id;
+                $product_vendor_details = \common\models\ProductVendor::findOne($value->product_id);
+                $product_detail = \common\models\Products::findOne($product_vendor_details->product_id);
+                if ($type == 8)
+                        $model->content = 'Order received for ' . $product_detail->product_name;
+                else
+                        $model->content = 'Order cancelled of ' . $product_detail->product_name;
+
+                $model->date = date('Y-m-d');
+                $model->view_status = 0;
+                $model->save();
         }
 
         public function Rating($product_id) {

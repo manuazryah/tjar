@@ -21,6 +21,7 @@ class m171116_054148_create_master_history_type extends Migration {
                     'type' => $this->string(),
                     'content' => $this->text(),
                     'notification' => $this->string(250)->comment('1->Admin,2->Vendor,3->User'),
+                    'link' => $this->string(),
                     'status' => $this->integer(),
                     'CB' => $this->integer(),
                     'UB' => $this->integer(),

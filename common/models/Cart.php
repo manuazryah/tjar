@@ -201,7 +201,11 @@ class Cart extends \yii\db\ActiveRecord {
                                 Cart::Addpromotions($orders);
                                 Cart::clearcart($cart);
                                 Cart::stock_clear($orders);
-//                $this->redirect(['checkout/payment', 'id' => $orders['order_id']]);
+                                /* Notification for admin about this order */
+                                $history_id = Yii::$app->SetValues->History($orders['master_id'], 4, '', 2, Yii::$app->user->identity->id); //params : reference id, history type, product id, user type, user id
+                                if (isset($history_id))
+                                        Yii::$app->SetValues->Notifications($orders['master_id'], $history_id, Yii::$app->user->identity->id); //params : reference id, history id, user id
+                                        /**/
                                 Yii::$app->response->redirect(['checkout/payment', 'id' => $orders['order_id']])->send();
                                 return;
                         } else {
@@ -323,6 +327,7 @@ class Cart extends \yii\db\ActiveRecord {
                 $coupons = \common\models\TempSession::find()->where(['user_id' => Yii::$app->user->identity->id, 'type_id' => 3])->all();
                 $cart_products = Cart::find()->where(['user_id' => Yii::$app->user->identity->id])->all();
                 $cart_amount = Cart::total($cart_products);
+                $total_promotion_discount = 0;
                 foreach ($coupons as $coupons) {
                         $add_promption = new \common\models\OrderPromotions();
                         $add_promption->order_master_id = $orders['master_id'];
@@ -333,12 +338,16 @@ class Cart extends \yii\db\ActiveRecord {
                         } else {
                                 $promotion_discount = $promotion->price;
                         }
+                        $total_promotion_discount += $promotion_discount;
                         $add_promption->promotion_discount = $promotion_discount;
                         $add_promption->save();
                         if ($promotion->code_usage == 1) {
                                 Cart::AddUsed($promotion);
                         }
                 }
+                $order_master_detail = OrderMaster::findOne($orders['master_id']);
+                $order_master_detail->net_amount = $order_master_detail->net_amount - $total_promotion_discount;
+                $order_master_detail->update();
         }
 
         public static function AddUsed($code_exists) {

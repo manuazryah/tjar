@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="panel-body">
 
 
-                                        <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
+                                        <?php // echo $this->render('_search', ['model' => $searchModel]);    ?>
 
 
 
@@ -98,6 +98,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         // 'review_date',
                                                         // 'status',
                                                         [
+                                                            'attribute' => 'rating',
+                                                            'value' => function($model) {
+                                                                    if (isset($model->rating) && $model->rating != '') {
+                                                                            return $model->rating;
+                                                                    } else {
+                                                                            return '';
+                                                                    }
+                                                            },
+                                                        ],
+                                                            [
                                                             'class' => 'yii\grid\ActionColumn',
                                                             'contentOptions' => [],
                                                             'header' => 'Actions',
