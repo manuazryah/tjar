@@ -5,6 +5,7 @@ namespace frontend\modules\myaccounts\controllers;
 use common\models\User;
 use common\models\UserWallet;
 use yii;
+use common\models\Cart;
 
 class WalletController extends \yii\web\Controller {
 
@@ -27,7 +28,7 @@ class WalletController extends \yii\web\Controller {
 			$user_wallet_history->balance_amount = $balance;
 			$transaction = \Yii::$app->db->beginTransaction();
 			try {
-				if ($user_wallet_history->validate() && $user_wallet_history->save() && $this->changeCurrentWallet($user_wallet_history, $user_data)) {
+				if ($user_wallet_history->validate() && $user_wallet_history->save() && $this->changeCurrentWallet($user_wallet_history, $user_data, 1)) {
 					$transaction->commit();
 					Yii::$app->session->setFlash('success', 'Amount is added to your wallet.');
 					$model = new UserWallet();
@@ -38,14 +39,6 @@ class WalletController extends \yii\web\Controller {
 				Yii::$app->session->setFlash('error', 'An error occured.');
 				throw $e;
 			}
-//			if ($user_wallet_history->validate() && $user_wallet_history->save()) {
-//				$user_data->wallet_amount = $user_data->wallet_amount + $user_wallet_history->amount;
-//				$user_data->update();
-//				Yii::$app->session->setFlash('success', 'Amount is added to your wallet.');
-//			} else {
-//
-//				Yii::$app->session->setFlash('error', 'An error occured.');
-//			}
 		}
 		return $this->render('index', [
 			    'model' => $model,
@@ -53,9 +46,14 @@ class WalletController extends \yii\web\Controller {
 		]);
 	}
 
-	public function changeCurrentWallet($wallet_history, $model) {
+	public function changeCurrentWallet($wallet_history, $model, $type) {
 		if (!empty($wallet_history) && !empty($model)) {
-			$model->wallet_amount = $model->wallet_amount + $wallet_history->amount;
+			if ($type == 1) {
+				$model->wallet_amount = $model->wallet_amount + $wallet_history->amount;
+			} elseif ($type == 2) {
+				$model->wallet_amount = $model->wallet_amount - $wallet_history->amount;
+			}
+
 			if ($model->update()) {
 				return TRUE;
 			} else {
@@ -63,6 +61,47 @@ class WalletController extends \yii\web\Controller {
 			}
 		} else {
 			return FALSE;
+		}
+	}
+
+	public function actionMoneyFromWallet($net_amount, $ship_address, $bill_address) {
+
+		if (isset(Yii::$app->user->identity->id)) {
+			$user_details = User::findOne([Yii::$app->user->identity->id]);
+			if (!empty($user_details) && $user_details->wallet_amount >= $net_amount) {
+				if ($this->debitWallet($user_details, $net_amount)) {
+					Cart::checkout($ship_address, $bill_address);
+					return $this->redirect(['/site/index']); /* set payment success */
+				}
+			}
+			return $this->redirect(Yii::$app->request->referrer);
+		} else {
+
+		}
+	}
+
+	public function debitWallet($user_model, $amount) {
+		$model = new UserWallet();
+		$model->user_id = $user_model->id;
+		$model->type_id = 2;
+		$model->amount = $amount;
+		$model->entry_date = date('Y-m-d');
+		$model->credit_debit = 2;
+		if ($user_model->wallet_amount != NULL) {
+			$balance = $user_model->wallet_amount - $amount;
+		}
+		$model->balance_amount = $balance;
+		$transaction = \Yii::$app->db->beginTransaction();
+		try {
+			if ($model->validate() && $model->save() && $this->changeCurrentWallet($model, $user_model, 2)) {
+				$transaction->commit();
+
+				return true;
+			}
+		} catch (Exception $e) {
+			$transaction->rollBack();
+//			throw $e;
+			return false;
 		}
 	}
 

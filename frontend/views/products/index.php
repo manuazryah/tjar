@@ -54,15 +54,22 @@ if (empty($min_amount) || empty($max_amount)) {
 
 									$model_name = $feature_detail->model_name;
 
-									if (!empty($categ) && !empty($sub_categ)) {
+									if (!empty($categ) && !empty($subcategory)) {
+
 										if ($feature_detail->canonical_name == 'brand') {
-											$filter_values = $model_name::find()->where(['category' => $categ, 'subcategory' => $sub_categ->id])->distinct('brand_name')->all();
+											$filter_values = $model_name::find()->where(['category' => $categ, 'subcategory' => $subcategory->id])->distinct('brand_name')->all();
 										} else {
-											$filter_values = $model_name::find()->where(['category' => $categ, 'subcategory' => $sub_categ->id])->distinct('value')->all();
+											$filter_values = $model_name::find()->where(['category' => $categ, 'subcategory' => $subcategory->id])->distinct('value')->all();
 										}
-									} elseif (!empty($sub_categ))
-										$filter_values = $model_name::find()->where(['subcategory' => $sub_categ->id])->all();
-									elseif (!empty($categ)) {
+									} elseif (!empty($subcategory)) {
+
+										if ($feature_detail->canonical_name == 'brand') {
+											$filter_values = $model_name::find()->where(['subcategory' => $subcategory->id])->distinct('brand_name')->all();
+										} else {
+											$filter_values = $model_name::find()->where(['subcategory' => $subcategory->id])->distinct('value')->all();
+										}
+									} elseif (!empty($categ)) {
+
 										if ($feature_detail->canonical_name == 'brand') {
 											$filter_values = $model_name::find()->where(['category' => $categ])->select('DISTINCT `brand_name`')->all();
 										} else {

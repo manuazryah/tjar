@@ -109,16 +109,16 @@
 </style>
 <input type="hidden" id="prof-change-model-id" name="prof-change-model-id" value="<?= $model->id ?>">
 
-<div class="show-image" id="<?= $k ?>">
+<div class="show-image" id="">
 	<div style="min-height: 74px;">
 		<img srcset="<?= Yii::$app->homeUrl . '../uploads/products/' . $split_folder . '/' . $model->id . '/profile/' . $model->canonical_name . '.' . $model->gallery_images ?>?<?= rand() ?>" alt="no-image" newpath="<?= $model->canonical_name . '.' . $model->gallery_images ?>"style="width:100px;height:100px" id="prof_image_changed">
 
-		<a class="update delete_image btn btn-icon btn-red"  id-for="<?= $model->canonical_name . '.' . $model->gallery_images ?>" id="model_<?= $model->id ?>_<?= $id ?>" href="" ><i class="fa-remove"></i>
+		<a class="update delete_image btn btn-icon btn-red"  id-for="<?= $model->canonical_name . '.' . $model->gallery_images ?>" id="model_<?= $model->id ?>_" href="" ><i class="fa-remove"></i>
 		</a>
 	</div>
 
 	<label class="radio_btn">
-		<input type="radio" name="profile-image" id="radio-btn-<?= $id ?>"  id-for="<?= $id ?>" value="profile-image<?= $id ?>" checked class="setProfile">
+		<input type="radio" name="profile-image" id="radio-btn-"  id-for="" value="profile-image" checked class="setProfile">
 		<span class="checkmark"></span>
 	</label>
 </div>

@@ -419,12 +419,13 @@ class ProductsController extends Controller {
 			if (!empty($model->related_products))
 				$model->related_products = implode(',', $model->related_products);
 			if ($model->validate() && $model->save()) {
-				$new_specifictns = Yii::$app->request->post()['specifications_new'];
+				if (isset(Yii::$app->request->post()['specifications_new']))
+					$new_specifictns = Yii::$app->request->post()['specifications_new'];
 				$specfctns = Yii::$app->request->post()['specifications'];
 				if (!empty($specfctns)) {
 					foreach ($specfctns as $key => $value) {
 						$specification_update = ProductSpecifications::find()->where(['product_id' => $id, 'id' => $key])->one();
-						$product_feture = \common\models\ProductFeatures::findOne(['id' => product_feature_id]);
+						$product_feture = \common\models\ProductFeatures::findOne(['id' => $specification_update->product_feature_id]);
 //						if (empty($value)) {
 //							$specification_update->delete();
 //						} else {
@@ -798,9 +799,14 @@ class ProductsController extends Controller {
 						} else {
 							$extnsn = explode('.', $_FILES["files"]["name"][$i]);
 							$count = glob($path . "*");
-							$prefix_ = explode('_', end($count));
-							$prefix = explode('.', $prefix_[1]);
-							$vall = $prefix[0] + 1;
+							if (!empty($count)) {
+								$prefix_ = explode('_', end($count));
+								$prefix = explode('.', $prefix_[1]);
+								$vall = $prefix[0] + 1;
+							} else {
+								$vall = 1;
+							}
+
 							$image_name = $model->canonical_name . '_' . $vall . '.' . $extnsn[1];
 							$image_arr = [
 								['width' => 440, 'height' => 440, 'name' => 'large'],
