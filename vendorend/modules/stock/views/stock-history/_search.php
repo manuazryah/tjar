@@ -14,8 +14,8 @@ use yii\helpers\ArrayHelper;
 
     <?php
     $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
+                'action' => ['index'],
+                'method' => 'get',
     ]);
     $model->createdFrom = $from;
     $model->createdTo = $to;
@@ -32,38 +32,38 @@ use yii\helpers\ArrayHelper;
     </div>
     <div class="col-md-3" style="padding-left: 0px;">
         <?php
-        echo DatePicker::widget([
-            'model' => $model,
-            'form' => $form,
+        echo $form->field($model, 'createdFrom')->widget(DatePicker::className(), [
             'type' => DatePicker::TYPE_INPUT,
-            'attribute' => 'createdFrom',
+            'removeButton' => ['icon' => 'trash'],
+            'pickerButton' => false,
             'pluginOptions' => [
-                'autoclose' => true,
                 'format' => 'yyyy-mm-dd',
+                'autoclose' => true,
+                'todayHighlight' => true,
             ]
         ]);
         ?>
     </div>
     <div class="col-md-3" style="padding-left: 0px;">
         <?php
-        echo DatePicker::widget([
-            'model' => $model,
-            'form' => $form,
+        echo $form->field($model, 'createdTo')->widget(DatePicker::className(), [
             'type' => DatePicker::TYPE_INPUT,
-            'attribute' => 'createdTo',
+            'removeButton' => ['icon' => 'trash'],
+            'pickerButton' => false,
             'pluginOptions' => [
-                'autoclose' => true,
                 'format' => 'yyyy-mm-dd',
+                'autoclose' => true,
+                'todayHighlight' => true,
             ]
         ]);
         ?>
     </div>
 
     <div class="col-md-2" style="margin-top: 23px;">
-    <div class="form-group">
+        <div class="form-group">
             <?= Html::submitButton('Search', ['class' => 'btn btn-success']) ?>
             <?php // Html::resetButton('Reset', ['class' => 'btn btn-default', 'style' => 'background-color: #e6e6e6;'])    ?>
-    </div>
+        </div>
     </div>
 
     <?php ActiveForm::end(); ?>
