@@ -43,6 +43,7 @@ $form = ActiveForm::begin(['id' => 'submit-reviews']);
 
 
                 <?= $form->field($model_review, 'product_id')->hiddenInput(['maxlength' => true, 'value' => $product_details->id])->label(FALSE) ?>
+                <?= $form->field($model_review, 'order_id')->hiddenInput(['maxlength' => true, 'value' => $order_id])->label(FALSE) ?>
 
 
                 <div class="row">

@@ -192,7 +192,7 @@ class ProductsController extends \yii\web\Controller {
          * @param prodict_id  $product
          * @return mixed
          */
-    public function actionProductDetail($canonical, $product) {
+        public function actionProductDetail($canonical, $product) {
                 if (isset(Yii::$app->user->identity->id)) {
                         $user_id = Yii::$app->user->identity->id;
                 } else {
@@ -217,14 +217,14 @@ class ProductsController extends \yii\web\Controller {
                 ]);
         }
 
-    public function actionOrderCancel($orderdetail) {
-        $orderdetail_id = yii::$app->EncryptDecrypt->Encrypt('decrypt', $orderdetail);
-        $detail = \common\models\OrderDetails::findOne($orderdetail_id);
-        $product_vendor = ProductVendor::findOne($detail->product_id);
-        if (StockHistory::stockhistory($detail->quantity, '4', $detail->product_id, '3', $product_vendor->qty)) {//4=?return3=>customer
-            $product_vendor->qty = $product_vendor->qty + $detail->quantity;
+        public function actionOrderCancel($orderdetail) {
+                $orderdetail_id = yii::$app->EncryptDecrypt->Encrypt('decrypt', $orderdetail);
+                $detail = \common\models\OrderDetails::findOne($orderdetail_id);
+                $product_vendor = ProductVendor::findOne($detail->product_id);
+                if (StockHistory::stockhistory($detail->quantity, '4', $detail->product_id, '3', $product_vendor->qty)) {//4=?return3=>customer
+                        $product_vendor->qty = $product_vendor->qty + $detail->quantity;
+                }
         }
-    }
 
         /**
          * Save recently viewed product.

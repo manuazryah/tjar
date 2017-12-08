@@ -44,8 +44,8 @@ class AjaxController extends Controller {
         public function actionStreets() {
                 if (Yii::$app->request->isAjax) {
                         $street_id = $_POST['id'];
-                        $street_datas = \common\models\Street::findAll(['id' => $street_id]);
-                        $options = '<option value="">-Choose a Street-</option>';
+                        $street_datas = \common\models\Street::findAll(['city_id' => $street_id]);
+                        $options = '<option value="">Street</option>';
                         foreach ($street_datas as $street_data) {
                                 $options .= "<option value='" . $street_data->id . "'>" . $street_data->street_name . "</option>";
                         }

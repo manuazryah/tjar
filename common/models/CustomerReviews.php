@@ -33,7 +33,7 @@ class CustomerReviews extends \yii\db\ActiveRecord {
         public function rules() {
                 return [
                         [['user_id', 'product_id'], 'required'],
-                        [['user_id', 'product_id', 'status', 'rating'], 'integer'],
+                        [['user_id', 'product_id', 'status', 'rating', 'order_id'], 'integer'],
                         [['title', 'description'], 'string'],
                         [['review_date'], 'safe'],
                         [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductVendor::className(), 'targetAttribute' => ['product_id' => 'id']],
@@ -47,6 +47,7 @@ class CustomerReviews extends \yii\db\ActiveRecord {
         public function attributeLabels() {
                 return [
                     'id' => 'ID',
+                    'order_id' => 'Order Id',
                     'user_id' => 'User',
                     'product_id' => 'Product',
                     'title' => 'Title',
