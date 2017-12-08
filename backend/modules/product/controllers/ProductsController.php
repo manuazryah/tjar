@@ -693,7 +693,7 @@ class ProductsController extends Controller {
 						$image_arr = [
 							['width' => 440, 'height' => 440, 'name' => 'large'],
 							['width' => 70, 'height' => 70, 'name' => 'thumb'],
-							['width' => 175, 'height' => 125, 'name' => 'medium']
+							['width' => 175, 'height' => 175, 'name' => 'medium']
 						];
 						foreach ($image_arr as $data) {
 							Image::getImagine()->open($prof_dir . '/' . $model->canonical_name . '.' . $img_extnsn[1])->thumbnail(new Box($data['width'], $data['height']))->save($thumb_path . $model->canonical_name . '_' . $data['name'] . '.' . $img_extnsn[1], ['quality' => 90]);

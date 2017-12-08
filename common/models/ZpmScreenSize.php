@@ -12,6 +12,7 @@ use Yii;
  * @property int $category
  * @property int $subcategory
  * @property string $value
+ * @property string $canonical_name
  * @property string $field1
  * @property string $field2
  * @property string $field3
@@ -60,6 +61,7 @@ class ZpmScreenSize extends \yii\db\ActiveRecord {
 		    'category' => 'Category',
 		    'subcategory' => 'Subcategory',
 		    'value' => 'Value',
+		    'canonical_name' => 'Canonical Name',
 //            'field1' => 'Field1',
 //            'field2' => 'Field2',
 //            'field3' => 'Field3',

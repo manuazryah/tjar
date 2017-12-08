@@ -12,6 +12,7 @@ use Yii;
  * @property int $category
  * @property int $subcategory
  * @property string $value
+ * @property string $canonical_name
  * @property string $value_arabic
  * @property string $field1
  * @property string $field2
@@ -26,26 +27,24 @@ use Yii;
  * @property ProductMainCategory $mainCategory
  * @property ProductSubCategory $subcategory0
  */
-class ZpmPattern extends \yii\db\ActiveRecord
-{
+class ZpmPattern extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'zpm_pattern';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['main_category', 'category', 'subcategory', 'value', 'value_arabic'], 'required'],
             [['main_category', 'category', 'subcategory', 'status', 'CB', 'UB'], 'integer'],
             [['DOC', 'DOU'], 'safe'],
-            [['value', 'value_arabic'], 'string', 'max' => 250],
+            [['value', 'value_arabic', 'canonical_name'], 'string', 'max' => 250],
 //            [['field1', 'field2', 'field3'], 'string', 'max' => 500],
             [['category'], 'exist', 'skipOnError' => true, 'targetClass' => ProductCategory::className(), 'targetAttribute' => ['category' => 'id']],
             [['main_category'], 'exist', 'skipOnError' => true, 'targetClass' => ProductMainCategory::className(), 'targetAttribute' => ['main_category' => 'id']],
@@ -56,8 +55,7 @@ class ZpmPattern extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'main_category' => 'Main Category',
@@ -65,6 +63,7 @@ class ZpmPattern extends \yii\db\ActiveRecord
             'subcategory' => 'Subcategory',
             'value' => 'Value',
             'value_arabic' => 'Value Arabic',
+            'canonical_name' => 'Canonical Name',
 //            'field1' => 'Field1',
 //            'field2' => 'Field2',
 //            'field3' => 'Field3',
@@ -79,24 +78,22 @@ class ZpmPattern extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCategory0()
-    {
+    public function getCategory0() {
         return $this->hasOne(ProductCategory::className(), ['id' => 'category']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMainCategory()
-    {
+    public function getMainCategory() {
         return $this->hasOne(ProductMainCategory::className(), ['id' => 'main_category']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSubcategory0()
-    {
+    public function getSubcategory0() {
         return $this->hasOne(ProductSubCategory::className(), ['id' => 'subcategory']);
     }
+
 }

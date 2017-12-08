@@ -10,24 +10,22 @@ use common\models\ZpmScreenType;
 /**
  * ZpmScreenTypeSearch represents the model behind the search form about `common\models\ZpmScreenType`.
  */
-class ZpmScreenTypeSearch extends ZpmScreenType
-{
+class ZpmScreenTypeSearch extends ZpmScreenType {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'main_category', 'category', 'subcategory', 'status', 'CB', 'UB'], 'integer'],
-            [['value', 'value_arabic', 'field1', 'field2', 'field3', 'DOC', 'DOU'], 'safe'],
+            [['value', 'value_arabic', 'field1', 'field2', 'field3', 'DOC', 'DOU', 'canonical_name'], 'safe'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,8 +37,7 @@ class ZpmScreenTypeSearch extends ZpmScreenType
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = ZpmScreenType::find();
 
         // add conditions that should always apply here
@@ -71,11 +68,13 @@ class ZpmScreenTypeSearch extends ZpmScreenType
         ]);
 
         $query->andFilterWhere(['like', 'value', $this->value])
-            ->andFilterWhere(['like', 'value_arabic', $this->value_arabic])
-            ->andFilterWhere(['like', 'field1', $this->field1])
-            ->andFilterWhere(['like', 'field2', $this->field2])
-            ->andFilterWhere(['like', 'field3', $this->field3]);
+                ->andFilterWhere(['like', 'value_arabic', $this->value_arabic])
+                ->andFilterWhere(['like', 'canonical_name', $this->canonical_name])
+                ->andFilterWhere(['like', 'field1', $this->field1])
+                ->andFilterWhere(['like', 'field2', $this->field2])
+                ->andFilterWhere(['like', 'field3', $this->field3]);
 
         return $dataProvider;
     }
+
 }

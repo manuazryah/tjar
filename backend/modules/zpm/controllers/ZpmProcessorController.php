@@ -94,7 +94,6 @@ class ZpmProcessorController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->findModel($id);
-
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model) && $model->validate() && $model->save()) {
             Yii::$app->getSession()->setFlash('success', 'Processor Updated Successfully');
             return $this->redirect(['index']);

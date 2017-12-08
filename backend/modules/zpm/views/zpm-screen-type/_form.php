@@ -39,6 +39,9 @@ use yii\helpers\Url;
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>    
         <?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
     </div>
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>   
+        <?= $form->field($model, 'canonical_name')->textInput(['maxlength' => true, 'readonly' => True]) ?>
+    </div>
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>    
         <?= $form->field($model, 'value_arabic')->textInput(['maxlength' => true]) ?>
     </div>
@@ -78,5 +81,20 @@ use yii\helpers\Url;
     {
         // Adding Custom Scrollbar
         $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#zpmscreentype-value').keyup(function () {
+            $('#zpmscreentype-canonical_name').val(slug($(this).val()));
+        });
+        var slug = function (str) {
+            var $slug = '';
+            var trimmed = $.trim(str);
+            $slug = trimmed.replace(/[^a-z0-9-]/gi, '-').
+                    replace(/-+/g, '-').
+                    replace(/^-|-$/g, '');
+            return $slug.toLowerCase();
+        };
     });
 </script>

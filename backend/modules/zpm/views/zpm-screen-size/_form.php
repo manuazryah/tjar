@@ -40,6 +40,9 @@ use yii\helpers\Url;
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'value')->textInput(['maxlength' => true])->label('Value (<i>in Inch</i>)') ?>
     </div>
+    <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>   
+        <?= $form->field($model, 'canonical_name')->textInput(['maxlength' => true, 'readonly' => True]) ?>
+    </div>
     <div class='col-md-6 col-sm-6 col-xs-12 left_padd'>
         <?= $form->field($model, 'status')->dropDownList(['1' => 'Enable', '0' => 'Disable']) ?>
     </div>
@@ -76,5 +79,20 @@ use yii\helpers\Url;
     {
         // Adding Custom Scrollbar
         $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#zpmscreensize-value').keyup(function () {
+            $('#zpmscreensize-canonical_name').val(slug($(this).val()));
+        });
+        var slug = function (str) {
+            var $slug = '';
+            var trimmed = $.trim(str);
+            $slug = trimmed.replace(/[^a-z0-9--.]/gi, '-').
+                    replace(/-+/g, '-').
+                    replace(/^-|-$/g, '');
+            return $slug.toLowerCase();
+        };
     });
 </script>

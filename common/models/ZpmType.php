@@ -12,6 +12,7 @@ use Yii;
  * @property int $category
  * @property int $subcategory
  * @property string $value
+ * @property string $canonical_name
  * @property string $value_arabic
  * @property string $field1
  * @property string $field2
@@ -61,6 +62,7 @@ class ZpmType extends \yii\db\ActiveRecord {
 		    'category' => 'Category',
 		    'subcategory' => 'Subcategory',
 		    'value' => 'Value',
+		    'canonical_name' => 'Canonical Name',
 		    'value_arabic' => 'Value Arabic',
 		    'field1' => 'Field1',
 		    'field2' => 'Field2',

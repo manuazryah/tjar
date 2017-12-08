@@ -12,6 +12,7 @@ use Yii;
  * @property int $category
  * @property int $subcategory
  * @property string $value
+ * @property string $canonical_name
  * @property string $value_arabic
  * @property string $field1
  * @property string $field2
@@ -45,7 +46,7 @@ class ZpmBodyType extends \yii\db\ActiveRecord
             [['main_category', 'category', 'subcategory', 'value', 'value_arabic'], 'required'],
             [['main_category', 'category', 'subcategory', 'status', 'CB', 'UB'], 'integer'],
             [['DOC', 'DOU'], 'safe'],
-            [['value', 'value_arabic'], 'string', 'max' => 250],
+            [['value', 'value_arabic','canonical_name'], 'string', 'max' => 250],
 //            [['field1', 'field2', 'field3'], 'string', 'max' => 500],
             [['category'], 'exist', 'skipOnError' => true, 'targetClass' => ProductCategory::className(), 'targetAttribute' => ['category' => 'id']],
             [['main_category'], 'exist', 'skipOnError' => true, 'targetClass' => ProductMainCategory::className(), 'targetAttribute' => ['main_category' => 'id']],
@@ -65,6 +66,7 @@ class ZpmBodyType extends \yii\db\ActiveRecord
             'subcategory' => 'Subcategory',
             'value' => 'Value',
             'value_arabic' => 'Value Arabic',
+            'canonical_name' => 'Canonical Name',
 //            'field1' => 'Field1',
 //            'field2' => 'Field2',
 //            'field3' => 'Field3',

@@ -19,7 +19,7 @@ class ZpmColorSearch extends ZpmColor
     {
         return [
             [['id', 'main_category', 'category', 'subcategory', 'status', 'CB', 'UB'], 'integer'],
-            [['value', 'value_arabic', 'field1', 'field2', 'field3', 'DOC', 'DOU'], 'safe'],
+            [['value', 'value_arabic', 'field1', 'field2', 'field3', 'DOC', 'DOU','canonical_name'], 'safe'],
         ];
     }
 
@@ -72,6 +72,7 @@ class ZpmColorSearch extends ZpmColor
 
         $query->andFilterWhere(['like', 'value', $this->value])
             ->andFilterWhere(['like', 'value_arabic', $this->value_arabic])
+            ->andFilterWhere(['like', 'canonical_name', $this->canonical_name])
             ->andFilterWhere(['like', 'field1', $this->field1])
             ->andFilterWhere(['like', 'field2', $this->field2])
             ->andFilterWhere(['like', 'field3', $this->field3]);
