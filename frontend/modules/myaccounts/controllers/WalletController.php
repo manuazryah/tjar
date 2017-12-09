@@ -64,12 +64,12 @@ class WalletController extends \yii\web\Controller {
 		}
 	}
 
-	public function actionMoneyFromWallet($net_amount, $ship_address, $bill_address) {
+	public function actionMoneyFromWallet($net_amount, $ship_address, $bill_address, $order_id) {
 
 		if (isset(Yii::$app->user->identity->id)) {
 			$user_details = User::findOne([Yii::$app->user->identity->id]);
 			if (!empty($user_details) && $user_details->wallet_amount >= $net_amount) {
-				if ($this->debitWallet($user_details, $net_amount)) {
+				if ($this->debitWallet($user_details, $net_amount, $order_id)) {
 					Cart::checkout($ship_address, $bill_address);
 					return $this->redirect(['/site/index']); /* set payment success */
 				}
@@ -80,13 +80,14 @@ class WalletController extends \yii\web\Controller {
 		}
 	}
 
-	public function debitWallet($user_model, $amount) {
+	public function debitWallet($user_model, $amount, $order_id) {
 		$model = new UserWallet();
 		$model->user_id = $user_model->id;
 		$model->type_id = 2;
 		$model->amount = $amount;
 		$model->entry_date = date('Y-m-d');
 		$model->credit_debit = 2;
+		$model->reference_id = $order_id;
 		if ($user_model->wallet_amount != NULL) {
 			$balance = $user_model->wallet_amount - $amount;
 		}

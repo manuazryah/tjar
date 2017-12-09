@@ -175,7 +175,7 @@ $user_details = \common\models\User::findOne([Yii::$app->user->identity->id]);
 											if ($user_details->wallet_amount >= $grand_total) {
 												?>
 												<?= Html::submitButton('From Wallet', ['class' => 'checkout-button button alt wc-forward btn_mrgn_top', 'value' => 'from_wallet', 'name' => 'submit']) ?>
-																			<!--<a id="from_wallet" amount="<?= $grand_total ?>">from Wallet</a>-->
+																				<!--<a id="from_wallet" amount="<?= $grand_total ?>">from Wallet</a>-->
 												<?php
 											}
 											?>
@@ -210,9 +210,7 @@ $user_details = \common\models\User::findOne([Yii::$app->user->identity->id]);
 											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 												<select class="field__input input-width" id="billing" name="UserAddress[billing]" required="required">
 													<option value=''>Select</option>
-													<?php // foreach ($addresses as $address) {      ?>
-													    <!--<option value="<?= $address->id ?>" ><?= $address->first_name . ', ' . $address->address . ', ' . $address->landmark ?></option>-->
-													<?php // }          ?>
+
 												</select>
 											</div>
 											<div class="clearfix"></div>

@@ -202,7 +202,7 @@ class Cart extends \yii\db\ActiveRecord {
 				Cart::clearcart($cart);
 				Cart::stock_clear($orders);
 //                Yii::$app->response->redirect(['checkout/payment', 'id' => $orders['order_id']])->send();
-				return true;
+				return $orders['order_id'];
 			} else {
 				Yii::$app->response->redirect(['mycart'])->send();
 				return false;
