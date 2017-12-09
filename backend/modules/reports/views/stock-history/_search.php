@@ -36,6 +36,18 @@ use yii\helpers\ArrayHelper;
                 'todayHighlight' => true,
             ]
         ]);
+
+
+//        echo DatePicker::widget([
+//            'model' => $model,
+//            'form' => $form,
+//            'type' => DatePicker::TYPE_INPUT,
+//            'attribute' => 'createdFrom',
+//            'pluginOptions' => [
+//                'autoclose' => true,
+//                'format' => 'yyyy-mm-dd',
+//            ]
+//        ]);
         ?>
     </div>
     <div class="col-md-3" style="padding-left: 0px;">
@@ -50,6 +62,16 @@ use yii\helpers\ArrayHelper;
                 'todayHighlight' => true,
             ]
         ]);
+//        echo DatePicker::widget([
+//            'model' => $model,
+//            'form' => $form,
+//            'type' => DatePicker::TYPE_INPUT,
+//            'attribute' => 'createdTo',
+//            'pluginOptions' => [
+//                'autoclose' => true,
+//                'format' => 'yyyy-mm-dd',
+//            ]
+//        ]);
         ?>
     </div>
 

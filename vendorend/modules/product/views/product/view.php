@@ -147,6 +147,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                     'model' => $model,
                                                                     'id' => $id,
                                                                     'vendor_address' => $vendor_address,
+                                                                    'product' => $product,
                                                                 ])
                                                                 ?>
                                                         </div>
@@ -181,7 +182,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php yii\widgets\Pjax::end(); ?>
 <script>
         $(document).ready(function () {
-                $('.status_pause').click(function (e) {
+                $(document).on('click', '.status_pause', function (e) {
                         e.preventDefault();
                         var data = this.id;
                         var dat = data.split('_');

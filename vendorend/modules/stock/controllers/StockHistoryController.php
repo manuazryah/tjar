@@ -44,22 +44,9 @@ class StockHistoryController extends Controller {
 //            $product_array[] = $value->id;
 //        }
 //        $dataProvider->query->andWhere(['in', 'productvendor_id', $product_array])->all();
-
-        if (isset($_GET['StockHistorySearch']['createdFrom'])) {
-            $from = $_GET['StockHistorySearch']['createdFrom'];
-        } else {
-            $from = '';
-        }
-        if (isset($_GET['StockHistorySearch']['createdTo'])) {
-            $to = $_GET['StockHistorySearch']['createdTo'];
-        } else {
-            $to = '';
-        }
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
-                    'from' => $from,
-                    'to' => $to,
         ]);
     }
 

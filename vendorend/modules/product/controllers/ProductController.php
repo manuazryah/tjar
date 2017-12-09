@@ -40,12 +40,9 @@ class ProductController extends \yii\web\Controller {
         }
 
         public function actionProductView($id) {
-
                 $product_model = Products::findOne(['id' => $id]);
-
                 return $this->renderAjax('product-view', [
                             'model' => $product_model,
-                            'id' => $id,
                 ]);
         }
 
@@ -98,6 +95,8 @@ class ProductController extends \yii\web\Controller {
                 $product_model = ProductVendor::findOne($id);
                 $vendor_address = \common\models\Locations::find()->where(['vendor_id' => \Yii::$app->user->identity->id])->orderBy(['(dafault_address)' => SORT_DESC])->all();
                 $product_specifications = \common\models\ProductSpecifications::find()->where(['product_id' => $product_model->product_id])->all();
+                $product = Products::findOne($product_model->product_id);
+
                 if ($product_model->load(Yii::$app->request->post())) {
                         $product_model->update();
                 }
@@ -105,6 +104,8 @@ class ProductController extends \yii\web\Controller {
                             'model' => $product_model,
                             'product_specifications' => $product_specifications,
                             'vendor_address' => $vendor_address,
+                            'product' => $product,
+                            'id' => $id,
                 ]);
         }
 
@@ -259,6 +260,7 @@ class ProductController extends \yii\web\Controller {
 //		$complaints = UserComplaints::find()->where(['product_id' => $id])->all();
 
                 return $this->render('_complaints', [
+                            'searchModel' => $searchModel,
                             'dataProvider' => $dataProvider,
                             'id' => $id,
                 ]);
