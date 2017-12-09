@@ -115,7 +115,8 @@ class ProductsController extends \yii\web\Controller {
         function Filters($data) {
                 $productids = '';
                 $flag = 2;
-                $main_category = ProductMainCategory::findOne(['canonical_name' => $data['main_categ'][0]]);
+                if (isset($data['main_categ'][0]))
+                        $main_category = ProductMainCategory::findOne(['canonical_name' => $data['main_categ'][0]]);
                 if (!empty($data['categ'][0])) {
                         $category = ProductCategory::findOne(['canonical_name' => $data['categ'][0]]);
                 } elseif (!empty($data['sub_categ'][0])) {
@@ -134,13 +135,17 @@ class ProductsController extends \yii\web\Controller {
                                         echo $sub_category->id;
                                         $product_features = ProductFeatures::find()->where(['specification' => $features->id, 'category' => $sub_category->category_id, 'subcategory' => $sub_category
                                                     ->id])->select('id')->asArray()->all();
-                                } else {
+                                } else if (isset($category)) {
 
                                         $product_features = ProductFeatures::find()->where(['specification' => $features->id, 'category' => $category->id])->select('id')->asArray()->all();
+                                } else {
+                                        $product_features = '';
                                 }
-
-                                foreach ($product_features as $product_feature) {
-                                        $feature_ids [] = $product_feature['id'];
+                                $feature_ids = array();
+                                if (!empty($product_features)) {
+                                        foreach ($product_features as $product_feature) {
+                                                $feature_ids [] = $product_feature['id'];
+                                        }
                                 }
 
                                 unset($dat);
@@ -353,9 +358,15 @@ class ProductsController extends \yii\web\Controller {
                                 $params[urldecode($name)][] = urldecode($value);
                         }
                 }
-                $main_category = ProductMainCategory::findOne(['canonical_name' => $params['main_categ'][0]]);
+                $main_category_name = '';
+                $category_name = '';
+                if (isset($params['main_categ'][0])) {
+                        $main_category = ProductMainCategory::findOne(['canonical_name' => $params['main_categ'][0]]);
+                        $main_category_name = $main_category->canonical_name;
+                }
                 if (!empty($params['categ'][0])) {
                         $category = ProductCategory::findOne(['canonical_name' => $params['categ'][0]]);
+                        $category_name = $category->id;
                 } elseif (!empty($params['sub_categ'][0])) {
                         $sub_category = ProductSubCategory::findOne(['canonical_name' => $params['sub_categ'][0]]);
                 }
@@ -366,7 +377,10 @@ class ProductsController extends \yii\web\Controller {
 
                         $filters = Filter::find()->where(['subcategory' => $sub_category->id])->select(['features'])->distinct()->all();
                         $category = ProductCategory::findOne(['id' => $sub_category->category_id]);
+                        $category_name = $category->id;
                         $products = Products::find()->where(['main_category' => $main_category->id, 'subcategory' => $sub_category->id])->select('id')->asArray()->all();
+                } else {
+                        $filters = '';
                 }
 
                 $result = $this->Filters($params);
@@ -434,8 +448,8 @@ class ProductsController extends \yii\web\Controller {
                             'searchModel' => $searchModel,
                             'dataProvider' => $dataProvider,
                             'filters' => $filters,
-                            'categ' => $category->id,
-                            'main_categ' => $main_category->canonical_name,
+                            'categ' => $category_name,
+                            'main_categ' => $main_category_name,
                 ]);
         }
 

@@ -83,6 +83,7 @@ use yii\helpers\Html;
                                 if (selected.next().length == 0) {
                                         selected.siblings().first().addClass('search-selected');
                                 } else {
+                                        // alert('else');
                                         selected.next().addClass('search-selected');
                                 }
                         } else if (e.keyCode == 38) { //up

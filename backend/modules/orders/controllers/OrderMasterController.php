@@ -52,6 +52,12 @@ class OrderMasterController extends Controller {
          */
         public function actionIndex($order_status = NULL) {
                 $searchModel = new OrderMasterSearch();
+                if (Yii::$app->request->queryParams['OrderMasterSearch']['user_id'] != NULL) {
+                        $search_status = 1;
+                } else {
+                        $search_status = 0;
+                }
+
                 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
                 if ($order_status == 1) {
                         $dataProvider->query->andWhere(['admin_status' => 0]);
@@ -62,6 +68,7 @@ class OrderMasterController extends Controller {
                             'searchModel' => $searchModel,
                             'dataProvider' => $dataProvider,
                             'order_status' => $order_status,
+                            'search_status' => $search_status,
                 ]);
         }
 

@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                             return Html::button($user->first_name, ['value' => Url::to(['user-view', 'id' => $user->id]), 'class' => 'modalButton edit-btn']);
                                                                     }
                                                             },
-                                                            'filter' => ArrayHelper::map(User::find()->asArray()->all(), 'id', 'first_name'),
+                                                            'filter' => Html::activeDropDownList($searchModel, 'user_id', ArrayHelper::map(User::find()->all(), 'id', 'first_name'), ['class' => 'form-control', 'id' => 'user_name', 'prompt' => '']),
                                                         ],
                                                             [
                                                             'attribute' => 'product_id',
@@ -187,6 +187,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 }).on('select2-open', function ()
                 {
                         // Adding Custom Scrollbar
+                        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+                });
+
+
+                $("#user_name").select2({
+                        placeholder: '',
+                        allowClear: true
+                }).on('select2-open', function ()
+                {
                         $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
                 });
         });

@@ -38,8 +38,11 @@ class ProductVendorController extends Controller {
          */
         public function actionIndex($vendor_status = NULL, $admin_status = NULL, $expiry = NULL, $soldout = NULL) {
                 $searchModel = new ProductVendorSearch();
-//		var_dump(Yii::$app->request->queryParams);
-//		exit;
+                if (Yii::$app->request->queryParams['ProductVendorSearch']['product_id'] != NULL || Yii::$app->request->queryParams['ProductVendorSearch']['vendor_id'] != NULL) {
+                        $search_status = 1;
+                } else {
+                        $search_status = 0;
+                }
                 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
                 if (!empty($vendor_status)) {
                         $dataProvider->query->andWhere(['vendor_status' => $vendor_status]);
@@ -61,6 +64,7 @@ class ProductVendorController extends Controller {
                             'admin_status' => $admin_status,
                             'expiry' => $expiry,
                             'soldout' => $soldout,
+                            'search_status' => $search_status,
                 ]);
         }
 

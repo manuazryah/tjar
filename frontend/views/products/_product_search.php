@@ -23,7 +23,7 @@
                 }
                 ?>
 
-                <li class="<?= $p == 1 ? 'search-selected' : '' ?>" id="<?= $value->tag_name ?>">
+                <li class="select <?= $p == 1 ? 'search-selected' : '' ?>" id="<?= $value->tag_name ?>">
                         <a id="<?= $value->id ?>" href="<?= Yii::$app->homeUrl ?>products/product-search?<?= $link_params ?>&query_search=<?= $value->canonical_name ?>">  <div style="height: 25px"><span class="search-li-value"><?= $value->tag_name ?> </span> in  <span class="search-category"> <?= $category_name ?> </span></div> </a>
 
                 </li>

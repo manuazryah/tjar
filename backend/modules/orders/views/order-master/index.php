@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use common\models\User;
+use kartik\daterange\DateRangePicker;
 
 /* @var $this yii\web\View */
 
@@ -37,6 +38,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 padding-left: 5px;
         }
 </style>
+
+<?php
+if (Yii::$app->request->queryParams['order_status'] == 1)
+        $user_search_id = 'user_name_' . Yii::$app->request->queryParams['order_status'];
+else if (Yii::$app->request->queryParams['order_status'] == 2)
+        $user_search_id = 'user_name_' . Yii::$app->request->queryParams['order_status'];
+else
+        $user_search_id = 'user_name';
+?>
+
 <div class="products-index">
 
         <div class="row">
@@ -54,19 +65,20 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 <div class="row">
 
                                                         <div class="col-md-12">
-                                                                <?php yii\widgets\Pjax::begin(['id' => 'order-manage']); ?>
 
                                                                 <ul class="nav nav-tabs">
                                                                         <li class="<?= $order_status == '' ? 'active' : '' ?>">
-                                                                                <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">All Orders</span>', ['index'], ['class' => '']) ?>
+                                                                                <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">All Orders</span>', ['index'], ['onclick' => "Select()"]) ?>
                                                                         </li>
                                                                         <li class="<?= $order_status == 1 ? 'active' : '' ?>">
-                                                                                <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Pending</span>', ['index', 'order_status' => 1], ['class' => '']) ?>
+                                                                                <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Pending</span>', ['index', 'order_status' => 1], ['onclick' => "Select()"]) ?>
                                                                         </li>
                                                                         <li class="<?= $order_status == 2 ? 'active' : '' ?>">
-                                                                                <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Approved</span>', ['index', 'order_status' => 2], ['class' => '']) ?>
+                                                                                <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Approved</span>', ['index', 'order_status' => 2], ['onclick' => "Select()"]) ?>
                                                                         </li>
                                                                 </ul>
+                                                                <?php yii\widgets\Pjax::begin(['id' => 'order-manage']); ?>
+
 
                                                                 <div class="tab-content">
                                                                         <div class="tab-pane active" id="">
@@ -76,6 +88,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                 <i class="linecons-search"></i>
                                                                                                 <span>Search</span>
                                                                                         </button>
+                                                                                        <?php
+                                                                                        if ($search_status == 1) {
+                                                                                                ?>
+                                                                                                <script>
+                                                                                                        Select();
+                                                                                                </script>
+                                                                                                <?php
+                                                                                        }
+                                                                                        ?>
 
                                                                                         <?=
                                                                                         GridView::widget([
@@ -100,22 +121,25 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                     [
                                                                                                     'attribute' => 'user_id',
                                                                                                     'format' => 'raw',
-                                                                                                    'filter' => ArrayHelper::map(User::find()->all(), 'id', 'first_name'),
+                                                                                                    'filter' => Html::activeDropDownList($searchModel, 'user_id', ArrayHelper::map(User::find()->all(), 'id', 'first_name'), ['class' => 'form-control', 'id' => $user_search_id, 'prompt' => '']),
                                                                                                     'value' => function ($data) {
-//													    $name = User::findOne($data->user_id);
                                                                                                             return Html::button($data->user->first_name . ' ' . $data->user->last_name, ['value' => Url::to(['user-view', 'id' => $data->user_id]), 'class' => 'modalButton edit-btn']);
-//                                                            return \yii\helpers\Html::a($name->first_name . ' ' . $name->last_name, ['/user/user/update', 'id' => $data->user_id], ['target' => '_blank']);
                                                                                                     },
                                                                                                 ],
-                                                                                                'net_amount',
-                                                                                                'order_date',
-                                                                                                // 'ship_address_id',
-                                                                                                // 'bill_address_id',
-                                                                                                // 'currency_id',
-                                                                                                // 'user_comment:ntext',
-                                                                                                // 'payment_mode',
-                                                                                                // 'admin_comment',
-                                                                                                [
+                                                                                                    [
+                                                                                                    'attribute' => 'net_amount',
+                                                                                                    'value' => function($model) {
+                                                                                                            return sprintf('%0.2f', $model->net_amount);
+                                                                                                    },
+                                                                                                ],
+                                                                                                    [
+                                                                                                    'attribute' => 'order_date',
+                                                                                                    'value' => function($model) {
+                                                                                                            return \Yii::$app->formatter->asDatetime($model->order_date, "php:d-M-Y h:i A");
+                                                                                                    },
+                                                                                                    'filter' => DateRangePicker::widget(['model' => $searchModel, 'attribute' => 'order_date', 'pluginOptions' => ['format' => 'd-m-Y', 'autoUpdateInput' => false]]),
+                                                                                                ],
+                                                                                                    [
                                                                                                     'attribute' => 'admin_status',
                                                                                                     'format' => 'raw',
                                                                                                     'filter' => ['0' => 'Pending', '1' => 'Approved'],
@@ -125,7 +149,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                 ],
                                                                                                     [
                                                                                                     'class' => 'yii\grid\ActionColumn',
-//                                    'contentOptions' => ['style' => 'width:100px;'],
                                                                                                     'header' => 'Actions',
                                                                                                     'template' => '{view}{print}',
                                                                                                     'buttons' => [
@@ -136,13 +159,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                                 ]);
                                                                                                         },
                                                                                                         'print' => function ($url, $model) {
-//                                            if ($model->status == 4) {
                                                                                                                 return Html::a('<span><i class="fa fa-print" aria-hidden="true"></i></span>', $url, [
                                                                                                                             'title' => Yii::t('app', 'print'),
                                                                                                                             'class' => '',
                                                                                                                             'target' => '_blank',
                                                                                                                 ]);
-//                                            }
                                                                                                         },
                                                                                                     ],
                                                                                                     'urlCreator' => function ($action, $model) {
@@ -175,6 +196,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <script>
         $(document).ready(function () {
+                Select();
                 $(".filters").slideToggle();
                 $("#search-option").click(function () {
                         $(".filters").slideToggle();
@@ -193,8 +215,36 @@ $this->params['breadcrumbs'][] = $this->title;
                                 }
                         });
                 });
-//        $('.orders').on('click', function () {
-//            $.pjax.reload({container: '#order-manage'});
-//        });
+
+
+
+
         });
+
+        function Select() {
+
+                $("#user_name").select2({
+                        placeholder: '',
+                        allowClear: true
+                }).on('select2-open', function ()
+                {
+                        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+                });
+
+                $("#user_name_1").select2({
+                        placeholder: '',
+                        allowClear: true
+                }).on('select2-open', function ()
+                {
+                        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+                });
+
+                $("#user_name_2").select2({
+                        placeholder: '',
+                        allowClear: true
+                }).on('select2-open', function ()
+                {
+                        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+                });
+        }
 </script>
