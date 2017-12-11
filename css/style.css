@@ -1338,7 +1338,7 @@ input[type="checkbox"]:before {
 	background: #fff;
 	/*position: relative;*/
 	width: 440px;
-	height: 450px;
+	height: 368px;
 }
 .MagicZoom:hover .offer-tag{
 	display: none;
@@ -1360,7 +1360,7 @@ input[type="checkbox"]:before {
 
 figure.mz-figure{
 	width: 440px;
-	height: 450px;
+	height: 366px;
 }
 a[data-zoom-id], .mz-thumb, .mz-thumb:focus{
 	margin: 1.5px 0px;
