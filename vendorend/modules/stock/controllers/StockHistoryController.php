@@ -36,14 +36,14 @@ class StockHistoryController extends Controller {
 //        $product_array = [];
         $searchModel = new StockHistorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-//        $prdctvendor = \common\models\ProductVendor::find()->where(['vendor_id' => Yii::$app->user->identity->id])->all();
-//        if (isset($_GET['StockHistorySearch']['productvendor_id']) && $_GET["StockHistorySearch"]["productvendor_id"] != '') {
-//            $prdctvendor = \common\models\ProductVendor::find()->where(['product_id' => $_GET['StockHistorySearch']['productvendor_id'], 'vendor_id' => Yii::$app->user->identity->id])->all();
-//        }
-//        foreach ($prdctvendor as $value) {
-//            $product_array[] = $value->id;
-//        }
-//        $dataProvider->query->andWhere(['in', 'productvendor_id', $product_array])->all();
+        $prdctvendor = \common\models\ProductVendor::find()->where(['vendor_id' => Yii::$app->user->identity->id])->all();
+        if (isset($_GET['StockHistorySearch']['productvendor_id']) && $_GET["StockHistorySearch"]["productvendor_id"] != '') {
+            $prdctvendor = \common\models\ProductVendor::find()->where(['product_id' => $_GET['StockHistorySearch']['productvendor_id'], 'vendor_id' => Yii::$app->user->identity->id])->all();
+        }
+        foreach ($prdctvendor as $value) {
+            $product_array[] = $value->id;
+        }
+        $dataProvider->query->andWhere(['in', 'productvendor_id', $product_array])->all();
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,

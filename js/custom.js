@@ -1,5 +1,5 @@
 $(document).ready(function () {
-        getcartcount();
+//        getcartcount();
 //    getcarttotal();
 //    getcartdata();
         $(".add_to_cart").click(function () {
@@ -125,7 +125,7 @@ $(document).ready(function () {
         });
         /***************Remove Item from cart********************/
         $('body').on('click', '.remove_cart', function () {
-                var answer = confirm("Are you sure you want to delete?");
+                var answer = confirm("Are you sure want to remove?");
                 if (answer)
                 {
                         showLoader();

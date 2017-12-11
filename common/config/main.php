@@ -19,6 +19,9 @@ return [
         'SetLanguage' => [
             'class' => 'common\components\SetLanguage'
         ],
+        'Cartcount' => [
+            'class' => 'common\components\Cartcount'
+        ],
         'EncryptDecrypt' => [
             'class' => 'common\components\EncryptDecrypt'
         ],
