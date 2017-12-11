@@ -20,7 +20,7 @@ class OrderMasterSearch extends OrderMaster {
          */
         public function rules() {
                 return [
-                        [['id', 'user_id', 'promotion_id', 'ship_address_id', 'bill_address_id', 'payment_status', 'admin_status', 'shipping_status', 'status'], 'integer'],
+                        [['id', 'user_id', 'promotion_id', 'ship_address_id', 'bill_address_id', 'payment_status','payment_type', 'admin_status', 'shipping_status', 'status'], 'integer'],
                         [['order_id', 'order_date', 'user_comment', 'admin_comment', 'DOC', 'DOU'], 'safe'],
                         [['total_amount', 'promotion_discount', 'discount_amount', 'net_amount'], 'number'],
                 ];
@@ -86,6 +86,7 @@ class OrderMasterSearch extends OrderMaster {
                     'ship_address_id' => $this->ship_address_id,
                     'bill_address_id' => $this->bill_address_id,
                     'payment_status' => $this->payment_status,
+                    'payment_type' => $this->payment_type,
                     'admin_status' => $this->admin_status,
                     'shipping_status' => $this->shipping_status,
                     'status' => $this->status,

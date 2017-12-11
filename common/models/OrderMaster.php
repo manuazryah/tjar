@@ -21,6 +21,7 @@ use Yii;
  * @property string $user_comment
  * @property string $admin_comment
  * @property int $payment_status
+ * @property int $payment_type
  * @property int $admin_status
  * @property int $shipping_status
  * @property int $status
@@ -42,7 +43,7 @@ class OrderMaster extends \yii\db\ActiveRecord {
 	public function rules() {
 		return [
 			[['order_id', 'user_id', 'total_amount', 'net_amount'], 'required'],
-			[['user_id', 'promotion_id', 'ship_address_id', 'bill_address_id', 'payment_status', 'admin_status', 'shipping_status', 'status'], 'integer'],
+			[['user_id', 'promotion_id', 'ship_address_id', 'bill_address_id', 'payment_status','payment_type', 'admin_status', 'shipping_status', 'status'], 'integer'],
 			[['total_amount', 'promotion_discount', 'discount_amount', 'net_amount'], 'number'],
 			[['order_date', 'DOC', 'DOU'], 'safe'],
 			[['user_comment', 'admin_comment'], 'string'],
@@ -69,6 +70,7 @@ class OrderMaster extends \yii\db\ActiveRecord {
 		    'user_comment' => 'User Comment',
 		    'admin_comment' => 'Admin Comment',
 		    'payment_status' => 'Payment Status',
+		    'payment_type' => 'Payment Type',
 		    'admin_status' => 'Admin Status',
 		    'shipping_status' => 'Shipping Status',
 		    'status' => 'Status',
