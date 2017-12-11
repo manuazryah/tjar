@@ -102,11 +102,11 @@ $this->params['breadcrumbs'][] = $this->title;
 													],
 													'item_ean',
 													'gender',
-													'main_description:ntext',
-													'main_description_arabic:ntext',
-													'highlights:ntext',
-													'highlights_arabic:ntext',
-													    [
+//													'main_description:ntext',
+//													'main_description_arabic:ntext',
+//													'highlights:ntext',
+//													'highlights_arabic:ntext',
+													[
 													    'attribute' => 'search_tags',
 													    'format' => 'raw',
 													    'value' => function ($model) {

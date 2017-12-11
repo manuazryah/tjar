@@ -292,8 +292,9 @@ class Cart extends \yii\db\ActiveRecord {
 			$model_prod->sub_total = ($cart->quantity) * ($price);
 			$model_prod->status = '0';
 			$model_prod->DOC = date('Y-m-d');
+			$model_prod->save();
 			if ($model_prod->save()) {
-				Cart::commissionManagement($model_prod, $prod_details);
+
 			}
 		}
 		return TRUE;

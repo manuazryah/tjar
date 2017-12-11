@@ -73,6 +73,42 @@ use kartik\date\DatePicker;
 
 
 					</div>
+					<table class="order-table">
+                                                <thead>
+                                                        <tr>
+
+                                                                <th class=""><span class="">Date</span></th>
+                                                                <th class=""><span class="">Withdrawl</span></th>
+                                                                <th class=""><span class="">Deposit</span></th>
+                                                                <th class=""><span class="">comment</span></th>
+                                                        </tr>
+                                                </thead>
+                                                <tbody>
+							<?php
+							if ($dataProvider->totalCount > 0) {
+								?>
+								<?=
+								ListView::widget([
+								    'dataProvider' => $dataProvider,
+								    'itemView' => 'wallet_history',
+								    'pager' => [
+									'firstPageLabel' => 'first',
+									'lastPageLabel' => 'last',
+									'prevPageLabel' => '<',
+									'nextPageLabel' => '>',
+									'maxButtonCount' => 3,
+								    ],
+								]);
+								?>
+								<?php
+							} else {
+								?>
+
+								<?php
+							}
+							?>
+                                                </tbody>
+                                        </table>
 				</div>
 			</div>
 		</div>

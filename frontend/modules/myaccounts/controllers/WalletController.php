@@ -11,6 +11,9 @@ class WalletController extends \yii\web\Controller {
 
 	public function actionIndex() {
 		$model = new UserWallet();
+		$searchModel = new UserWalletSearch();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider->query->andWhere(['user_id' => Yii::$app->user->identity->id]);
 		$user_data = User::find()->where(['id' => Yii::$app->user->identity->id])->one();
 		if (Yii::$app->request->post()) {
 
@@ -42,7 +45,9 @@ class WalletController extends \yii\web\Controller {
 		}
 		return $this->render('index', [
 			    'model' => $model,
-			    'user_data' => $user_data
+			    'user_data' => $user_data,
+			    'searchModel' => $searchModel,
+			    'dataProvider' => $dataProvider,
 		]);
 	}
 
@@ -70,7 +75,7 @@ class WalletController extends \yii\web\Controller {
 			$user_details = User::findOne([Yii::$app->user->identity->id]);
 			if (!empty($user_details) && $user_details->wallet_amount >= $net_amount) {
 				if ($this->debitWallet($user_details, $net_amount, $order_id)) {
-					Cart::checkout($ship_address, $bill_address);
+					Cart::commissionManagement($order_id);
 					return $this->redirect(['/site/index']); /* set payment success */
 				}
 			}
