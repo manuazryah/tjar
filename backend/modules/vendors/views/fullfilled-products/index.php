@@ -128,7 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                     'value' => function ($data) {
                                                                                                             $img = '<img  src="' . Yii::$app->homeUrl . '../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $data->product_id) . '/' . $data->product_id . '/profile/' . $data->product->canonical_name . '_thumb.' . $data->product->gallery_images . '"/>';
 
-                                                                                                            return $img . Html::button($data->product->product_name, ['value' => Url::to(['product-view', 'id' => $data->product_id]), 'class' => 'modalButton edit-btn']);
+                                                                                                            return $img . Html::button($data->product->product_name, ['value' => Url::to(['/vendors/product-vendor/product-view', 'id' => $data->product_id]), 'class' => 'modalButton edit-btn']);
                                                                                                     },
                                                                                                 ],
                                                                                                     [
@@ -137,7 +137,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                     'format' => 'raw',
                                                                                                     'filter' => Html::activeDropDownList($searchModel, 'vendor_id', ArrayHelper::map(Vendors::find()->all(), 'id', 'first_name'), ['class' => 'form-control', 'id' => 'vendor_name', 'prompt' => '']),
                                                                                                     'value' => function ($data) {
-                                                                                                            return Html::button($data->vendor->first_name . ' ' . $data->vendor->last_name, ['value' => Url::to(['vendor-view', 'id' => $data->vendor_id]), 'class' => 'modalButton edit-btn']);
+                                                                                                            return Html::button($data->vendor->first_name . ' ' . $data->vendor->last_name, ['value' => Url::to(['/vendors/product-vendor/vendor-view', 'id' => $data->vendor_id]), 'class' => 'modalButton edit-btn']);
                                                                                                     },
                                                                                                 ],
 //												'qty',

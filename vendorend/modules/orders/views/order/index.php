@@ -96,6 +96,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                 <i class="linecons-search"></i>
                                                                                 <span>Search</span>
                                                                         </button>
+
+                                                                        <?php
+                                                                        if ($search_status == 1) {
+                                                                                ?>
+                                                                                <script>
+                                                                                        Select();
+                                                                                </script>
+                                                                                <?php
+                                                                        }
+                                                                        ?>
                                                                         <div class="tab-pane active" id="">
 
                                                                                 <?=
@@ -114,6 +124,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                     return Html::tag('button', Html::encode(substr($name, 0, 29)), ['value' => Url::to(['/product/product/product-view', 'id' => $prod_details->product_id]), 'title' => $name, 'class' => 'username color modalButton edit-btn']);
 //
                                                                                             },
+                                                                                            'filter' => Html::activeDropDownList($searchModel, 'product_id', ArrayHelper::map(ProductVendor::find()->where(['vendor_id' => Yii::$app->user->identity->id, 'admin_status' => 2, 'full_fill' => 0])->all(), 'id', 'productname'), ['class' => 'form-control', 'id' => 'product_name', 'prompt' => '']),
                                                                                         ],
                                                                                         'quantity',
 //
@@ -210,6 +221,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <script>
         $(document).ready(function () {
+
+                Select();
                 $(".filters").slideToggle();
                 $("#search-option").click(function () {
                         $(".filters").slideToggle();
@@ -264,5 +277,17 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                 });
         });
+
+        function Select() {
+
+                $("#product_name").select2({
+                        placeholder: '',
+                        allowClear: true
+                }).on('select2-open', function ()
+                {
+                        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+                });
+
+        }
 </script>
 

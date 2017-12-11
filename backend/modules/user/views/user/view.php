@@ -49,6 +49,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 </div>
                                 <div class="panel-body">
+                                        <?= Html::a('<i class="fa-th-list"></i><span> Manage User</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+
+
                                         <div class="" style="border: none">
 
                                                 <div class="row">
@@ -58,17 +61,17 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         <div class="col-md-12">
                                                                 <?php yii\widgets\Pjax::begin(['id' => 'order-manage']); ?>
 
-<!--                                                                <ul class="nav nav-tabs">
-                                                                        <li class="<?= $order_status == '' ? 'active' : '' ?>">
-                                                                                <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">All Orders</span>', ['view', 'id' => $id,], ['class' => '']) ?>
-                                                                        </li>
-                                                                        <li class="<?= $order_status == 1 ? 'active' : '' ?>">
-                                                                                <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Pending</span>', ['view', 'id' => $id, 'order_status' => 1], ['class' => '']) ?>
-                                                                        </li>
-                                                                        <li class="<?= $order_status == 2 ? 'active' : '' ?>">
-                                                                                <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Approved</span>', ['view', 'id' => $id, 'order_status' => 2], ['class' => '']) ?>
-                                                                        </li>
-                                                                </ul>-->
+                                                                <!--                                                                <ul class="nav nav-tabs">
+                                                                                                                                        <li class="<?= $order_status == '' ? 'active' : '' ?>">
+                                                                <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">All Orders</span>', ['view', 'id' => $id,], ['class' => '']) ?>
+                                                                                                                                        </li>
+                                                                                                                                        <li class="<?= $order_status == 1 ? 'active' : '' ?>">
+                                                                <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Pending</span>', ['view', 'id' => $id, 'order_status' => 1], ['class' => '']) ?>
+                                                                                                                                        </li>
+                                                                                                                                        <li class="<?= $order_status == 2 ? 'active' : '' ?>">
+                                                                <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Approved</span>', ['view', 'id' => $id, 'order_status' => 2], ['class' => '']) ?>
+                                                                                                                                        </li>
+                                                                                                                                </ul>-->
 
                                                                 <div class="tab-content">
                                                                         <div class="tab-pane active" id="">

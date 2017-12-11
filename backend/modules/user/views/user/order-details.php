@@ -17,90 +17,92 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="order-master-index">
 
-    <div class="row">
-        <div class="col-md-12">
+        <div class="row">
+                <div class="col-md-12">
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
+                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                        <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
 
 
-                </div>
-                <div class="panel-body">
-
-                   <div class="table-responsive" style="border: none">
-                        <button class="btn btn-white" id="search-option" style="float: right;">
-                            <i class="linecons-search"></i>
-                            <span>Search</span>
-                        </button>
-                        <?=
-                        GridView::widget([
-                            'dataProvider' => $dataProvider,
-                            'filterModel' => $searchModel,
-                            'columns' => [
-                                ['class' => 'yii\grid\SerialColumn'],
-                                'order_id',
-                                [
-                                    'attribute' => 'product_id',
-                                    'format' => 'raw',
-                                    'value' => function($data) {
-                                        $prdctvendor = ProductVendor::findOne($data->product_id);
-                                        $name = Products::findOne($prdctvendor->product_id)->product_name;
+                                </div>
+                                <div class="panel-body">
+                                        <?php if (isset($user)) { ?>
+                                                <?= Html::a('<i class="fa-th-list"></i><span> Manage Order History</span>', ['view', 'id' => $user], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+                                        <?php } ?>
+                                        <div class="table-responsive" style="border: none">
+                                                <button class="btn btn-white" id="search-option" style="float: right;">
+                                                        <i class="linecons-search"></i>
+                                                        <span>Search</span>
+                                                </button>
+                                                <?=
+                                                GridView::widget([
+                                                    'dataProvider' => $dataProvider,
+                                                    'filterModel' => $searchModel,
+                                                    'columns' => [
+                                                            ['class' => 'yii\grid\SerialColumn'],
+                                                        'order_id',
+                                                            [
+                                                            'attribute' => 'product_id',
+                                                            'format' => 'raw',
+                                                            'value' => function($data) {
+                                                                    $prdctvendor = ProductVendor::findOne($data->product_id);
+                                                                    $name = Products::findOne($prdctvendor->product_id)->product_name;
 //                                        return $name;
-                                        return Html::tag('button', Html::encode(substr($name, 0, 29)), ['value' => Url::to(['/vendors/product-vendor/product-view', 'id' => $prdctvendor->product_id]), 'title' => $name, 'class' => 'username color modalButton edit-btn']);
+                                                                    return Html::tag('button', Html::encode(substr($name, 0, 29)), ['value' => Url::to(['/vendors/product-vendor/product-view', 'id' => $prdctvendor->product_id]), 'title' => $name, 'class' => 'username color modalButton edit-btn']);
 //                                        return  Html::button(substr($name, 0, 29).'..', ['value' => Url::to(['/vendors/product-vendor/product-view', 'id' => $prdctvendor->product_id]), 'class' => 'modalButton edit-btn']);
-                                    }
-                                ],
-                                'quantity',
-                                'amount',
-                                'sub_total',
+                                                            }
+                                                        ],
+                                                        'quantity',
+                                                        'amount',
+                                                        'sub_total',
 //
-                                [
-                                    'attribute' => 'status',
-                                    'format' => 'raw',
-                                    'filter' => ['0' => 'Pending', '1' => 'Confirm', '2' => 'Canceled'],
-                                    'value' => function ($data) {
-                                        if ($data->status == 0) {
-                                            return 'Pending';
-                                        } elseif ($data->status == 1) {
-                                            return 'Order Placed';
-                                        } elseif ($data->status == 2) {
-                                            return 'Order Dispatched';
-                                        } elseif ($data->status == 3) {
-                                            return 'Order Delivered';
-                                        }
-                                    },
-                                ],
-                                'delivered_date',
-                            ],
-                        ]);
-                        ?>
-                    </div>
+                                                        [
+                                                            'attribute' => 'status',
+                                                            'format' => 'raw',
+                                                            'filter' => ['0' => 'Pending', '1' => 'Confirm', '2' => 'Canceled'],
+                                                            'value' => function ($data) {
+                                                                    if ($data->status == 0) {
+                                                                            return 'Pending';
+                                                                    } elseif ($data->status == 1) {
+                                                                            return 'Order Placed';
+                                                                    } elseif ($data->status == 2) {
+                                                                            return 'Order Dispatched';
+                                                                    } elseif ($data->status == 3) {
+                                                                            return 'Order Delivered';
+                                                                    }
+                                                            },
+                                                        ],
+                                                        'delivered_date',
+                                                    ],
+                                                ]);
+                                                ?>
+                                        </div>
+                                </div>
+                        </div>
                 </div>
-            </div>
         </div>
-    </div>
 </div>
 
 <script>
-    $(document).ready(function () {
-        $(".filters").slideToggle();
-        $("#search-option").click(function () {
-            $(".filters").slideToggle();
+        $(document).ready(function () {
+                $(".filters").slideToggle();
+                $("#search-option").click(function () {
+                        $(".filters").slideToggle();
+                });
+                $('.admin_status_field').on('change', function () {
+                        var change_id = $(this).attr('id').match(/\d+/);
+                        var vendor_status = $(this).val();
+                        $.ajax({
+                                url: homeUrl + 'orders/order-master/change-vendor-status',
+                                type: "post",
+                                data: {status: vendor_status, id: change_id},
+                                success: function (data) {
+                                        alert('Status Changed Sucessfully');
+                                }, error: function () {
+                                }
+                        });
+                });
         });
-        $('.admin_status_field').on('change', function () {
-            var change_id = $(this).attr('id').match(/\d+/);
-            var vendor_status = $(this).val();
-            $.ajax({
-                url: homeUrl + 'orders/order-master/change-vendor-status',
-                type: "post",
-                data: {status: vendor_status, id: change_id},
-                success: function (data) {
-                    alert('Status Changed Sucessfully');
-                }, error: function () {
-                }
-            });
-        });
-    });
 </script>
 

@@ -82,6 +82,7 @@ class UserController extends Controller {
         }
 
         public function actionOrderDetails($id) {
+                $order_master = \common\models\OrderMaster::findOne($id);
                 $searchModel = new \common\models\OrderDetailsSearch();
                 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
                 $dataProvider->query->andWhere(['master_id' => $id]);
@@ -90,6 +91,7 @@ class UserController extends Controller {
                             'searchModel' => $searchModel,
                             'dataProvider' => $dataProvider,
                             'id' => $id,
+                            'user' => $order_master->user_id,
                 ]);
         }
 

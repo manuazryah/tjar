@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
                                                                                         </div>
-                                                                                        <div class="col-md-8">
+                                                                                        <div class="col-md-8 view-product-short">
                                                                                                 <?=
                                                                                                 DetailView::widget([
                                                                                                     'model' => $model,
@@ -111,10 +111,24 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                                     }
                                                                                                             }
                                                                                                         ],
-//                                                                                                        'main_description:ntext',
+                                                                                                        'main_description:ntext',
 //                                                                                                        'main_description_arabic:ntext',
 //                                                                                                        'highlights:ntext',
 //                                                                                                        'highlights_arabic:ntext',
+                                                                                                        [
+                                                                                                            'attribute' => 'highlights',
+                                                                                                            'value' => function($model) {
+                                                                                                                    return strip_tags($model->highlights);
+                                                                                                            },
+                                                                                                        ],
+//													'highlights_arabic:ntext',
+                                                                                                        [
+                                                                                                            'attribute' => 'search_tags',
+                                                                                                            'format' => 'raw',
+                                                                                                            'value' => function ($model) {
+                                                                                                                    return $model->SearchTags($model->search_tags);
+                                                                                                            },
+                                                                                                        ],
                                                                                                     ]
                                                                                                 ]);
                                                                                                 ?>
@@ -135,3 +149,8 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 
+<style>
+        .view-product-short table td{
+                width: 70%;
+        }
+</style>
