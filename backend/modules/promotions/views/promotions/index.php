@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\PromotionsSearch */
@@ -24,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="panel-body">
 
 
-                                        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+                                        <?php // echo $this->render('_search', ['model' => $searchModel]);   ?>
 
 
 
@@ -63,7 +64,37 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         ],
                                                             [
                                                             'class' => 'yii\grid\ActionColumn',
-                                                            'template' => '{update}'
+                                                            'template' => '{disable}{approve}',
+                                                            'buttons' => [
+                                                                'approve' => function ($url, $model) {
+                                                                        if ($model->status == 1) {
+                                                                                return Html::a('<i class="fa fa-check" aria-hidden="true" style="color:green"></i>', $url, [
+                                                                                            'title' => Yii::t('app', 'Click here to disable'),
+                                                                                            'class' => 'actions',
+                                                                                            'style' => 'cursor:pointer',
+                                                                                ]);
+                                                                        }
+                                                                },
+                                                                'disable' => function ($url, $model) {
+                                                                        if ($model->status == 0) {
+                                                                                return Html::a('<i class="fa fa-ban" aria-hidden="true" style="color:red"></i>', $url, [
+                                                                                            'title' => Yii::t('app', 'Click here to active'),
+                                                                                            'class' => 'actions',
+                                                                                            'style' => 'cursor:pointer',
+                                                                                ]);
+                                                                        }
+                                                                },
+                                                            ],
+                                                            'urlCreator' => function ($action, $model) {
+                                                                    if ($action === 'approve') {
+                                                                            $url = Url::to(['disable', 'id' => $model->id]);
+                                                                            return $url;
+                                                                    }
+                                                                    if ($action === 'disable') {
+                                                                            $url = Url::to(['approve', 'id' => $model->id]);
+                                                                            return $url;
+                                                                    }
+                                                            }
                                                         ],
                                                     ],
                                                 ]);

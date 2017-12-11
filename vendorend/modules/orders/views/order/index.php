@@ -112,16 +112,17 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                     $prod_details = ProductVendor::findOne($data->product_id);
                                                                                                     $name = Products::findOne($prod_details->product_id)->product_name;
                                                                                                     return Html::tag('button', Html::encode(substr($name, 0, 29)), ['value' => Url::to(['/product/product/product-view', 'id' => $prod_details->product_id]), 'title' => $name, 'class' => 'username color modalButton edit-btn']);
-//                                                        return \yii\helpers\Html::tag('p', Html::encode(substr($name, 0, 29)), ['title' => $name, 'class' => 'username color']);
 //
                                                                                             },
-//                                                            'title'=>'thangamatte',
                                                                                         ],
                                                                                         'quantity',
-//                                                            'filter' => Html::dropDownList('ProductVendor[compareOp]', $model->compareOp, array('>' => '>', '<' => '<', '>=' => '>=', '<=' => '<=', '=' => '='), array('style' => 'width:35px;height: 25px;', 'id' => 'grid-id')) .
 //
-                                                                                        'amount',
-//                                                'sub_total',
+                                                                                        [
+                                                                                            'attribute' => 'amount',
+                                                                                            'value' => function($model) {
+                                                                                                    return sprintf('%0.2f', $model->amount);
+                                                                                            },
+                                                                                        ],
 //
                                                                                         [
                                                                                             'attribute' => 'status',
@@ -130,7 +131,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                             'value' => function ($data)use ($filter) {
                                                                                                     return \yii\helpers\Html::dropDownList('status', null, $filter, ['options' => [$data->status => ['Selected' => 'selected']], 'class' => 'form-control admin_status_field', 'id' => 'order_admin_status-' . $data->id,]);
                                                                                             },
-//                                                    'filter' => $filter,
                                                                                         ],
                                                                                         'delivered_date',
                                                                                             [
@@ -152,7 +152,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                                             'class' => 'order_comment',
                                                                                                                             'id' => $model->id,
                                                                                                                 ]);
-//                                                                return '<span title="comment" class="order_comment" id="' . $model->id . '"><i class="fa-file-text-o" aria-hidden="true"></i></span>';
                                                                                                         }
                                                                                                 },
                                                                                                 'track' => function ($url, $model) {

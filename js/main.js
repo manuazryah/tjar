@@ -70,6 +70,8 @@ $(document).ready(function () {
                                         $('.grand_total').html(res.result['overall_grand_total'] + '<span class="woocommerce-Price-currencySymbol">AED</span>');
                                 } else if (res.result['msg'] == 8) {
                                         $("#coupon_code").after('<div class="help-block" style="color:red">Sorry!! You are already used this code!</div>');
+                                } else if (res.result['msg'] == 9) {
+                                        $("#coupon_code").after('<div class="help-block" style="color:red">You can use only one coupon code</div>');
                                 }
 
 

@@ -38,7 +38,7 @@ class Promotions extends \yii\db\ActiveRecord {
         public function rules() {
                 return [
                         [['promotion_code'], 'unique'],
-                        [['promotion_type', 'type', 'time', 'status', 'CB', 'UB', 'code_usage', 'status'], 'integer'],
+                        [['promotion_type', 'type', 'time', 'status', 'CB', 'UB', 'code_usage', 'status', 'code_by'], 'integer'],
                         [['price'], 'number'],
                         [['starting_date', 'expiry_date', 'DOC', 'DOU'], 'safe'],
                         [['promotion_code', 'amount_range'], 'string', 'max' => 250],
@@ -66,6 +66,7 @@ class Promotions extends \yii\db\ActiveRecord {
                     'code_usage' => 'Usage',
                     'code_used' => 'code_used',
                     'status' => 'Status',
+                    'code_by' => 'Code By',
                     'CB' => 'Cb',
                     'UB' => 'Ub',
                     'DOC' => 'Doc',

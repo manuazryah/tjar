@@ -100,6 +100,11 @@ use yii\helpers\ArrayHelper;
         </div>
 
         <div class='col-md-4 col-sm-6 col-xs-12 left_padd'>
+                <?= $form->field($model, 'code_by')->dropDownList(['' => '--Select--', '1' => 'Admin', '2' => 'Vendor']) ?>
+        </div>
+
+
+        <div class='col-md-4 col-sm-6 col-xs-12 left_padd'>
                 <?= $form->field($model, 'status')->dropDownList(['1' => 'Enabled', '0' => 'Disabled']) ?>
         </div>
 
