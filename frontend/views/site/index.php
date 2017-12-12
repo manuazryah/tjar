@@ -128,7 +128,10 @@ use yii\helpers\Url;
 															<!--                                                        <div class="rating">
 																						    <input type="number" class="rating" id="test" name="test" data-min="1" data-max="5" value="0">
 																						</div>-->
-															<?php if (isset($product_data->offer_price) && $product_data->offer_price != "0") { ?>
+															<?php
+															$offer_price = $product_data->price - $product_data->offer_price;
+															?>
+															<?php /* if (isset($product_data->offer_price) && $product_data->offer_price != "0") */if ($offer_price != 0 && $product_data->offer != NULL) { ?>
 																<h6 class="actual-price">$&nbsp;<?= $product_data->offer_price ?>
 																	<span class="old-price">/ <strike>$&nbsp;<?= $product_data->price ?></strike></span>
 																</h6>
@@ -221,8 +224,31 @@ foreach ($home_datas as $home_data) {
 												?>
 												<?php // common\models\Products::findOne($product1_data->product_id)->product_name ?>
 											</h3>
-											<h5 class="product-discount">Upto 50% off</h5>
-											<h6 class="actual-price">$<?= $product1_data->price ?><span class="old-price">/ <strike>$130.00</strike></span></h6>
+
+											<?php
+											if (isset($product1_data->offer_price)) {
+												$price1 = $product1_data->offer_price;
+												$price2 = $product1_data->price;
+											} else {
+												$price1 = $product1_data->price;
+												$price2 = "";
+											}
+											$offer_price = $product1_data->price - $product1_data->offer_price;
+											if ($offer_price != 0 && $product1_data->offer != Null) {
+												?>
+												<h5 class="product-discount">Upto <?= $product1_data->offer ?>% off</h5>
+											<?php } ?>
+											<?php /* if (isset($model->offer_price) && $model->offer_price != "0") */if ($offer_price != 0 && $product1_data->offer != Null) { ?>
+												<h6 class="actual-price">$&nbsp;<?= sprintf('%0.2f', $price1) ?>
+													<span class="old-price">/ <strike>$&nbsp;<?= sprintf('%0.2f', $price2) ?></strike></span>
+												</h6>
+											<?php } else { ?>
+												<h6 class="actual-price">$&nbsp;<?= sprintf('%0.2f', $price1) ?>
+													<span class="old-price"></span>
+												</h6>
+											<?php } ?>
+
+																										<!--<h6 class="actual-price">$<?= $price1 ?><span class="old-price">/ <strike>$130.00</strike></span></h6>-->
 										</a>
 									</div>
 								</div>

@@ -153,8 +153,9 @@ else
 					$price1 = $vendor_product->price;
 					$price2 = "";
 				}
+				$offer_price = $vendor_product->price - $vendor_product->offer_price;
 				?>
-                                <p class="price"><?= sprintf('%0.2f', $price1) ?> <?= Yii::$app->session['words']->AED ?>  <?= $price2 != '' ? '<span>' . sprintf("%0.2f", $price2) . " " . Yii::$app->session['words']->AED . '  </span>' : ''; ?> </p>
+                                <p class="price"><?= sprintf('%0.2f', $price1) ?> <?= Yii::$app->session['words']->AED ?>  <?= $offer_price != '' ? '<span>' . sprintf("%0.2f", $price2) . " " . Yii::$app->session['words']->AED . '  </span>' : ''; ?> </p>
                                 <p class="message"><?= Yii::$app->session['words']->free_shipping ?> 150.00 <?= Yii::$app->session['words']->AED ?></p>
 				<?php
 				$product_mappping = \common\models\ProductMapping::find()->where(new Expression('FIND_IN_SET(:product_id, product_id)'))->addParams([':product_id' => $product_details->id])->one();
@@ -271,7 +272,7 @@ else
 						  $specification_model = \common\models\Features::findOne($product_features->specification);
 						  $value = $specification_model->tablevalue__name; */
 						?>
-                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                                                                                                                                                                                                                         ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                                                                                                                                                                                                                         ?></td></tr>
+                                                                                                                                                        <tr><td class="label"> <?php // Yii::$app->SetLanguage->ViewData($specification_model, 'filter_tittle');                                                                                                                                                                                                                                                                                                                                                                                           ?> </td><td class="value"><?php // $specification->Product_feature_text                                                                                                                                                                                                                                                                                                                                                                                           ?></td></tr>
 						<?php
 						/*  }
 						  } */
