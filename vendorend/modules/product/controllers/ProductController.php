@@ -142,9 +142,7 @@ class ProductController extends \yii\web\Controller {
 				if (isset(Yii::$app->request->post()['offerprice'])) {
 					$model->offer_price = $offerprice;
 				}
-				if (isset(Yii::$app->request->post()['price']) && $offerprice_ == 0) {
-					$model->offer_price = $price;
-				}
+
 
 				$model->price = $price;
 				$model->vendor_status = $status;

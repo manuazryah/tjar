@@ -1524,7 +1524,8 @@ div.message{
 	text-align: justify;
 }
 .product-details-right{
-	max-height: 555px;
+	/*	max-height: 555px;*/
+	max-height: 372px;
 	overflow-y: scroll;
 	background: #fff;
 	margin-bottom: 70px;

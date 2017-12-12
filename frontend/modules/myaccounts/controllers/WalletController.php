@@ -5,7 +5,10 @@ namespace frontend\modules\myaccounts\controllers;
 use common\models\User;
 use common\models\UserWallet;
 use yii;
+use common\models\UserWalletSearch;
 use common\models\Cart;
+
+;
 
 class WalletController extends \yii\web\Controller {
 

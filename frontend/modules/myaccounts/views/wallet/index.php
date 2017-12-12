@@ -5,6 +5,7 @@ use common\components\LeftMenuWidget;
 use common\models\User;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
+use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 ?>
@@ -55,17 +56,19 @@ use kartik\date\DatePicker;
 								     <?= Yii::$app->session->getFlash('success') ?>
 								</div>
 							<?php endif; ?>
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marg-top-20">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marg-top-20 wallt_hist">
 								<fieldset>
-									<span class="info-head" style="float:left">Your Wallet Balanace:<?= $user_data->wallet_amount != NULL ? $user_data->wallet_amount : '0' ?></span>
+									<span class="info-head wallet_data" style="float:left">Your Wallet Balanace :<i><?= $user_data->wallet_amount != NULL ? $user_data->wallet_amount : '0' ?></i></span>
+									<div class="clearfix"></div>
+									<?= $form->field($model, 'amount')->textInput(['maxlength' => true, 'class' => '', 'placeholder' => 'Enter amount to be added in Wallet'])->label(false) ?>
+									<?= Html::submitButton('Add Money to Wallet', ['class' => 'Proceed marg-btm-20']) ?>
+									<!--									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 padright0 btm-padding">
+									<?= $form->field($model, 'amount')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width', 'placeholder' => 'Enter amount to be added in Wallet'])->label(false) ?>
+																		</div>
 
-									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 padright0 btm-padding">
-										<?= $form->field($model, 'amount')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width', 'placeholder' => 'Enter amount to be added in Wallet'])->label(false) ?>
-									</div>
-
-									<div class="marg-top-20">
-										<?= Html::submitButton('Add Money to Wallet', ['class' => 'Proceed marg-btm-20', 'style' => 'width: 25%;margin-right: 40px;']) ?>
-									</div>
+																		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 padright0 btm-padding">
+									<?= Html::submitButton('Add Money to Wallet', ['class' => 'Proceed marg-btm-20', 'style' => 'width: 25%;margin-right: 40px;']) ?>
+																		</div>-->
 								</fieldset>
 							</div>
 							<?php ActiveForm::end(); ?>
@@ -73,13 +76,14 @@ use kartik\date\DatePicker;
 
 
 					</div>
-					<table class="order-table">
+					<table class="order-table wallet_hstry">
                                                 <thead>
                                                         <tr>
 
                                                                 <th class=""><span class="">Date</span></th>
-                                                                <th class=""><span class="">Withdrawl</span></th>
+                                                                <th class=""><span class="">Action</span></th>
                                                                 <th class=""><span class="">Deposit</span></th>
+                                                                <th class=""><span class="">Withdrawl</span></th>
                                                                 <th class=""><span class="">comment</span></th>
                                                         </tr>
                                                 </thead>

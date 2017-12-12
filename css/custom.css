@@ -1,65 +1,87 @@
 .min-height{
-    min-height: 153px;
-    max-height: 153px;
+	min-height: 153px;
+	max-height: 153px;
 }
 .edit-btn-new{
-    background-color: #005e9d;
-    color: #fff;
+	background-color: #005e9d;
+	color: #fff;
 }
 .edit-btn-new:hover{
-    color: #fff !important;
-    text-decoration: none;
+	color: #fff !important;
+	text-decoration: none;
 }
 .cancel-btn-new{
-    background-color: #005e9d;
-    color: #fff;
+	background-color: #005e9d;
+	color: #fff;
 }
 .cancel-btn-new:hover{
-    color: #fff !important;
-    text-decoration: none;
+	color: #fff !important;
+	text-decoration: none;
 }
 .report_pblm{
-    color: #c50c0c;
-    font-style: italic;
-    cursor: pointer;
+	color: #c50c0c;
+	font-style: italic;
+	cursor: pointer;
 }
 .report_pblm:hover{
-    color: #c50c0c;
+	color: #c50c0c;
 }
 #message{
-    padding: 3px;
+	padding: 3px;
 }
 .btm-padding{
-    padding-top: 35px;
+	padding-top: 35px;
 }
 .btn_mrgn_top{
-    margin-top: 11px !important;
+	margin-top: 11px !important;
 }
 .home_deal_transform{
-    text-transform: uppercase;
+	text-transform: uppercase;
 }
 .address_loader{
-    position: absolute;
-    top: 0;
-    right: 0px;
-    left: 0px;
-    margin: 0 auto;
-    vertical-align: middle;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    z-index: 4;
+	position: absolute;
+	top: 0;
+	right: 0px;
+	left: 0px;
+	margin: 0 auto;
+	vertical-align: middle;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	z-index: 4;
 }
 .address_loader img{
-    top: 40%;
-    position: absolute;
-    margin: 0 auto;
-    left: 0px;
-    right: 0px;
+	top: 40%;
+	position: absolute;
+	margin: 0 auto;
+	left: 0px;
+	right: 0px;
 }
 .delivery_address{
-    margin-top: 5px;
+	margin-top: 5px;
 }
 #new_address{
-    width: 137px;
+	width: 137px;
+}
+.summary{
+	display: none;
+}
+.wallet_hstry{
+	margin: 16px;
+	width: 97% !important;
+
+}
+.wallet_hstry thead{
+	background: #015f9d2e !important;
+}
+.wallet_data i{
+	font-weight: bold;
+}
+.wallt_hist input{
+	width: 50% !important;
+	margin-top: 12px;
+}
+.wallt_hist .Proceed{
+	width: auto !important;
+	padding: 12px 26px;
 }
