@@ -8,7 +8,9 @@ use common\models\ProductVendor;
 use common\models\Brand;
 
 $this->title = 'Shopping Cart';
-$user_details = \common\models\User::findOne([Yii::$app->user->identity->id]);
+if (isset(Yii::$app->user->identity->id)) {
+    $user_details = \common\models\User::findOne([Yii::$app->user->identity->id]);
+}
 ?>
 <style>
     .attachment-shop_thumbnail{
@@ -90,7 +92,7 @@ $user_details = \common\models\User::findOne([Yii::$app->user->identity->id]);
                                         }
                                         ?>
                                         <td class="product-remove label-remove">
-                                            <?php // Html::a('<i class="fa fa-trash-o"></i>', ['cart/cart_remove?id=' . $cart_item->id], ['class' => 'remove', 'title' => 'Remove this item'])    ?>
+                                            <?php // Html::a('<i class="fa fa-trash-o"></i>', ['cart/cart_remove?id=' . $cart_item->id], ['class' => 'remove', 'title' => 'Remove this item'])     ?>
                                             <a  class="remove remove_cart" title="Remove this item" data-product_id="<?= $cart_item->id ?>" data-product_sku=""><i class="fa fa-trash-o"></i></a>
                                             <span class="error_<?= $cart_item->id ?>" style="color:red"></span>
                                         </td>
@@ -183,15 +185,17 @@ $user_details = \common\models\User::findOne([Yii::$app->user->identity->id]);
                                             </div>
                                             <?= Html::submitButton('Confirm Order', ['class' => 'checkout-button button alt wc-forward', 'name' => 'submit']) ?>
                                             <?php
-                                            if ($user_details->wallet_amount >= $grand_total) {
-                                                ?>
-                                                <?= Html::submitButton('From Wallet', ['class' => 'checkout-button button alt wc-forward btn_mrgn_top', 'value' => 'from_wallet', 'name' => 'submit']) ?>
-                                                                                                                                                                                                    <!--<a id="from_wallet" amount="<?= $grand_total ?>">from Wallet</a>-->
-                                                <?php
+                                            if (isset(Yii::$app->user->identity->id)) {
+                                                if ($user_details->wallet_amount >= $grand_total) {
+                                                    ?>
+                                                    <?= Html::submitButton('From Wallet', ['class' => 'checkout-button button alt wc-forward btn_mrgn_top', 'value' => 'from_wallet', 'name' => 'submit']) ?>
+                                                                                                                                                                                                                <!--<a id="from_wallet" amount="<?= $grand_total ?>">from Wallet</a>-->
+                                                    <?php
+                                                }
                                             }
                                             ?>
 
-                                            <?php // Html::a('Confirm Order', ['cart/checkout'], ['class' => 'checkout-button button alt wc-forward', 'title' => 'Confirm Order'])    ?>
+                                            <?php // Html::a('Confirm Order', ['cart/checkout'], ['class' => 'checkout-button button alt wc-forward', 'title' => 'Confirm Order'])     ?>
 
                                         </div>
 

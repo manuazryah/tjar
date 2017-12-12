@@ -49,11 +49,21 @@ class CartController extends \yii\web\Controller {
             $vendor_prdct = Yii::$app->request->post()['vendor_prdct'];
             $qty = Yii::$app->request->post()['qty'];
             $prdct_vendor = ProductVendor::findOne(yii::$app->EncryptDecrypt->Encrypt('decrypt', $vendor_prdct));
+            $condition = Cart::usercheck();
             $user_id = isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id : '';
-
-            if (Cart::add_to_cart($user_id, Yii::$app->session['temp_user'], $prdct_vendor->id, $qty)) {
-                echo json_encode(array('msg' => 'success'));
-                exit;
+            $cart = Cart::find()->where(['product_id' => $prdct_vendor->id])->andWhere($condition)->one();
+            if (!empty($cart)) {
+                $quantity = ($cart->quantity) + $qty;
+                $cart->quantity = $quantity > $prdct_vendor->qty ? $prdct_vendor->qty : $quantity;
+                if ($cart->save()) {
+                    echo json_encode(array('msg' => 'success'));
+                    exit;
+                }
+            } else {
+                if (Cart::add_to_cart($user_id, Yii::$app->session['temp_user'], $prdct_vendor->id, $qty)) {
+                    echo json_encode(array('msg' => 'success'));
+                    exit;
+                }
             }
         }
     }

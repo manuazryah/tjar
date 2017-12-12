@@ -22,7 +22,13 @@ $(document).ready(function () {
                 subcategory_brand(category, id);
         });
 
-
+$('.order_detail').click(function(){
+    $('.page-loading-overlay').removeClass('hide');
+    var id = $(this).attr('id');
+    $('.detail_row').addClass('hide');
+    $('#row_'+id).removeClass('hide');
+    
+});
 
 
 
