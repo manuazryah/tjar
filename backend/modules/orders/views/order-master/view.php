@@ -22,7 +22,13 @@ $this->params['breadcrumbs'][] = $this->title;
         padding: 10px;
         background: #dad4d4;
         margin-bottom: 20px;
-        width: fit-content;
+        width: 100%;
+    }
+    .album-image img{
+        float: left;
+    }
+    .order_product{
+        margin-left: 130px;
     }
 </style>
 <div class="order-master-index">
@@ -73,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <div class="panel-body">
                                         <div class="panel-body">
                                             <div class="col-md-12 col-lg-12 col-sm-12 product-vew-pop">
-                                                <div class="col-md-4" style="padding-top: 15px;">
+                                                <div class="col-md-5" >
 
                                                     <div class="clearfix"></div>
                                                     <?php
@@ -81,26 +87,31 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     foreach ($orderdetails as $orderdtl) {
                                                         $prdctvendor = ProductVendor::findone($orderdtl->product_id);
                                                         $product = Products::findone($prdctvendor->product_id);
+                                                        $vendor = common\models\Vendors::findOne($prdctvendor->vendor_id);
                                                         ?>
-                                                        <a href="javascript:void(0)" class="order_detail" id="<?= $i; ?>"> 
-                                                            <div style="padding: 11px;">
+                                                        <div style="padding: 11px;">
+                                                            <a href="javascript:void(0)" class="order_detail" id="<?= $i; ?>"> 
                                                                 <div class="album-image">
                                                                     <?php
                                                                     $profile_image = Yii::$app->basePath . '/../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product->id) . '/' . $product->id . '/profile/' . $product->canonical_name . '.' . $product->gallery_images;
                                                                     if (file_exists($profile_image)) {
-                                                                        ?>
-                                                                        <img src="<?= Yii::$app->homeUrl . '../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product->id) . '/' . $product->id . '/profile/' . $product->canonical_name . '_thumb.' . $product->gallery_images ?>" width="120px" class="img-responsive">
+                                                                        $image = '<img src="' . Yii::$app->homeUrl . '../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product->id) . '/' . $product->id . '/profile/' . $product->canonical_name . '_thumb.' . $product->gallery_images . '" width="95px" class="img-responsive">';
+                                                                    } else {
+                                                                        $image = '<img src="' . yii::$app->homeUrl . '../uploads/products/gallery_dummy.png" width="95px" class="img-responsive">';
+                                                                    }
+                                                                    ?>
 
-                                                                    <?php } else { ?>
-                                                                        <img src="<?= yii::$app->homeUrl; ?>../uploads/products/gallery_dummy.png" width="138px" class="img-responsive">
-
-                                                                    <?php } ?>
-                                                                    <label><?= Html::tag('button', Html::encode(substr($product->product_name, 0, 15)), ['title' => $product->product_name, 'class' => 'username color edit-btn']); ?> </label>
-                                                                    <p>Rs : 2550.00</p><p>EAN : 545856</p> Vendor : Vendor Name
+                                                                    <?= $image; ?>
+                                                                    <div class="order_product">
+                                                                        <label><?= substr($product->product_name, 0, 34) . '..'; ?></label><br>
+                                                                                                 <!--<label><? Html::tag('button', Html::encode(substr($product->product_name, 0, 15)), ['title' => $product->product_name, 'class' => 'username color edit-btn']); ?> </label>-->
+                                                                        <span>AED :<?= sprintf("%0.2f", $orderdtl->sub_total); ?> for <?= $orderdtl->quantity ?> Products</span><br><span>EAN : <?= $product->item_ean ?></span><label> Vendor : <?= $vendor->first_name . ' ' . $vendor->last_name ?></label>
+                                                                    </div>
                                                                 </div>
+                                                            </a>
 
-                                                                        <!--<p>Rs:2550.00</p> EAN : 545856 <p>Vendor : Vendor Name</p>--> 
-                                                            </div>
+                                                                                                    <!--<p>Rs:2550.00</p> EAN : 545856 <p>Vendor : Vendor Name</p>--> 
+                                                        </div>
                                                         </a>
                                                         <?php
                                                         $i++;
@@ -110,8 +121,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
                                                 </div>
-                                                <div class="col-md-8">
-                                                    
+                                                <div class="col-md-7">
+
                                                     <?php
                                                     $i = '1';
                                                     foreach ($orderdetails as $orderdtl) {
@@ -156,7 +167,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                         <th>Comment</th>
                                                                         <td>
                                                                             <div class="cbp_tmlabel">
-                                                                                <p>Tolerably earnestly middleton extremely .</p>
+                                                                                <?php 
+                                                                                $comments= \common\models\OrderHistory::find()->where(['order_id'=>$orderdtl->order_id,'product_id'=>$orderdtl->product_id])->all();
+                                                                                foreach ($comments as $comment){?>
+                                                                                <p><?= $comment->comment?> .</p>
+                                                                                <?php }?>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -190,15 +205,47 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
-</div>
 <div class="order-master-index">
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
+                    <h3 class="panel-title">Conclusion</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-5">
+                            <div class="shipping-wrap">
+                                <table cellspacing="0" class="table">
+                                    <?php
+                                    $shippinng_limit = \common\models\Settings::findOne(2)->value;
+                                    $shipping = $shippinng_limit > $subtotal ? common\models\Cart::shipping_charge($orderdetails) : '0';
+                                    ?>
+                                    <tbody>
+                                        <tr class="cart-subtotal">
+                                            <th>Subtotal</th>
+                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount cart_subtotal"><?= sprintf("%0.2f", $ordermaster->total_amount); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                        </tr>
+                                        <tr class="cart-subtotal">
+                                            <th>Shipping charge</th>
+                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount shipping-cost"><?= sprintf("%0.2f", $shipping); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                        </tr>
 
+                                        <tr class="cart-promotion">
+                                            <th>Promotion Discount</th>
+                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount"><spn class="promotion_discount"></spn><?= sprintf("%0.2f", $ordermaster->promotion_discount); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                        </tr>
 
+                                        <tr class="order-total">
+                                            <th>Grand Total</th>
+                                            <td data-title="Total"><strong><span class="woocommerce-Price-amount amount grand_total"><?= sprintf("%0.2f", $ordermaster->net_amount); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></strong> </td>
+                                        </tr>
+
+                                    </tbody></table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
