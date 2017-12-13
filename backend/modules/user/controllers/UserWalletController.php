@@ -8,6 +8,7 @@ use common\models\UserWalletSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ArrayDataProvider;
 
 /**
  * UserWalletController implements the CRUD actions for UserWallet model.
@@ -117,6 +118,26 @@ class UserWalletController extends Controller {
 		} else {
 			throw new NotFoundHttpException('The requested page does not exist.');
 		}
+	}
+
+	public function actionRecentActivity() {
+		$start_date = date('Y-m-d H:i:s');
+
+		$end_date = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . " -1 month"));
+		$model = UserWallet::find()->where(['>=', 'entry_date', $end_date])->andWhere(['<=', 'entry_date', $start_date])->all();
+
+
+		$dataProvider = new ArrayDataProvider([
+		    'key' => 'id',
+		    'allModels' => $model,
+		    'sort' => [
+			'attributes' => ['id', 'user_id', 'credit_debit', 'entry_date', 'amount', 'balance_amount', 'reference_id'],
+		    ],
+		]);
+
+		return $this->render('recent-activity', [
+			    'dataProvider' => $dataProvider,
+		]);
 	}
 
 }

@@ -20,6 +20,9 @@ use Yii;
  */
 class UserWallet extends \yii\db\ActiveRecord {
 
+	public $createdFrom;
+	public $createdTo;
+
 	/**
 	 * @inheritdoc
 	 */
@@ -32,11 +35,11 @@ class UserWallet extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['user_id', 'type_id', 'credit_debit', 'reference_id', 'field_2'], 'integer'],
+			[['user_id', 'type_id', 'credit_debit', 'field_2'], 'integer'],
 			[['type_id', 'credit_debit', 'amount', 'balance_amount', 'user_id', 'entry_date'], 'required'],
 			[['amount', 'balance_amount'], 'number'],
 			[['entry_date'], 'safe'],
-			[['comment'], 'string'],
+			[['comment', 'reference_id'], 'string'],
 		];
 	}
 

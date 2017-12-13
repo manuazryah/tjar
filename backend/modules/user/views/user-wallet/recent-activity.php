@@ -11,7 +11,7 @@ use kartik\daterange\DateRangePicker;
 /* @var $searchModel common\models\UserWalletSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Wallet History of' . $user_model->first_name;
+$this->title = 'Recent Wallet Actitvity';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <style>
@@ -56,17 +56,18 @@ $this->params['breadcrumbs'][] = $this->title;
 							    'value' => function($data) {
 								    return \Yii::$app->formatter->asDatetime($data->entry_date, "php:d-M-Y h:i A");
 							    },
-							    'filter' => DateRangePicker::widget(['model' => $searchModel, 'attribute' => 'entry_date', 'pluginOptions' => ['format' => 'd-m-Y', 'autoUpdateInput' => false]]),
+//							    'filter' => DateRangePicker::widget(['model' => $searchModel, 'attribute' => 'entry_date', 'pluginOptions' => ['format' => 'd-m-Y', 'autoUpdateInput' => false]]),
 							],
-//							[
-//							    'attribute' => 'user_id',
-//							    'format' => 'raw',
-//							    'value' => function($data) {
-//								    return $data->user->first_name;
-//							    },
-//							    'filter' => ArrayHelper::map(User::find()->all(), 'id', 'first_name'),
-//							],
-							[
+							    [
+							    'attribute' => 'user_id',
+							    'header' => 'user',
+							    'format' => 'raw',
+							    'value' => function($data) {
+								    return $data->user->first_name;
+							    },
+							    'filter' => ArrayHelper::map(User::find()->all(), 'id', 'first_name'),
+							],
+							    [
 							    'attribute' => 'credit_debit',
 							    'value' => function($data) {
 								    return $data->credit_debit == '1' ? 'Credit' : 'Debit';
