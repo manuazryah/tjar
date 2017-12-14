@@ -101,7 +101,7 @@ class CartController extends \yii\web\Controller {
 			} elseif ($payment_type == 2) {
 				$this->redirect(['checkout/payment', 'id' => $order_id]);
 			} elseif ($payment_type == 1) {
-				$this->redirect(['checkout/success']);
+				$this->redirect(['checkout/payment', 'id' => $order_id]);
 			}
 		}
 		if (!empty($cart_items)) {

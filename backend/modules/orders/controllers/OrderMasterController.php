@@ -51,11 +51,14 @@ class OrderMasterController extends Controller {
 	 * @return mixed
 	 */
 	public function actionIndex($order_status = NULL) {
+		$search_status = '';
 		$searchModel = new OrderMasterSearch();
-		if (Yii::$app->request->queryParams['OrderMasterSearch']['user_id'] != NULL) {
-			$search_status = 1;
-		} else {
-			$search_status = 0;
+		if (isset(Yii::$app->request->queryParams['OrderMasterSearch']['user_id'])) {
+			if (Yii::$app->request->queryParams['OrderMasterSearch']['user_id'] != NULL) {
+				$search_status = 1;
+			} else {
+				$search_status = 0;
+			}
 		}
 
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);

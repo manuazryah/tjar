@@ -442,3 +442,10 @@ nav.navbar {
 	font-weight: 600;
 	border-bottom: 1px solid;
 }
+.specfic_label{
+	font-weight: 600;
+	padding-right: 13px;
+}
+.selcted_pdt{
+	box-shadow: 2px 2px 6px #2181b1;
+}

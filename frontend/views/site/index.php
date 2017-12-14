@@ -130,7 +130,6 @@ use yii\helpers\Url;
 																						</div>-->
 															<?php
 															$offer_price = $product_data->price - $product_data->offer_price;
-															echo $offer_price;
 															?>
 															<?php /* if (isset($product_data->offer_price) && $product_data->offer_price != "0") */if ($offer_price != 0 && $product_data->offer != NULL) { ?>
 																<h6 class="actual-price">$&nbsp;<?= $product_data->offer_price ?>

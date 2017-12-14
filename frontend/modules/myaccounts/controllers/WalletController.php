@@ -84,7 +84,7 @@ class WalletController extends \yii\web\Controller {
 				if ($this->debitWallet($user_details, $net_amount, $order_id)) {
 
 					Cart::commissionManagement($order_id);
-					return $this->redirect(['/checkout/success']); /* set payment success */
+					return $this->redirect(['/checkout/payment']); /* set payment success */
 				}
 			}
 			return $this->redirect(Yii::$app->request->referrer);

@@ -40,7 +40,7 @@ $this->title = 'Payment success';
 			     right: 0;
 			     width: 50px;
 			     height: 50px;" src="<?= Yii::$app->homeUrl; ?>images/tick.png"/>
-			<h4>Payment Successful</h4>
+			<h4>Order Placed Successfully</h4>
 			<!--<p>Your payment of <?= $amount ?>.00 AED has been processed....</p>-->
 			<?= Html::a('<button class="Proceed marg-btm-20 green2">continue shopping</button>', ['site/index'], ['class' => '']) ?></div>
 

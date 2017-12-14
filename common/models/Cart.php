@@ -306,7 +306,7 @@ class Cart extends \yii\db\ActiveRecord {
 	public static function commissionManagement($order_id/* , $prod_details */) {
 		$order_details_model = OrderDetails::find()->where(['order_id' => $order_id])->all();
 		foreach ($order_details_model as $order_details) {
-			$prod_details = ProductVendor::findone([$model->product_id]);
+			$prod_details = ProductVendor::findone([$order_details->product_id]);
 			$model_commission = new CommissionManagement();
 			$model_commission->product_id = $prod_details->id;
 			$model_commission->vendor_id = $prod_details->vendor_id;

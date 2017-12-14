@@ -29,6 +29,7 @@ class ProductsController extends \yii\web\Controller {
 	 */
 	public function actionIndex($main_categ, $categ = null, $sub_categ = null) {
 		$sub_category = '';
+		$filters = '';
 //		$sub_category->id = '';
 		$searchModel = new ProductVendorSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -65,10 +66,12 @@ class ProductsController extends \yii\web\Controller {
 		$result = $this->Filters($params);
 
 		if ($result[0] == null && $result[1] == 2) {
+			if (isset($products)) {
 
-			foreach ($products as $product) {
+				foreach ($products as $product) {
 
-				$productids[] = $product['id'];
+					$productids[] = $product['id'];
+				}
 			}
 		} else {
 
@@ -86,20 +89,22 @@ class ProductsController extends \yii\web\Controller {
 				}
 			}
 		}
+		if (isset($productids)) {
 
-		if (!empty($min_value) && !empty($max_value) && $productids != null) {
+			if (!empty($min_value) && !empty($max_value) && $productids != null) {
 
-			$dataProvider->query->where(['IN', 'product_id', $productids])->andWhere(['between', 'offer_price', $min_value, $max_value]);
+				$dataProvider->query->where(['IN', 'product_id', $productids])->andWhere(['between', 'offer_price', $min_value, $max_value]);
 //			$vendor_products = \common\models\ProductVendor::find()->where(['IN', 'product_id', $productids])->andWhere(['between', 'price', $min_value, $max_value])->all();
-		} elseif ($productids != null) {
-			$dataProvider->query->where(['IN', 'product_id', $productids]);
+			} elseif ($productids != null) {
+				$dataProvider->query->where(['IN', 'product_id', $productids]);
 //			$vendor_products = \common\models\ProductVendor::find()->where(['IN', 'product_id', $productids])->all();
-		} else {
-			$productids = 0;
-			$dataProvider->query->where(['IN', 'product_id', $productids]);
+			} else {
+				$productids = 0;
+				$dataProvider->query->where(['IN', 'product_id', $productids]);
 
 //			$vendor_products = null;
 //			$vendor_products = \common\models\ProductVendor::find()->where(['IN', 'product_id', $productids])->all();
+			}
 		}
 
 

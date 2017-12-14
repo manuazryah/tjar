@@ -3559,3 +3559,7 @@ ol.pagenation li.active a {
 	margin-top: 40px;
 	overflow: hidden;
 }
+body div#product-detail div div div#product-views div div#affix div#zoom-fig a#Zoom-1 > .mz-figure > img {
+	max-width: 100% !important;
+	max-height:100% !important;
+}
