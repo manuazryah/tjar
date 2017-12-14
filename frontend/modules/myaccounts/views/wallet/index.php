@@ -42,7 +42,7 @@ use yii\widgets\ListView;
 			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 				<div class="MyAccount-content">
 					<div class="edit-account">
-						<div class="personal-info marg-btm-20">
+						<div class="personal-info">
 							<?php $form = ActiveForm::begin(['id' => 'add-money', 'method' => 'post',]); ?>
 							<?php if (Yii::$app->session->hasFlash('error')): ?>
 								<div class="alert alert-danger" role="alert" style="
@@ -87,7 +87,7 @@ use yii\widgets\ListView;
                                                                 <th class=""><span class="">comment</span></th>
                                                         </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody style="overflow-y: scroll; height:400px;">
 							<?php
 							if ($dataProvider->totalCount > 0) {
 								?>

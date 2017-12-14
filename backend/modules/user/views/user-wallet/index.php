@@ -53,6 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //							'id',
 							[
 							    'attribute' => 'entry_date',
+							    'format' => 'raw',
 							    'value' => function($data) {
 								    return \Yii::$app->formatter->asDatetime($data->entry_date, "php:d-M-Y h:i A");
 							    },

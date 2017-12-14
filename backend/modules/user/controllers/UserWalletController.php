@@ -120,23 +120,37 @@ class UserWalletController extends Controller {
 		}
 	}
 
-	public function actionRecentActivity() {
-		$start_date = date('Y-m-d H:i:s');
-
-		$end_date = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . " -1 month"));
-		$model = UserWallet::find()->where(['>=', 'entry_date', $end_date])->andWhere(['<=', 'entry_date', $start_date])->all();
+	public function actionRecentActivity($type = null) {
 
 
-		$dataProvider = new ArrayDataProvider([
-		    'key' => 'id',
-		    'allModels' => $model,
-		    'sort' => [
-			'attributes' => ['id', 'user_id', 'credit_debit', 'entry_date', 'amount', 'balance_amount', 'reference_id'],
-		    ],
-		]);
+		$start_date = date('Y-m-d 60:60:60');
+
+		$end_date = date('Y-m-d 00:00:00', strtotime(date('Y-m-d H:i:s') . " -1 month"));
+		$searchModel = new UserWalletSearch();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		if ($type != 1)
+			$dataProvider->query->andWhere(['>=', 'entry_date', $end_date])->andWhere(['<=', 'entry_date', $start_date]);
+//		$model = UserWallet::find()->where(['>=', 'entry_date', $end_date])->andWhere(['<=', 'entry_date', $start_date])->all();
+//		$dataProvider = new ArrayDataProvider([
+//		    'key' => 'id',
+//		    'allModels' => $model,
+//		    'sort' => [
+//			'attributes' => ['id', 'user_id', 'credit_debit', 'entry_date', 'amount', 'balance_amount', 'reference_id'],
+//		    ],
+//		]);
 
 		return $this->render('recent-activity', [
+			    'searchModel' => $searchModel,
 			    'dataProvider' => $dataProvider,
+			    'type' => $type
+		]);
+	}
+
+	public function actionUserView($id) {
+		$product_model = \common\models\User::findOne(['id' => $id]);
+
+		return $this->renderAjax('user-view', [
+			    'model' => $product_model,
 		]);
 	}
 

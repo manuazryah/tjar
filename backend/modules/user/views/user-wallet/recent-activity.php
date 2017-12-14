@@ -27,8 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title" style="float: left"><?= Html::encode($this->title) ?></h3>
-					<?= Html::a('<span>Users</span>', ['/user/user/index'], ['class' => 'btn btn-secondary flt_right_btn']) ?>
-
+					<?php if ($type != 1) { ?>
+						<?= Html::a('<span>List All</span>', ['/user/user-wallet/recent-activity', 'type' => 1], ['class' => 'btn btn-primary flt_right_btn']) ?>
+					<?php } else { ?>
+						<?= Html::a('<span>Recent Activity</span>', ['/user/user-wallet/recent-activity'], ['class' => 'btn btn-primary flt_right_btn']) ?>
+					<?php } ?>
 				</div>
 				<div class="panel-body">
 
@@ -56,14 +59,15 @@ $this->params['breadcrumbs'][] = $this->title;
 							    'value' => function($data) {
 								    return \Yii::$app->formatter->asDatetime($data->entry_date, "php:d-M-Y h:i A");
 							    },
-//							    'filter' => DateRangePicker::widget(['model' => $searchModel, 'attribute' => 'entry_date', 'pluginOptions' => ['format' => 'd-m-Y', 'autoUpdateInput' => false]]),
+							    'filter' => DateRangePicker::widget(['model' => $searchModel, 'attribute' => 'entry_date', 'pluginOptions' => ['format' => 'd-m-Y', 'autoUpdateInput' => false]]),
 							],
 							    [
 							    'attribute' => 'user_id',
 							    'header' => 'user',
 							    'format' => 'raw',
 							    'value' => function($data) {
-								    return $data->user->first_name;
+								    return Html::button($data->user->first_name . ' ' . $data->user->last_name, ['value' => Url::to(['user-view', 'id' => $data->user_id]), 'class' => 'modalButton edit-btn']);
+//								    return $data->user->first_name;
 							    },
 							    'filter' => ArrayHelper::map(User::find()->all(), 'id', 'first_name'),
 							],
@@ -79,6 +83,13 @@ $this->params['breadcrumbs'][] = $this->title;
 //							'credit_debit',
 							'balance_amount',
 							'reference_id',
+							    [
+							    'attribute' => 'reference_id',
+							    'format' => 'raw',
+							    'value' => function($data) {
+								    return \yii\helpers\Html::a($data->reference_id, ['/orders/order-master/view', 'id' => $data->reference_id], ['target' => '_blank']);
+							    },
+							],
 						    // 'comment:ntext',
 						    // 'field_2',
 						    ],

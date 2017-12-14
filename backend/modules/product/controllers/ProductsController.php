@@ -300,11 +300,17 @@ class ProductsController extends Controller {
 	function ChangeImageName($model) {
 		$split_folder = Yii::$app->UploadFile->folderName(0, 1000, $model->id);
 		$gallery_path = \Yii::$app->basePath . '/../uploads/products/' . $split_folder . '/' . $model->id . '/' . 'gallery';
+		$gallery_large = \Yii::$app->basePath . '/../uploads/products/' . $split_folder . '/' . $model->id . '/' . 'gallery_large';
+		$gallery_medium = \Yii::$app->basePath . '/../uploads/products/' . $split_folder . '/' . $model->id . '/' . 'gallery_medium';
+		$gallery_thumb = \Yii::$app->basePath . '/../uploads/products/' . $split_folder . '/' . $model->id . '/' . 'gallery_thumb';
 		$profile_path = \Yii::$app->basePath . '/../uploads/products/' . $split_folder . '/' . $model->id . '/' . 'profile';
 		$transaction = \Yii::$app->db->beginTransaction();
 		try {
 			if (file_exists($gallery_path)) {
 				$this->changeGalleryName($gallery_path, $split_folder, $model);
+				$this->changeGalleryName($gallery_large, $split_folder, $model);
+				$this->changeGalleryName($gallery_medium, $split_folder, $model);
+				$this->changeGalleryName($gallery_thumb, $split_folder, $model);
 				$this->ChangeProfileImageName($profile_path, $model);
 				$transaction->commit();
 			}
@@ -360,8 +366,23 @@ class ProductsController extends Controller {
 			foreach (glob("{$path}/*") as $file) {
 				$arry = explode('/', $file);
 				$img_name = explode('.', end($arry));
-				$oldDirectory = $path . '/' . $img_name[0] . '.' . $img_name[1];
-				$newDirectory = $path . "/" . $model->canonical_name . '.' . $img_name[1];
+				if (strpos($img_name[0], 'large') !== false) {
+					$name = explode('_', $img_name[0]);
+					$oldDirectory = $path . '/' . $img_name[0] . '.' . $img_name[1];
+					$newDirectory = $path . "/" . $model->canonical_name . '_large.' . $img_name[1];
+				} elseif (strpos($img_name[0], 'medium') !== false) {
+					$name = explode('_', $img_name[0]);
+					$oldDirectory = $path . '/' . $img_name[0] . '.' . $img_name[1];
+					$newDirectory = $path . "/" . $model->canonical_name . '_medium.' . $img_name[1];
+				} elseif (strpos($img_name[0], 'thumb') !== false) {
+					$name = explode('_', $img_name[0]);
+					$oldDirectory = $path . '/' . $img_name[0] . '.' . $img_name[1];
+					$newDirectory = $path . "/" . $model->canonical_name . '_thumb.' . $img_name[1];
+				} else {
+					$oldDirectory = $path . '/' . $img_name[0] . '.' . $img_name[1];
+					$newDirectory = $path . "/" . $model->canonical_name . '.' . $img_name[1];
+				}
+
 				rename($oldDirectory, $newDirectory);
 			}
 			if (file_exists($path)) {
@@ -411,6 +432,7 @@ class ProductsController extends Controller {
 		$image = $model->gallery_images;
 
 		if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
+
 			$tag = Yii::$app->request->post()['Products']['search_tags'];
 			if ($tag) {
 				$model->search_tags = implode(',', $tag);
@@ -419,6 +441,7 @@ class ProductsController extends Controller {
 			if (!empty($model->related_products))
 				$model->related_products = implode(',', $model->related_products);
 			if ($model->validate() && $model->save()) {
+				$this->ChangeImageName($model);
 				if (isset(Yii::$app->request->post()['specifications_new']))
 					$new_specifictns = Yii::$app->request->post()['specifications_new'];
 				$specfctns = Yii::$app->request->post()['specifications'];

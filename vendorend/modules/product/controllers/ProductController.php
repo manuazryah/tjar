@@ -141,6 +141,7 @@ class ProductController extends \yii\web\Controller {
 
 				if (isset(Yii::$app->request->post()['offerprice'])) {
 					$model->offer_price = $offerprice;
+					$model->offer = round(100 - (($model->offer_price * 100) / $model->price));
 				}
 
 

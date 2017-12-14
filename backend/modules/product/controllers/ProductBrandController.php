@@ -190,6 +190,9 @@ class ProductBrandController extends Controller {
 
 	public function actionAjaxcreate() {
 		$model = new ProductBrand();
+		$subcat = '';
+		$cat = '';
+		$field = '';
 		if (Yii::$app->request->post()) {
 			$model->main_category = Yii::$app->request->post()['main_category'];
 			$model->category = Yii::$app->request->post()['category'];
