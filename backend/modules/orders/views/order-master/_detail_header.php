@@ -35,7 +35,7 @@ use yii\helpers\Url;
         </div>
         <!--<div style="clear: both"></div>-->
         <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-            <?= $form->field($model, 'admin_status')->dropDownList(['0' => 'Pending', '1' => 'Approved'])->label('') ?>
+            <?= $form->field($model, 'admin_status')->dropDownList(['0' => 'Pending', '1' => 'Approved'], ['options' => [$data->admin_status => ['Selected' => 'selected']], 'class' => 'form-control admin_status_field', 'id' => 'order_admin_status-' . $model->id,])->label(''); ?>
         </div>
     </div>
 

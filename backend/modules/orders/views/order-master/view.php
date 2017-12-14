@@ -110,7 +110,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                 </div>
                                                             </a>
 
-                                                                                                    <!--<p>Rs:2550.00</p> EAN : 545856 <p>Vendor : Vendor Name</p>--> 
+                                                                                                                            <!--<p>Rs:2550.00</p> EAN : 545856 <p>Vendor : Vendor Name</p>--> 
                                                         </div>
                                                         </a>
                                                         <?php
@@ -167,11 +167,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                         <th>Comment</th>
                                                                         <td>
                                                                             <div class="cbp_tmlabel">
-                                                                                <?php 
-                                                                                $comments= \common\models\OrderHistory::find()->where(['order_id'=>$orderdtl->order_id,'product_id'=>$orderdtl->product_id])->all();
-                                                                                foreach ($comments as $comment){?>
-                                                                                <p><?= $comment->comment?> .</p>
-                                                                                <?php }?>
+                                                                                <?php
+                                                                                $comments = \common\models\OrderHistory::find()->where(['order_id' => $orderdtl->order_id, 'product_id' => $orderdtl->product_id])->all();
+                                                                                foreach ($comments as $comment) {
+                                                                                    ?>
+                                                                                    <li><?= $comment->comment ?></li>
+                                                                                <?php } ?>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -221,6 +222,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?php
                                     $shippinng_limit = \common\models\Settings::findOne(2)->value;
                                     $shipping = $shippinng_limit > $subtotal ? common\models\Cart::shipping_charge($orderdetails) : '0';
+                                    $commission_mngmnt = \common\models\CommissionManagement::find()->where(['order_id' => $id])->all();
+                                    $commission = '0';
+                                    foreach ($commission_mngmnt as $commsn) {
+                                        $commission = $commission + $commsn->commission;
+                                    }
                                     ?>
                                     <tbody>
                                         <tr class="cart-subtotal">
@@ -236,10 +242,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                             <th>Promotion Discount</th>
                                             <td data-title="Subtotal"><span class="woocommerce-Price-amount amount"><spn class="promotion_discount"></spn><?= sprintf("%0.2f", $ordermaster->promotion_discount); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
                                         </tr>
-
                                         <tr class="order-total">
                                             <th>Grand Total</th>
                                             <td data-title="Total"><strong><span class="woocommerce-Price-amount amount grand_total"><?= sprintf("%0.2f", $ordermaster->net_amount); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></strong> </td>
+                                        </tr>
+                                        <tr class="commission">
+                                            <th>Commission</th>
+                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount"><spn class="promotion_discount"></spn><?= sprintf("%0.2f", $commission); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
                                         </tr>
 
                                     </tbody></table>

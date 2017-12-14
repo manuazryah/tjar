@@ -33,6 +33,21 @@ $(document).ready(function () {
 
     });
 
+    $(document).on('change', '.admin_status_field', function (e) {
+        var change_id = $(this).attr('id').match(/\d+/);
+        var admin_status = $(this).val();
+        $.ajax({
+            url: homeUrl + 'orders/order-master/change-admin-status',
+            type: "post",
+            data: {status: admin_status, id: change_id},
+            success: function (data) {
+                alert('Status Changed Sucessfully');
+                $.pjax.reload({container: '#order-manage'});
+            }, error: function () {
+            }
+        });
+    });
+
 
 
 });
