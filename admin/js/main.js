@@ -48,6 +48,46 @@ $(document).ready(function () {
         });
     });
 
+    $('body').on('click', '.order_comment', function () {
+//            e.preventDefault();
+        $('.comment_box').val('');
+        $('.error').html('');
+        var id = $(this).attr('id');
+        $('#modal-1').modal('show');
+        $('.comment_box').attr("id", id);
+    });
+    $('body').on('click', '.comment_submit', function () {
+        $('.error').html('');
+        var id = $(this).attr("id");
+        var comment = $('#comment_box_' + id).val();
+        if (comment !== '') {
+            $.ajax({
+                url: homeUrl + 'orders/order-master/order-history-comment',
+                type: "post",
+                data: {comment: comment, id: id},
+                success: function (data) {
+                    var $data = JSON.parse(data);
+                    if ($data.msg === "success") {
+                        alert('Comment Successfully Added');
+                        $('#modal-1').modal('hide');
+                        $("ol").append("<li>" + comment + "</li>");
+                        $('.comment_box').val('');
+//                        $.pjax.reload({container: '#order-detail_' + id});
+//                            
+                    } else {
+                        alert('Sorry, Internal error');
+//                            $('#prdct_main_category').submit();
+                    }
+                }, error: function () {
+
+                }
+            });
+
+        } else {
+            $('.error').html('Cannot be Null');
+        }
+    });
+
 
 
 });

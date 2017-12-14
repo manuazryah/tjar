@@ -48,6 +48,15 @@ $this->params['breadcrumbs'][] = $this->title;
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">User Information</h3>
+                    <div style="float: right">
+                        <?=
+                        Html::a('Print<span><i class="fa fa-print" aria-hidden="true"></i></span>', Url::to(['print-all', 'id' => $id]), [
+                            'title' => Yii::t('app', 'print'),
+                            'label' => 'Print',
+                            'class' => '',
+                            'target' => '_blank',]);
+                        ?>
+                    </div>
 
 
 				</div>
@@ -99,7 +108,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 											<?= $image; ?>
 											<div class="order_product">
-												<label class="prdt_name"><?= substr($product->product_name, 0, 34) . '..'; ?></label><br>
+                                                                        <?php if ($prdctvendor->full_fill == '1') { ?> <span style="color:blue">Full Fill by Tjar</span><br><?php } ?>
+                                                                        <label><?= substr($product->product_name, 0, 34) . '..'; ?></label><br>
 												 <!--<label><? Html::tag('button', Html::encode(substr($product->product_name, 0, 15)), ['title' => $product->product_name, 'class' => 'username color edit-btn']); ?> </label>-->
 												<Label>AED :</label><span><?= sprintf("%0.2f", $orderdtl->sub_total); ?> for <?= $orderdtl->quantity ?> Product</span><br>
 												<label>EAN : </label><span><?= $product->item_ean ?></span><br>
@@ -180,22 +190,47 @@ $this->params['breadcrumbs'][] = $this->title;
 												if ($orderdtl->status == '3')
 													$status = 'Order Delivered';
 												?>
+                                                                        <?php if ($prdctvendor->full_fill != '1') { ?>
 												<td><?= $status ?></td>
+                                                                            <?php
+                                                                        } else {
+                                                                            if ($orderdtl->status == '0') {
+                                                                                $filter = ['0' => 'Pending', '1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
+                                                                            } else {
+                                                                                $filter = ['1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
+                                                                            }
+                                                                            ?>
+                                                                            <td>
+                                                                                <?= \yii\helpers\Html::dropDownList('status', null, $filter, ['options' => [$orderdtl->status => ['Selected' => 'selected']], 'class' => 'form-control admin_status_field', 'id' => 'order_admin_status-' . $orderdtl->id,]); ?>
+                                                                            </td>
+                                                                        <?php } ?>
 											</tr>
 											<tr>
 												<th>Comment</th>
 												<td>
-													<div class="cbp_tmlabel">
+                                                                            <?php if ($prdctvendor->full_fill == '1') { ?>
+                                                                                <div class="cbp_tmlabel" style="float: right" >
+                                                                                    <textarea rows="3" cols="30" class="comment_box" id="comment_box_<?= $orderdtl->id ?>"></textarea><br>
+                                                                                    <button class="btn btn-info comment_submit" type="button" id="<?= $orderdtl->id ?>">Add Comment</button>
+
+                                                                                </div>
+                                                                            <?php } ?>
+                                                                            <ol>
 														<?php
 														$comments = \common\models\OrderHistory::find()->where(['order_id' => $orderdtl->order_id, 'product_id' => $orderdtl->product_id])->all();
 														foreach ($comments as $comment) {
+                                                                                    if (!empty($comment->comment)) {
 															?>
 															<li><?= $comment->comment ?></li>
-														<?php } ?>
-													</div>
+                                                                                        <?php
+                                                                                    }
+                                                                                }
+                                                                                ?>
+                                                                            </ol>
 												</td>
 											</tr>
 										</tbody></table>
+
 
 	                                                        </div>
 								<?php
@@ -210,7 +245,12 @@ $this->params['breadcrumbs'][] = $this->title;
 					<div class="col-md-8">
 
 					</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
+                        </div>
 
 
 
@@ -219,6 +259,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 				</div>
 			</div>
+            </div>
 
 		</div>
 	</div>

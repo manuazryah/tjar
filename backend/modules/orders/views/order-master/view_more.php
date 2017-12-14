@@ -145,7 +145,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     'comment' => function ($url, $model) {
                                                         if ($model->status != '0' && $model->status != '3') {
 //                                                            return \yii\bootstrap\Button::widget(["label" => "Create", "options" => ["class" => ""]]);
-                                                            return Html::a('<span><i class="fa-file-text-o"></i></span>', '', [
+                                                            return Html::a('<span><i class="fa-file-text-o"></i></span>', 'javascript:void(0)', [
                                                                         'title' => 'Comment',
                                                                         'class' => 'order_comment',
                                                                         'id' => $model->id,
@@ -220,42 +220,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             });
         });
-        $('body').on('click', '.order_comment', function (e) {
-            e.preventDefault();
-            $('.comment_box').val('');
-            $('.error').html('');
-            var id = $(this).attr('id');
-            $('#modal-1').modal('show');
-            $('.comment_box').attr("id", id);
-        });
-        $('body').on('click', '.comment_submit', function () {
-            $('.error').html('');
-            var comment = $('.comment_box').val();
-            var id = $('.comment_box').attr('id');
-            if (comment !== '') {
-                $.ajax({
-                    url: homeUrl + 'orders/order-master/order-history-comment',
-                    type: "post",
-                    data: {comment: comment, id: id},
-                    success: function (data) {
-                        var $data = JSON.parse(data);
-                        if ($data.msg === "success") {
-                            alert('Comment Successfully Added');
-                            $('#modal-1').modal('hide');
-//                            
-                        } else {
-                            alert('Sorry, Internal error');
-//                            $('#prdct_main_category').submit();
-                        }
-                    }, error: function () {
-
-                    }
-                });
-
-            } else {
-                $('.error').html('Cannot be Null');
-            }
-        });
+        
 
     });
 </script>
