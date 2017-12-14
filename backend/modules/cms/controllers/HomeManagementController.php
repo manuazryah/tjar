@@ -172,7 +172,7 @@ class HomeManagementController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->findModel($id);
-        $model->scenario = 'create';
+//        $model->scenario = 'create';
         if (isset($id) && $id != '') {
             $data = $this->findModel($id);
         }
