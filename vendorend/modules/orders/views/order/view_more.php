@@ -7,8 +7,8 @@ use yii\helpers\ArrayHelper;
 use common\models\User;
 use common\models\Products;
 use common\models\ProductVendor;
-use common\models\OrderDetails;
 use yii\helpers\Url;
+use common\models\OrderDetails;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\OrderMasterSearch */
@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Html::a('<i class="fa-th-list"></i><span> Manage Order </span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Buyer Information</h3>
+                    <h3 class="panel-title">User Information</h3>
                     <div style="float: right">
                         <?=
                         Html::a('Print<span><i class="fa fa-print" aria-hidden="true"></i></span>', Url::to(['print-all', 'id' => $id]), [
@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="panel-body">
 
 
-                    <?php echo $this->render('_detail_header', ['model' => $ordermaster]) ?>
+                    <?php // echo $this->render('_detail_header', ['model' => $ordermaster]) ?>
 
                     <div style="clear: both"></div>
 
@@ -130,7 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                                                 $value = $specification_model->tablevalue__name;
                                                                 ?>
-                                                                <tr><td class="specfic_label"> <?= $specification_model->filter_tittle . ':'; ?> </td><td class="value"><?= $specification->Product_feature_text ?></td></tr>
+                                                                <tr><td class="specfic_label"> <?= $specification_model->filter_tittle; ?> </td><td class="value"><?= $specification->Product_feature_text ?></td></tr>
                                                                 <?php
                                                             }
                                                         }
@@ -141,7 +141,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         </div>
                                     </a>
 
-                                                                                                                                                                    <!--<p>Rs:2550.00</p> EAN : 545856 <p>Vendor : Vendor Name</p>-->
+                                                                                                                                        <!--<p>Rs:2550.00</p> EAN : 545856 <p>Vendor : Vendor Name</p>-->
                                 </div>
                                 </a>
                                 <?php
@@ -210,7 +210,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             <tr>
                                                 <th>Comment</th>
                                                 <td>
-                                                    <?php if ($prdctvendor->full_fill == '1') { ?>
+                                                    <?php if ($prdctvendor->full_fill != '1') { ?>
                                                         <div class="cbp_tmlabel" style="float: right" >
                                                             <textarea rows="3" cols="30" class="comment_box" id="comment_box_<?= $orderdtl->id ?>"></textarea><br>
                                                             <button class="btn btn-info comment_submit" type="button" id="<?= $orderdtl->id ?>">Add Comment</button>
@@ -269,7 +269,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?php
                                     $shippinng_limit = \common\models\Settings::findOne(2)->value;
                                     $shipping = $shippinng_limit > $subtotal ? common\models\Cart::shipping_charge($orderdetails) : '0';
-                                    $commission = OrderDetails::commission($orderdetails);//commission for order details
+                                    $commission_mngmnt = \common\models\CommissionManagement::find()->where(['order_id' => $id])->all();
+                                   $commission = OrderDetails::commission($orderdetails);
                                     ?>
                                     <tbody>
                                         <tr class="cart-subtotal">
@@ -310,6 +311,7 @@ $this->params['breadcrumbs'][] = $this->title;
         $("#search-option").click(function () {
             $(".filters").slideToggle();
         });
+
     });
 </script>
 

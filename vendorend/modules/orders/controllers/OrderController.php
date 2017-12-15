@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use common\models\OrderDetailsSearch;
 use common\models\OrderDetails;
 use common\models\OrderHistory;
+use common\models\OrderMasterSearch;
 
 class OrderController extends \yii\web\Controller {
 
@@ -17,47 +18,27 @@ class OrderController extends \yii\web\Controller {
         date_default_timezone_set('Asia/Kolkata');
     }
 
-    public function actionIndex($order_status = NULL) {
-        $order_array = [];
-        $vendor_id = Yii::$app->user->identity->id;
-        $order_master = OrderMaster::find()->where(['admin_status' => 1])->all();
-
-
-        if (!empty($order_master)) {
-            foreach ($order_master as $order) {
-                $order_array[] = $order->order_id;
-            }
-        }
+    public function actionIndex() {
         $product_array = [];
-        $products = \common\models\ProductVendor::find()->where(['vendor_id' => $vendor_id, 'full_fill' => 0])->all();
+        $order_array = [];
+        $products = \common\models\ProductVendor::find()->where(['vendor_id' => Yii::$app->user->identity->id])->all();
         if (!empty($products)) {
-            foreach ($products as $val) {
-                $product_array[] = $val->id;
+            foreach ($products as $value) {
+                $product_array[] = $value->id;
+            }
+            $order_details = OrderDetails::find()->where(['in', 'product_id', $product_array])->all();
+            if (!empty($order_details)) {
+                foreach ($order_details as $order) {
+                    $order_array[] = $order->order_id;
+                }
             }
         }
-        $searchModel = new OrderDetailsSearch();
+        $searchModel = new OrderMasterSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->andWhere(['vendor_id' => $vendor_id, 'admin_status' => '1'])->andWhere(['in', 'order_id', $order_array])->andWhere(['in', 'product_id', $product_array]);
-        if ($order_status == 1) {
-            $dataProvider->query->andWhere(['status' => 0]);
-        } elseif ($order_status == 2) {
-            $dataProvider->query->andWhere(['status' => 1]);
-        } elseif ($order_status == 3) {
-            $dataProvider->query->andWhere(['status' => 2]);
-        } elseif ($order_status == 4) {
-            $dataProvider->query->andWhere(['status' => 3]);
-        }
-
-        if (Yii::$app->request->queryParams['OrderDetailsSearch']['product_id'] != NULL) {
-            $search_status = 1;
-        } else {
-            $search_status = 0;
-        }
+        $dataProvider->query->andWhere(['in', 'order_id', $order_array]);
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
-                    'order_status' => $order_status,
-                    'search_status' => $search_status,
         ]);
     }
 
@@ -117,6 +98,25 @@ class OrderController extends \yii\web\Controller {
         }
     }
 
+    public function actionViewMore($id) {
+        $vendor_id = Yii::$app->user->identity->id;
+        $product_array = [];
+        $products = \common\models\ProductVendor::find()->where(['vendor_id' => $vendor_id])->all();
+        if (!empty($products)) {
+            foreach ($products as $val) {
+                $product_array[] = $val->id;
+            }
+        }
+        $ordermaster = OrderMaster::find()->where(['order_id' => $id])->one();
+        $orderdetails = OrderDetails::find()->where(['order_id' => $id, 'admin_status' => '1'])->andWhere(['in', 'product_id', $product_array])->all();
+
+        return $this->render('view_more', [
+                    'id' => $id,
+                    'ordermaster' => $ordermaster,
+                    'orderdetails' => $orderdetails,
+        ]);
+    }
+
     /**
      * Displays a single OrderMaster model.
      * @param integer $id
@@ -161,7 +161,7 @@ class OrderController extends \yii\web\Controller {
         $vendor_id = Yii::$app->user->identity->id;
         $order_master = OrderMaster::find()->where(['order_id' => $id])->one();
         $product_array = [];
-        $products = \common\models\ProductVendor::find()->where(['full_fill' => 0])->all();
+        $products = \common\models\ProductVendor::find()->where(['full_fill' => 0, 'vendor_id' => $vendor_id])->all();
         if (!empty($products)) {
             foreach ($products as $val) {
                 $product_array[] = $val->id;

@@ -1,46 +1,35 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+//use yii\grid\GridView;
+use yii\widgets\DetailView;
 use yii\helpers\ArrayHelper;
 use common\models\User;
 use common\models\Products;
+use common\models\ProductVendor;
 use yii\helpers\Url;
+use common\models\OrderDetails;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\OrderMasterSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Order Management -  Full Filled by TJAR';
+$this->title = 'Order Details of ' . $id;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <style>
-    .tab-content{
-        background: #f9f9f9 !important;
+    .album-image{
+        position: relative;
+        padding: 10px;
+        background: #dad4d4;
+        margin-bottom: 20px;
+        width: 100%;
     }
-    .nav.nav-tabs>li>a {
-        background-color: #f9f9f9;
+    .album-image img{
+        float: left;
     }
-    .nav.nav-tabs>li {
-        background: #f9f9f9;
-    }
-    .nav.nav-tabs>li.active>a {
-        background-color: #f9f9f9 !important;
-    }
-    .nav.nav-tabs.nav-tabs-justified, .nav-tabs-justified .nav.nav-tabs {
-        background: #f9f9f9;
-    }
-    .nav.nav-tabs>li>a:hover {
-        background-color: #f9f9f9;
-    }
-    .nav-tabs {
-        border-bottom: 1px solid #f9f9f9 !important;
-    }
-    .hidden-xs{
-        padding-left: 5px;
-    }
-    .color{
-        color: #373e4a;
+    .order_product{
+        margin-left: 130px;
     }
 </style>
 <div class="order-master-index">
@@ -51,151 +40,266 @@ $this->params['breadcrumbs'][] = $this->title;
         'size' => 'modal-lg',
         'clientOptions' => ['backdrop' => 'static', 'keyboard' => FALSE]
     ]);
+    $subtotal = $ordermaster->total_amount;
     ?>
     <div id='modalContent'></div>;
     <?php yii\bootstrap\Modal::end(); ?>
     <div class="row">
         <div class="col-md-12">
-
+            <?= Html::a('<i class="fa-th-list"></i><span> Manage Order </span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
+                    <h3 class="panel-title">User Information</h3>
+                    <div style="float: right">
+                        <?=
+                        Html::a('Print<span><i class="fa fa-print" aria-hidden="true"></i></span>', Url::to(['print-all', 'id' => $id]), [
+                            'title' => Yii::t('app', 'print'),
+                            'label' => 'Print',
+                            'class' => '',
+                            'target' => '_blank',]);
+                        ?>
+                    </div>
 
 
                 </div>
                 <div class="panel-body">
 
 
-                    <div class="" style="border: none">
+                    <?php // echo $this->render('_detail_header', ['model' => $ordermaster]) ?>
 
-                        <div class="row">
+                    <div style="clear: both"></div>
 
-                            <div class="col-md-12">
-                                <?php yii\widgets\Pjax::begin(['id' => 'order-manage']); ?>
-                                <ul class="nav nav-tabs">
-                                    <li class="<?= $order_status == '' ? 'active' : '' ?>">
-                                        <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">All Orders</span>', ['view-more', 'id' => $id], ['class' => '']) ?>
-                                    </li>
-                                    <li class="<?= $order_status == 1 ? 'active' : '' ?>">
-                                        <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Awaiting Action</span>', ['view-more', 'id' => $id, 'order_status' => 1], ['class' => '']) ?>
-                                    </li>
-                                    <li class="<?= $order_status == 2 ? 'active' : '' ?>">
-                                        <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Placed</span>', ['view-more', 'id' => $id, 'order_status' => 2], ['class' => '']) ?>
-                                    </li>
-                                    <li class="<?= $order_status == 3 ? 'active' : '' ?>">
-                                        <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Dispatched</span>', ['view-more', 'id' => $id, 'order_status' => 3], ['class' => '']) ?>
-                                    </li>
-                                    <li class="<?= $order_status == 4 ? 'active' : '' ?>">
-                                        <?= Html::a('<span class="visible-xs"><i class="fa-home"></i></span><i class="fa fa-th-list" aria-hidden="true"></i><span class="hidden-xs">Delivered</span>', ['view-more', 'id' => $id, 'order_status' => 4], ['class' => '']) ?>
-                                    </li>
-                                </ul>
-                                <div class="table-responsive" style="border: none">
-                                    <button class="btn btn-white" id="search-option" style="float: right;">
-                                        <i class="linecons-search"></i>
-                                        <span>Search</span>
-                                    </button>
-                                    <?=
-                                    GridView::widget([
-                                        'dataProvider' => $dataProvider,
-//                                            'filterModel' => $searchModel,
-                                        'columns' => [
-                                            ['class' => 'yii\grid\SerialColumn'],
-                                            'order_id',
-                                            [
-                                                'attribute' => 'product_id',
-                                                'format' => 'raw',
-                                                'value' => function($data) {
-
-                                                    $vendor_product = \common\models\ProductVendor::findOne($data->product_id);
-                                                    $product_details = Products::findOne($vendor_product->product_id);
-                                                    return Html::tag('p', Html::encode(substr($product_details->product_name, 0, 29)), ['title' => $product_details->product_name, 'class' => 'username color']);
-//                                                    return $product_details->product_name;
-                                                }
-                                            ],
-                                            'quantity',
-                                            'amount',
-//                                                'sub_total',
-//
-                                            [
-                                                'attribute' => 'status',
-                                                'format' => 'raw',
-                                                'filter' => $filter,
-                                                'value' => function ($data)use ($order_status) {
-                                                    if (($order_status == '1') || ($order_status == '' && $data->status == '0')) {
-                                                        $filter = ['0' => 'Pending', '1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
-                                                    } else {
-                                                        $filter = ['1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
-                                                    }
-                                                    return \yii\helpers\Html::dropDownList('status', null, $filter, ['options' => [$data->status => ['Selected' => 'selected']], 'class' => 'form-control admin_status_field', 'id' => 'order_admin_status-' . $data->id,]);
-                                                },
-                                            ],
-                                            'delivered_date',
-                                            [
-                                                'class' => 'yii\grid\ActionColumn',
-                                                'header' => 'Actions',
-                                                'template' => '{print}{comment}{track}',
-                                                'buttons' => [
-                                                    'print' => function ($url, $model) {
-                                                        return Html::a('<span><i class="fa fa-print" aria-hidden="true"></i></span>', $url, [
-                                                                    'title' => Yii::t('app', 'print'),
-                                                                    'class' => '',
-                                                                    'target' => '_blank',
-                                                        ]);
-                                                    },
-                                                    'comment' => function ($url, $model) {
-                                                        if ($model->status != '0' && $model->status != '3') {
-//                                                            return \yii\bootstrap\Button::widget(["label" => "Create", "options" => ["class" => ""]]);
-                                                            return Html::a('<span><i class="fa-file-text-o"></i></span>', 'javascript:void(0)', [
-                                                                        'title' => 'Comment',
-                                                                        'class' => 'order_comment',
-                                                                        'id' => $model->id,
-                                                            ]);
-//                                                                return '<span title="comment" class="order_comment" id="' . $model->id . '"><i class="fa-file-text-o" aria-hidden="true"></i></span>';
-                                                        }
-                                                    },
-                                                    'track' => function ($url, $model) {
-
-                                                        return Html::button('<i class="fa fa-truck"></i>', ['value' => Url::to(['track', 'id' => $model->id]), 'class' => 'modalButton edit-btn']);
-                                                    },
-                                                ],
-                                                'urlCreator' => function ($action, $model) {
-                                                    if ($action === 'print') {
-                                                        $url = Url::to(['print', 'id' => $model->order_id]);
-                                                        return $url;
-                                                    } else {
-                                                        $url = Url::to(['print', 'id' => $model->order_id]);
-                                                        return $url;
-                                                    }
-                                                }
-                                            ],
-                                        ],
-                                    ]);
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="modal-1">
-    <div class="modal-dialog">
-        <div class="modal-content" style="padding: 25px 30px;">
+<div class="order-master-index">
 
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
+                </div>
+                <div class="panel-body  border_bgd">
+                    <div class="col-md-12 col-lg-12 col-sm-12 product-vew-pop" style="margin-top: 18px;">
+                        <div class="col-md-5" >
+
+                            <div class="clearfix"></div>
+                            <?php
+                            $i = '1';
+                            foreach ($orderdetails as $orderdtl) {
+                                $prdctvendor = ProductVendor::findone($orderdtl->product_id);
+                                $product = Products::findone($prdctvendor->product_id);
+                                $vendor = common\models\Vendors::findOne($prdctvendor->vendor_id);
+                                $product_specifications = \common\models\ProductSpecifications::find()->where(['product_id' => $product->id])->andWhere(['not', ['product_feature_id' => null]])->all();
+                                ?>
+                                <div style="padding: 11px;">
+                                    <a href="javascript:void(0)" class="order_detail" id="<?= $i; ?>">
+                                        <div class=" order_detail_image album-image">
+
+                                            <?php
+                                            $profile_image = Yii::$app->basePath . '/../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product->id) . '/' . $product->id . '/profile/' . $product->canonical_name . '.' . $product->gallery_images;
+                                            if (file_exists($profile_image)) {
+                                                $image = '<img src="' . Yii::$app->homeUrl . '../uploads/products/' . Yii::$app->UploadFile->folderName(0, 1000, $product->id) . '/' . $product->id . '/profile/' . $product->canonical_name . '_thumb.' . $product->gallery_images . '" width="95px" class="img-responsive">';
+                                            } else {
+                                                $image = '<img src="' . yii::$app->homeUrl . '../uploads/products/gallery_dummy.png" width="95px" class="img-responsive">';
+                                            }
+                                            ?>
+
+                                            <?= $image; ?>
+                                            <div class="order_product">
+                                                <?php if ($prdctvendor->full_fill == '1') { ?> <span style="color:blue">Full Fill by Tjar</span><br><?php } ?>
+                                                <label><?= substr($product->product_name, 0, 34) . '..'; ?></label><br>
+                                                                         <!--<label><? Html::tag('button', Html::encode(substr($product->product_name, 0, 15)), ['title' => $product->product_name, 'class' => 'username color edit-btn']); ?> </label>-->
+                                                <Label>AED :</label><span><?= sprintf("%0.2f", $orderdtl->sub_total); ?> for <?= $orderdtl->quantity ?> Product</span><br>
+                                                <label>EAN : </label><span><?= $product->item_ean ?></span><br>
+                                                <label> Vendor : </label><span><?= $vendor->first_name . ' ' . $vendor->last_name ?></span>
+                                            </div>
+
+                                            <div class="specification_view">
+                                                <label>Specifications</label>
+                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody>
+                                                        <?php
+                                                        foreach ($product_specifications as $specification) {
+                                                            if (isset($specification->Product_feature_text) && $specification->Product_feature_text != '') {
+                                                                $product_features = \common\models\ProductFeatures::findOne($specification->product_feature_id);
+                                                                $specification_model = \common\models\Features::findOne($product_features->specification);
+
+                                                                $value = $specification_model->tablevalue__name;
+                                                                ?>
+                                                                <tr><td class="specfic_label"> <?= $specification_model->filter_tittle; ?> </td><td class="value"><?= $specification->Product_feature_text ?></td></tr>
+                                                                <?php
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </a>
+
+                                                                                                                                        <!--<p>Rs:2550.00</p> EAN : 545856 <p>Vendor : Vendor Name</p>-->
+                                </div>
+                                </a>
+                                <?php
+                                $i++;
+                            }
+                            ?>
+
+
+
+                        </div>
+                        <div class="col-md-7">
+
+                            <?php
+                            $i = '1';
+                            foreach ($orderdetails as $orderdtl) {
+                                $prdctvendor = ProductVendor::findone($orderdtl->product_id);
+                                $product = Products::findone($prdctvendor->product_id);
+                                $hide = $i != '1' ? 'hide' : '';
+                                ?>
+                                <div class="row detail_row <?= $hide ?>" id="row_<?= $i ?>">
+                                    <table id="w1" class="table table-striped table-bordered detail-view">
+                                        <tbody>
+                                            <tr>
+                                                <th>Product Name</th>
+                                                <td><?= $product->product_name ?></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Price</th>
+                                                <td><?= $prdctvendor->price ?></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Offer Price</th>
+                                                <td><?= $prdctvendor->offer_price ?></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Quantity</th>
+                                                <td><?= $orderdtl->quantity ?></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Status</th>
+                                                <?php
+                                                if ($orderdtl->status == '0')
+                                                    $status = 'Order Pending';
+                                                if ($orderdtl->status == '1')
+                                                    $status = 'Order Placed';
+                                                if ($orderdtl->status == '2')
+                                                    $status = 'Order Dispatched';
+                                                if ($orderdtl->status == '3')
+                                                    $status = 'Order Delivered';
+                                                ?>
+                                                <?php if ($prdctvendor->full_fill != '1') { ?>
+                                                    <td><?= $status ?></td>
+                                                    <?php
+                                                } else {
+                                                    if ($orderdtl->status == '0') {
+                                                        $filter = ['0' => 'Pending', '1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
+                                                    } else {
+                                                        $filter = ['1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
+                                                    }
+                                                    ?>
+                                                    <td>
+                                                        <?= \yii\helpers\Html::dropDownList('status', null, $filter, ['options' => [$orderdtl->status => ['Selected' => 'selected']], 'class' => 'form-control status_field', 'id' => 'order_admin_status-' . $orderdtl->id,]); ?>
+                                                    </td>
+                                                <?php } ?>
+                                            </tr>
+                                            <tr>
+                                                <th>Comment</th>
+                                                <td>
+                                                    <?php if ($prdctvendor->full_fill == '1') { ?>
+                                                        <div class="cbp_tmlabel" style="float: right" >
+                                                            <textarea rows="3" cols="30" class="comment_box" id="comment_box_<?= $orderdtl->id ?>"></textarea><br>
+                                                            <button class="btn btn-info comment_submit" type="button" id="<?= $orderdtl->id ?>">Add Comment</button>
+
+                                                        </div>
+                                                    <?php } ?>
+                                                    <ol>
+                                                        <?php
+                                                        $comments = \common\models\OrderHistory::find()->where(['order_id' => $orderdtl->order_id, 'product_id' => $orderdtl->product_id])->all();
+                                                        foreach ($comments as $comment) {
+                                                            if (!empty($comment->comment)) {
+                                                                ?>
+                                                                <li><?= $comment->comment ?></li>
+                                                                <?php
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </ol>
+                                                </td>
+                                            </tr>
+                                        </tbody></table>
+
+
+                                </div>
+                                <?php
+                                $i++;
+                            }
+                            ?>
+                        </div>
+
+
+
+                    </div>
+                    <div class="col-md-8">
+
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
 
-            <div class="modal-body">
-                <textarea rows="3" cols="70" placeholder="Add Your Comment" class="comment_box"></textarea>
-            </div>
-            <span class="error"></span>
+</div>
+<div class="order-master-index">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Conclusion</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-5">
+                            <div class="shipping-wrap">
+                                <table cellspacing="0" class="table">
+                                    <?php
+                                    $shippinng_limit = \common\models\Settings::findOne(2)->value;
+                                    $shipping = $shippinng_limit > $subtotal ? common\models\Cart::shipping_charge($orderdetails) : '0';
+                                    $commission_mngmnt = \common\models\CommissionManagement::find()->where(['order_id' => $id])->all();
+                                   $commission = OrderDetails::commission($orderdetails);
+                                    ?>
+                                    <tbody>
+                                        <tr class="cart-subtotal">
+                                            <th>Subtotal</th>
+                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount cart_subtotal"><?= sprintf("%0.2f", $ordermaster->total_amount); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                        </tr>
+                                        <tr class="cart-subtotal">
+                                            <th>Shipping charge</th>
+                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount shipping-cost"><?= sprintf("%0.2f", $shipping); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                        </tr>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-info comment_submit">Add Comment</button>
+                                        <tr class="cart-promotion">
+                                            <th>Promotion Discount</th>
+                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount"><spn class="promotion_discount"></spn><?= sprintf("%0.2f", $ordermaster->promotion_discount); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                        </tr>
+                                        <tr class="order-total">
+                                            <th>Grand Total</th>
+                                            <td data-title="Total"><strong><span class="woocommerce-Price-amount amount grand_total"><?= sprintf("%0.2f", $ordermaster->net_amount); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></strong> </td>
+                                        </tr>
+                                        <tr class="commission">
+                                            <th>Commission</th>
+                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount"><spn class="promotion_discount"></spn><?= sprintf("%0.2f", $commission); ?><span class="woocommerce-Price-currencySymbol"> AED</span> (For Full fill products )</span></td>
+                                        </tr>
+
+                                    </tbody></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -207,20 +311,6 @@ $this->params['breadcrumbs'][] = $this->title;
         $("#search-option").click(function () {
             $(".filters").slideToggle();
         });
-        $('.admin_status_field').on('change', function () {
-            var change_id = $(this).attr('id').match(/\d+/);
-            var vendor_status = $(this).val();
-            $.ajax({
-                url: homeUrl + 'orders/order-master/change-vendor-status',
-                type: "post",
-                data: {status: vendor_status, id: change_id},
-                success: function (data) {
-                    alert('Status Changed Sucessfully');
-                }, error: function () {
-                }
-            });
-        });
-        
 
     });
 </script>

@@ -16,6 +16,16 @@ $('#productvendor-offer_price').keyup(function () {
         }
     }
 });
+$('.order_detail').click(function () {
+    showLoader();
+    var id = $(this).attr('id');
+    $('.detail_row').addClass('hide');
+    $('#row_' + id).removeClass('hide');
+    setTimeout(function () {
+        hideLoader();
+    }, 500);
+
+});
 $(function () {
     $('.modalButton').click(function () {
         $('#modal').modal('show')
@@ -25,5 +35,12 @@ $(function () {
 
 
 });
+
+function showLoader() {
+    $('.page-loading-overlay').removeClass('loaded');
+}
+function hideLoader() {
+    $('.page-loading-overlay').addClass('loaded');
+}
 
 

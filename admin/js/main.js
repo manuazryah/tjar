@@ -48,6 +48,23 @@ $(document).ready(function () {
         });
     });
 
+    $('.status_field').on('change', function () {
+        showLoader();
+        var change_id = $(this).attr('id').match(/\d+/);
+        var vendor_status = $(this).val();
+        $.ajax({
+            url: homeUrl + 'orders/order-master/change-vendor-status',
+            type: "post",
+            data: {status: vendor_status, id: change_id},
+            success: function (data) {
+                alert('Status Changed Sucessfully');
+                 hideLoader();
+            }, error: function () {
+                 hideLoader();
+            }
+        });
+    });
+
     $('body').on('click', '.order_comment', function () {
 //            e.preventDefault();
         $('.comment_box').val('');
