@@ -449,3 +449,12 @@ nav.navbar {
 .selcted_pdt{
 	box-shadow: 2px 2px 6px #2181b1;
 }
+.buyer_info{
+	color: black !important;
+}
+.buyer_info label{
+	font-weight: 600;
+}
+.buyer_info p{
+	color: black;
+}

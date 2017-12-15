@@ -47,16 +47,16 @@ $this->params['breadcrumbs'][] = $this->title;
 			<?= Html::a('<i class="fa-th-list"></i><span> Manage Order </span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">User Information</h3>
-                    <div style="float: right">
-                        <?=
-                        Html::a('Print<span><i class="fa fa-print" aria-hidden="true"></i></span>', Url::to(['print-all', 'id' => $id]), [
-                            'title' => Yii::t('app', 'print'),
-                            'label' => 'Print',
-                            'class' => '',
-                            'target' => '_blank',]);
-                        ?>
-                    </div>
+					<h3 class="panel-title">Buyer Information</h3>
+					<div style="float: right">
+						<?=
+						Html::a('Print<span><i class="fa fa-print" aria-hidden="true"></i></span>', Url::to(['print-all', 'id' => $id]), [
+						    'title' => Yii::t('app', 'print'),
+						    'label' => 'Print',
+						    'class' => '',
+						    'target' => '_blank',]);
+						?>
+					</div>
 
 
 				</div>
@@ -93,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								$vendor = common\models\Vendors::findOne($prdctvendor->vendor_id);
 								$product_specifications = \common\models\ProductSpecifications::find()->where(['product_id' => $product->id])->andWhere(['not', ['product_feature_id' => null]])->all();
 								?>
-	                                                        <div style="padding: 11px;">
+								<div style="padding: 11px;">
 									<a href="javascript:void(0)" class="order_detail" id="<?= $i; ?>">
 										<div class=" order_detail_image album-image">
 
@@ -108,9 +108,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 											<?= $image; ?>
 											<div class="order_product">
-                                                                        <?php if ($prdctvendor->full_fill == '1') { ?> <span style="color:blue">Full Fill by Tjar</span><br><?php } ?>
-                                                                        <label><?= substr($product->product_name, 0, 34) . '..'; ?></label><br>
-												 <!--<label><? Html::tag('button', Html::encode(substr($product->product_name, 0, 15)), ['title' => $product->product_name, 'class' => 'username color edit-btn']); ?> </label>-->
+												<?php if ($prdctvendor->full_fill == '1') { ?> <span style="color:blue">Full Fill by Tjar</span><br><?php } ?>
+												<label><?= substr($product->product_name, 0, 34) . '..'; ?></label><br>
+															 <!--<label><? Html::tag('button', Html::encode(substr($product->product_name, 0, 15)), ['title' => $product->product_name, 'class' => 'username color edit-btn']); ?> </label>-->
 												<Label>AED :</label><span><?= sprintf("%0.2f", $orderdtl->sub_total); ?> for <?= $orderdtl->quantity ?> Product</span><br>
 												<label>EAN : </label><span><?= $product->item_ean ?></span><br>
 												<label> Vendor : </label><span><?= $vendor->first_name . ' ' . $vendor->last_name ?></span>
@@ -128,7 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 																$value = $specification_model->tablevalue__name;
 																?>
-																<tr><td class="specfic_label"> <?= $specification_model->filter_tittle; ?> </td><td class="value"><?= $specification->Product_feature_text ?></td></tr>
+																<tr><td class="specfic_label"> <?= $specification_model->filter_tittle . ':'; ?> </td><td class="value"><?= $specification->Product_feature_text ?></td></tr>
 																<?php
 															}
 														}
@@ -139,9 +139,9 @@ $this->params['breadcrumbs'][] = $this->title;
 										</div>
 									</a>
 
-	                                                                                                                            <!--<p>Rs:2550.00</p> EAN : 545856 <p>Vendor : Vendor Name</p>-->
-	                                                        </div>
-	                                                        </a>
+																			    <!--<p>Rs:2550.00</p> EAN : 545856 <p>Vendor : Vendor Name</p>-->
+								</div>
+								</a>
 								<?php
 								$i++;
 							}
@@ -159,7 +159,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								$product = Products::findone($prdctvendor->product_id);
 								$hide = $i != '1' ? 'hide' : '';
 								?>
-	                                                        <div class="row detail_row <?= $hide ?>" id="row_<?= $i ?>">
+								<div class="row detail_row <?= $hide ?>" id="row_<?= $i ?>">
 									<table id="w1" class="table table-striped table-bordered detail-view">
 										<tbody>
 											<tr>
@@ -190,49 +190,49 @@ $this->params['breadcrumbs'][] = $this->title;
 												if ($orderdtl->status == '3')
 													$status = 'Order Delivered';
 												?>
-                                                                        <?php if ($prdctvendor->full_fill != '1') { ?>
-												<td><?= $status ?></td>
-                                                                            <?php
-                                                                        } else {
-                                                                            if ($orderdtl->status == '0') {
-                                                                                $filter = ['0' => 'Pending', '1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
-                                                                            } else {
-                                                                                $filter = ['1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
-                                                                            }
-                                                                            ?>
-                                                                            <td>
-                                                                                <?= \yii\helpers\Html::dropDownList('status', null, $filter, ['options' => [$orderdtl->status => ['Selected' => 'selected']], 'class' => 'form-control admin_status_field', 'id' => 'order_admin_status-' . $orderdtl->id,]); ?>
-                                                                            </td>
-                                                                        <?php } ?>
+												<?php if ($prdctvendor->full_fill != '1') { ?>
+													<td><?= $status ?></td>
+													<?php
+												} else {
+													if ($orderdtl->status == '0') {
+														$filter = ['0' => 'Pending', '1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
+													} else {
+														$filter = ['1' => 'Placed', '2' => 'Dispatched', '3' => 'Delivered'];
+													}
+													?>
+													<td>
+														<?= \yii\helpers\Html::dropDownList('status', null, $filter, ['options' => [$orderdtl->status => ['Selected' => 'selected']], 'class' => 'form-control admin_status_field', 'id' => 'order_admin_status-' . $orderdtl->id,]); ?>
+													</td>
+												<?php } ?>
 											</tr>
 											<tr>
 												<th>Comment</th>
 												<td>
-                                                                            <?php if ($prdctvendor->full_fill == '1') { ?>
-                                                                                <div class="cbp_tmlabel" style="float: right" >
-                                                                                    <textarea rows="3" cols="30" class="comment_box" id="comment_box_<?= $orderdtl->id ?>"></textarea><br>
-                                                                                    <button class="btn btn-info comment_submit" type="button" id="<?= $orderdtl->id ?>">Add Comment</button>
+													<?php if ($prdctvendor->full_fill == '1') { ?>
+														<div class="cbp_tmlabel" style="float: right" >
+															<textarea rows="3" cols="30" class="comment_box" id="comment_box_<?= $orderdtl->id ?>"></textarea><br>
+															<button class="btn btn-info comment_submit" type="button" id="<?= $orderdtl->id ?>">Add Comment</button>
 
-                                                                                </div>
-                                                                            <?php } ?>
-                                                                            <ol>
+														</div>
+													<?php } ?>
+													<ol>
 														<?php
 														$comments = \common\models\OrderHistory::find()->where(['order_id' => $orderdtl->order_id, 'product_id' => $orderdtl->product_id])->all();
 														foreach ($comments as $comment) {
-                                                                                    if (!empty($comment->comment)) {
-															?>
-															<li><?= $comment->comment ?></li>
-                                                                                        <?php
-                                                                                    }
-                                                                                }
-                                                                                ?>
-                                                                            </ol>
+															if (!empty($comment->comment)) {
+																?>
+																<li><?= $comment->comment ?></li>
+																<?php
+															}
+														}
+														?>
+													</ol>
 												</td>
 											</tr>
 										</tbody></table>
 
 
-	                                                        </div>
+								</div>
 								<?php
 								$i++;
 							}
@@ -245,25 +245,23 @@ $this->params['breadcrumbs'][] = $this->title;
 					<div class="col-md-8">
 
 					</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-
-
-
-
 				</div>
 			</div>
-            </div>
-
 		</div>
 	</div>
+
 </div>
+
+
+
+
+
+
+
+
+
+
+
 <div class="order-master-index">
 	<div class="row">
 		<div class="col-md-12">
