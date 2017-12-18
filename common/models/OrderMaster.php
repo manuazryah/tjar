@@ -14,6 +14,7 @@ use Yii;
  * @property int $promotion_id
  * @property string $promotion_discount
  * @property string $discount_amount
+ * @property string $shipment_amount
  * @property string $net_amount
  * @property string $order_date
  * @property int $ship_address_id
@@ -30,69 +31,70 @@ use Yii;
  */
 class OrderMaster extends \yii\db\ActiveRecord {
 
-	/**
-	 * @inheritdoc
-	 */
-	public static function tableName() {
-		return 'order_master';
-	}
+    /**
+     * @inheritdoc
+     */
+    public static function tableName() {
+        return 'order_master';
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function rules() {
-		return [
-			[['order_id', 'user_id', 'total_amount', 'net_amount'], 'required'],
-			[['user_id', 'promotion_id', 'ship_address_id', 'bill_address_id', 'payment_status','payment_type', 'admin_status', 'shipping_status', 'status'], 'integer'],
-			[['total_amount', 'promotion_discount', 'discount_amount', 'net_amount'], 'number'],
-			[['order_date', 'DOC', 'DOU'], 'safe'],
-			[['user_comment', 'admin_comment'], 'string'],
-			[['order_id'], 'string', 'max' => 250],
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function rules() {
+        return [
+            [['order_id', 'user_id', 'total_amount', 'net_amount'], 'required'],
+            [['user_id', 'promotion_id', 'ship_address_id', 'bill_address_id', 'payment_status', 'payment_type', 'admin_status', 'shipping_status', 'status'], 'integer'],
+            [['total_amount', 'promotion_discount', 'discount_amount', 'net_amount', 'shipment_amount'], 'number'],
+            [['order_date', 'DOC', 'DOU'], 'safe'],
+            [['user_comment', 'admin_comment'], 'string'],
+            [['order_id'], 'string', 'max' => 250],
+        ];
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function attributeLabels() {
-		return [
-		    'id' => 'ID',
-		    'order_id' => 'Order ID',
-		    'user_id' => 'User',
-		    'total_amount' => 'Total Amount',
-		    'promotion_id' => 'Promotion',
-		    'promotion_discount' => 'Promotion Discount',
-		    'discount_amount' => 'Discount Amount',
-		    'net_amount' => 'Net Amount',
-		    'order_date' => 'Order Date',
-		    'ship_address_id' => 'Ship Address',
-		    'bill_address_id' => 'Bill Address',
-		    'user_comment' => 'User Comment',
-		    'admin_comment' => 'Admin Comment',
-		    'payment_status' => 'Payment Status',
-		    'payment_type' => 'Payment Type',
-		    'admin_status' => 'Admin Status',
-		    'shipping_status' => 'Shipping Status',
-		    'status' => 'Status',
-		    'DOC' => 'Doc',
-		    'DOU' => 'Dou',
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels() {
+        return [
+            'id' => 'ID',
+            'order_id' => 'Order ID',
+            'user_id' => 'User',
+            'total_amount' => 'Total Amount',
+            'promotion_id' => 'Promotion',
+            'promotion_discount' => 'Promotion Discount',
+            'discount_amount' => 'Discount Amount',
+            'shipment_amount' => 'Shipment Amount',
+            'net_amount' => 'Net Amount',
+            'order_date' => 'Order Date',
+            'ship_address_id' => 'Ship Address',
+            'bill_address_id' => 'Bill Address',
+            'user_comment' => 'User Comment',
+            'admin_comment' => 'Admin Comment',
+            'payment_status' => 'Payment Status',
+            'payment_type' => 'Payment Type',
+            'admin_status' => 'Admin Status',
+            'shipping_status' => 'Shipping Status',
+            'status' => 'Status',
+            'DOC' => 'Doc',
+            'DOU' => 'Dou',
+        ];
+    }
 
-	public static function getTotal($from_date, $to, $field_name) {
-		if ($from_date != '' && $to != '') {
-			$from_date = $from_date . ' 00:00:00';
-			$to = $to . ' 60:60:60';
-			return OrderMaster::find()->where(['>=', 'order_date', $from_date])->andWhere(['<=', 'order_date', $to])->sum($field_name);
-		} elseif ($from_date != '' || $to != '') {
-			return 0;
-		} else {
-			return OrderMaster::find()->sum($field_name);
-		}
-	}
+    public static function getTotal($from_date, $to, $field_name) {
+        if ($from_date != '' && $to != '') {
+            $from_date = $from_date . ' 00:00:00';
+            $to = $to . ' 60:60:60';
+            return OrderMaster::find()->where(['>=', 'order_date', $from_date])->andWhere(['<=', 'order_date', $to])->sum($field_name);
+        } elseif ($from_date != '' || $to != '') {
+            return 0;
+        } else {
+            return OrderMaster::find()->sum($field_name);
+        }
+    }
 
-	public function getUser() {
-		return $this->hasOne(User::className(), ['id' => 'user_id']);
-	}
+    public function getUser() {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
 
 }

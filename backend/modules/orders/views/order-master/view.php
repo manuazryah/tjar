@@ -208,6 +208,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 <?php } ?>
                                             </tr>
                                             <tr>
+                                                <th>Commission</th>
+                                                <td><?= OrderDetails::commission_product($orderdtl)?></td>
+                                            </tr>
+                                            <tr>
                                                 <th>Comment</th>
                                                 <td>
                                                     <?php if ($prdctvendor->full_fill == '1') { ?>
@@ -267,8 +271,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="shipping-wrap">
                                 <table cellspacing="0" class="table">
                                     <?php
-                                    $shippinng_limit = \common\models\Settings::findOne(2)->value;
-                                    $shipping = $shippinng_limit > $subtotal ? common\models\Cart::shipping_charge($orderdetails) : '0';
                                     $commission = OrderDetails::commission($orderdetails);//commission for order details
                                     ?>
                                     <tbody>
@@ -278,7 +280,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         </tr>
                                         <tr class="cart-subtotal">
                                             <th>Shipping charge</th>
-                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount shipping-cost"><?= sprintf("%0.2f", $shipping); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount shipping-cost"><?= sprintf("%0.2f", $ordermaster->shipment_amount); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
                                         </tr>
 
                                         <tr class="cart-promotion">

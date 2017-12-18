@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h3 class="panel-title">User Information</h3>
                     <div style="float: right">
                         <?=
-                        Html::a('Print<span><i class="fa fa-print" aria-hidden="true"></i></span>', Url::to(['print-all', 'id' => $id]), [
+                        Html::a('Print<span><i class="fa fa-print" aria-hidden="true"></i></span>', Url::to(['print-fullfill', 'id' => $id]), [
                             'title' => Yii::t('app', 'print'),
                             'label' => 'Print',
                             'class' => '',
@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="panel-body">
 
 
-                    <?php // echo $this->render('_detail_header', ['model' => $ordermaster]) ?>
+                    <?php echo $this->render('_detail_header', ['model' => $ordermaster]) ?>
 
                     <div style="clear: both"></div>
 
@@ -141,7 +141,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         </div>
                                     </a>
 
-                                                                                                                                        <!--<p>Rs:2550.00</p> EAN : 545856 <p>Vendor : Vendor Name</p>-->
+                                                                                                                                            <!--<p>Rs:2550.00</p> EAN : 545856 <p>Vendor : Vendor Name</p>-->
                                 </div>
                                 </a>
                                 <?php
@@ -208,6 +208,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 <?php } ?>
                                             </tr>
                                             <tr>
+                                                <th>Commission</th>
+                                                <td><?= OrderDetails::commission_product($orderdtl) ?></td>
+                                            </tr>
+                                            <tr>
                                                 <th>Comment</th>
                                                 <td>
                                                     <?php if ($prdctvendor->full_fill == '1') { ?>
@@ -267,10 +271,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="shipping-wrap">
                                 <table cellspacing="0" class="table">
                                     <?php
-                                    $shippinng_limit = \common\models\Settings::findOne(2)->value;
-                                    $shipping = $shippinng_limit > $subtotal ? common\models\Cart::shipping_charge($orderdetails) : '0';
                                     $commission_mngmnt = \common\models\CommissionManagement::find()->where(['order_id' => $id])->all();
-                                   $commission = OrderDetails::commission($orderdetails);
+                                    $commission = OrderDetails::commission($orderdetails);
                                     ?>
                                     <tbody>
                                         <tr class="cart-subtotal">
@@ -279,7 +281,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         </tr>
                                         <tr class="cart-subtotal">
                                             <th>Shipping charge</th>
-                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount shipping-cost"><?= sprintf("%0.2f", $shipping); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount shipping-cost"><?= sprintf("%0.2f", $ordermaster->shipment_amount); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
                                         </tr>
 
                                         <tr class="cart-promotion">

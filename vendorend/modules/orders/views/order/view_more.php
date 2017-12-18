@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h3 class="panel-title">User Information</h3>
                     <div style="float: right">
                         <?=
-                        Html::a('Print<span><i class="fa fa-print" aria-hidden="true"></i></span>', Url::to(['print-all', 'id' => $id]), [
+                        Html::a('Print<span><i class="fa fa-print" aria-hidden="true"></i></span>', Url::to(['print', 'id' => $id]), [
                             'title' => Yii::t('app', 'print'),
                             'label' => 'Print',
                             'class' => '',
@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="panel-body">
 
 
-                    <?php // echo $this->render('_detail_header', ['model' => $ordermaster]) ?>
+                    <?php echo $this->render('_detail_header', ['model' => $ordermaster]) ?>
 
                     <div style="clear: both"></div>
 
@@ -192,7 +192,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 if ($orderdtl->status == '3')
                                                     $status = 'Order Delivered';
                                                 ?>
-                                                <?php if ($prdctvendor->full_fill != '1') { ?>
+                                                <?php if ($prdctvendor->full_fill == '1') { ?>
                                                     <td><?= $status ?></td>
                                                     <?php
                                                 } else {
@@ -206,6 +206,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         <?= \yii\helpers\Html::dropDownList('status', null, $filter, ['options' => [$orderdtl->status => ['Selected' => 'selected']], 'class' => 'form-control status_field', 'id' => 'order_admin_status-' . $orderdtl->id,]); ?>
                                                     </td>
                                                 <?php } ?>
+                                            </tr>
+                                            <tr>
+                                                <th>Commission</th>
+                                                <td><?= OrderDetails::commission_product($orderdtl)?></td>
                                             </tr>
                                             <tr>
                                                 <th>Comment</th>
@@ -267,8 +271,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="shipping-wrap">
                                 <table cellspacing="0" class="table">
                                     <?php
-                                    $shippinng_limit = \common\models\Settings::findOne(2)->value;
-                                    $shipping = $shippinng_limit > $subtotal ? common\models\Cart::shipping_charge($orderdetails) : '0';
+                                    
                                     $commission_mngmnt = \common\models\CommissionManagement::find()->where(['order_id' => $id])->all();
                                    $commission = OrderDetails::commission($orderdetails);
                                     ?>
@@ -279,7 +282,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         </tr>
                                         <tr class="cart-subtotal">
                                             <th>Shipping charge</th>
-                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount shipping-cost"><?= sprintf("%0.2f", $shipping); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount shipping-cost"><?= sprintf("%0.2f", $ordermaster->shipment_amount); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
                                         </tr>
 
                                         <tr class="cart-promotion">

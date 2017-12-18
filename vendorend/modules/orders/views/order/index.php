@@ -139,19 +139,6 @@ $this->params['breadcrumbs'][] = $this->title;
         $("#search-option").click(function () {
             $(".filters").slideToggle();
         });
-        $('.admin_status_field').on('change', function () {
-            var change_id = $(this).attr('id').match(/\d+/);
-            var admin_status = $(this).val();
-            $.ajax({
-                url: homeUrl + 'orders/order-master/change-admin-status',
-                type: "post",
-                data: {status: admin_status, id: change_id},
-                success: function (data) {
-                    alert('Status Changed Sucessfully');
-                }, error: function () {
-                }
-            });
-        });
 
         $("#user_name").select2({
             placeholder: '',

@@ -26,6 +26,58 @@ $('.order_detail').click(function () {
     }, 500);
 
 });
+$('.status_field').on('change', function () {
+        showLoader();
+        var change_id = $(this).attr('id').match(/\d+/);
+        var vendor_status = $(this).val();
+        $.ajax({
+            url: homeUrl + 'orders/order/change-vendor-status',
+            type: "post",
+            data: {status: vendor_status, id: change_id},
+            success: function (data) {
+                alert('Status Changed Sucessfully');
+                 hideLoader();
+            }, error: function () {
+                 hideLoader();
+            }
+        });
+    });
+
+    $('body').on('click', '.comment_submit', function () {
+        $('.error').html('');
+        var id = $(this).attr("id");
+        var comment = $('#comment_box_' + id).val();
+        if (comment !== '') {
+        showLoader();
+            $.ajax({
+                url: homeUrl + 'orders/order/order-history-comment',
+                type: "post",
+                data: {comment: comment, id: id},
+                success: function (data) {
+                    var $data = JSON.parse(data);
+                    if ($data.msg === "success") {
+                        alert('Comment Successfully Added');
+                        $('#modal-1').modal('hide');
+                        $("ol").append("<li>" + comment + "</li>");
+                        $('.comment_box').val('');
+                        hideLoader();
+//                        $.pjax.reload({container: '#order-detail_' + id});
+//                            
+                    } else {
+                        alert('Sorry, Internal error');
+                        hideLoader();
+//                            $('#prdct_main_category').submit();
+                    }
+                }, error: function () {
+
+                }
+            });
+
+        } else {
+            $('.error').html('Cannot be Null');
+        }
+    });
+/************************************/
 $(function () {
     $('.modalButton').click(function () {
         $('#modal').modal('show')

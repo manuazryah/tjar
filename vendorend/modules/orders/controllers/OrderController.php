@@ -36,6 +36,7 @@ class OrderController extends \yii\web\Controller {
         $searchModel = new OrderMasterSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->query->andWhere(['in', 'order_id', $order_array]);
+        $dataProvider->query->andWhere(['admin_status' => '1']);
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
@@ -107,7 +108,7 @@ class OrderController extends \yii\web\Controller {
                 $product_array[] = $val->id;
             }
         }
-        $ordermaster = OrderMaster::find()->where(['order_id' => $id])->one();
+        $ordermaster = OrderMaster::find()->where(['order_id' => $id, 'admin_status' => '1'])->one();
         $orderdetails = OrderDetails::find()->where(['order_id' => $id, 'admin_status' => '1'])->andWhere(['in', 'product_id', $product_array])->all();
 
         return $this->render('view_more', [
@@ -161,7 +162,7 @@ class OrderController extends \yii\web\Controller {
         $vendor_id = Yii::$app->user->identity->id;
         $order_master = OrderMaster::find()->where(['order_id' => $id])->one();
         $product_array = [];
-        $products = \common\models\ProductVendor::find()->where(['full_fill' => 0, 'vendor_id' => $vendor_id])->all();
+        $products = \common\models\ProductVendor::find()->where(['vendor_id' => $vendor_id])->all();
         if (!empty($products)) {
             foreach ($products as $val) {
                 $product_array[] = $val->id;
@@ -175,6 +176,35 @@ class OrderController extends \yii\web\Controller {
 //            'promotions' => $promotions
         ]);
         exit;
+    }
+    
+    public function actionChangeVendorStatus() {
+        if (yii::$app->request->isAjax) {
+            $id = Yii::$app->request->post()['id'];
+            $status = Yii::$app->request->post()['status'];
+            $model = OrderDetails::find()->where(['id' => $id])->one();
+            $model->status = $status;
+            if ($status != '0') {
+                $model1 = new OrderHistory();
+                $model1->detail_id = $model->id;
+                $model1->order_id = $model->order_id;
+                $model1->product_id = $model->product_id;
+                $model1->status = $status;
+                $model1->date = date('Y-m-d H:i:s');
+                if ($model1->save()) {
+                    
+                }
+            }
+
+            if ($status == '3') {
+                $model->delivered_date = date('Y-m-d H:i:s');
+            }
+            if ($model->save()) {
+                echo 1;
+            } else {
+                echo 0;
+            }
+        }
     }
 
 }

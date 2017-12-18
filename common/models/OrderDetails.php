@@ -140,6 +140,8 @@ class OrderDetails extends \yii\db\ActiveRecord {
         return $this->hasOne(Vendors::className(), ['id' => 'vendor_id']);
     }
 
+    /*     * *****************Commission for order details products******************* */
+
     public static function commission($orderdetails) {
         $commission = '0';
         foreach ($orderdetails as $orderdtl) {
@@ -153,6 +155,22 @@ class OrderDetails extends \yii\db\ActiveRecord {
             $commision_price = ($price * $product->commisson) / 100;
             $commission = $commission + $commision_price;
         }
+        return $commission;
+    }
+
+    /*     * *****************Commission for products******************* */
+
+    public static function commission_product($orderdtl) {
+        $commission = '0';
+        $prdctvendor = ProductVendor::findone($orderdtl->product_id);
+        $product = Products::findone($prdctvendor->product_id);
+        if (isset($prdctvendor->offer_price) && $prdctvendor->offer_price != "0") {
+            $price = $prdctvendor->offer_price;
+        } else {
+            $price = $prdctvendor->price;
+        }
+        $commision_price = ($price * $product->commisson) / 100;
+        $commission = $commission + $commision_price;
         return $commission;
     }
 

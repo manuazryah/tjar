@@ -495,12 +495,70 @@ nav.navbar {
 }
 
 .stock-heading{
-/*    position: relative;
-    padding: 0;
-    margin: 0;
-    background: 0 0;
+    /*    position: relative;
+        padding: 0;
+        margin: 0;
+        background: 0 0;
     */font-size: 17px;
     margin: 8px 0px 0px 5px;
     padding-bottom: 15px;
     border-bottom: 3px solid rgb(197, 195, 195);
+}
+/**********************************************/
+.border_bgd{
+    border: 1px solid #80808052;
+    padding-top: 0px !important;
+    margin-top: 15px;
+}
+.order_detail_image{
+    position: relative;
+    padding: 10px;
+    border: 1px solid #005e9e26;
+    background: #cddce661 !important;
+    margin-bottom: 20px;
+    width: 100%;
+    min-height: 235px;
+    max-height: 235px;
+}
+.order_detail_image img{
+    border: 1px solid #80808042;
+}
+.prdt_name{
+    font-weight: bold;
+    font-style: italic;
+    font-size: 14px;
+    color: #1469a3;
+}
+.order_product{
+    padding-top: 5px;
+}
+.order_product label{
+    font-weight: 600;
+}
+.order_product span{
+    padding-left: 5px;
+}
+.specification_view{
+    margin-top: 16px;
+    margin-left: 43px;
+}
+.specification_view label{
+    font-weight: 600;
+    border-bottom: 1px solid;
+}
+.specfic_label{
+    font-weight: 600;
+    padding-right: 13px;
+}
+.selcted_pdt{
+    box-shadow: 2px 2px 6px #2181b1;
+}
+.buyer_info{
+    color: black !important;
+}
+.buyer_info label{
+    font-weight: 600;
+}
+.buyer_info p{
+    color: black;
 }
