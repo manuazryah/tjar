@@ -75,8 +75,8 @@ class AjaxController extends Controller {
                                 $token_model->token = $token_value;
                                 $token_model->type = 1;
                                 if ($token_model->save()) {
-//                    $this->sendMail($check_exists,$token_model->token);
-//                    $this->sendSMS($check_exists);
+                                        $message = $this->renderPartial('forgot_mail', ['model' => $check_exists, 'val' => $token_model->token]);
+                                        Yii::$app->SetValues->Email($check_exists->email, 'Tjar password assistance', $message);
                                         $data_html = $this->renderPartial('_form_forgot', [
                                             'token_model' => $token_model
                                         ]);
