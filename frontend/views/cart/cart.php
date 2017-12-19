@@ -6,6 +6,7 @@ use yii\helpers\ArrayHelper;
 use common\models\Products;
 use common\models\ProductVendor;
 use common\models\Brand;
+use common\models\User;
 
 $this->title = 'Shopping Cart';
 if (isset(Yii::$app->user->identity->id)) {
@@ -23,6 +24,17 @@ if (isset(Yii::$app->user->identity->id)) {
         font-size: 16px;
         margin-left: 10px;
         cursor: pointer;
+    }
+    .coupon{
+        position:  relative;
+    }
+    .coupon-code-error{
+        position: absolute;
+        left: 0px;
+        bottom:  -15px;
+        color: red;
+        background: white;
+        line-height: 1;
     }
 
 </style>
@@ -103,10 +115,11 @@ if (isset(Yii::$app->user->identity->id)) {
                                 <tr class="label-remove">
                                     <td colspan="6" class="actions">
                                         <div class="coupon">
-                                            <label for="coupon_code">Coupon:</label> <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="Coupon code"> <input type="submit" class="button apply-coupen" name="apply_coupon" value="Apply Coupon">
+                                            <label for="coupon_code">Coupon:</label> <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="Coupon code">
+                                            <span class="coupon-code-error"></span>  <input type="submit" class="button apply-coupen" name="apply_coupon" value="Apply Coupon">
                                         </div>
                                         <?= Html::a('Update Cart', ['/site/index'], ['class' => 'button update-cart']); ?>
-                                        <!--<input type="button" class="button update-cart" name="update_cart" value="Update Cart">-->
+<!--<input type="button" class="button update-cart" name="update_cart" value="Update Cart">-->
                                         <input type="hidden" id="_wpnonce" name="_wpnonce" value="6fa1d8e185"><input type="hidden" name="_wp_http_referer" value="/wordpress/lemonshop/cart/"></td>
                             <input type="hidden" id="promotion-codes" name="promotion_codes" value="">
                             <input type="hidden" id="promotion-code-amount" name="promotion-code-amount" value="">
@@ -181,7 +194,11 @@ if (isset(Yii::$app->user->identity->id)) {
                                         <?= $form1->field($order, 'bill_address_id')->hiddenInput(['maxlength' => true, 'class' => 'field__input input-width'])->label(FALSE) ?>
                                         <div class="wc-proceed-to-checkout confirm-checkout hide">
                                             <div class='col-md-12'>
-                                                <?= $form1->field($order, 'payment_type')->dropDownList(['1' => 'Cash On Delivery', '2' => 'Net Banking', '3' => 'Wallet']) ?>
+                                                <?php
+                                                $wallet = User::findOne(Yii::$app->user->identity->id);
+                                                $disable = $grand_total > $wallet->wallet_amount ? [3 => ['disabled' => true]] : "";
+                                                ?>
+                                            <?= $form1->field($order, 'payment_type')->dropDownList(['1' => 'Cash On Delivery', '2' => 'Net Banking', '3' => 'Wallet (' . $wallet->wallet_amount . ')'], ['options'=> $disable ]) ?>
                                             </div>
                                             <?= Html::submitButton('Confirm Order', ['class' => 'checkout-button button alt wc-forward', 'name' => 'submit']) ?>
                                             <?php
@@ -189,14 +206,14 @@ if (isset(Yii::$app->user->identity->id)) {
 //                                                if ($user_details->wallet_amount >= $grand_total) {
 //
                                             ?>
-                                            <?php // Html::submitButton('From Wallet', ['class' => 'checkout-button button alt wc-forward btn_mrgn_top', 'value' => 'from_wallet', 'name' => 'submit'])  ?>
+                                            <?php // Html::submitButton('From Wallet', ['class' => 'checkout-button button alt wc-forward btn_mrgn_top', 'value' => 'from_wallet', 'name' => 'submit'])    ?>
                                                                                                                                                             <!--<a id="from_wallet" amount="//<?= $grand_total ?>">from Wallet</a>-->
                                             <?php
 //                                                }
 //                                            }
                                             ?>
 
-                                            <?php // Html::a('Confirm Order', ['cart/checkout'], ['class' => 'checkout-button button alt wc-forward', 'title' => 'Confirm Order'])      ?>
+<?php // Html::a('Confirm Order', ['cart/checkout'], ['class' => 'checkout-button button alt wc-forward', 'title' => 'Confirm Order'])        ?>
 
                                         </div>
 
@@ -206,7 +223,7 @@ if (isset(Yii::$app->user->identity->id)) {
                                 </div>
                             </div>
                         </div>
-                        <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
                         <!--</form>-->
                         <div class="modal fade" role="dialog"  id="checkout">
 
@@ -227,7 +244,7 @@ if (isset(Yii::$app->user->identity->id)) {
                                                                     </a>
                                                                 </p>-->
                                             </div>
-                                            <?php $form = ActiveForm::begin(['id' => 'shipping_id']); ?>
+<?php $form = ActiveForm::begin(['id' => 'shipping_id']); ?>
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <select class="field__input input-width" id="billing" name="UserAddress[billing]" required="required">
                                                     <option value=''>Select</option>
@@ -246,34 +263,34 @@ if (isset(Yii::$app->user->identity->id)) {
                                                     <h2 class="section__title">Address</h2>
                                                     <!--<form>-->
                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 first-name">
-                                                        <?= $form->field($model, 'first_name')->textInput(['maxlength' => true, 'class' => 'field__input input-width billing', 'placeholder' => 'First Name', 'disabled' => 'disabled'])->label(FALSE) ?>
+<?= $form->field($model, 'first_name')->textInput(['maxlength' => true, 'class' => 'field__input input-width billing', 'placeholder' => 'First Name', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 last-name padright0">
-                                                        <?= $form->field($model, 'last_name')->textInput(['maxlength' => true, 'class' => 'field__input input-width billing', 'placeholder' => 'Last Name', 'disabled' => 'disabled'])->label(FALSE) ?>
+<?= $form->field($model, 'last_name')->textInput(['maxlength' => true, 'class' => 'field__input input-width billing', 'placeholder' => 'Last Name', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                     </div>
                                                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 padlft0 address">
-                                                        <?= $form->field($model, 'address')->textInput(['maxlength' => true, 'class' => 'field__input input-width billing', 'placeholder' => 'Address', 'disabled' => 'disabled'])->label(FALSE) ?>
+<?= $form->field($model, 'address')->textInput(['maxlength' => true, 'class' => 'field__input input-width billing', 'placeholder' => 'Address', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                     </div>
                                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padlft0 padright0 apt">
-                                                        <?= $form->field($model, 'landmark')->textInput(['maxlength' => true, 'class' => 'field__input input-width billing', 'placeholder' => 'Apt, suite, etc. (optional)', 'disabled' => 'disabled'])->label(FALSE) ?>
+<?= $form->field($model, 'landmark')->textInput(['maxlength' => true, 'class' => 'field__input input-width billing', 'placeholder' => 'Apt, suite, etc. (optional)', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padlft0 padright0 city">
-                                                        <?= $form->field($model, 'country_id')->dropDownList(ArrayHelper::map(common\models\Country::find()->all(), 'id', 'country_name'), ['class' => 'country-select input-width billing', 'disabled' => 'disabled'])->label(FALSE) ?>
+<?= $form->field($model, 'country_id')->dropDownList(ArrayHelper::map(common\models\Country::find()->all(), 'id', 'country_name'), ['class' => 'country-select input-width billing', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padlft0 padright0">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0">
-                                                            <?= $form->field($model, 'city_id')->dropDownList(ArrayHelper::map(common\models\City::find()->all(), 'id', 'city_name'), ['prompt' => 'City', 'class' => 'country-select input-width billing', 'disabled' => 'disabled'])->label(FALSE) ?>
+<?= $form->field($model, 'city_id')->dropDownList(ArrayHelper::map(common\models\City::find()->all(), 'id', 'city_name'), ['prompt' => 'City', 'class' => 'country-select input-width billing', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 padright0">
                                                             <?php $street = []; ?>
-                                                            <?= $form->field($model, 'street_id')->dropDownList($street, ['prompt' => 'Street', 'class' => 'country-select input-width billing', 'disabled' => 'disabled'])->label(FALSE) ?>
+<?= $form->field($model, 'street_id')->dropDownList($street, ['prompt' => 'Street', 'class' => 'country-select input-width billing', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0">
-                                                        <?= $form->field($model, 'phone')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width billing', 'placeholder' => 'Phone number', 'disabled' => 'disabled'])->label(FALSE) ?>
+<?= $form->field($model, 'phone')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width billing', 'placeholder' => 'Phone number', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padlft0 padright0">
-                                                        <?= $form->field($model, 'pincode')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width billing', 'placeholder' => 'Pincode', 'disabled' => 'disabled'])->label(FALSE) ?>
+<?= $form->field($model, 'pincode')->textInput(['maxlength' => true, 'class' => 'field__input field__input--zip input-width billing', 'placeholder' => 'Pincode', 'disabled' => 'disabled'])->label(FALSE) ?>
                                                     </div>
                                                     <!--                                    <div class="clearfix"></div>
                                                                                         <input class="input-checkbox" data-backup="" type="checkbox" value="1" name="" id="save-info"><label class="checkbox__label" for="save-info">Save this information for next time</label>-->
@@ -289,7 +306,7 @@ if (isset(Yii::$app->user->identity->id)) {
                                                         <input style="float: right;" type="submit" class="start-shopping continue_shipping" id="proceed_to_checkout" placeholder="Continue Checkout" >
                                                     </div>
                                                 </div>
-                                                <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
                                             </div>
                                         </div>
                                     </div>

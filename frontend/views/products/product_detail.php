@@ -146,7 +146,7 @@ else
                 <h4 class="product-heading"><?= Yii::$app->SetLanguage->ViewData($product_details, 'product_name'); ?></h4>
 
 
-                <div class="rating">
+                <div class="rating disabledbutton">
                     <input type="number" class="rating" id="test" name="test" data-min="1" data-max="5" value="0">
                 </div>
                 <?php
