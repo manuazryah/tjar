@@ -56,7 +56,7 @@ use yii\bootstrap\ActiveForm;
                                                                         </div>-->
 
                                                 <div class="form-group">
-                                                        <?= Html::submitButton('<i class="fa-lock"></i>Submit', ['class' => 'btn btn-dark  btn-block text-left']) ?>
+                                                        <?= Html::submitButton('<i class="fa-lock"></i>Submit', ['class' => $status == 1 ? 'btn btn-dark  btn-block text-left disable' : 'btn btn-dark  btn-block text-left',]) ?>
                                                 </div>
                                                 <?php ActiveForm::end(); ?>
                                         </div>
@@ -68,3 +68,9 @@ use yii\bootstrap\ActiveForm;
         </div>
 
 </section>
+
+<style>
+        .disable{
+                pointer-events: none;
+        }
+</style>

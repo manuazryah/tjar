@@ -63,7 +63,7 @@ class SiteController extends Controller {
          * @return string
          */
         public function actionIndex() {
-                if (!Yii::$app->user->isGuest) {
+                if (!Yii::$app->user->isGuest && isset(Yii::$app->session['seller'])) {
                         return $this->redirect(array('site/home'));
                 }
                 $this->layout = 'adminlogin';
@@ -71,7 +71,7 @@ class SiteController extends Controller {
                 $model = new Vendors();
                 $model->scenario = 'login';
                 if ($model->load(Yii::$app->request->post()) && $model->login()) {
-
+                        Yii::$app->session['seller'] = Yii::$app->user->identity->first_name;
                         return $this->redirect(array('site/home'));
                 } else {
                         return $this->render('login', [
@@ -81,7 +81,8 @@ class SiteController extends Controller {
         }
 
         public function actionHome() {
-                if (isset(Yii::$app->user->identity->id)) {
+
+                if (isset(Yii::$app->session['seller'])) {
                         if (Yii::$app->user->isGuest) {
                                 return $this->redirect(array('site/index'));
                         }
@@ -124,6 +125,7 @@ class SiteController extends Controller {
         public function actionForgot() {
                 $this->layout = 'adminlogin';
                 $model = new Vendors();
+                $status = 0;
                 if ($model->load(Yii::$app->request->post())) {
                         $check_exists = Vendors::find()->where("username = '" . $model->username . "' OR email = '" . $model->username . "'")->one();
 
@@ -136,16 +138,19 @@ class SiteController extends Controller {
                                 $token_model->token = $token_value;
                                 $token_model->save();
                                 $this->sendMail($val, $check_exists);
+                                $status = 1;
                                 Yii::$app->getSession()->setFlash('success', 'A mail has been sent');
                         } else {
                                 Yii::$app->getSession()->setFlash('error', 'Invalid username');
                         }
                         return $this->render('forgot-password', [
                                     'model' => $model,
+                                    'status' => $status,
                         ]);
                 } else {
                         return $this->render('forgot-password', [
                                     'model' => $model,
+                                    'status' => $status,
                         ]);
                 }
         }
