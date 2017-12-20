@@ -53,11 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             },
                                                             'filter' => [1 => 'Enabled', 0 => 'Disabled'],
                                                         ],
-                                                        // 'CB',
-                                                        // 'UB',
-                                                        // 'DOC',
-                                                        // 'DOU',
-                                                        ['class' => 'yii\grid\ActionColumn',
+                                                            ['class' => 'yii\grid\ActionColumn',
                                                             'template' => '{update}{delete}'
                                                         ],
                                                     ],
