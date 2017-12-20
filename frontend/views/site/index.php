@@ -63,18 +63,19 @@ use yii\helpers\Url;
 
 
             </div><!-- End of Wrapper For Slides -->
+            <?php if (count($sliders) > "1") { ?>
+                <!-- Left Control -->
+                <a class="left carousel-control" href="#bootstrap-touch-slider" role="button" data-slide="prev">
+                    <span class="fa fa-angle-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
 
-            <!-- Left Control -->
-            <a class="left carousel-control" href="#bootstrap-touch-slider" role="button" data-slide="prev">
-                <span class="fa fa-angle-left" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-
-            <!-- Right Control -->
-            <a class="right carousel-control" href="#bootstrap-touch-slider" role="button" data-slide="next">
-                <span class="fa fa-angle-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
+                <!-- Right Control -->
+                <a class="right carousel-control" href="#bootstrap-touch-slider" role="button" data-slide="next">
+                    <span class="fa fa-angle-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            <?php } ?>
 
         </div> <!-- End  bootstrap-touch-slider Slider -->
     </div>
@@ -154,8 +155,10 @@ use yii\helpers\Url;
                                 }
                                 ?>
                             </div>
-                            <a data-slide="prev" href="#media" class="left carousel-control">‹</a>
-                            <a data-slide="next" href="#media" class="right carousel-control">›</a>
+                            <?php if (count($product_datas) > '1') { ?>
+                                <a data-slide="prev" href="#media" class="left carousel-control">‹</a>
+                                <a data-slide="next" href="#media" class="right carousel-control">›</a>
+                            <?php } ?>
                         </div>
                     </div>
                     <?php
@@ -250,7 +253,7 @@ foreach ($home_datas as $home_data) {
                                                 </h6>
                                             <?php } ?>
 
-                                                                                                                                                                                                                                <!--<h6 class="actual-price">$<?= $price1 ?><span class="old-price">/ <strike>$130.00</strike></span></h6>-->
+                                                                                                                                                                                                                                                                                <!--<h6 class="actual-price">$<?= $price1 ?><span class="old-price">/ <strike>$130.00</strike></span></h6>-->
                                         </a>
                                     </div>
                                 </div>
@@ -258,8 +261,10 @@ foreach ($home_datas as $home_data) {
                             }
                             ?>
                         </div>
-                        <button class="btn btn-primary leftLst"><</button>
-                        <button class="btn btn-primary rightLst">></button>
+                        <?php if (count($product1_datas) > '1') { ?>
+                            <button class="btn btn-primary leftLst"><</button>
+                            <button class="btn btn-primary rightLst">></button>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
