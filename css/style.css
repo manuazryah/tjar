@@ -1448,7 +1448,7 @@ a[data-zoom-id], .mz-thumb, .mz-thumb:focus{
         color: darkgrey;
 }
 .glyphicon-star:before {
-        color: darkgrey;
+        color: #302b2b;
 }
 #product-detail .price {
         font-size: 18px;

@@ -175,7 +175,7 @@ if (empty($min_amount) || empty($max_amount)) {
                                                                 <li class="active"><?= $subcategory->canonical_name; ?></li>
                                                         <?php } else { ?>
                                                                 <li class="active"><?= $category->canonical_name ?></li>
-                                                        <?php
+                                                                <?php
                                                         }
                                                 }
                                                 ?>
@@ -206,7 +206,7 @@ if (empty($min_amount) || empty($max_amount)) {
                                         </ul>
 
 
-<?php \yii\widgets\Pjax::end(); ?>
+                                        <?php \yii\widgets\Pjax::end(); ?>
                                 </div>
 
                         </div>
@@ -280,6 +280,7 @@ if (empty($min_amount) || empty($max_amount)) {
 
                 //set initial state.
                 $(".test").change(function () {
+                        showLoader();
                         var ischecked = $(this).is(':checked');
 
                         if (ischecked) {
@@ -328,6 +329,7 @@ if (empty($min_amount) || empty($max_amount)) {
                                 $.pjax({container: '#product_view', url: url});
 
                         }
+                        hideLoader();
                 });
                 function paramss(name) {
                         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
