@@ -59,7 +59,7 @@ class Vendors extends ActiveRecord implements IdentityInterface {
                         [['old_password', 'new_password', 'repeat_password'], 'required', 'on' => 'change-pwd'],
                         ['repeat_password', 'compare', 'compareAttribute' => 'new_password', 'message' => "Passwords don't match", 'on' => 'change-pwd'],
                         [['first_name', 'last_name', 'username', 'password', 'phone_number', 'email'], 'required', 'on' => 'create'],
-                        //    [['username', 'email'], 'unique'],
+                        [['username', 'email'], 'unique', 'on' => 'create'],
                 ];
         }
 

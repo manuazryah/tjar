@@ -10,7 +10,7 @@ class FullfilledProductsController extends \yii\web\Controller {
         public function actionIndex($vendor_status = null, $admin_status = null, $expiry = NULL, $soldout = NULL) {
                 $searchModel = new ProductVendorSearch();
                 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-                if (Yii::$app->request->queryParams['ProductVendorSearch']['product_id'] != NULL || Yii::$app->request->queryParams['ProductVendorSearch']['vendor_id'] != NULL) {
+                if (isset(Yii::$app->request->queryParams['ProductVendorSearch']['product_id']) && Yii::$app->request->queryParams['ProductVendorSearch']['product_id'] != NULL || isset(Yii::$app->request->queryParams['ProductVendorSearch']['vendor_id']) && Yii::$app->request->queryParams['ProductVendorSearch']['vendor_id'] != NULL) {
                         $search_status = 1;
                 } else {
                         $search_status = 0;

@@ -616,7 +616,7 @@ $limit_notifications = NotificationViewStatus::find()->where(['user_type' => 1, 
                                                                                 <?= Html::a('Home Management', ['/cms/home-management/index'], ['class' => 'title']) ?>
                                                                         </li>
                                                                         <li>
-                                                                                <?= Html::a('Policies', ['/cms/policies/update'], ['class' => 'title']) ?>
+                                                                                <?= Html::a('Policies', ['/cms/policies/view?id=1'], ['class' => 'title']) ?>
                                                                         </li>
                                                                 </ul>
                                                         </li>

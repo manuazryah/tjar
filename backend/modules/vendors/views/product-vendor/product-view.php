@@ -98,7 +98,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                         ],
                                                                                                             [
                                                                                                             'attribute' => 'brand',
-                                                                                                            'value' => $model->brandName->brand_name,
+                                                                                                            'value' => function($model) {
+                                                                                                                    if (isset($model->brand)) {
+                                                                                                                            return $model->brandName->brand_name;
+                                                                                                                    } else {
+                                                                                                                            return '';
+                                                                                                                    }
+                                                                                                            }
                                                                                                         ],
                                                                                                         'item_ean',
                                                                                                         'gender',

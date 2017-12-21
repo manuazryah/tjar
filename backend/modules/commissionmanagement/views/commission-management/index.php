@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             'value' => function($data) {
                                                                     $prdctvendor = ProductVendor::findOne($data->product_id);
                                                                     $name = Products::findOne($prdctvendor->product_id)->product_name;
-                                                                    return Html::tag('button', Html::encode(substr($name, 0, 29)), ['value' => Url::to(['product-view', 'id' => $data->product_id]), 'title' => $name, 'class' => 'username color modalButton edit-btn']);
+                                                                    return Html::tag('button', Html::encode(substr($name, 0, 29)), ['value' => Url::to(['/vendors/product-vendor/product-view', 'id' => $prdctvendor->product_id]), 'title' => $name, 'class' => 'username color modalButton edit-btn']);
                                                             },
                                                         //   'filter' => Html::activeDropDownList($searchModel, 'product_id', ArrayHelper::map(Products::find()->all(), 'id', 'product_name'), ['class' => 'form-control', 'id' => 'product_name', 'prompt' => '']),
                                                         ],

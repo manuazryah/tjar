@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Policies */
 
-$this->title = $model->id;
+$this->title = 'Policies';
 $this->params['breadcrumbs'][] = ['label' => 'Policies', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -20,41 +20,65 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         </div>
                         <div class="panel-body">
-                                <?=  Html::a('<i class="fa-th-list"></i><span> Manage Policies</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
                                 <div class="panel-body"><div class="policies-view">
                                                 <p>
                                                         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                                                        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-                                                        'class' => 'btn btn-danger',
-                                                        'data' => [
-                                                        'confirm' => 'Are you sure you want to delete this item?',
-                                                        'method' => 'post',
-                                                        ],
-                                                        ]) ?>
+
                                                 </p>
 
-                                                <?= DetailView::widget([
-                                                'model' => $model,
-                                                'attributes' => [
-                                                            'id',
-            'return_policy:ntext',
-            'terms_of_use:ntext',
-            'security:ntext',
-            'privacy:ntext',
-            'infringement:ntext',
-            'faq:ntext',
-            'status',
-            'CB',
-            'UB',
-            'DOC',
-            'DOU',
-                                                ],
-                                                ]) ?>
-</div>
+                                                <?=
+                                                DetailView::widget([
+                                                    'model' => $model,
+                                                    'attributes' => [
+                                                            [
+                                                            'attribute' => 'return_policy',
+                                                            'value' => function($model) {
+                                                                    return strip_tags($model->return_policy);
+                                                            }
+                                                        ],
+                                                            [
+                                                            'attribute' => 'terms_of_use',
+                                                            'value' => function($model) {
+                                                                    return strip_tags($model->terms_of_use);
+                                                            }
+                                                        ],
+                                                            [
+                                                            'attribute' => 'security',
+                                                            'value' => function($model) {
+                                                                    return strip_tags($model->security);
+                                                            }
+                                                        ],
+                                                            [
+                                                            'attribute' => 'privacy',
+                                                            'value' => function($model) {
+                                                                    return strip_tags($model->privacy);
+                                                            }
+                                                        ],
+                                                            [
+                                                            'attribute' => 'infringement',
+                                                            'value' => function($model) {
+                                                                    return strip_tags($model->infringement);
+                                                            }
+                                                        ],
+                                                            [
+                                                            'attribute' => 'faq',
+                                                            'value' => function($model) {
+                                                                    return strip_tags($model->faq);
+                                                            }
+                                                        ],
+                                                    ],
+                                                ])
+                                                ?>
                                         </div>
                                 </div>
                         </div>
                 </div>
         </div>
+</div>
 
 
+<style>
+        table th{
+                width: 10%;
+        }
+</style>
