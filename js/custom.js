@@ -24,7 +24,10 @@ $(document).ready(function () {
         var quantity = this.value;
         var $ids = $(this).attr('id');
         var $count = $('#cart_count').val();
-//        console.log($ids);
+//        alert(quantity % 1);
+        if (quantity % 1 !== 0) {
+            quantity = Math.floor(quantity);
+        }
         if (quantity != '' && parseInt(quantity) > '0') {
             findstock($ids, quantity);
             updatecart($ids, quantity, $count);
