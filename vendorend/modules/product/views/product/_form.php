@@ -48,8 +48,8 @@ use kartik\date\DatePicker;
 
 	<?= $form->field($model, 'qty')->textInput() ?>
 	<?php
-	$min = \common\models\ProductVendor::find()->where(['admin_status' => 2, 'product_id' => $model->id])->min('price');
-	$max = \common\models\ProductVendor::find()->where(['admin_status' => 2, 'product_id' => $model->id])->max('price');
+	$min = \common\models\ProductVendor::find()->where(['admin_status' => 2, 'product_id' => $id])->min('price');
+	$max = \common\models\ProductVendor::find()->where(['admin_status' => 2, 'product_id' => $id])->max('price');
 	?>
         <span style="float: right;">Price Range : <?= $min ?> - <?= $max ?></span>
 	<?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>

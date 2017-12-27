@@ -7,8 +7,8 @@ use yii\helpers\ArrayHelper;
 use common\models\User;
 use common\models\Products;
 use common\models\ProductVendor;
-use common\models\OrderDetails;
 use yii\helpers\Url;
+use common\models\OrderDetails;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\OrderMasterSearch */
@@ -49,10 +49,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Html::a('<i class="fa-th-list"></i><span> Manage Order </span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Buyer Information</h3>
+                    <h3 class="panel-title">User Information</h3>
                     <div style="float: right">
                         <?=
-                        Html::a('Print<span><i class="fa fa-print" aria-hidden="true"></i></span>', Url::to(['print-all', 'id' => $id]), [
+                        Html::a('Print<span><i class="fa fa-print" aria-hidden="true"></i></span>', Url::to(['print-fullfill', 'id' => $id]), [
                             'title' => Yii::t('app', 'print'),
                             'label' => 'Print',
                             'class' => '',
@@ -130,7 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                                                 $value = $specification_model->tablevalue__name;
                                                                 ?>
-                                                                <tr><td class="specfic_label"> <?= $specification_model->filter_tittle . ':'; ?> </td><td class="value"><?= $specification->Product_feature_text ?></td></tr>
+                                                                <tr><td class="specfic_label"> <?= $specification_model->filter_tittle; ?> </td><td class="value"><?= $specification->Product_feature_text ?></td></tr>
                                                                 <?php
                                                             }
                                                         }
@@ -141,7 +141,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         </div>
                                     </a>
 
-                                                                                                                                                                        <!--<p>Rs:2550.00</p> EAN : 545856 <p>Vendor : Vendor Name</p>-->
+                                                                                                                                            <!--<p>Rs:2550.00</p> EAN : 545856 <p>Vendor : Vendor Name</p>-->
                                 </div>
                                 </a>
                                 <?php
@@ -192,7 +192,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 if ($orderdtl->status == '3')
                                                     $status = 'Order Delivered';
                                                 ?>
-                                                <?php if ($prdctvendor->full_fill != '1' || $orderdtl->admin_status != '1') { ?>
+                                                <?php if ($prdctvendor->full_fill != '1') { ?>
                                                     <td><?= $status ?></td>
                                                     <?php
                                                 } else {
@@ -271,7 +271,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="shipping-wrap">
                                 <table cellspacing="0" class="table">
                                     <?php
-                                    $commission = OrderDetails::commission($orderdetails); //commission for order details
+                                    $commission_mngmnt = \common\models\CommissionManagement::find()->where(['order_id' => $id])->all();
+                                    $commission = OrderDetails::commission($orderdetails);
                                     ?>
                                     <tbody>
                                         <tr class="cart-subtotal">
@@ -293,7 +294,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         </tr>
                                         <tr class="commission">
                                             <th>Commission</th>
-                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount"><spn class="promotion_discount"></spn><?= sprintf("%0.2f", $commission); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount"><spn class="promotion_discount"></spn><?= sprintf("%0.2f", $commission); ?><span class="woocommerce-Price-currencySymbol"> AED</span> (For Full fill products )</span></td>
                                         </tr>
 
                                     </tbody></table>
@@ -312,6 +313,7 @@ $this->params['breadcrumbs'][] = $this->title;
         $("#search-option").click(function () {
             $(".filters").slideToggle();
         });
+
     });
 </script>
 

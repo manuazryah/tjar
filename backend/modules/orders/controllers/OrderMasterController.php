@@ -300,7 +300,7 @@ class OrderMasterController extends Controller {
         $order_master = OrderMaster::find()->where(['order_id' => $id])->one();
         $order_details = OrderDetails::find()->where(['order_id' => $id])->all();
         $promotions = \common\models\OrderPromotions::find()->where(['order_master_id' => $order_master->id])->sum('promotion_discount');
-        echo $this->renderPartial('_print', [
+        echo $this->renderPartial('_print_full_fill', [
             'order_master' => $order_master,
             'order_details' => $order_details,
             'promotions' => $promotions
