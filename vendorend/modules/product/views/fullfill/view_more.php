@@ -271,19 +271,20 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="shipping-wrap">
                                 <table cellspacing="0" class="table">
                                     <?php
-                                    $shippinng_limit = \common\models\Settings::findOne(2)->value;
-                                    $shipping = $shippinng_limit > $subtotal ? common\models\Cart::shipping_charge($orderdetails) : '0';
+                                    $subtotal = common\models\Cart::total($orderdetails);
+                                    $shipping = common\models\Cart::shipping_charge($orderdetails);
+                                    $grand = ($subtotal + $shipping);
                                     $commission_mngmnt = \common\models\CommissionManagement::find()->where(['order_id' => $id])->all();
                                    $commission = OrderDetails::commission($orderdetails);
                                     ?>
                                     <tbody>
                                         <tr class="cart-subtotal">
                                             <th>Subtotal</th>
-                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount cart_subtotal"><?= sprintf("%0.2f", $ordermaster->total_amount); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount cart_subtotal"><?= sprintf("%0.2f", $subtotal); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
                                         </tr>
                                         <tr class="cart-subtotal">
                                             <th>Shipping charge</th>
-                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount shipping-cost"><?= sprintf("%0.2f", $ordermaster->shipment_amount); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount shipping-cost"><?= sprintf("%0.2f", $shipping); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
                                         </tr>
 
                                         <tr class="cart-promotion">
@@ -292,7 +293,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         </tr>
                                         <tr class="order-total">
                                             <th>Grand Total</th>
-                                            <td data-title="Total"><strong><span class="woocommerce-Price-amount amount grand_total"><?= sprintf("%0.2f", $ordermaster->net_amount); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></strong> </td>
+                                            <td data-title="Total"><strong><span class="woocommerce-Price-amount amount grand_total"><?= sprintf("%0.2f", $grand); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></strong> </td>
                                         </tr>
                                         <tr class="commission">
                                             <th>Commission</th>

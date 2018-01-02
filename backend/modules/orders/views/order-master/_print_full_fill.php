@@ -113,7 +113,7 @@
 //                    if ($shiplimit > $amount_total) {
 //                        $delivary_charge = \common\models\Settings::findOne('2')->value;
 //                    }
-                    $delivary_charge = $order_master->shipment_amount;
+                    $delivary_charge = common\models\Cart::shipping_charge($order_details);
                     ?>
                 </table>
                 <table style="width: 100%;padding-bottom: 10px;border-bottom: 2px solid #5a5959;">

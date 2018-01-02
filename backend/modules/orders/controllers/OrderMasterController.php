@@ -297,8 +297,15 @@ class OrderMasterController extends Controller {
         exit;
     }
     public function actionPrintFullfill($id) {
+        $product_array = [];
+        $products = \common\models\ProductVendor::find()->where(['full_fill' => 1])->all();
+        if (!empty($products)) {
+            foreach ($products as $val) {
+                $product_array[] = $val->id;
+            }
+        }
         $order_master = OrderMaster::find()->where(['order_id' => $id])->one();
-        $order_details = OrderDetails::find()->where(['order_id' => $id])->all();
+        $order_details = OrderDetails::find()->where(['order_id' => $id, 'admin_status' => '1'])->andWhere(['in', 'product_id', $product_array])->all();
         $promotions = \common\models\OrderPromotions::find()->where(['order_master_id' => $order_master->id])->sum('promotion_discount');
         echo $this->renderPartial('_print_full_fill', [
             'order_master' => $order_master,

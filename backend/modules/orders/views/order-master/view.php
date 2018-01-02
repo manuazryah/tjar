@@ -141,7 +141,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         </div>
                                     </a>
 
-                                                                                                                                                                        <!--<p>Rs:2550.00</p> EAN : 545856 <p>Vendor : Vendor Name</p>-->
+                                                                                                                                                                            <!--<p>Rs:2550.00</p> EAN : 545856 <p>Vendor : Vendor Name</p>-->
                                 </div>
                                 </a>
                                 <?php
@@ -272,6 +272,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <table cellspacing="0" class="table">
                                     <?php
                                     $commission = OrderDetails::commission($orderdetails); //commission for order details
+                                    $promotion = \common\models\OrderPromotions::find()->where(['order_master_id' => $ordermaster->id])->sum('promotion_discount');
                                     ?>
                                     <tbody>
                                         <tr class="cart-subtotal">
@@ -285,7 +286,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                         <tr class="cart-promotion">
                                             <th>Promotion Discount</th>
-                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount"><spn class="promotion_discount"></spn><?= sprintf("%0.2f", $ordermaster->promotion_discount); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount"><spn class="promotion_discount"></spn><?= sprintf("%0.2f", $promotion); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
                                         </tr>
                                         <tr class="order-total">
                                             <th>Grand Total</th>

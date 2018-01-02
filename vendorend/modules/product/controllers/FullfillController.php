@@ -72,7 +72,7 @@ class FullfillController extends \yii\web\Controller {
                 $product_array[] = $val->id;
             }
         }
-        $ordermaster = OrderMaster::find()->where(['order_id' => $id,'admin_status' => '1'])->one();
+        $ordermaster = OrderMaster::find()->where(['order_id' => $id, 'admin_status' => '1'])->one();
         $orderdetails = OrderDetails::find()->where(['order_id' => $id, 'admin_status' => '1'])->andWhere(['in', 'product_id', $product_array])->all();
 
         return $this->render('view_more', [
@@ -80,6 +80,26 @@ class FullfillController extends \yii\web\Controller {
                     'ordermaster' => $ordermaster,
                     'orderdetails' => $orderdetails,
         ]);
+    }
+
+    public function actionPrintAll($id) {
+        $vendor_id = Yii::$app->user->identity->id;
+        $order_master = OrderMaster::find()->where(['order_id' => $id])->one();
+        $product_array = [];
+        $products = ProductVendor::find()->where(['vendor_id' => $vendor_id, 'full_fill' => 1])->all();
+        if (!empty($products)) {
+            foreach ($products as $val) {
+                $product_array[] = $val->id;
+            }
+        }
+        $order_details = OrderDetails::find()->where(['order_id' => $id])->andWhere(['in', 'product_id', $product_array])->andWhere(['vendor_id' => $vendor_id])->all();
+//        $promotions = \common\models\OrderPromotions::find()->where(['order_master_id' => $order_master->id])->sum('promotion_discount');
+        echo $this->renderPartial('_print', [
+            'order_master' => $order_master,
+            'order_details' => $order_details,
+//            'promotions' => $promotions
+        ]);
+        exit;
     }
 
 }

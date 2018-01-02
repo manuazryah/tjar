@@ -275,7 +275,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                     $commission = OrderDetails::commission($orderdetails);
                                     $subtotal = common\models\Cart::total($orderdetails);
                                     $shipping = common\models\Cart::shipping_charge($orderdetails);
-                                    $grand = ($subtotal + $shipping);
+                                    $promotion = \common\models\OrderPromotions::find()->where(['order_master_id' => $ordermaster->id])->sum('promotion_discount');
+                                    $grand = ($subtotal + $shipping)- $promotion;
                                     ?>
                                     <tbody>
                                         <tr class="cart-subtotal">
@@ -289,7 +290,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                         <tr class="cart-promotion">
                                             <th>Promotion Discount</th>
-                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount"><spn class="promotion_discount"></spn><?= sprintf("%0.2f", $ordermaster->promotion_discount); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
+                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount"><spn class="promotion_discount"></spn><?= sprintf("%0.2f", $promotion); ?><span class="woocommerce-Price-currencySymbol"> AED</span></span></td>
                                         </tr>
                                         <tr class="order-total">
                                             <th>Grand Total</th>
